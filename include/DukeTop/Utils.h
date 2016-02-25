@@ -18,6 +18,13 @@
 #include <boost/range/combine.hpp>
 
 namespace DT {
+  enum STATUS {
+    Good,
+    Fail
+  };
+}
+
+namespace DT {
   template<class... containers>
   auto zip(containers&... conts) -> decltype(boost::combine(conts...));
 
@@ -25,7 +32,8 @@ namespace DT {
     ->  std::vector<std::string>& ;
   auto string_split(const std::string &s, char delim)
     -> std::vector<std::string>;
- 
+
+  void Warning(const std::string& fname, const std::string& msg);
   void Info(const std::string& fname, const std::string& msg);
   void Fatal(const std::string& msg);
 }
@@ -53,11 +61,15 @@ inline auto DT::string_split(const std::string &s, char delim)
 }
 
 inline void DT::Info(const std::string& fname, const std::string& msg) {
-  std::cout << "DukeTop:\t\tINFO:\t\t"+fname+": "+msg << std::endl;
+  std::cout << "DukeTop:\tINFO:      "+fname+": "+msg << std::endl;
+}
+
+inline void DT::Warning(const std::string& fname, const std::string& msg) {
+  std::cout << "DukeTop:\tWARNING:   "+fname+": "+msg << std::endl;
 }
 
 inline void DT::Fatal(const std::string& msg) {
-  std::cerr << "DukeTop:\t\tFATAL:\t\t"+msg << std::endl;
+  std::cerr << "DukeTop:\tFATAL:     "+msg << std::endl;
   std::exit(EXIT_FAILURE);
 }
 

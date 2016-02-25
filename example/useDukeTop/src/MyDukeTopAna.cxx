@@ -14,19 +14,17 @@ MyDukeTopAna::MyDukeTopAna() :
 
 MyDukeTopAna::~MyDukeTopAna() {}
 
-void MyDukeTopAna::init() {
+DT::STATUS MyDukeTopAna::init() {
   DT::Info("init()","running init()");
   // ALWAYS MUST CALL THIS FUNCTION in init();
   init_core_vars();
 
   m_eventCounter = 0;
+
+  return DT::STATUS::Good;
 }
 
-void MyDukeTopAna::setupOutput() {
-  DT::Info("setupOutput()","running setupOutput()");
-}
-
-void MyDukeTopAna::execute() {
+DT::STATUS MyDukeTopAna::execute() {
   m_eventCounter++;
   TLorentzVector total;
   for ( auto const& el : DT::zip(*(*el_pt),*(*el_eta),*(*el_phi)) ) {
@@ -51,9 +49,11 @@ void MyDukeTopAna::execute() {
     DT::Info("execute()",
 	     "All leptons ( > 1 ) invariant mass = "+std::to_string(total.M())+" GeV");
   }
+  return DT::STATUS::Good;
 }
 
-void MyDukeTopAna::finish() {
+DT::STATUS MyDukeTopAna::finish() {
   DT::Info("finish()","Total number of events = "+std::to_string(m_eventCounter));
   DT::Info("finish()","running finished()");
+  return DT::STATUS::Good;
 }

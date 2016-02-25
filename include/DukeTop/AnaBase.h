@@ -13,11 +13,11 @@
 #ifndef DT_AnaBase_h
 #define DT_AnaBase_h
 
+// DT
+#include <DukeTop/Utils.h>
+
 // C++
 #include <string>
-
-// DT
-// #include <DukeTop/FileManager.h>
 
 // ROOT
 #include <TTreeReader.h>
@@ -54,10 +54,10 @@ namespace DT {
     void core_init();
     void init_core_vars();
     
-    virtual void init();
-    virtual void setupOutput();
-    virtual void execute();
-    virtual void finish();
+    virtual DT::STATUS init();
+    virtual DT::STATUS setupOutput();
+    virtual DT::STATUS execute();
+    virtual DT::STATUS finish();
 
     DT::FileManager* fileManager();
 

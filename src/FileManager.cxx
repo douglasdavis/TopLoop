@@ -48,5 +48,4 @@ void DT::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
 
 void DT::FileManager::feedTxt(const std::string& txtfilename) {
   DT::Fatal("DT::FileManager::feedTxt not supported yet");
-  throw std::exception();
 }

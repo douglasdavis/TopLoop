@@ -4,16 +4,9 @@
  *  @author Douglas Davis < douglas.davis@cern.ch >
  */
 
-// C++
-#include <iostream>
-
 // DT
 #include <DukeTop/AnaBase.h>
 #include <DukeTop/FileManager.h>
-#include <DukeTop/Utils.h>
-
-// ROOT
-#include <TLorentzVector.h>
 
 DT::AnaBase::AnaBase() :
   m_datasetName() {
@@ -40,19 +33,23 @@ void DT::AnaBase::init_core_vars() {
   mu_e   = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_e");
 }
 
-void DT::AnaBase::init() {
-  std::cout << "init standard AnaBase" << std::endl;
+DT::STATUS DT::AnaBase::init() {
+  DT::Warning("init()","This is the base init() class, doesn't do anything!");
   init_core_vars();
+  return DT::STATUS::Good;
 }
 
-void DT::AnaBase::setupOutput() {
-  std::cout << "setupOutput standard AnaBase" << std::endl;
+DT::STATUS DT::AnaBase::setupOutput() {
+  DT::Warning("setupOutput()","This is the base setupOutput() function, doesn't do anything!");
+  return DT::STATUS::Good;
 }
 
-void DT::AnaBase::execute() {
-  std::cout << "execute standard AnaBase" << std::endl;
+DT::STATUS DT::AnaBase::execute() {
+  DT::Warning("execute()","This is the base execute() function, doesn't do anything!");
+  return DT::STATUS::Good;
 }
 
-void DT::AnaBase::finish() {
-  std::cout << "finish standard AnaBase" << std::endl;
+DT::STATUS DT::AnaBase::finish() {
+  DT::Warning("finish()","This is the base finish() function, doesn't do anything!");
+  return DT::STATUS::Good;
 }

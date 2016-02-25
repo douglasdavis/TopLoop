@@ -9,10 +9,23 @@
 #include <DukeTop/AnaBase.h>
 
 void DT::Job::run() {
-  m_analysis->init();
-  m_analysis->setupOutput();
+
+  if ( m_analysis->init() == DT::STATUS::Good ) {}
+  else
+    DT::Fatal("your init() returned DT::STATUS::Fail");
+
+  if ( m_analysis->setupOutput() == DT::STATUS::Good ) {}
+  else
+    DT::Fatal("your setupOutput() returned DT::STATUS::Fail");
+  
   while ( m_analysis->reader()->Next() ) {
-    m_analysis->execute();
+    if ( m_analysis->execute() == DT::STATUS::Good ) {}
+    else
+      DT::Fatal("your execute() returned DT::STATUS::Fail");
   }
-  m_analysis->finish();
+
+  if ( m_analysis->finish() == DT::STATUS::Good ) {}
+  else
+    DT::Fatal("your finish() returned DT::STATUS::Fail");
+
 }

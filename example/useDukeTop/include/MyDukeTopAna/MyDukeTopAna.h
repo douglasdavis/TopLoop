@@ -13,10 +13,9 @@ public:
   MyDukeTopAna();
   virtual ~MyDukeTopAna();
 
-  virtual void init();
-  virtual void setupOutput();
-  virtual void execute();
-  virtual void finish();
+  virtual DT::STATUS init();
+  virtual DT::STATUS execute();
+  virtual DT::STATUS finish();
   
 };
 

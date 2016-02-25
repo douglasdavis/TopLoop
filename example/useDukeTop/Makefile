@@ -5,6 +5,7 @@ endif
 CXX      := g++
 CXXFLAGS := -fPIC -Wall -I$(DT_BASE)/include -O2 $(shell root-config --cflags) -Iinclude
 LDFLAGS  := -L$(DT_BASE)/lib $(shell root-config --glibs) -lTreePlayer -lDT -lboost_filesystem
+MAKEDIR  := $(shell mkdir -p lib)
 
 ARCH      = $(shell uname)
 ifeq ($(ARCH),Darwin)
