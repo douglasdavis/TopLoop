@@ -47,6 +47,23 @@ namespace DT {
     TTreeReaderValue<std::vector<float> >* mu_eta;
     TTreeReaderValue<std::vector<float> >* mu_e;
 
+    TTreeReaderValue<std::vector<float> >* jet_pt;
+    TTreeReaderValue<std::vector<float> >* jet_eta;
+    TTreeReaderValue<std::vector<float> >* jet_phi;
+    TTreeReaderValue<std::vector<float> >* jet_e;
+    TTreeReaderValue<std::vector<float> >* jet_mv1;
+    TTreeReaderValue<std::vector<float> >* jet_mvb;
+
+    TTreeReaderValue<std::vector<float> >* ljet_pt;
+    TTreeReaderValue<std::vector<float> >* ljet_eta;
+    TTreeReaderValue<std::vector<float> >* ljet_phi;
+    TTreeReaderValue<std::vector<float> >* ljet_e;
+    TTreeReaderValue<std::vector<float> >* ljet_m;
+    TTreeReaderValue<std::vector<float> >* ljet_sd12;
+
+    TTreeReaderValue<float>*         met_met;
+    TTreeReaderValue<float>*         met_phi;
+
   public:
     AnaBase();
     virtual ~AnaBase();

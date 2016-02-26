@@ -31,6 +31,17 @@ void DT::AnaBase::init_core_vars() {
   mu_eta = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_eta");
   mu_phi = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_pt");
   mu_e   = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_e");
+
+  jet_pt  = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_pt");
+  jet_eta = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_eta");
+  jet_phi = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_phi");
+  jet_e   = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_e");
+
+  jet_mv1 = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_mv1");
+  jet_mvb = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_mvb");
+
+  met_met = new TTreeReaderValue<float>(*m_reader,"met_met");
+  met_phi = new TTreeReaderValue<float>(*m_reader,"met_phi");
 }
 
 DT::STATUS DT::AnaBase::init() {

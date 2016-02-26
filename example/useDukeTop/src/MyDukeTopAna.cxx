@@ -7,6 +7,8 @@
 
 // ROOT
 #include <TLorentzVector.h>
+#include <TFile.h>
+#include <TH1D.h>
 
 MyDukeTopAna::MyDukeTopAna() :
   DT::AnaBase()
@@ -24,6 +26,17 @@ DT::STATUS MyDukeTopAna::init() {
   return DT::STATUS::Good;
 }
 
+DT::STATUS MyDukeTopAna::setupOutput() {
+
+  // setting up a ROOT file to output at the end of the job
+  m_outputFile = new TFile("out.root","recreate");
+
+  // we want to save a histogram to the file
+  h_eventMass = new TH1D("eventMass",";Event Mass (TeV);Events/100 GeV",100,0,10);
+
+  return DT::STATUS::Good;
+}
+
 DT::STATUS MyDukeTopAna::execute() {
   m_eventCounter++;
   TLorentzVector total;
@@ -31,23 +44,34 @@ DT::STATUS MyDukeTopAna::execute() {
     auto pt  = boost::get<0>(el);
     auto eta = boost::get<1>(el);
     auto phi = boost::get<2>(el);
-    auto m   = 0.511; // MeV
     TLorentzVector tempv;
-    tempv.SetPtEtaPhiM(pt,eta,phi,m);
+    tempv.SetPtEtaPhiM(pt,eta,phi,.511);
     total += tempv;
   }
   for ( auto const& mu : DT::zip(*(*mu_pt),*(*mu_eta),*(*mu_phi)) ) {
     auto pt  = boost::get<0>(mu);
     auto eta = boost::get<1>(mu);
     auto phi = boost::get<2>(mu);
-    auto m   = 105; // MeV
     TLorentzVector tempv;
-    tempv.SetPtEtaPhiM(pt,eta,phi,m);
+    tempv.SetPtEtaPhiM(pt,eta,phi,105.0);
     total += tempv;
   }
-  if ( total.M() > 105.5 && m_eventCounter%400 == 0 ) {
+  for ( auto const& jet : DT::zip(*(*jet_pt),*(*jet_eta),*(*jet_phi),*(*jet_e)) ) {
+    auto pt  = boost::get<0>(jet);
+    auto eta = boost::get<1>(jet);
+    auto phi = boost::get<2>(jet);
+    auto e   = boost::get<3>(jet);
+    TLorentzVector tempv;
+    tempv.SetPtEtaPhiE(pt,eta,phi,e);
+    total += tempv;
+  }
+  TLorentzVector tempmet;
+  tempmet.SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
+  total += tempmet;
+  h_eventMass->Fill(total.M()/1000000.0);
+  if ( total.M() > 100.0e3 && m_eventCounter%4 == 0 ) {
     DT::Info("execute()",
-	     "All leptons ( > 1 ) invariant mass = "+std::to_string(total.M())+" GeV");
+	     "leptons + jets + MET Invariant mass = "+std::to_string(total.M())+" GeV");
   }
   return DT::STATUS::Good;
 }
@@ -55,5 +79,12 @@ DT::STATUS MyDukeTopAna::execute() {
 DT::STATUS MyDukeTopAna::finish() {
   DT::Info("finish()","Total number of events = "+std::to_string(m_eventCounter));
   DT::Info("finish()","running finished()");
+
+  // write histograms to output file
+  h_eventMass->Write();
+
+  // close the output file
+  m_outputFile->Close();
+  
   return DT::STATUS::Good;
 }
