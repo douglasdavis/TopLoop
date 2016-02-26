@@ -1,7 +1,7 @@
 include ../../Makefile.common
 
 CXXFLAGS += -Iinclude
-LDFLAGS  += -lDT
+LDFLAGS  += -lDukeTop
 
 MAKELIBDIR := $(shell mkdir -p lib)
 

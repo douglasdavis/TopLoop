@@ -69,7 +69,7 @@ cat > $DT_BASE/Makefile <<EOF2
 
 include Makefile.common
 
-TARGET  := lib/libDT.\$(LIBSUFFIX)
+TARGET  := lib/libDukeTop.\$(LIBSUFFIX)
 
 HEADERS = include/DukeTop/AnaBase.h include/DukeTop/Job.h \
 include/DukeTop/FileManager.h
