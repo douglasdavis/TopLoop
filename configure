@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+
+
+type root-config >/dev/null 2>&1 || { echo >&2 "root-config not found. Aborting."; exit 1; }
+
+while [[ $# > 1 ]]; do
+    key="$1"
+    case $key in
+	--boost-inc)
+	    BOOSTINC="$2"
+	    shift
+	    ;;
+	--boost-lib)
+	    BOOSTLIB="$2"
+	    shift
+	    ;;
+	*)
+	    ;;
+    esac
+    shift
+done
+
+if [ -z "$BOOSTINC" ]; then
+    BOOSTINC="-I/usr/local/include -I/usr/include"
+else
+    BOOSTINC="-I$BOOSTINC"
+fi
+
+if [ -z "$BOOSTLIB" ]; then
+    BOOSTLIB="-L/usr/local/lib -L/usr/lib"
+else
+    BOOSTLIB="-L$BOOSTLIB"
+fi
+
+DT_BASE=$PWD
+mkdir -p $PWD/lib
+
+ARCH=`uname`
+if [ $ARCH == "Darwin" ]; then
+	LIBSUFFIX="dylib"
+else
+	LIBSUFFIX="so"
+fi
+
+cat > $DT_BASE/Makefile.common <<EOF1
+#####################################################################
+## DO NOT EDIT                                                     ##
+## Auto Generated [common] Makefile for the DT (Duke Top) library  ## 
+## configure Author: Douglas Davis < ddavis@phy.duke.edu >         ##
+##                                 < douglas.davis@cern.ch >       ##
+#####################################################################
+
+CXX := c++
+CXXFLAGS = -fPIC -Wall -O2 `root-config --cflags` -I${DT_BASE}/include \
+-I{DT_BASE}/include/DukeTop ${BOOSTINC}
+LDFLAGS  = -L${DT_BASE}/lib ${BOOSTLIB} `root-config --glibs` -lTreePlayer \
+-lboost_filesystem -lboost_system
+LIBSUFFIX = ${LIBSUFFIX}
+
+EOF1
+
+cat > $DT_BASE/Makefile <<EOF2
+###################################################################
+## DO NOT EDIT                                                   ##
+## Auto Generated Makefile for the DT (Duke Top) library         ##
+## configure Author: Douglas Davis < ddavis@phy.duke.edu >       ##
+##                                 < douglas.davis@cern.ch >     ##
+###################################################################
+
+include Makefile.common
+
+TARGET  := lib/libDT.\$(LIBSUFFIX)
+
+HEADERS = include/DukeTop/AnaBase.h include/DukeTop/Job.h \
+include/DukeTop/FileManager.h
+
+all: \$(TARGET)
+
+\$(TARGET): src/AnaBase.o src/Job.o src/FileManager.o src/DTdict.o
+	-@echo "[DT] Building \$@";\$(CXX) -shared -o \$@ $^ \$(LDFLAGS)
+	-@echo "[DT] Done"
+
+
+src/DTdict.o: src/DTdict.cxx \$(HEADERS) include/DukeTop/LinkDef.h
+	-@echo "[DT] Building \$@";\$(CXX) \$(CXXFLAGS) \
+-I${DT_BASE}/include/DukeTop -o \$@ -c $<
+
+src/DTdict.cxx: \$(HEADERS)
+	-@echo "[DT] Generating \$@";rootcling -f \$@ -I${DT_BASE}/include/DukeTop \
+-I${DT_BASE}/include AnaBase.h FileManager.h Job.h Utils.h LinkDef.h
+
+src/AnaBase.o: src/AnaBase.cxx \$(HEADERS)
+	-@echo "[DT] Building \$@";\$(CXX) \$(CXXFLAGS) -o \$@ -c $<
+
+src/Job.o: src/Job.cxx \$(HEADERS)
+	-@echo "[DT] Building \$@";\$(CXX) \$(CXXFLAGS) -o \$@ -c $<
+
+src/FileManager.o: src/FileManager.cxx \$(HEADERS)
+	-@echo "[DT] Building \$@";\$(CXX) \$(CXXFLAGS) -o \$@ -c $<
+
+clean:
+	-@\$(RM) src/*.o lib/*.\$(LIBSUFFIX) src/*DTdict*
+
+EOF2

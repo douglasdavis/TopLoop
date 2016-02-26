@@ -13,6 +13,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <sstream>
+#include <vector>
 
 // boost
 #include <boost/range/combine.hpp>

@@ -1,11 +1,11 @@
-include $(DT_BASE)/config/Common.mk
+include ../../Makefile.common
 
 CXXFLAGS += -Iinclude
 LDFLAGS  += -lDT
 
 MAKELIBDIR := $(shell mkdir -p lib)
 
-LIBTARGET := lib/libmyDT.$(LIBSUFFIX)
+LIBTARGET := lib/libmyDukeTop.$(LIBSUFFIX)
 EXETARGET := use
 
 all: $(LIBTARGET) $(EXETARGET)
@@ -17,7 +17,7 @@ src/MyDukeTopAna.o: src/MyDukeTopAna.cxx include/MyDukeTopAna/MyDukeTopAna.h
 	-@echo "[Example] Building $@";$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 $(EXETARGET): util/use.o
-	-@echo "[Example] Building $@";$(CXX) -o $@ $< $(LDFLAGS) -Llib -lmyDT
+	-@echo "[Example] Building $@";$(CXX) -o $@ $< $(LDFLAGS) -Llib -lmyDukeTop
 
 util/use.o: util/use.cpp
 	-@echo "[Example] Building $@";$(CXX) $(CXXFLAGS) -o $@ -c $<

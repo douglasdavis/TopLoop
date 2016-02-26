@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-export DT_BASE=$PWD
-mkdir -p $DT_BASE/lib
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DT_BASE/lib
-export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$DT_BASE/lib
-
-echo "| DukeTop:   Set up DT_BASE=${DT_BASE}"
-echo "| DukeTop:   Added to library path: ${DT_BASE}/lib"
