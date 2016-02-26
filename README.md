@@ -31,11 +31,72 @@ class. The user's `main` program simply declares a pointer of their
 algorithm, and feeds the algorithm to a `DT::Job`. (A few inbetween
 steps to properly set up the algorithm will likely be required).
 
+
+## Installation
+
+### Requirements
+
+* ROOT version 6+
+* Boost libraries
+
+### Building
+
+`DukeTop` currently supports two build methods:
+
+1. CMake
+2. Old school (`./configure; make`)
+
+#### CMake
+
+To build with cmake, it is suggested to have a working environment
+with the following structure:
+
+    .
+    └── WorkingArea
+        ├── DukeTop
+        ├── DukeTopBuild
+        └── DukeTopInstall
+
+In the `DukeTopBuild` directory, run:
+
+    $ cmake -DCMAKE_INSTALL_PREFIX=/path/to/WorkingArea/DukeTopInstall ../DukeTop
+    $ make
+    $ make install
+
+This will install the library and headers to `DukeTopInstall/include`
+and `Duke/TopInstall/lib`, respectively.  Other folders from the
+package will also be copied over.
+
+If your Boost installation location isn't automatically found by
+CMake, then you need to direct CMake to it's location with the flag
+`-DBOOST_ROOT=/path/to/boost/installation`.
+
+#### Old school
+
+To build with `./configure; make`, in the `DukeTop` directory simply
+run
+
+    $ ./configure
+    $ make
+
+This will install the library to `DukeTop/lib`.  If your Boost
+installation is not handled by a package manager (i.e. it's not in
+`/usr/local` or `/usr`, you likely need to direct the configure script
+to the include and library directories for your Boost installation:
+
+    $ ./configure --boost-inc /path/to/boost/include --boost-lib /path/to/boost/lib
+    $ make
+
+A few more details: The configure script automatically generates two
+files, Makefile and Makefile.common.  Makefile.common is useful to
+include in a Makefile written for compiling your own algorithm (see
+the example).
+
 ## Example
 
 One can find an example `DukeTop` algorithm in the `example`
 directory.
 
-## More Detailed Information
+## More Details
 
-Coming soon.
+See the wiki (under construction).
