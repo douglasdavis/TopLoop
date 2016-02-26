@@ -1,23 +1,10 @@
 ######################################################
-## Makefile for the DT (Duke Single Top) library   ## 
+## Makefile for the DT (Duke Single Top) library    ## 
 ## Author: Douglas Davis < ddavis@phy.duke.edu >    ##
 ##                       < douglas.davis@cern.ch >  ##
 ######################################################
 
-ifndef DT_BASE
-$(error DT_BASE not set, source config/setup)
-endif
-
-CXX      := clang++
-CXXFLAGS := -fPIC -Wall -O2 $(shell root-config --cflags) -I$(DT_BASE)/include
-LDFLAGS  := -L$(DT_BASE)/lib $(shell root-config --glibs) -lTreePlayer -lboost_filesystem
-
-ARCH      = $(shell uname)
-ifeq ($(ARCH),Darwin)
-	LIBSUFFIX = dylib
-else
-	LIBSUFFIX = so
-endif
+include $(DT_BASE)/config/Common.mk
 
 TARGET  := lib/libDT.$(LIBSUFFIX)
 
