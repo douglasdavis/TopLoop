@@ -25,7 +25,6 @@ namespace DT {
   class FileManager {
   private:
     std::vector<std::string> m_fileNames;
-    std::vector<TFile*>      m_rootFiles;
     std::string              m_treeName;
     TChain*                  m_rootChain;
     
@@ -39,7 +38,6 @@ namespace DT {
     void feedTxt(const std::string& txtfilename);
     
     const std::vector<std::string>& fileNames() const;
-    const std::vector<TFile*>&      rootFiles() const;
     const std::string&              treeName()  const;
     
     TChain* rootChain();
@@ -47,8 +45,8 @@ namespace DT {
 }
 
 inline const std::vector<std::string>& DT::FileManager::fileNames() const { return m_fileNames; }
-inline const std::vector<TFile*>&      DT::FileManager::rootFiles() const { return m_rootFiles; }
 inline const std::string&              DT::FileManager::treeName()  const { return m_treeName;  }
+
 inline       TChain*                   DT::FileManager::rootChain()       { return m_rootChain; }
 
 #endif
