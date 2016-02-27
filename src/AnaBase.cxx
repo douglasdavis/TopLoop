@@ -22,16 +22,19 @@ void DT::AnaBase::core_init() {
 void DT::AnaBase::init_core_vars() {
   m_reader = new TTreeReader(fileManager()->rootChain());
 
+  el_n   = new TTreeReaderValue<UInt_t>(*m_reader,"el_n");
   el_pt  = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_pt");
   el_eta = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_eta");
   el_phi = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_pt");
   el_e   = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_e");
 
+  mu_n   = new TTreeReaderValue<UInt_t>(*m_reader,"mu_n");
   mu_pt  = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_pt");
   mu_eta = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_eta");
   mu_phi = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_pt");
   mu_e   = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_e");
 
+  jet_n   = new TTreeReaderValue<UInt_t>(*m_reader,"jet_n");
   jet_pt  = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_pt");
   jet_eta = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_eta");
   jet_phi = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_phi");
@@ -40,8 +43,13 @@ void DT::AnaBase::init_core_vars() {
   jet_mv1 = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_mv1");
   jet_mvb = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_mvb");
 
-  met_met = new TTreeReaderValue<float>(*m_reader,"met_met");
-  met_phi = new TTreeReaderValue<float>(*m_reader,"met_phi");
+  met_met   = new TTreeReaderValue<float>(*m_reader,"met_met");
+  met_phi   = new TTreeReaderValue<float>(*m_reader,"met_phi");
+  met_px    = new TTreeReaderValue<float>(*m_reader,"met_px");
+  met_py    = new TTreeReaderValue<float>(*m_reader,"met_py");
+  met_sumet = new TTreeReaderValue<float>(*m_reader,"met_sumet");
+
+  Ht = new TTreeReaderValue<float>(*m_reader,"Ht");
 }
 
 DT::STATUS DT::AnaBase::init() {

@@ -18,7 +18,13 @@
 // boost
 #include <boost/range/combine.hpp>
 
+//#define TeV 0.000001
+//#define GeV 0.001
+
 namespace DT {
+  const double TeV = 1.0e-6;
+  const double GeV = 1.0e-3;
+  
   enum STATUS {
     Good,
     Fail

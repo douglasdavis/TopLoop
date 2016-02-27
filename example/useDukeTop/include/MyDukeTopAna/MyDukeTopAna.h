@@ -14,6 +14,7 @@ private:
 
   TFile* m_outputFile;
   TH1D*  h_eventMass;
+  TH1D*  h_eventHt;
   
 public:
   MyDukeTopAna();

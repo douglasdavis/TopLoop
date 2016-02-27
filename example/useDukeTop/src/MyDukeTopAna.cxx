@@ -33,7 +33,8 @@ DT::STATUS MyDukeTopAna::setupOutput() {
 
   // we want to save a histogram to the file
   h_eventMass = new TH1D("eventMass",";Event Mass (TeV);Events/100 GeV",100,0,10);
-
+  h_eventHt   = new TH1D("eventHt",  ";H_{T} (TeV);Events/40 GeV",50,0,2);
+  
   return DT::STATUS::Good;
 }
 
@@ -68,8 +69,10 @@ DT::STATUS MyDukeTopAna::execute() {
   TLorentzVector tempmet;
   tempmet.SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
   total += tempmet;
-  h_eventMass->Fill(total.M()/1000000.0);
-  if ( total.M() > 100.0e3 && m_eventCounter%4 == 0 ) {
+  h_eventMass->Fill(total.M()*DT::TeV);
+  auto fillht = (*(*Ht))*DT::TeV;
+  h_eventHt->Fill(fillht);
+  if ( total.M() > 100.0e3 && m_eventCounter%8000 == 0 ) {
     DT::Info("execute()",
 	     "leptons + jets + MET Invariant mass = "+std::to_string(total.M())+" GeV");
   }
@@ -82,7 +85,8 @@ DT::STATUS MyDukeTopAna::finish() {
 
   // write histograms to output file
   h_eventMass->Write();
-
+  h_eventHt->Write();
+  
   // close the output file
   m_outputFile->Close();
   
