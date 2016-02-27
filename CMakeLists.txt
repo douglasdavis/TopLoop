@@ -1,5 +1,16 @@
+#####################################################
+## CMake build file for DukeTop library            ##
+## Author: Douglas Davis < douglas.davis@cern.ch > ##
+##                       < ddavis@phy.duke.edu >   ##
+#####################################################
+
 cmake_minimum_required(VERSION 2.8)
 project(DukeTop)
+
+## Suppress annoying CMake dev warning
+if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
+  set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
+endif()
 
 ## Standard options given to the compiler.
 option(DEBUGWARN "DEBUGWARN" OFF)
