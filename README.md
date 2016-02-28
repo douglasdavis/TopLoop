@@ -19,8 +19,6 @@ ntuples.
 
 ### Building
 
-`TopLoop` currently supports two build methods:
-
 To get starting building and setting up a working environment, it is
 suggested to have the following structure:
 
