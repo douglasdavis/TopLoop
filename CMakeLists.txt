@@ -70,6 +70,7 @@ add_library(
 target_link_libraries(TopLoop
   ${ROOT_LIBRARIES}
   TreePlayer
+  ${Boost_LIBRARIES}
   )
 
 ## install desired objects to:

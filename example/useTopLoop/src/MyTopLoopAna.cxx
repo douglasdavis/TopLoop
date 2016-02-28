@@ -70,9 +70,9 @@ TL::STATUS MyTopLoopAna::execute() {
   tempmet.SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
   total += tempmet;
   h_eventMass->Fill(total.M()*TL::TeV);
-  auto fillht = (*(*Ht))*TL::TeV;
-  h_eventHt->Fill(fillht);
-  if ( total.M() > 100.0e3 && m_eventCounter%8000 == 0 ) {
+  //  auto fillht = (*(*Ht))*TL::TeV;
+  h_eventHt->Fill(0.0);
+  if ( total.M() > 100.0e3 && m_eventCounter%10 == 0 ) {
     TL::Info("execute()",
 	     "leptons + jets + MET Invariant mass = "+std::to_string(total.M())+" GeV");
   }
