@@ -39,9 +39,10 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
 	continue;
       }
       else {
-	TL::Info("feedDir()","Adding file "+i->path().filename().string());
-	m_fileNames.emplace_back(dirpath+(i->path().filename().string()));
-	m_rootChain->Add((dirpath+i->path().filename().string()).c_str());
+	std::string final_path = i->path().filename().string();
+	TL::Info("feedDir()","Adding file "+final_path);
+	m_fileNames.emplace_back(dirpath+(final_path));
+	m_rootChain->Add((dirpath+"/"+final_path).c_str());
       }
     }
     else {
