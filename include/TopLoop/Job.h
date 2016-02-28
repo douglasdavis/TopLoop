@@ -1,29 +1,29 @@
 /** @file  Job.h
- *  @brief DT::Job class header
- *  @class DT::Job
+ *  @brief TL::Job class header
+ *  @class TL::Job
  *  @brief Job handler.
  *
- *  This class handles the running of the DT::AnaBase algorithm.
+ *  This class handles the running of the TL::AnaBase algorithm.
  *
  *  @author Douglas Davis < douglas.davis@cern.ch >
  */
 
-#ifndef DT_Job_h
-#define DT_Job_h
+#ifndef TL_Job_h
+#define TL_Job_h
 
-namespace DT {
+namespace TL {
   class AnaBase;
 }
 
-namespace DT {
+namespace TL {
 
   class Job {
 
   protected:
-    DT::AnaBase* m_analysis;
+    TL::AnaBase* m_analysis;
 
   public:
-    Job(DT::AnaBase* ab) :
+    Job(TL::AnaBase* ab) :
       m_analysis(ab) {}
     virtual ~Job() {}
 

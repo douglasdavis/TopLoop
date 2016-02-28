@@ -1,11 +1,11 @@
 #####################################################
-## CMake build file for DukeTop library            ##
+## CMake build file for TopLoop library            ##
 ## Author: Douglas Davis < douglas.davis@cern.ch > ##
 ##                       < ddavis@phy.duke.edu >   ##
 #####################################################
 
 cmake_minimum_required(VERSION 2.8)
-project(DukeTop)
+project(TopLoop)
 
 ## Suppress annoying CMake dev warning
 if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
@@ -40,49 +40,49 @@ link_directories("${Boost_LIBRARY_DIR}")
 ## to generate the dictionary files
 include_directories("${CMAKE_SOURCE_DIR}")
 include_directories("${CMAKE_SOURCE_DIR}/include")
-include_directories("${CMAKE_SOURCE_DIR}/include/DukeTop")
+include_directories("${CMAKE_SOURCE_DIR}/include/TopLoop")
 
 ## Define a list of all src files
-file(GLOB DukeTop_src
+file(GLOB TopLoop_src
   "src/*.cxx"
   )
 
 ## Generate a dictionary with all
 ## headers listed as dependencies
 ROOT_GENERATE_DICTIONARY(
-  DukeTopDict
-  include/DukeTop/AnaBase.h
-  include/DukeTop/Utils.h
-  include/DukeTop/Job.h
-  include/DukeTop/FileManager.h
-  LINKDEF include/DukeTop/LinkDef.h
+  TopLoopDict
+  include/TopLoop/AnaBase.h
+  include/TopLoop/Utils.h
+  include/TopLoop/Job.h
+  include/TopLoop/FileManager.h
+  LINKDEF include/TopLoop/LinkDef.h
   )
 
 ## Make a library which will be
-## called libDukeTop.so/.dylib
+## called libTopLoop.so/.dylib
 add_library(
-  DukeTop SHARED
-  ${DukeTop_src}
-  DukeTopDict
+  TopLoop SHARED
+  ${TopLoop_src}
+  TopLoopDict
   )
 
 ## Link the above library with ROOT libraries
-target_link_libraries(DukeTop
+target_link_libraries(TopLoop
   ${ROOT_LIBRARIES}
   TreePlayer
   )
 
 ## install desired objects to:
 ## -DCMAKE_INSTALL_PREFIX=[this dir]
-install(DIRECTORY include/DukeTop
+install(DIRECTORY include/TopLoop
   DESTINATION "${CMAKE_INSTALL_PREFIX}/include"
   )
 
-install(TARGETS DukeTop
+install(TARGETS TopLoop
   DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
   )
 
-install(FILES ${CMAKE_BINARY_DIR}/DukeTopDict_rdict.pcm
+install(FILES ${CMAKE_BINARY_DIR}/TopLoopDict_rdict.pcm
   DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
   )
 
@@ -91,7 +91,7 @@ install(FILES ${CMAKE_BINARY_DIR}/DukeTopDict_rdict.pcm
 option(BUILDEX "BUILD_EXAMPLE" OFF)
 if (BUILDEX)
   message("-- Will build example")
-  add_subdirectory(example/useDukeTop)
+  add_subdirectory(example/useTopLoop)
 else()
   message("-- Will NOT build example")
 endif()

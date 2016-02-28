@@ -1,13 +1,13 @@
 /** @file  Utils.h
- *  @brief DT::Utils class header
+ *  @brief TL::Utils class header
  *
- *  Utility functions for DukeTop
+ *  Utility functions for TopLoop
  *
  *  @author Douglas Davis < douglas.davis@cern.ch >
  */
 
-#ifndef DT_Utils_h
-#define DT_Utils_h
+#ifndef TL_Utils_h
+#define TL_Utils_h
 
 // C++
 #include <iostream>
@@ -21,7 +21,7 @@
 //#define TeV 0.000001
 //#define GeV 0.001
 
-namespace DT {
+namespace TL {
   const double TeV = 1.0e-6;
   const double GeV = 1.0e-3;
   
@@ -31,7 +31,7 @@ namespace DT {
   };
 }
 
-namespace DT {
+namespace TL {
   template<class... containers>
   auto zip(containers&... conts) -> decltype(boost::combine(conts...));
 
@@ -46,11 +46,11 @@ namespace DT {
 }
 
 template<class... containers>
-inline auto DT::zip(containers&... conts) -> decltype(boost::combine(conts...)) {
+inline auto TL::zip(containers&... conts) -> decltype(boost::combine(conts...)) {
   return boost::combine(conts...);
 }
 
-inline auto DT::string_split(const std::string &s, char delim, std::vector<std::string> &elems)
+inline auto TL::string_split(const std::string &s, char delim, std::vector<std::string> &elems)
   -> std::vector<std::string>& {
   std::stringstream ss(s);
   std::string item;
@@ -60,23 +60,23 @@ inline auto DT::string_split(const std::string &s, char delim, std::vector<std::
   return elems;
 }
 
-inline auto DT::string_split(const std::string &s, char delim)
+inline auto TL::string_split(const std::string &s, char delim)
   -> std::vector<std::string> {
   std::vector<std::string> elems;
   string_split(s, delim, elems);
   return elems;
 }
 
-inline void DT::Info(const std::string& fname, const std::string& msg) {
-  std::cout << "DukeTop:\tINFO:      "+fname+": "+msg << std::endl;
+inline void TL::Info(const std::string& fname, const std::string& msg) {
+  std::cout << "TopLoop:\tINFO:      "+fname+": "+msg << std::endl;
 }
 
-inline void DT::Warning(const std::string& fname, const std::string& msg) {
-  std::cout << "DukeTop:\tWARNING:   "+fname+": "+msg << std::endl;
+inline void TL::Warning(const std::string& fname, const std::string& msg) {
+  std::cout << "TopLoop:\tWARNING:   "+fname+": "+msg << std::endl;
 }
 
-inline void DT::Fatal(const std::string& msg) {
-  std::cerr << "DukeTop:\tFATAL:     "+msg << std::endl;
+inline void TL::Fatal(const std::string& msg) {
+  std::cerr << "TopLoop:\tFATAL:     "+msg << std::endl;
   std::exit(EXIT_FAILURE);
 }
 

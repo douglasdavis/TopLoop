@@ -1,6 +1,6 @@
-// DT
-#include <MyDukeTopAna/MyDukeTopAna.h>
-#include <DukeTop/Utils.h>
+// TL
+#include <MyTopLoopAna/MyTopLoopAna.h>
+#include <TopLoop/Utils.h>
 
 // C++
 #include <iostream>
@@ -10,23 +10,23 @@
 #include <TFile.h>
 #include <TH1D.h>
 
-MyDukeTopAna::MyDukeTopAna() :
-  DT::AnaBase()
+MyTopLoopAna::MyTopLoopAna() :
+  TL::AnaBase()
 {}
 
-MyDukeTopAna::~MyDukeTopAna() {}
+MyTopLoopAna::~MyTopLoopAna() {}
 
-DT::STATUS MyDukeTopAna::init() {
-  DT::Info("init()","running init()");
+TL::STATUS MyTopLoopAna::init() {
+  TL::Info("init()","running init()");
   // ALWAYS MUST CALL THIS FUNCTION in init();
   init_core_vars();
 
   m_eventCounter = 0;
 
-  return DT::STATUS::Good;
+  return TL::STATUS::Good;
 }
 
-DT::STATUS MyDukeTopAna::setupOutput() {
+TL::STATUS MyTopLoopAna::setupOutput() {
 
   // setting up a ROOT file to output at the end of the job
   m_outputFile = new TFile("out.root","recreate");
@@ -35,13 +35,13 @@ DT::STATUS MyDukeTopAna::setupOutput() {
   h_eventMass = new TH1D("eventMass",";Event Mass (TeV);Events/100 GeV",100,0,10);
   h_eventHt   = new TH1D("eventHt",  ";H_{T} (TeV);Events/40 GeV",50,0,2);
   
-  return DT::STATUS::Good;
+  return TL::STATUS::Good;
 }
 
-DT::STATUS MyDukeTopAna::execute() {
+TL::STATUS MyTopLoopAna::execute() {
   m_eventCounter++;
   TLorentzVector total;
-  for ( auto const& el : DT::zip(*(*el_pt),*(*el_eta),*(*el_phi)) ) {
+  for ( auto const& el : TL::zip(*(*el_pt),*(*el_eta),*(*el_phi)) ) {
     auto pt  = boost::get<0>(el);
     auto eta = boost::get<1>(el);
     auto phi = boost::get<2>(el);
@@ -49,7 +49,7 @@ DT::STATUS MyDukeTopAna::execute() {
     tempv.SetPtEtaPhiM(pt,eta,phi,.511);
     total += tempv;
   }
-  for ( auto const& mu : DT::zip(*(*mu_pt),*(*mu_eta),*(*mu_phi)) ) {
+  for ( auto const& mu : TL::zip(*(*mu_pt),*(*mu_eta),*(*mu_phi)) ) {
     auto pt  = boost::get<0>(mu);
     auto eta = boost::get<1>(mu);
     auto phi = boost::get<2>(mu);
@@ -57,7 +57,7 @@ DT::STATUS MyDukeTopAna::execute() {
     tempv.SetPtEtaPhiM(pt,eta,phi,105.0);
     total += tempv;
   }
-  for ( auto const& jet : DT::zip(*(*jet_pt),*(*jet_eta),*(*jet_phi),*(*jet_e)) ) {
+  for ( auto const& jet : TL::zip(*(*jet_pt),*(*jet_eta),*(*jet_phi),*(*jet_e)) ) {
     auto pt  = boost::get<0>(jet);
     auto eta = boost::get<1>(jet);
     auto phi = boost::get<2>(jet);
@@ -69,19 +69,19 @@ DT::STATUS MyDukeTopAna::execute() {
   TLorentzVector tempmet;
   tempmet.SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
   total += tempmet;
-  h_eventMass->Fill(total.M()*DT::TeV);
-  auto fillht = (*(*Ht))*DT::TeV;
+  h_eventMass->Fill(total.M()*TL::TeV);
+  auto fillht = (*(*Ht))*TL::TeV;
   h_eventHt->Fill(fillht);
   if ( total.M() > 100.0e3 && m_eventCounter%8000 == 0 ) {
-    DT::Info("execute()",
+    TL::Info("execute()",
 	     "leptons + jets + MET Invariant mass = "+std::to_string(total.M())+" GeV");
   }
-  return DT::STATUS::Good;
+  return TL::STATUS::Good;
 }
 
-DT::STATUS MyDukeTopAna::finish() {
-  DT::Info("finish()","Total number of events = "+std::to_string(m_eventCounter));
-  DT::Info("finish()","running finished()");
+TL::STATUS MyTopLoopAna::finish() {
+  TL::Info("finish()","Total number of events = "+std::to_string(m_eventCounter));
+  TL::Info("finish()","running finished()");
 
   // write histograms to output file
   h_eventMass->Write();
@@ -90,5 +90,5 @@ DT::STATUS MyDukeTopAna::finish() {
   // close the output file
   m_outputFile->Close();
   
-  return DT::STATUS::Good;
+  return TL::STATUS::Good;
 }

@@ -1,16 +1,16 @@
 /** @file  FileManager.h
- *  @brief DT::FileManager class header
- *  @class DT::FileManager
+ *  @brief TL::FileManager class header
+ *  @class TL::FileManager
  *  @brief Handles ROOT files.
  *
- *  This class does the necessary file handling for DT::AnaBase
+ *  This class does the necessary file handling for TL::AnaBase
  *  algorithms.
  *
  *  @author Douglas Davis < douglas.davis@cern.ch >
  */
 
-#ifndef DT_FileManager_h
-#define DT_FileManager_h
+#ifndef TL_FileManager_h
+#define TL_FileManager_h
 
 // ROOT
 #include <TFile.h>
@@ -21,7 +21,7 @@
 #include <vector>
 #include <string>
 
-namespace DT {
+namespace TL {
   class FileManager {
   private:
     std::vector<std::string> m_fileNames;
@@ -44,9 +44,8 @@ namespace DT {
   };
 }
 
-inline const std::vector<std::string>& DT::FileManager::fileNames() const { return m_fileNames; }
-inline const std::string&              DT::FileManager::treeName()  const { return m_treeName;  }
-
-inline       TChain*                   DT::FileManager::rootChain()       { return m_rootChain; }
+inline const std::vector<std::string>& TL::FileManager::fileNames() const { return m_fileNames; }
+inline const std::string&              TL::FileManager::treeName()  const { return m_treeName;  }
+inline       TChain*                   TL::FileManager::rootChain()       { return m_rootChain; }
 
 #endif

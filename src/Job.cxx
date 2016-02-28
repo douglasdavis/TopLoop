@@ -1,31 +1,31 @@
 /** @file Job.cxx
- *  @brief DT::Job class implementation
+ *  @brief TL::Job class implementation
  *
  *  @author Douglas Davis < douglas.davis@cern.ch >
  */
 
-// DT
-#include <DukeTop/Job.h>
-#include <DukeTop/AnaBase.h>
+// TL
+#include <TopLoop/Job.h>
+#include <TopLoop/AnaBase.h>
 
-void DT::Job::run() {
+void TL::Job::run() {
 
-  if ( m_analysis->init() == DT::STATUS::Good ) {}
+  if ( m_analysis->init() == TL::STATUS::Good ) {}
   else
-    DT::Fatal("your init() returned DT::STATUS::Fail");
+    TL::Fatal("your init() returned TL::STATUS::Fail");
 
-  if ( m_analysis->setupOutput() == DT::STATUS::Good ) {}
+  if ( m_analysis->setupOutput() == TL::STATUS::Good ) {}
   else
-    DT::Fatal("your setupOutput() returned DT::STATUS::Fail");
+    TL::Fatal("your setupOutput() returned TL::STATUS::Fail");
   
   while ( m_analysis->reader()->Next() ) {
-    if ( m_analysis->execute() == DT::STATUS::Good ) {}
+    if ( m_analysis->execute() == TL::STATUS::Good ) {}
     else
-      DT::Fatal("your execute() returned DT::STATUS::Fail");
+      TL::Fatal("your execute() returned TL::STATUS::Fail");
   }
 
-  if ( m_analysis->finish() == DT::STATUS::Good ) {}
+  if ( m_analysis->finish() == TL::STATUS::Good ) {}
   else
-    DT::Fatal("your finish() returned DT::STATUS::Fail");
+    TL::Fatal("your finish() returned TL::STATUS::Fail");
 
 }

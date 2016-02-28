@@ -1,25 +1,25 @@
 /** @file AnaBase.cxx
- *  @brief DT::AnaBase class implementation
+ *  @brief TL::AnaBase class implementation
  *
  *  @author Douglas Davis < douglas.davis@cern.ch >
  */
 
-// DT
-#include <DukeTop/AnaBase.h>
-#include <DukeTop/FileManager.h>
+// TL
+#include <TopLoop/AnaBase.h>
+#include <TopLoop/FileManager.h>
 
-DT::AnaBase::AnaBase() :
+TL::AnaBase::AnaBase() :
   m_datasetName() {
   core_init();
 }
 
-DT::AnaBase::~AnaBase() {}
+TL::AnaBase::~AnaBase() {}
 
-void DT::AnaBase::core_init() {
-  m_fm = new DT::FileManager();
+void TL::AnaBase::core_init() {
+  m_fm = new TL::FileManager();
 }
 
-void DT::AnaBase::init_core_vars() {
+void TL::AnaBase::init_core_vars() {
   m_reader = new TTreeReader(fileManager()->rootChain());
 
   el_n   = new TTreeReaderValue<UInt_t>(*m_reader,"el_n");
@@ -52,23 +52,23 @@ void DT::AnaBase::init_core_vars() {
   Ht = new TTreeReaderValue<float>(*m_reader,"Ht");
 }
 
-DT::STATUS DT::AnaBase::init() {
-  DT::Warning("init()","This is the base init() class, doesn't do anything!");
+TL::STATUS TL::AnaBase::init() {
+  TL::Warning("init()","This is the base init() class, doesn't do anything!");
   init_core_vars();
-  return DT::STATUS::Good;
+  return TL::STATUS::Good;
 }
 
-DT::STATUS DT::AnaBase::setupOutput() {
-  DT::Warning("setupOutput()","This is the base setupOutput() function, doesn't do anything!");
-  return DT::STATUS::Good;
+TL::STATUS TL::AnaBase::setupOutput() {
+  TL::Warning("setupOutput()","This is the base setupOutput() function, doesn't do anything!");
+  return TL::STATUS::Good;
 }
 
-DT::STATUS DT::AnaBase::execute() {
-  DT::Warning("execute()","This is the base execute() function, doesn't do anything!");
-  return DT::STATUS::Good;
+TL::STATUS TL::AnaBase::execute() {
+  TL::Warning("execute()","This is the base execute() function, doesn't do anything!");
+  return TL::STATUS::Good;
 }
 
-DT::STATUS DT::AnaBase::finish() {
-  DT::Warning("finish()","This is the base finish() function, doesn't do anything!");
-  return DT::STATUS::Good;
+TL::STATUS TL::AnaBase::finish() {
+  TL::Warning("finish()","This is the base finish() function, doesn't do anything!");
+  return TL::STATUS::Good;
 }

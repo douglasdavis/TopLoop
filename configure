@@ -32,7 +32,7 @@ else
     BOOSTLIB="-L$BOOSTLIB"
 fi
 
-DT_BASE=$PWD
+TL_BASE=$PWD
 mkdir -p $PWD/lib
 
 ARCH=`uname`
@@ -42,63 +42,63 @@ else
 	LIBSUFFIX="so"
 fi
 
-cat > $DT_BASE/Makefile.common <<EOF1
+cat > $TL_BASE/Makefile.common <<EOF1
 #####################################################################
 ## DO NOT EDIT                                                     ##
-## Auto Generated [common] Makefile for the DT (Duke Top) library  ## 
+## Auto Generated [common] Makefile for the TL (Top Loop) library  ## 
 ## configure Author: Douglas Davis < ddavis@phy.duke.edu >         ##
 ##                                 < douglas.davis@cern.ch >       ##
 #####################################################################
 
 CXX := c++
-CXXFLAGS = -fPIC -Wall -O2 `root-config --cflags` -I${DT_BASE}/include \
--I{DT_BASE}/include/DukeTop ${BOOSTINC}
-LDFLAGS  = -L${DT_BASE}/lib ${BOOSTLIB} `root-config --glibs` -lTreePlayer \
+CXXFLAGS = -fPIC -Wall -O2 `root-config --cflags` -I${TL_BASE}/include \
+-I{TL_BASE}/include/TopLoop ${BOOSTINC}
+LDFLAGS  = -L${TL_BASE}/lib ${BOOSTLIB} `root-config --glibs` -lTreePlayer \
 -lboost_filesystem -lboost_system
 LIBSUFFIX = ${LIBSUFFIX}
 
 EOF1
 
-cat > $DT_BASE/Makefile <<EOF2
+cat > $TL_BASE/Makefile <<EOF2
 ###################################################################
 ## DO NOT EDIT                                                   ##
-## Auto Generated Makefile for the DT (Duke Top) library         ##
+## Auto Generated Makefile for the TL (Top Loop) library         ##
 ## configure Author: Douglas Davis < ddavis@phy.duke.edu >       ##
 ##                                 < douglas.davis@cern.ch >     ##
 ###################################################################
 
 include Makefile.common
 
-TARGET  := lib/libDukeTop.\$(LIBSUFFIX)
+TARGET  := lib/libTopLoop.\$(LIBSUFFIX)
 
-HEADERS = include/DukeTop/AnaBase.h include/DukeTop/Job.h \
-include/DukeTop/FileManager.h
+HEADERS = include/TopLoop/AnaBase.h include/TopLoop/Job.h \
+include/TopLoop/FileManager.h
 
 all: \$(TARGET)
 
-\$(TARGET): src/AnaBase.o src/Job.o src/FileManager.o src/DTdict.o
-	-@echo "[DT] Building \$@";\$(CXX) -shared -o \$@ $^ \$(LDFLAGS)
-	-@echo "[DT] Done"
+\$(TARGET): src/AnaBase.o src/Job.o src/FileManager.o src/TLdict.o
+	-@echo "[TL] Building \$@";\$(CXX) -shared -o \$@ $^ \$(LDFLAGS)
+	-@echo "[TL] Done"
 
 
-src/DTdict.o: src/DTdict.cxx \$(HEADERS) include/DukeTop/LinkDef.h
-	-@echo "[DT] Building \$@";\$(CXX) \$(CXXFLAGS) \
--I${DT_BASE}/include/DukeTop -o \$@ -c $<
+src/TLdict.o: src/TLdict.cxx \$(HEADERS) include/TopLoop/LinkDef.h
+	-@echo "[TL] Building \$@";\$(CXX) \$(CXXFLAGS) \
+-I${TL_BASE}/include/TopLoop -o \$@ -c $<
 
-src/DTdict.cxx: \$(HEADERS)
-	-@echo "[DT] Generating \$@";rootcling -f \$@ -I${DT_BASE}/include/DukeTop \
--I${DT_BASE}/include AnaBase.h FileManager.h Job.h Utils.h LinkDef.h
+src/TLdict.cxx: \$(HEADERS)
+	-@echo "[TL] Generating \$@";rootcling -f \$@ -I${TL_BASE}/include/TopLoop \
+-I${TL_BASE}/include AnaBase.h FileManager.h Job.h Utils.h LinkDef.h
 
 src/AnaBase.o: src/AnaBase.cxx \$(HEADERS)
-	-@echo "[DT] Building \$@";\$(CXX) \$(CXXFLAGS) -o \$@ -c $<
+	-@echo "[TL] Building \$@";\$(CXX) \$(CXXFLAGS) -o \$@ -c $<
 
 src/Job.o: src/Job.cxx \$(HEADERS)
-	-@echo "[DT] Building \$@";\$(CXX) \$(CXXFLAGS) -o \$@ -c $<
+	-@echo "[TL] Building \$@";\$(CXX) \$(CXXFLAGS) -o \$@ -c $<
 
 src/FileManager.o: src/FileManager.cxx \$(HEADERS)
-	-@echo "[DT] Building \$@";\$(CXX) \$(CXXFLAGS) -o \$@ -c $<
+	-@echo "[TL] Building \$@";\$(CXX) \$(CXXFLAGS) -o \$@ -c $<
 
 clean:
-	-@\$(RM) src/*.o lib/*.\$(LIBSUFFIX) src/*DTdict*
+	-@\$(RM) src/*.o lib/*.\$(LIBSUFFIX) src/*TLdict*
 
 EOF2

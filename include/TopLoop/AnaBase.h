@@ -1,20 +1,20 @@
 /** @file  AnaBase.h
- *  @brief DT::AnaBase class header
- *  @class DT::AnaBase
+ *  @brief TL::AnaBase class header
+ *  @class TL::AnaBase
  *  @brief Base class for running a
- *         DukeTop analysis algorithm
+ *         TopLoop analysis algorithm
  *
  *  This class is a skeleton for the steps needed
- *  to run a DukeTop algorithm. 
+ *  to run a TopLoop algorithm. 
  *
  *  @author Douglas Davis < douglas.davis@cern.ch >
  */
 
-#ifndef DT_AnaBase_h
-#define DT_AnaBase_h
+#ifndef TL_AnaBase_h
+#define TL_AnaBase_h
 
-// DT
-#include <DukeTop/Utils.h>
+// TL
+#include <TopLoop/Utils.h>
 
 // C++
 #include <string>
@@ -23,17 +23,17 @@
 #include <TTreeReader.h>
 #include <TTreeReaderValue.h>
 
-namespace DT {
+namespace TL {
   class FileManager;
 }
 
-namespace DT {
+namespace TL {
 
   class AnaBase {
 
   protected:
     std::string      m_datasetName;
-    DT::FileManager* m_fm;
+    TL::FileManager* m_fm;
 
     TTreeReader* m_reader;
 
@@ -78,12 +78,12 @@ namespace DT {
     void core_init();
     void init_core_vars();
     
-    virtual DT::STATUS init();
-    virtual DT::STATUS setupOutput();
-    virtual DT::STATUS execute();
-    virtual DT::STATUS finish();
+    virtual TL::STATUS init();
+    virtual TL::STATUS setupOutput();
+    virtual TL::STATUS execute();
+    virtual TL::STATUS finish();
 
-    DT::FileManager* fileManager();
+    TL::FileManager* fileManager();
 
     TTreeReader* reader();
     
@@ -91,7 +91,7 @@ namespace DT {
 
 }
 
-inline DT::FileManager* DT::AnaBase::fileManager() { return m_fm;     }
-inline TTreeReader*     DT::AnaBase::reader()      { return m_reader; }
+inline TL::FileManager* TL::AnaBase::fileManager() { return m_fm;     }
+inline TTreeReader*     TL::AnaBase::reader()      { return m_reader; }
 
 #endif

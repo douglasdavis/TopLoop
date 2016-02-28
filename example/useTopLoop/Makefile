@@ -1,23 +1,23 @@
 include ../../Makefile.common
 
 CXXFLAGS += -Iinclude
-LDFLAGS  += -lDukeTop
+LDFLAGS  += -lTopLoop
 
 MAKELIBDIR := $(shell mkdir -p lib)
 
-LIBTARGET := lib/libmyDukeTop.$(LIBSUFFIX)
+LIBTARGET := lib/libmyTopLoop.$(LIBSUFFIX)
 EXETARGET := use
 
 all: $(LIBTARGET) $(EXETARGET)
 
-$(LIBTARGET): src/MyDukeTopAna.o
+$(LIBTARGET): src/MyTopLoopAna.o
 	-@echo "[Example] Building $@";$(CXX) -shared -o $@ $^ $(LDFLAGS)
 
-src/MyDukeTopAna.o: src/MyDukeTopAna.cxx include/MyDukeTopAna/MyDukeTopAna.h
+src/MyTopLoopAna.o: src/MyTopLoopAna.cxx include/MyTopLoopAna/MyTopLoopAna.h
 	-@echo "[Example] Building $@";$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 $(EXETARGET): util/use.o
-	-@echo "[Example] Building $@";$(CXX) -o $@ $< $(LDFLAGS) -Llib -lmyDukeTop
+	-@echo "[Example] Building $@";$(CXX) -o $@ $< $(LDFLAGS) -Llib -lmyTopLoop
 
 util/use.o: util/use.cpp
 	-@echo "[Example] Building $@";$(CXX) $(CXXFLAGS) -o $@ -c $<

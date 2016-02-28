@@ -1,15 +1,15 @@
-# DukeTop
+# TopLoop
 
-`DukeTop` is a small library inspired by the ASG
+`TopLoop` is a small library inspired by the ASG
 [`EventLoop`](https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/EventLoop)
-package. `DukeTop` is built specifically for analyzing Top group
+package. `TopLoop` is built specifically for analyzing Top group
 ntuples.
 
 ### Authors
 
 * Douglas Davis < [douglas.davis@cern.ch](douglas.davis@cern.ch) >
 
-## Structure of a `DukeTop` algorithm
+## Structure of a `TopLoop` algorithm
 
 Packages will inherit from `DT::AnaBase` (similar to how EventLoop
 algorithms inherit from `EL::Algorithm`). `DT::AnaBase` pointers are
@@ -41,7 +41,7 @@ steps to properly set up the algorithm will likely be required).
 
 ### Building
 
-`DukeTop` currently supports two build methods:
+`TopLoop` currently supports two build methods:
 
 1. CMake
 2. Old school (`./configure; make`)
@@ -53,17 +53,17 @@ with the following structure:
 
     .
     └── WorkingArea
-        ├── DukeTop
-        ├── DukeTopBuild
-        └── DukeTopInstall
+        ├── TopLoop
+        ├── TopLoopBuild
+        └── TopLoopInstall
 
-In the `DukeTopBuild` directory, run:
+In the `TopLoopBuild` directory, run:
 
-    $ cmake -DCMAKE_INSTALL_PREFIX=/path/to/WorkingArea/DukeTopInstall ../DukeTop
+    $ cmake -DCMAKE_INSTALL_PREFIX=/path/to/WorkingArea/TopLoopInstall ../TopLoop
     $ make
     $ make install
 
-This will install the library and headers to `DukeTopInstall/include`
+This will install the library and headers to `TopLoopInstall/include`
 and `Duke/TopInstall/lib`, respectively.  Other folders from the
 package will also be copied over.
 
@@ -73,13 +73,13 @@ CMake, then you need to direct CMake to it's location with the flag
 
 #### Old school
 
-To build with `./configure; make`, in the `DukeTop` directory simply
+To build with `./configure; make`, in the `TopLoop` directory simply
 run
 
     $ ./configure
     $ make
 
-This will install the library to `DukeTop/lib`.  If your Boost
+This will install the library to `TopLoop/lib`.  If your Boost
 installation is not handled by a package manager (i.e. it's not in
 `/usr/local` or `/usr`, you likely need to direct the configure script
 to the include and library directories for your Boost installation:
@@ -94,7 +94,7 @@ the example).
 
 ## Example
 
-One can find an example `DukeTop` algorithm in the `example`
+One can find an example `TopLoop` algorithm in the `example`
 directory.
 
 ## More Details
