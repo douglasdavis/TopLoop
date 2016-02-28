@@ -11,9 +11,9 @@ ntuples.
 
 ## Structure of a `TopLoop` algorithm
 
-Packages will inherit from `DT::AnaBase` (similar to how EventLoop
-algorithms inherit from `EL::Algorithm`). `DT::AnaBase` pointers are
-fed to a `DT::Job` object, where the analysis algorithm is
+Packages will inherit from `TL::AnaBase` (similar to how EventLoop
+algorithms inherit from `EL::Algorithm`). `TL::AnaBase` pointers are
+fed to a `TL::Job` object, where the analysis algorithm is
 executed. At the present time, there are four main functions which a
 user will manipulate for their own uses:
 
@@ -22,13 +22,13 @@ user will manipulate for their own uses:
 * `execute()`: run on each iteration of the event set
 * `finish()`: run after the completion of `execute()`
 
-The base class (`DT::AnaBase`) has these functions declared as
+The base class (`TL::AnaBase`) has these functions declared as
 `virtual`; therefore the user does not need to build a custom version
 in their own analysis. These functions are executed in the above order
-by the `DT::Job::run()` function. The function `execute()` is run
+by the `TL::Job::run()` function. The function `execute()` is run
 inside of a loop over events accessed by ROOT's `TTreeReader`
 class. The user's `main` program simply declares a pointer of their
-algorithm, and feeds the algorithm to a `DT::Job`. (A few inbetween
+algorithm, and feeds the algorithm to a `TL::Job`. (A few inbetween
 steps to properly set up the algorithm will likely be required).
 
 
@@ -64,7 +64,7 @@ In the `TopLoopBuild` directory, run:
     $ make install
 
 This will install the library and headers to `TopLoopInstall/include`
-and `Duke/TopInstall/lib`, respectively.  Other folders from the
+and `TopLoopInstall/lib`, respectively.  Other folders from the
 package will also be copied over.
 
 If your Boost installation location isn't automatically found by
