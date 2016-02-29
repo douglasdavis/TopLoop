@@ -57,18 +57,6 @@ namespace TL {
     TTreeReaderValue<float>*         met_met;
     TTreeReaderValue<float>*         met_phi;
 
-
-    // The below variables are not included in the default top group
-    // ntuple.
-    TTreeReaderValue<UInt_t>* el_n;
-    TTreeReaderValue<UInt_t>* mu_n;
-    TTreeReaderValue<UInt_t>* jet_n;
-    TTreeReaderValue<UInt_t>* ljet_n;
-    TTreeReaderValue<float>*  met_px;
-    TTreeReaderValue<float>*  met_py;
-    TTreeReaderValue<float>*  met_sumet;
-    TTreeReaderValue<float>*  Ht;
-
   public:
     AnaBase();
     virtual ~AnaBase();

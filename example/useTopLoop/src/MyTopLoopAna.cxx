@@ -11,8 +11,9 @@
 #include <TH1D.h>
 
 MyTopLoopAna::MyTopLoopAna() :
-  TL::AnaBase()
-{}
+  TL::AnaBase() {
+  m_singleTopNtuple = false;
+}
 
 MyTopLoopAna::~MyTopLoopAna() {}
 
@@ -21,8 +22,20 @@ TL::STATUS MyTopLoopAna::init() {
   // ALWAYS MUST CALL THIS FUNCTION in init();
   init_core_vars();
 
-  m_eventCounter = 0;
+  if ( m_singleTopNtuple ) {
+    el_n   = new TTreeReaderValue<UInt_t>(*m_reader,"el_n");
+    mu_n   = new TTreeReaderValue<UInt_t>(*m_reader,"mu_n");
+    jet_n  = new TTreeReaderValue<UInt_t>(*m_reader,"jet_n");
 
+    met_px    = new TTreeReaderValue<float>(*m_reader,"met_px");
+    met_py    = new TTreeReaderValue<float>(*m_reader,"met_py");
+    met_sumet = new TTreeReaderValue<float>(*m_reader,"met_sumet");
+
+    Ht = new TTreeReaderValue<float>(*m_reader,"Ht");
+  }
+  
+  m_eventCounter = 0;
+  
   return TL::STATUS::Good;
 }
 
@@ -46,7 +59,7 @@ TL::STATUS MyTopLoopAna::execute() {
     auto eta = boost::get<1>(el);
     auto phi = boost::get<2>(el);
     TLorentzVector tempv;
-    tempv.SetPtEtaPhiM(pt,eta,phi,.511);
+    tempv.SetPtEtaPhiM(pt,eta,phi,0.511);
     total += tempv;
   }
   for ( auto const& mu : TL::zip(*(*mu_pt),*(*mu_eta),*(*mu_phi)) ) {
@@ -54,7 +67,7 @@ TL::STATUS MyTopLoopAna::execute() {
     auto eta = boost::get<1>(mu);
     auto phi = boost::get<2>(mu);
     TLorentzVector tempv;
-    tempv.SetPtEtaPhiM(pt,eta,phi,105.0);
+    tempv.SetPtEtaPhiM(pt,eta,phi,105.7);
     total += tempv;
   }
   for ( auto const& jet : TL::zip(*(*jet_pt),*(*jet_eta),*(*jet_phi),*(*jet_e)) ) {
@@ -70,8 +83,13 @@ TL::STATUS MyTopLoopAna::execute() {
   tempmet.SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
   total += tempmet;
   h_eventMass->Fill(total.M()*TL::TeV);
-  //  auto fillht = (*(*Ht))*TL::TeV;
-  h_eventHt->Fill(0.0);
+  if ( m_singleTopNtuple ) {
+    auto fillht = (*(*Ht))*TL::TeV;
+    h_eventHt->Fill(fillht);
+  }
+  else {
+    h_eventHt->Fill(0.0);
+  }
   if ( total.M() > 100.0e3 && m_eventCounter%10 == 0 ) {
     TL::Info("execute()",
 	     "leptons + jets + MET Invariant mass = "+std::to_string(total.M())+" GeV");

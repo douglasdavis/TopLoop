@@ -43,19 +43,6 @@ void TL::AnaBase::init_core_vars() {
   met_met   = new TTreeReaderValue<float>(*m_reader,"met_met");
   met_phi   = new TTreeReaderValue<float>(*m_reader,"met_phi");
 
-  // These variables are currently commented out as they are not part
-  // of the default top group ntuple. TODO: set a function to init
-  // these variables if called.
-  /*
-    el_n   = new TTreeReaderValue<UInt_t>(*m_reader,"el_n");
-    mu_n   = new TTreeReaderValue<UInt_t>(*m_reader,"mu_n");
-    jet_n  = new TTreeReaderValue<UInt_t>(*m_reader,"jet_n");
-    met_px    = new TTreeReaderValue<float>(*m_reader,"met_px");
-    met_py    = new TTreeReaderValue<float>(*m_reader,"met_py");
-    met_sumet = new TTreeReaderValue<float>(*m_reader,"met_sumet");
-    Ht = new TTreeReaderValue<float>(*m_reader,"Ht");
-  */
-
 }
 
 TL::STATUS TL::AnaBase::init() {
