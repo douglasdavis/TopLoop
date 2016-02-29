@@ -33,6 +33,7 @@ namespace TL {
     virtual ~FileManager();
 
     void setTreeName(const std::string& tn);
+    void initChain();
     
     void feedDir(const std::string& dirpath, const bool take_all=false);
     void feedTxt(const std::string& txtfilename);

@@ -18,17 +18,21 @@
 #include <sstream>
 
 TL::FileManager::FileManager() :
-  m_fileNames(), m_treeName(),  m_rootChain(nullptr) {
+  m_fileNames(), m_treeName("nominal"),  m_rootChain(nullptr) {
 }
 
 TL::FileManager::~FileManager() {}
 
 void TL::FileManager::setTreeName(const std::string& tn) {
   m_treeName  = tn;
-  m_rootChain = new TChain(tn.c_str());
+}
+
+void TL::FileManager::initChain() {
+  m_rootChain = new TChain(m_treeName.c_str());
 }
 
 void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
+  this->initChain();
   TL::Info("FileManager::feedDir()","feeding");
   boost::filesystem::path p(dirpath);
   auto i = boost::filesystem::directory_iterator(p);  
@@ -52,6 +56,7 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
 }
 
 void TL::FileManager::feedTxt(const std::string& txtfilename) {
+  this->initChain();
   std::string line;
   std::ifstream infile(txtfilename);
   while ( std::getline(infile,line) ) {
