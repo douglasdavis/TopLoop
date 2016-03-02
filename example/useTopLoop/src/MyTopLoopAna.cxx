@@ -23,15 +23,15 @@ TL::STATUS MyTopLoopAna::init() {
   init_core_vars();
 
   if ( m_singleTopNtuple ) {
-    el_n   = new TTreeReaderValue<UInt_t>(*m_reader,"el_n");
-    mu_n   = new TTreeReaderValue<UInt_t>(*m_reader,"mu_n");
-    jet_n  = new TTreeReaderValue<UInt_t>(*m_reader,"jet_n");
+    el_n   = new TTreeReaderValue<UInt_t>(*reader(),"el_n");
+    mu_n   = new TTreeReaderValue<UInt_t>(*reader(),"mu_n");
+    jet_n  = new TTreeReaderValue<UInt_t>(*reader(),"jet_n");
 
-    met_px    = new TTreeReaderValue<float>(*m_reader,"met_px");
-    met_py    = new TTreeReaderValue<float>(*m_reader,"met_py");
-    met_sumet = new TTreeReaderValue<float>(*m_reader,"met_sumet");
+    met_px    = new TTreeReaderValue<float>(*reader(),"met_px");
+    met_py    = new TTreeReaderValue<float>(*reader(),"met_py");
+    met_sumet = new TTreeReaderValue<float>(*reader(),"met_sumet");
 
-    Ht = new TTreeReaderValue<float>(*m_reader,"Ht");
+    Ht = new TTreeReaderValue<float>(*reader(),"Ht");
   }
   
   m_eventCounter = 0;
