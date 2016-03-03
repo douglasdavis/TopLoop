@@ -47,6 +47,9 @@ TL::STATUS MyTopLoopAna::setupOutput() {
   // we want to save a histogram to the file
   h_eventMass = new TH1D("eventMass",";Event Mass (TeV);Events/100 GeV",100,0,10);
   h_eventHt   = new TH1D("eventHt",  ";H_{T} (TeV);Events/40 GeV",50,0,2);
+
+  m_outTree = new TTree("nominal_EDM","nominal_EDM");
+  m_outTree->Branch("FinalState",&m_finalState);
   
   return TL::STATUS::Good;
 }
@@ -55,57 +58,43 @@ TL::STATUS MyTopLoopAna::execute() {
   m_eventCounter++;
   TLorentzVector total;
   // ATLAS Boost is old and lame doesn't include boost::combine.
+  // Leaving this code here for one day if they do have it.
   /*
-  for ( auto const& el : TL::zip(*(*el_pt),*(*el_eta),*(*el_phi)) ) {
+    for ( auto const& el : TL::zip(*(*el_pt),*(*el_eta),*(*el_phi)) ) {
     auto pt  = boost::get<0>(el);
     auto eta = boost::get<1>(el);
     auto phi = boost::get<2>(el);
-    TLorentzVector tempv;
-    tempv.SetPtEtaPhiM(pt,eta,phi,0.511);
-    total += tempv;
-  }
-  for ( auto const& mu : TL::zip(*(*mu_pt),*(*mu_eta),*(*mu_phi)) ) {
-    auto pt  = boost::get<0>(mu);
-    auto eta = boost::get<1>(mu);
-    auto phi = boost::get<2>(mu);
-    TLorentzVector tempv;
-    tempv.SetPtEtaPhiM(pt,eta,phi,105.7);
-    total += tempv;
-  }
-  for ( auto const& jet : TL::zip(*(*jet_pt),*(*jet_eta),*(*jet_phi),*(*jet_e)) ) {
-    auto pt  = boost::get<0>(jet);
-    auto eta = boost::get<1>(jet);
-    auto phi = boost::get<2>(jet);
-    auto e   = boost::get<3>(jet);
-    TLorentzVector tempv;
-    tempv.SetPtEtaPhiE(pt,eta,phi,e);
-    total += tempv;
-  }
+    }
   */
   for ( size_t i = 0; i < (*el_pt)->size(); ++ i ) {
     auto pt  = (*el_pt)->at(i);
     auto eta = (*el_eta)->at(i);
     auto phi = (*el_phi)->at(i);
-    TLorentzVector tempv;
-    tempv.SetPtEtaPhiM(pt,eta,phi,0.511);
-    total += tempv;    
+    TL::EDM::Lepton lep;
+    lep.set_pdgId(11);
+    lep.p().SetPtEtaPhiM(pt,eta,phi,0.511);
+    m_finalState.addLepton(lep);
+    total += lep.p();
   }
   for ( size_t i = 0; i < (*mu_pt)->size(); ++ i ) {
     auto pt  = (*mu_pt)->at(i);
     auto eta = (*mu_eta)->at(i);
     auto phi = (*mu_phi)->at(i);
-    TLorentzVector tempv;
-    tempv.SetPtEtaPhiM(pt,eta,phi,105.7);
-    total += tempv;    
+    TL::EDM::Lepton lep;
+    lep.set_pdgId(13);
+    lep.p().SetPtEtaPhiM(pt,eta,phi,105.7);
+    m_finalState.addLepton(lep);
+    total += lep.p();
   }
   for ( size_t i = 0; i < (*jet_pt)->size(); ++ i ) {
     auto pt  = (*jet_pt)->at(i);
     auto eta = (*jet_eta)->at(i);
     auto phi = (*jet_phi)->at(i);
     auto e   = (*jet_e)->at(i);
-    TLorentzVector tempv;
-    tempv.SetPtEtaPhiE(pt,eta,phi,e);
-    total += tempv;
+    TL::EDM::Jet jet;
+    jet.p().SetPtEtaPhiE(pt,eta,phi,e);
+    m_finalState.addJet(jet);
+    total += jet.p();
   }
   
   TLorentzVector tempmet;
@@ -119,10 +108,14 @@ TL::STATUS MyTopLoopAna::execute() {
   else {
     h_eventHt->Fill(0.0);
   }
-  if ( total.M() > 100.0e3 && m_eventCounter%10 == 0 ) {
+  if ( total.M() > 100.0e3 && m_eventCounter%50000 == 0 ) {
     TL::Info("execute()",
 	     "leptons + jets + MET Invariant mass = "+std::to_string(total.M())+" GeV");
   }
+
+  m_outTree->Fill();
+  m_finalState.clear();
+  
   return TL::STATUS::Good;
 }
 
@@ -133,7 +126,7 @@ TL::STATUS MyTopLoopAna::finish() {
   // write histograms to output file
   h_eventMass->Write();
   h_eventHt->Write();
-  
+  m_outTree->Write();
   // close the output file
   m_outputFile->Close();
   

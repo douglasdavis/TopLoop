@@ -58,12 +58,24 @@ ROOT_GENERATE_DICTIONARY(
   LINKDEF include/TopLoop/LinkDef.h
   )
 
+## Generate a dictionary with all
+## headers listed as dependencies
+## for the EDM
+ROOT_GENERATE_DICTIONARY(
+  TopLoopEDMDict
+  include/TopLoop/EDM/Lepton.h
+  include/TopLoop/EDM/Jet.h
+  include/TopLoop/EDM/FinalState.h
+  LINKDEF include/TopLoop/EDM/LinkDef.h
+  )
+
 ## Make a library which will be
 ## called libTopLoop.so/.dylib
 add_library(
   TopLoop SHARED
   ${TopLoop_src}
   TopLoopDict
+  TopLoopEDMDict
   )
 
 ## Link the above library with ROOT libraries
@@ -84,6 +96,10 @@ install(TARGETS TopLoop
   )
 
 install(FILES ${CMAKE_BINARY_DIR}/TopLoopDict_rdict.pcm
+  DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
+  )
+
+install(FILES ${CMAKE_BINARY_DIR}/TopLoopEDMDict_rdict.pcm
   DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
   )
 
