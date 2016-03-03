@@ -54,6 +54,8 @@ TL::STATUS MyTopLoopAna::setupOutput() {
 TL::STATUS MyTopLoopAna::execute() {
   m_eventCounter++;
   TLorentzVector total;
+  // ATLAS Boost is old and lame doesn't include boost::combine.
+  /*
   for ( auto const& el : TL::zip(*(*el_pt),*(*el_eta),*(*el_phi)) ) {
     auto pt  = boost::get<0>(el);
     auto eta = boost::get<1>(el);
@@ -79,6 +81,33 @@ TL::STATUS MyTopLoopAna::execute() {
     tempv.SetPtEtaPhiE(pt,eta,phi,e);
     total += tempv;
   }
+  */
+  for ( size_t i = 0; i < (*el_pt)->size(); ++ i ) {
+    auto pt  = (*el_pt)->at(i);
+    auto eta = (*el_eta)->at(i);
+    auto phi = (*el_phi)->at(i);
+    TLorentzVector tempv;
+    tempv.SetPtEtaPhiM(pt,eta,phi,0.511);
+    total += tempv;    
+  }
+  for ( size_t i = 0; i < (*mu_pt)->size(); ++ i ) {
+    auto pt  = (*mu_pt)->at(i);
+    auto eta = (*mu_eta)->at(i);
+    auto phi = (*mu_phi)->at(i);
+    TLorentzVector tempv;
+    tempv.SetPtEtaPhiM(pt,eta,phi,105.7);
+    total += tempv;    
+  }
+  for ( size_t i = 0; i < (*jet_pt)->size(); ++ i ) {
+    auto pt  = (*jet_pt)->at(i);
+    auto eta = (*jet_eta)->at(i);
+    auto phi = (*jet_phi)->at(i);
+    auto e   = (*jet_e)->at(i);
+    TLorentzVector tempv;
+    tempv.SetPtEtaPhiE(pt,eta,phi,e);
+    total += tempv;
+  }
+  
   TLorentzVector tempmet;
   tempmet.SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
   total += tempmet;
