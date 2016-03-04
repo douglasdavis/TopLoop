@@ -1,7 +1,7 @@
 /** @file  FinalState.h
  *  @brief TL::EDM::FinalState class header
  *  @class TL::EDM::FinalState
- *  @brief An electron object
+ *  @brief A container of final state information
  *
  *  This class is part of the TopLoop event data model (EDM). It
  *  contains the information about a final state.

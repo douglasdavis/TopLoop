@@ -1,7 +1,7 @@
 /** @file  Lepton.h
  *  @brief TL::EDM::Lepton class header
  *  @class TL::EDM::Lepton
- *  @brief An electron object
+ *  @brief A container for electron/muon information.
  *
  *  This class is part of the TopLoop event data model (EDM). It
  *  contains the properties of a lepton.

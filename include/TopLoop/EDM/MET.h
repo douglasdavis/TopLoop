@@ -1,7 +1,7 @@
 /** @file  MET.h
  *  @brief TL::EDM::MET class header
  *  @class TL::EDM::MET
- *  @brief An electron object
+ *  @brief A container for MET information
  *
  *  This class is part of the TopLoop event data model (EDM). It
  *  contains the properties of the missing tranvserse energy.

@@ -1,7 +1,7 @@
 /** @file  Jet.h
  *  @brief TL::EDM::Jet class header
  *  @class TL::EDM::Jet
- *  @brief An electron object
+ *  @brief A container for jet information
  *
  *  This class is part of the TopLoop event data model (EDM). It
  *  contains the properties of a jet.
