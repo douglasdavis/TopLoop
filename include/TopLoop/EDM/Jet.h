@@ -4,7 +4,7 @@
  *  @brief An electron object
  *
  *  This class is part of the TopLoop event data model (EDM). It
- *  contains the characteristics of a jet.
+ *  contains the properties of a jet.
  *
  *  @author Douglas Davis < douglas.davis@cern.ch >
  */

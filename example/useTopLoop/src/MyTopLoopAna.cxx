@@ -57,6 +57,7 @@ TL::STATUS MyTopLoopAna::setupOutput() {
 TL::STATUS MyTopLoopAna::execute() {
   m_eventCounter++;
   TLorentzVector total;
+  total.SetPxPyPzE(0,0,0,0);
   // ATLAS Boost is old and lame doesn't include boost::combine.
   // Leaving this code here for one day if they do have it.
   /*
@@ -96,6 +97,10 @@ TL::STATUS MyTopLoopAna::execute() {
     m_finalState.addJet(jet);
     total += jet.p();
   }
+
+  TL::EDM::MET met;
+  met.p().SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
+  m_finalState.setMET(met);
   
   TLorentzVector tempmet;
   tempmet.SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
@@ -108,9 +113,11 @@ TL::STATUS MyTopLoopAna::execute() {
   else {
     h_eventHt->Fill(0.0);
   }
+  m_finalState.evaluateSelf();
   if ( total.M() > 100.0e3 && m_eventCounter%50000 == 0 ) {
     TL::Info("execute()",
-	     "leptons + jets + MET Invariant mass = "+std::to_string(total.M())+" GeV");
+	     "leptons + jets + MET Invariant mass = "+std::to_string(total.M())+" GeV, "
+	     +std::to_string(m_finalState.M()));
   }
 
   m_outTree->Fill();

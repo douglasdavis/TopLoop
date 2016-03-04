@@ -14,6 +14,7 @@
 
 #include <TopLoop/EDM/Lepton.h>
 #include <TopLoop/EDM/Jet.h>
+#include <TopLoop/EDM/MET.h>
 
 namespace TL {
   namespace EDM {
@@ -22,21 +23,22 @@ namespace TL {
     private:
       std::vector<TL::EDM::Lepton> m_leptons;
       std::vector<TL::EDM::Jet>    m_jets;
-
+      TL::EDM::MET                 m_MET;
+      
       double m_M;
 
       ClassDef(FinalState,1);
       
     public:
-      FinalState() : m_leptons(), m_jets(), m_M(0) {}
+      FinalState() : m_leptons(), m_jets(), m_MET() {}
       virtual ~FinalState() {}
 
       void addLepton(const TL::EDM::Lepton& lep);
       void addJet(const TL::EDM::Jet& jet);
-
-      void clear();
+      void setMET(const TL::EDM::MET& met);
       
-      void set_M(const double m);
+      void evaluateSelf();
+      void clear();
       
       const std::vector<TL::EDM::Lepton>& leptons() const;
       const std::vector<TL::EDM::Jet>&    jets()    const;
@@ -50,10 +52,24 @@ namespace TL {
 
 inline void TL::EDM::FinalState::addLepton(const TL::EDM::Lepton& lep) { m_leptons.emplace_back(lep); }
 inline void TL::EDM::FinalState::addJet(const TL::EDM::Jet& jet)       { m_jets.emplace_back(jet);    }
+inline void TL::EDM::FinalState::setMET(const TL::EDM::MET& met)       { m_MET = met;                 }
 
 inline void TL::EDM::FinalState::clear() {
   m_leptons.clear();
   m_jets.clear();
+}
+
+inline void TL::EDM::FinalState::evaluateSelf() {
+  TLorentzVector eventFourVector;
+  eventFourVector.SetPxPyPzE(0,0,0,0);
+  for ( auto const& lep : m_leptons ) {
+    eventFourVector += lep.p();
+  }
+  for ( auto const& jet : m_jets ) {
+    eventFourVector += jet.p();
+  }
+  eventFourVector += m_MET.p();
+  m_M = eventFourVector.M();
 }
 
 inline const std::vector<TL::EDM::Lepton>& TL::EDM::FinalState::leptons() const { return m_leptons; }
