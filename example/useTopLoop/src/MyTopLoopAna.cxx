@@ -11,9 +11,7 @@
 #include <TH1D.h>
 
 MyTopLoopAna::MyTopLoopAna() :
-  TL::AnaBase() {
-  m_singleTopNtuple = false;
-}
+  TL::AnaBase() {}
 
 MyTopLoopAna::~MyTopLoopAna() {}
 
@@ -21,18 +19,6 @@ TL::STATUS MyTopLoopAna::init() {
   TL::Info("init()","running init()");
   // ALWAYS MUST CALL THIS FUNCTION in init();
   init_core_vars();
-
-  if ( m_singleTopNtuple ) {
-    el_n   = new TTreeReaderValue<UInt_t>(*reader(),"el_n");
-    mu_n   = new TTreeReaderValue<UInt_t>(*reader(),"mu_n");
-    jet_n  = new TTreeReaderValue<UInt_t>(*reader(),"jet_n");
-
-    met_px    = new TTreeReaderValue<float>(*reader(),"met_px");
-    met_py    = new TTreeReaderValue<float>(*reader(),"met_py");
-    met_sumet = new TTreeReaderValue<float>(*reader(),"met_sumet");
-
-    Ht = new TTreeReaderValue<float>(*reader(),"Ht");
-  }
   
   m_eventCounter = 0;
   
@@ -73,6 +59,7 @@ TL::STATUS MyTopLoopAna::execute() {
     auto phi = (*el_phi)->at(i);
     TL::EDM::Lepton lep;
     lep.set_pdgId(11);
+    lep.set_charge((*el_charge)->at(i));
     lep.p().SetPtEtaPhiM(pt,eta,phi,0.511);
     m_finalState.addLepton(lep);
     total += lep.p();
@@ -83,6 +70,7 @@ TL::STATUS MyTopLoopAna::execute() {
     auto phi = (*mu_phi)->at(i);
     TL::EDM::Lepton lep;
     lep.set_pdgId(13);
+    lep.set_charge((*mu_charge)->at(i));
     lep.p().SetPtEtaPhiM(pt,eta,phi,105.7);
     m_finalState.addLepton(lep);
     total += lep.p();
@@ -106,15 +94,8 @@ TL::STATUS MyTopLoopAna::execute() {
   tempmet.SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
   total += tempmet;
   h_eventMass->Fill(total.M()*TL::TeV);
-  if ( m_singleTopNtuple ) {
-    auto fillht = (*(*Ht))*TL::TeV;
-    h_eventHt->Fill(fillht);
-  }
-  else {
-    h_eventHt->Fill(0.0);
-  }
   m_finalState.evaluateSelf();
-  if ( total.M() > 100.0e3 && m_eventCounter%50000 == 0 ) {
+  if ( total.M() > 100.0e3 && m_eventCounter%50 == 0 ) {
     TL::Info("execute()",
 	     "leptons + jets + MET Invariant mass = "+std::to_string(total.M())+" GeV, "
 	     +std::to_string(m_finalState.M()));

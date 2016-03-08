@@ -12,32 +12,33 @@
 #ifndef TL_EDM_Jet_h
 #define TL_EDM_Jet_h
 
-// ROOT
-#include <TLorentzVector.h>
+// TL
+#include <TopLoop/EDM/PhysicsObject.h>
 
 namespace TL {
   namespace EDM {
 
-    class Jet : public TObject {
+    class Jet : public TL::EDM::PhysicsObject {
     private:
-      TLorentzVector m_p;
+      double m_MV1;
 
       ClassDef(Jet,1);
       
     public:
-      Jet() : m_p() {}
+      Jet() : TL::EDM::PhysicsObject(), m_MV1(0) {}
       virtual ~Jet() {}
 
-      TLorentzVector& p();
+      void set_MV1(const double mv1);
 
-      const TLorentzVector& p() const;
-
+      double MV1() const;
+      
     };
 
   }
 }
 
-inline const TLorentzVector& TL::EDM::Jet::p() const { return m_p; }
-inline       TLorentzVector& TL::EDM::Jet::p()       { return m_p; }
+inline void TL::EDM::Jet::set_MV1(const double mv1) { m_MV1 = mv1; }
+
+inline double TL::EDM::Jet::MV1() const { return m_MV1; }
 
 #endif

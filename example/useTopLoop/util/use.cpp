@@ -18,10 +18,9 @@ int main(int argc, char *argv[]) {
     ("feed-dir,d",bpo::value<std::string>(),
      "flag to point the algorithm to a directory containing .root files to loop over.")
     ("feed-dir-all,a",bpo::value<std::string>(),
-     "See --feed-dir, but now take _all_ files in the directory (e.g. will take file.root.2)")
+     "See --feed-dir, but take _all_ files in the directory (e.g. will take file.root.2)")
     ("feed-txt,t",bpo::value<std::string>(),
-     "flag to point the algorithm to a text file containing a list of ROOT files")
-    ("single-top,s","Flag to turn on single top functionality");
+     "flag to point the algorithm to a text file containing a list of ROOT files");
 
   bpo::variables_map vm;
   bpo::store(bpo::parse_command_line(argc,argv,opts),vm);
@@ -41,10 +40,6 @@ int main(int argc, char *argv[]) {
   }
 
   MyTopLoopAna* mdsta = new MyTopLoopAna();
-
-  if ( vm.count("single-top") ) {
-    mdsta->singleTopNtuple();
-  }
   
   if ( vm.count("feed-dir") ) {
     mdsta->fileManager()->feedDir(vm["feed-dir"].as<std::string>());

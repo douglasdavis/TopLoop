@@ -3,6 +3,7 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
+#pragma link C++ class TL::EDM::PhysicsObject+;
 #pragma link C++ class TL::EDM::Jet+;
 #pragma link C++ class TL::EDM::Lepton+;
 #pragma link C++ class std::vector<TL::EDM::Jet>+;

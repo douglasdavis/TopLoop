@@ -19,6 +19,7 @@ add_library(MyTopLoopAna SHARED
 
 target_link_libraries(MyTopLoopAna
   TopLoop
+  TopLoopEDM
   ${ROOT_LIBRARIES}
   TreePlayer
   )
@@ -28,6 +29,7 @@ add_executable(useMyTopLoopAna ${CMAKE_CURRENT_LIST_DIR}/util/use.cpp)
 target_link_libraries(useMyTopLoopAna
   MyTopLoopAna
   TopLoop
+  TopLoopEDM
   ${ROOT_LIBRARIES}
   TreePlayer
   ${Boost_LIBRARIES}

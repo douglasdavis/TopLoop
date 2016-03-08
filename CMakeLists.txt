@@ -76,14 +76,22 @@ add_library(
   TopLoop SHARED
   ${TopLoop_src}
   TopLoopDict
+  )
+
+add_library(
+  TopLoopEDM SHARED
   TopLoopEDMDict
   )
 
-## Link the above library with ROOT libraries
+## Link the above libraries with necessary external libraries
 target_link_libraries(TopLoop
   ${ROOT_LIBRARIES}
   TreePlayer
   ${Boost_LIBRARIES}
+  )
+
+target_link_libraries(TopLoopEDM
+  ${ROOT_LIBRARIES}
   )
 
 ## install desired objects to:
@@ -93,6 +101,10 @@ install(DIRECTORY include/TopLoop
   )
 
 install(TARGETS TopLoop
+  DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
+  )
+
+install(TARGETS TopLoopEDM
   DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
   )
 

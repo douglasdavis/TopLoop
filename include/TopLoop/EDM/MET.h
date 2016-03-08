@@ -12,32 +12,24 @@
 #ifndef TL_EDM_MET_h
 #define TL_EDM_MET_h
 
-// ROOT
-#include <TLorentzVector.h>
+// TL
+#include <TopLoop/EDM/PhysicsObject.h>
 
 namespace TL {
   namespace EDM {
 
-    class MET : public TObject {
+    class MET : public TL::EDM::PhysicsObject {
     private:
-      TLorentzVector m_p;
 
       ClassDef(MET,1);
 
     public:
-      MET() : m_p() {}
+      MET() : TL::EDM::PhysicsObject() {}
       virtual ~MET() {}
-      
-      TLorentzVector& p();
-
-      const TLorentzVector& p() const;
 
     };
 
   }
 }
-
-inline const TLorentzVector& TL::EDM::MET::p() const { return m_p; }
-inline       TLorentzVector& TL::EDM::MET::p()       { return m_p; }
 
 #endif

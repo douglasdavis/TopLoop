@@ -26,7 +26,9 @@ namespace TL {
       TL::EDM::MET                 m_MET;
       
       double m_M;
-
+      size_t m_llidx;
+      size_t m_ljidx;
+      
       ClassDef(FinalState,1);
       
     public:
@@ -45,6 +47,9 @@ namespace TL {
       
       double M() const;
 
+      size_t leadingLeptonIdx() const;
+      size_t leadingJetIdx()    const;
+      
     };
 
   }
@@ -70,11 +75,37 @@ inline void TL::EDM::FinalState::evaluateSelf() {
   }
   eventFourVector += m_MET.p();
   m_M = eventFourVector.M();
+
+  m_llidx = 0;
+  double llpt = m_leptons.at(0).p().Pt();
+  for ( size_t i = 0; i < m_leptons.size(); ++i ) {
+    double cur_pt = m_leptons.at(i).p().Pt();
+    if ( cur_pt > llpt ) {
+      llpt = cur_pt;
+      m_llidx = i;
+    }
+    else { continue; }
+  }
+
+  m_ljidx = 0;
+  double ljpt = m_jets.at(0).p().Pt();
+  for ( size_t i = 0; i < m_jets.size(); ++i ) {
+    double cur_pt = m_jets.at(i).p().Pt();
+    if ( cur_pt > ljpt ) {
+      ljpt = cur_pt;
+      m_ljidx = i;
+    }
+    else { continue; }
+  }
+  
 }
 
 inline const std::vector<TL::EDM::Lepton>& TL::EDM::FinalState::leptons() const { return m_leptons; }
 inline const std::vector<TL::EDM::Jet>&    TL::EDM::FinalState::jets()    const { return m_jets;    }
 
 inline double TL::EDM::FinalState::M() const { return m_M; }
+
+inline size_t TL::EDM::FinalState::leadingLeptonIdx() const { return m_llidx; }
+inline size_t TL::EDM::FinalState::leadingJetIdx()    const { return m_ljidx; }
 
 #endif
