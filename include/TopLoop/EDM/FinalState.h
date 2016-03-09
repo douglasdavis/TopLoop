@@ -88,27 +88,30 @@ inline void TL::EDM::FinalState::evaluateSelf() {
   m_M = eventFourVector.M();
 
   m_llidx = 0;
-  double llpt = m_leptons.at(0).p().Pt();
-  for ( size_t i = 0; i < m_leptons.size(); ++i ) {
-    double cur_pt = m_leptons.at(i).p().Pt();
-    if ( cur_pt > llpt ) {
-      llpt = cur_pt;
-      m_llidx = i;
+  if ( m_leptons.size() > 0 ) {
+    double llpt = m_leptons.at(0).p().Pt();
+    for ( size_t i = 0; i < m_leptons.size(); ++i ) {
+      double cur_pt = m_leptons.at(i).p().Pt();
+      if ( cur_pt > llpt ) {
+	llpt = cur_pt;
+	m_llidx = i;
+      }
+      else { continue; }
     }
-    else { continue; }
   }
 
-  m_ljidx = 0;
-  double ljpt = m_jets.at(0).p().Pt();
-  for ( size_t i = 0; i < m_jets.size(); ++i ) {
-    double cur_pt = m_jets.at(i).p().Pt();
-    if ( cur_pt > ljpt ) {
-      ljpt = cur_pt;
-      m_ljidx = i;
+  if ( m_jets.size() > 0 ) {
+    m_ljidx = 0;
+    double ljpt = m_jets.at(0).p().Pt();
+    for ( size_t i = 0; i < m_jets.size(); ++i ) {
+      double cur_pt = m_jets.at(i).p().Pt();
+      if ( cur_pt > ljpt ) {
+	ljpt = cur_pt;
+	m_ljidx = i;
+      }
+      else { continue; }
     }
-    else { continue; }
-  }
-  
+  }  
 }
 
 inline const std::vector<TL::EDM::Lepton>& TL::EDM::FinalState::leptons() const { return m_leptons; }
