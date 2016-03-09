@@ -12,7 +12,7 @@
 #ifndef TL_EDM_FinalState_h
 #define TL_EDM_FinalState_h
 
-#include <TopLoop/EDM/Lepton.h>
+#include <TopLoop/EDM/LeptonPair.h>
 #include <TopLoop/EDM/Jet.h>
 #include <TopLoop/EDM/MET.h>
 
@@ -24,6 +24,8 @@ namespace TL {
       std::vector<TL::EDM::Lepton> m_leptons;
       std::vector<TL::EDM::Jet>    m_jets;
       TL::EDM::MET                 m_MET;
+
+      std::vector<TL::EDM::LeptonPair> m_leptonPairs;
       
       double m_M;
       size_t m_llidx;
@@ -32,18 +34,24 @@ namespace TL {
       ClassDef(FinalState,1);
       
     public:
-      FinalState() : m_leptons(), m_jets(), m_MET() {}
+      FinalState() :
+	m_leptons(), m_jets(), m_MET(), m_leptonPairs(),
+	m_M(0), m_llidx(0), m_ljidx(0)
+      {}
       virtual ~FinalState() {}
 
       void addLepton(const TL::EDM::Lepton& lep);
       void addJet(const TL::EDM::Jet& jet);
       void setMET(const TL::EDM::MET& met);
+
+      void addLeptonPair(const TL::EDM::LeptonPair& lp);
       
       void evaluateSelf();
       void clear();
       
-      const std::vector<TL::EDM::Lepton>& leptons() const;
-      const std::vector<TL::EDM::Jet>&    jets()    const;
+      const std::vector<TL::EDM::Lepton>&     leptons()     const;
+      const std::vector<TL::EDM::Jet>&        jets()        const;
+      const std::vector<TL::EDM::LeptonPair>& leptonPairs() const;
       
       double M() const;
 
@@ -59,9 +67,12 @@ inline void TL::EDM::FinalState::addLepton(const TL::EDM::Lepton& lep) { m_lepto
 inline void TL::EDM::FinalState::addJet(const TL::EDM::Jet& jet)       { m_jets.emplace_back(jet);    }
 inline void TL::EDM::FinalState::setMET(const TL::EDM::MET& met)       { m_MET = met;                 }
 
+inline void TL::EDM::FinalState::addLeptonPair(const TL::EDM::LeptonPair& lp) { m_leptonPairs.emplace_back(lp); }
+
 inline void TL::EDM::FinalState::clear() {
   m_leptons.clear();
   m_jets.clear();
+  m_leptonPairs.clear();
 }
 
 inline void TL::EDM::FinalState::evaluateSelf() {
@@ -102,6 +113,8 @@ inline void TL::EDM::FinalState::evaluateSelf() {
 
 inline const std::vector<TL::EDM::Lepton>& TL::EDM::FinalState::leptons() const { return m_leptons; }
 inline const std::vector<TL::EDM::Jet>&    TL::EDM::FinalState::jets()    const { return m_jets;    }
+
+inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs() const { return m_leptonPairs; }
 
 inline double TL::EDM::FinalState::M() const { return m_M; }
 

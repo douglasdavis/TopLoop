@@ -85,7 +85,11 @@ TL::STATUS MyTopLoopAna::execute() {
     m_finalState.addJet(jet);
     total += jet.p();
   }
-
+  
+  TL::EDM::LeptonPair lp(m_finalState.leptons().at(0),
+			 m_finalState.leptons().at(1));
+  m_finalState.addLeptonPair(lp);
+  
   TL::EDM::MET met;
   met.p().SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
   m_finalState.setMET(met);
@@ -101,6 +105,19 @@ TL::STATUS MyTopLoopAna::execute() {
 	     +std::to_string(m_finalState.M()));
   }
 
+  if ( m_eventCounter%20 ) {
+    TL::Info("execute()",
+	     std::to_string(m_finalState.leptons().at(0).charge())+" "+
+	     std::to_string(m_finalState.leptons().at(1).charge())+" "+
+	     std::to_string(m_finalState.leptons().at(0).pdgId()) +" "+
+	     std::to_string(m_finalState.leptons().at(1).pdgId()) +" SS "+
+	     std::to_string(m_finalState.leptonPairs().at(0).SS())+" OS "+
+	     std::to_string(m_finalState.leptonPairs().at(0).OS())+" elel "+
+	     std::to_string(m_finalState.leptonPairs().at(0).elel())+" mumu "+
+	     std::to_string(m_finalState.leptonPairs().at(0).mumu())+" elmu "+
+	     std::to_string(m_finalState.leptonPairs().at(0).elmu()));
+  }
+  
   m_outTree->Fill();
   m_finalState.clear();
   

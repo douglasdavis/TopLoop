@@ -66,6 +66,7 @@ ROOT_GENERATE_DICTIONARY(
   include/TopLoop/EDM/Lepton.h
   include/TopLoop/EDM/Jet.h
   include/TopLoop/EDM/MET.h
+  include/TopLoop/EDM/LeptonPair.h
   include/TopLoop/EDM/FinalState.h
   LINKDEF include/TopLoop/EDM/LinkDef.h
   )
