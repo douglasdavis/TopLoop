@@ -88,7 +88,7 @@ inline void TL::EDM::FinalState::evaluateSelf() {
   m_M = eventFourVector.M();
 
   m_llidx = 0;
-  if ( m_leptons.size() > 0 ) {
+  if ( !m_leptons.empty() ) {
     double llpt = m_leptons.at(0).p().Pt();
     for ( size_t i = 0; i < m_leptons.size(); ++i ) {
       double cur_pt = m_leptons.at(i).p().Pt();
@@ -100,7 +100,7 @@ inline void TL::EDM::FinalState::evaluateSelf() {
     }
   }
 
-  if ( m_jets.size() > 0 ) {
+  if ( !m_jets.empty() ) {
     m_ljidx = 0;
     double ljpt = m_jets.at(0).p().Pt();
     for ( size_t i = 0; i < m_jets.size(); ++i ) {
