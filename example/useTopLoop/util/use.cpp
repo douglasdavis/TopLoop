@@ -5,6 +5,7 @@
 
 // C++
 #include <iostream>
+#include <memory>
 
 // Boost
 #include <boost/program_options.hpp>
@@ -39,7 +40,8 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
-  MyTopLoopAna* mdsta = new MyTopLoopAna();
+  //  MyTopLoopAna* mdsta = new MyTopLoopAna();
+  auto mdsta = std::make_unique<MyTopLoopAna>();
   
   if ( vm.count("feed-dir") ) {
     mdsta->fileManager()->feedDir(vm["feed-dir"].as<std::string>());
@@ -53,7 +55,7 @@ int main(int argc, char *argv[]) {
     mdsta->fileManager()->feedTxt(vm["feed-txt"].as<std::string>());
   }
   
-  TL::Job job(mdsta);
+  TL::Job job(&(*mdsta));
   job.run();
 
   return 0;

@@ -19,6 +19,9 @@ TL::STATUS MyTopLoopAna::init() {
   TL::Info("init()","running init()");
   // ALWAYS MUST CALL THIS FUNCTION in init();
   init_core_vars();
+
+  ht      = new TTreeReaderValue<float>(*reader(),"ht");
+  eT_miss = new TTreeReaderValue<float>(*reader(),"eT_miss");
   
   m_eventCounter = 0;
   
@@ -42,8 +45,6 @@ TL::STATUS MyTopLoopAna::setupOutput() {
 
 TL::STATUS MyTopLoopAna::execute() {
   m_eventCounter++;
-  TLorentzVector total;
-  total.SetPxPyPzE(0,0,0,0);
   // ATLAS Boost is old and lame doesn't include boost::combine.
   // Leaving this code here for one day if they do have it.
   /*
@@ -53,6 +54,7 @@ TL::STATUS MyTopLoopAna::execute() {
     auto phi = boost::get<2>(el);
     }
   */
+
   for ( size_t i = 0; i < (*el_pt)->size(); ++ i ) {
     auto pt  = (*el_pt)->at(i);
     auto eta = (*el_eta)->at(i);
@@ -62,7 +64,6 @@ TL::STATUS MyTopLoopAna::execute() {
     lep.set_charge((*el_charge)->at(i));
     lep.p().SetPtEtaPhiM(pt,eta,phi,0.511);
     m_finalState.addLepton(lep);
-    total += lep.p();
   }
   for ( size_t i = 0; i < (*mu_pt)->size(); ++ i ) {
     auto pt  = (*mu_pt)->at(i);
@@ -73,7 +74,6 @@ TL::STATUS MyTopLoopAna::execute() {
     lep.set_charge((*mu_charge)->at(i));
     lep.p().SetPtEtaPhiM(pt,eta,phi,105.7);
     m_finalState.addLepton(lep);
-    total += lep.p();
   }
   for ( size_t i = 0; i < (*jet_pt)->size(); ++ i ) {
     auto pt  = (*jet_pt)->at(i);
@@ -83,7 +83,6 @@ TL::STATUS MyTopLoopAna::execute() {
     TL::EDM::Jet jet;
     jet.p().SetPtEtaPhiE(pt,eta,phi,e);
     m_finalState.addJet(jet);
-    total += jet.p();
   }
 
   if  ( m_finalState.leptons().size() > 1 ) {
@@ -95,41 +94,39 @@ TL::STATUS MyTopLoopAna::execute() {
   TL::EDM::MET met;
   met.p().SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
   m_finalState.setMET(met);
-  
-  TLorentzVector tempmet;
-  tempmet.SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
-  total += tempmet;
-  h_eventMass->Fill(total.M()*TL::TeV);
+
+  h_eventMass->Fill(m_finalState.M()*TL::TeV);
   m_finalState.evaluateSelf();
-  if ( total.M() > 100.0e3 && m_eventCounter%50 == 0 ) {
-    TL::Info("execute()",
-	     "leptons + jets + MET Invariant mass = "+std::to_string(total.M())+" GeV, "
-	     +std::to_string(m_finalState.M()));
-  }
 
   if ( m_finalState.leptons().size() > 1  ) {
-    if ( m_eventCounter%20 ) {
+    if ( m_eventCounter%20000 == 0 ) {
       TL::Info("execute()",
-	       std::to_string(m_finalState.leptons().at(0).charge())+" "+
-	       std::to_string(m_finalState.leptons().at(1).charge())+" "+
-	       std::to_string(m_finalState.leptons().at(0).pdgId()) +" "+
-	       std::to_string(m_finalState.leptons().at(1).pdgId()) +" SS "+
-	       std::to_string(m_finalState.leptonPairs().at(0).SS())+" OS "+
-	       std::to_string(m_finalState.leptonPairs().at(0).OS())+" elel "+
-	       std::to_string(m_finalState.leptonPairs().at(0).elel())+" mumu "+
-	       std::to_string(m_finalState.leptonPairs().at(0).mumu())+" elmu "+
-	       std::to_string(m_finalState.leptonPairs().at(0).elmu()));
+	       met.pT()*TL::GeV - *(*eT_miss), *(*eT_miss), met.pT()*TL::GeV);
+      TL::Info("execute()",
+	       m_finalState.leptons().at(0).charge(),
+	       m_finalState.leptons().at(1).charge(),
+	       m_finalState.leptons().at(0).pdgId(),
+	       m_finalState.leptons().at(1).pdgId(),"SS",
+	       m_finalState.leptonPairs().at(0).SS(),"OS",
+	       m_finalState.leptonPairs().at(0).OS(),"elel",
+	       m_finalState.leptonPairs().at(0).elel(),"mumu",
+	       m_finalState.leptonPairs().at(0).mumu(),"elmu",
+	       m_finalState.leptonPairs().at(0).elmu());
     }
   }
+
+  auto dr_ht = *(*ht);
+
+  h_eventHt->Fill(dr_ht*TL::GeVtoTeV);
   
   m_outTree->Fill();
   m_finalState.clear();
-  
+
   return TL::STATUS::Good;
 }
 
 TL::STATUS MyTopLoopAna::finish() {
-  TL::Info("finish()","Total number of events = "+std::to_string(m_eventCounter));
+  TL::Info("finish()","Total number of events =",m_eventCounter);
   TL::Info("finish()","running finished()");
 
   // write histograms to output file

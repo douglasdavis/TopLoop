@@ -16,9 +16,9 @@ endif()
 option(DEBUGWARN "DEBUGWARN" OFF)
 if(DEBUGWARN)
   message("-- adding -Wall (removing -w)")
-  set(CMAKE_CXX_FLAGS "-g -O2 -std=c++11 -Wall")
+  set(CMAKE_CXX_FLAGS "-g -O2 -std=c++14 -Wall")
 else()
-  set(CMAKE_CXX_FLAGS "-g -O2 -std=c++11 -Wall")
+  set(CMAKE_CXX_FLAGS "-g -O2 -std=c++14 -Wall")
 endif()
 
 ## Some CMake options to set

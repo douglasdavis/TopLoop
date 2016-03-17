@@ -12,6 +12,7 @@
 // C++
 #include <iostream>
 #include <cstdlib>
+#include <utility>
 #include <sstream>
 #include <vector>
 
@@ -22,8 +23,12 @@
 //#define GeV 0.001
 
 namespace TL {
+  // default is MeV to other
   const double TeV = 1.0e-6;
   const double GeV = 1.0e-3;
+
+  // for variables specifically already in GeV
+  const double GeVtoTeV = 1.0e-3;
   
   enum STATUS {
     Good,
@@ -35,8 +40,8 @@ namespace TL {
   // boost::combine isn't available on ATLAS provided Boost versions
   // Lame.
   /*
-  template<class... containers>
-  auto zip(containers&... conts) -> decltype(boost::combine(conts...));
+    template<class... containers>
+    auto zip(containers&... conts) -> decltype(boost::combine(conts...));
   */
   
   auto string_split(const std::string &s, char delim, std::vector<std::string> &elems)
@@ -44,9 +49,18 @@ namespace TL {
   auto string_split(const std::string &s, char delim)
     -> std::vector<std::string>;
 
-  void Warning(const std::string& fname, const std::string& msg);
-  void Info(const std::string& fname, const std::string& msg);
-  void Fatal(const std::string& msg);
+  template <typename Arg, typename... Args>
+  void TopPrint(std::ostream& out, Arg&& arg, Args&&... args);
+
+  template <typename Arg, typename... Args>
+  void Info(Arg&& arg, Args&&... args);
+
+  template <typename Arg, typename... Args>
+  void Warning(Arg&& arg, Args&&... args);
+
+  template <typename Arg, typename... Args>
+  void Fatal(Arg&& arg, Args&&... args);
+
 }
 
 // boost::combine isn't available on ATLAS provided Boost versions
@@ -75,16 +89,27 @@ inline auto TL::string_split(const std::string &s, char delim)
   return elems;
 }
 
-inline void TL::Info(const std::string& fname, const std::string& msg) {
-  std::cout << "TopLoop:\tINFO:      "+fname+": "+msg << std::endl;
+template <typename Arg, typename... Args>
+inline void TL::TopPrint(std::ostream& out, Arg&& arg, Args&&... args) {
+  out << "TopLoop:\t" << std::forward<Arg>(arg);
+  using expander = int[];
+  (void)expander{0, (void(out << ' ' << std::forward<Args>(args)),0)...};
+  out << std::endl;
 }
 
-inline void TL::Warning(const std::string& fname, const std::string& msg) {
-  std::cout << "TopLoop:\tWARNING:   "+fname+": "+msg << std::endl;
+template<typename Arg, typename... Args>
+inline void TL::Info(Arg&& arg, Args&&... args) {
+  TopPrint(std::cout,"INFO\t",arg,"\t",args...);
 }
 
-inline void TL::Fatal(const std::string& msg) {
-  std::cerr << "TopLoop:\tFATAL:     "+msg << std::endl;
+template<typename Arg, typename... Args>
+inline void TL::Warning(Arg&& arg, Args&&... args) {
+  TopPrint(std::cout,"WARNING\t",arg,"\t",args...);
+}
+
+template<typename Arg, typename... Args>
+inline void TL::Fatal(Arg&& arg, Args&&... args) {
+  TopPrint(std::cerr,"FATAL\t",arg,"\t",args...);
   std::exit(EXIT_FAILURE);
 }
 

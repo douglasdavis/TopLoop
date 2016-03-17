@@ -25,7 +25,8 @@ void TL::Job::run() {
   }
 
   if ( m_analysis->finish() == TL::STATUS::Good ) {}
-  else
+  else {
     TL::Fatal("your finish() returned TL::STATUS::Fail");
+  }
 
 }

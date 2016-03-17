@@ -25,7 +25,8 @@ private:
   
   // The below variables are not included in the default top group
   // ntuple, therefore we include them in our own algorithm
-  TTreeReaderValue<float>*  Ht;
+  TTreeReaderValue<float>*  ht;
+  TTreeReaderValue<float>*  eT_miss;
 
 public:
   MyTopLoopAna();
