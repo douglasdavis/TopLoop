@@ -85,12 +85,6 @@ TL::STATUS MyTopLoopAna::execute() {
     m_finalState.addJet(jet);
   }
 
-  if  ( m_finalState.leptons().size() > 1 ) {
-    TL::EDM::LeptonPair lp(m_finalState.leptons().at(0),
-			   m_finalState.leptons().at(1));
-    m_finalState.addLeptonPair(lp);
-  }
-  
   TL::EDM::MET met;
   met.p().SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
   m_finalState.setMET(met);
@@ -99,9 +93,11 @@ TL::STATUS MyTopLoopAna::execute() {
   m_finalState.evaluateSelf();
 
   if ( m_finalState.leptons().size() > 1  ) {
-    if ( m_eventCounter%20000 == 0 ) {
+    if ( m_eventCounter%2000 == 0 ) {
       TL::Info("execute()",
-	       met.pT()*TL::GeV - *(*eT_miss), *(*eT_miss), met.pT()*TL::GeV);
+	       met.pT()*TL::GeV - *(*eT_miss),
+	       *(*eT_miss),
+	       met.pT()*TL::GeV);
       TL::Info("execute()",
 	       m_finalState.leptons().at(0).charge(),
 	       m_finalState.leptons().at(1).charge(),
@@ -126,8 +122,8 @@ TL::STATUS MyTopLoopAna::execute() {
 }
 
 TL::STATUS MyTopLoopAna::finish() {
-  TL::Info("finish()","Total number of events =",m_eventCounter);
   TL::Info("finish()","running finished()");
+  TL::Info("finish()","Total number of events =",m_eventCounter);
 
   // write histograms to output file
   h_eventMass->Write();

@@ -45,7 +45,10 @@ namespace TL {
       void setMET(const TL::EDM::MET& met);
 
       void addLeptonPair(const TL::EDM::LeptonPair& lp);
-      
+
+      void addLeptonPairs(const std::initializer_list<TL::EDM::LeptonPair>& lps);
+
+      void evaluateLepPairs();
       void evaluateSelf();
       void clear();
       
@@ -69,13 +72,45 @@ inline void TL::EDM::FinalState::setMET(const TL::EDM::MET& met)       { m_MET =
 
 inline void TL::EDM::FinalState::addLeptonPair(const TL::EDM::LeptonPair& lp) { m_leptonPairs.emplace_back(lp); }
 
+inline void TL::EDM::FinalState::addLeptonPairs(const std::initializer_list<TL::EDM::LeptonPair>& lps) {
+  for ( auto const& lp : lps ) {
+    m_leptonPairs.emplace_back(lp);
+  }
+}
+
 inline void TL::EDM::FinalState::clear() {
   m_leptons.clear();
   m_jets.clear();
   m_leptonPairs.clear();
 }
 
+inline void TL::EDM::FinalState::evaluateLepPairs() {
+  if  ( m_leptons.size() > 1 ) {
+    TL::EDM::LeptonPair lp(m_leptons.at(0),
+			   m_leptons.at(1));
+    addLeptonPair(lp);
+    if ( m_leptons.size() > 2 ) {
+      TL::EDM::LeptonPair lp2(m_leptons.at(0),
+			      m_leptons.at(2));
+      TL::EDM::LeptonPair lp3(m_leptons.at(1),
+			      m_leptons.at(2));
+      addLeptonPairs({lp2,lp3});
+      if ( m_leptons.size() > 3 ) {
+	TL::EDM::LeptonPair lp4(m_leptons.at(0),
+				m_leptons.at(3));
+	TL::EDM::LeptonPair lp5(m_leptons.at(1),
+				m_leptons.at(3));
+	TL::EDM::LeptonPair lp6(m_leptons.at(2),
+				m_leptons.at(3));
+	addLeptonPairs({lp4,lp5,lp6});
+      }
+    }
+  }
+}
+
 inline void TL::EDM::FinalState::evaluateSelf() {
+  evaluateLepPairs();
+
   TLorentzVector eventFourVector;
   eventFourVector.SetPxPyPzE(0,0,0,0);
   for ( auto const& lep : m_leptons ) {
