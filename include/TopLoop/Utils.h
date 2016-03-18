@@ -17,7 +17,7 @@
 #include <vector>
 
 // boost
-// #include <boost/range/combine.hpp>
+#include <boost/range/combine.hpp>
 
 //#define TeV 0.000001
 //#define GeV 0.001
@@ -37,12 +37,9 @@ namespace TL {
 }
 
 namespace TL {
-  // boost::combine isn't available on ATLAS provided Boost versions
-  // Lame.
-  /*
-    template<class... containers>
-    auto zip(containers&... conts) -> decltype(boost::combine(conts...));
-  */
+
+  template<class... containers>
+  auto zip(containers&... conts) -> decltype(boost::combine(conts...));
   
   auto string_split(const std::string &s, char delim, std::vector<std::string> &elems)
     ->  std::vector<std::string>& ;
@@ -63,14 +60,10 @@ namespace TL {
 
 }
 
-// boost::combine isn't available on ATLAS provided Boost versions
-// Lame.
-/*
-  template<class... containers>
-  inline auto TL::zip(containers&... conts) -> decltype(boost::combine(conts...)) {
+template<class... containers>
+inline auto TL::zip(containers&... conts) -> decltype(boost::combine(conts...)) {
   return boost::combine(conts...);
-  }
-*/
+}
 
 inline auto TL::string_split(const std::string &s, char delim, std::vector<std::string> &elems)
   -> std::vector<std::string>& {
