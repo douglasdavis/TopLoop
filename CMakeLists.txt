@@ -41,6 +41,7 @@ link_directories("${Boost_LIBRARY_DIR}")
 include_directories("${CMAKE_SOURCE_DIR}")
 include_directories("${CMAKE_SOURCE_DIR}/include")
 include_directories("${CMAKE_SOURCE_DIR}/include/TopLoop")
+include_directories("${CMAKE_SOURCE_DIR}/include/TopLoopEDM")
 
 ## Define a list of all src files
 file(GLOB TopLoop_src
@@ -63,12 +64,12 @@ ROOT_GENERATE_DICTIONARY(
 ## for the EDM
 ROOT_GENERATE_DICTIONARY(
   TopLoopEDMDict
-  include/TopLoop/EDM/Lepton.h
-  include/TopLoop/EDM/Jet.h
-  include/TopLoop/EDM/MET.h
-  include/TopLoop/EDM/LeptonPair.h
-  include/TopLoop/EDM/FinalState.h
-  LINKDEF include/TopLoop/EDM/LinkDef.h
+  include/TopLoopEDM/Lepton.h
+  include/TopLoopEDM/Jet.h
+  include/TopLoopEDM/MET.h
+  include/TopLoopEDM/LeptonPair.h
+  include/TopLoopEDM/FinalState.h
+  LINKDEF include/TopLoopEDM/LinkDef.h
   )
 
 ## Make a library which will be
@@ -98,6 +99,10 @@ target_link_libraries(TopLoopEDM
 ## install desired objects to:
 ## -DCMAKE_INSTALL_PREFIX=[this dir]
 install(DIRECTORY include/TopLoop
+  DESTINATION "${CMAKE_INSTALL_PREFIX}/include"
+  )
+
+install(DIRECTORY include/TopLoopEDM
   DESTINATION "${CMAKE_INSTALL_PREFIX}/include"
   )
 

@@ -13,7 +13,7 @@
 #define TL_EDM_Jet_h
 
 // TL
-#include <TopLoop/EDM/PhysicsObject.h>
+#include <TopLoopEDM/PhysicsObject.h>
 
 namespace TL {
   namespace EDM {

@@ -1,5 +1,6 @@
 include_directories("${CMAKE_CURRENT_LIST_DIR}/include")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/include/TopLoop")
+include_directories("${CMAKE_CURRENT_LIST_DIR}/include/TopLoopEDM")
 include_directories("${CMAKE_CURRENT_LIST_DIR}")
 
 file(GLOB MyTopLoopAna_src
@@ -45,6 +46,11 @@ install(TARGETS MyTopLoopAna
 
 install(TARGETS useMyTopLoopAna
   DESTINATION "${CMAKE_INSTALL_PREFIX}/bin"
+  )
+
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/python
+  DESTINATION "${CMAKE_INSTALL_PREFIX}/bin"
+  USE_SOURCE_PERMISSIONS
   )
 
 install(FILES ${CMAKE_BINARY_DIR}/example/useTopLoop/MyTopLoopAnaDict_rdict.pcm

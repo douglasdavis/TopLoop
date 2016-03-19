@@ -13,11 +13,12 @@
 #define TL_EDM_LeptonPair_h
 
 // TL
-#include <TopLoop/EDM/Lepton.h>
+#include <TopLoopEDM/Lepton.h>
 
 // C++
 #include <cmath>
 #include <iostream>
+#include <utility>
 
 namespace TL {
   namespace EDM {
@@ -33,6 +34,8 @@ namespace TL {
       bool   m_elel;
       bool   m_mumu;
       bool   m_elmu;
+
+      std::pair<size_t,size_t> m_idxp;
       
       ClassDef(LeptonPair,1);
       
@@ -40,7 +43,9 @@ namespace TL {
       
       LeptonPair() {}
       LeptonPair(const TL::EDM::Lepton& lep1,
-		 const TL::EDM::Lepton& lep2) {
+		 const TL::EDM::Lepton& lep2,
+		 const size_t idxf, const size_t idxs) {
+	m_idxp = std::make_pair(idxf,idxs);
 	m_p = lep1.p() + lep2.p();
 	m_deltaR   = lep1.p().DeltaR(lep2.p());
 	m_deltaEta = lep1.p().Eta() - lep2.p().Eta();
@@ -92,6 +97,11 @@ namespace TL {
       bool mumu() const;
       bool elel() const;
       bool elmu() const;
+
+      const std::pair<size_t,size_t>& indexPair() const;
+
+      size_t firstIdx()  const;
+      size_t secondIdx() const;
       
     };
 
@@ -107,5 +117,9 @@ inline bool TL::EDM::LeptonPair::OS()   const { return m_OS;   }
 inline bool TL::EDM::LeptonPair::mumu() const { return m_mumu; }
 inline bool TL::EDM::LeptonPair::elel() const { return m_elel; }
 inline bool TL::EDM::LeptonPair::elmu() const { return m_elmu; }
+
+inline const std::pair<size_t,size_t>& TL::EDM::LeptonPair::indexPair() const { return m_idxp; }
+inline size_t TL::EDM::LeptonPair::firstIdx()  const { return m_idxp.first;  }
+inline size_t TL::EDM::LeptonPair::secondIdx() const { return m_idxp.second; }
 
 #endif

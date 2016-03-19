@@ -12,9 +12,9 @@
 #ifndef TL_EDM_FinalState_h
 #define TL_EDM_FinalState_h
 
-#include <TopLoop/EDM/LeptonPair.h>
-#include <TopLoop/EDM/Jet.h>
-#include <TopLoop/EDM/MET.h>
+#include <TopLoopEDM/LeptonPair.h>
+#include <TopLoopEDM/Jet.h>
+#include <TopLoopEDM/MET.h>
 
 namespace TL {
   namespace EDM {
@@ -87,21 +87,21 @@ inline void TL::EDM::FinalState::clear() {
 inline void TL::EDM::FinalState::evaluateLepPairs() {
   if  ( m_leptons.size() > 1 ) {
     TL::EDM::LeptonPair lp(m_leptons.at(0),
-			   m_leptons.at(1));
+			   m_leptons.at(1),0,1);
     addLeptonPair(lp);
     if ( m_leptons.size() > 2 ) {
       TL::EDM::LeptonPair lp2(m_leptons.at(0),
-			      m_leptons.at(2));
+			      m_leptons.at(2),0,2);
       TL::EDM::LeptonPair lp3(m_leptons.at(1),
-			      m_leptons.at(2));
+			      m_leptons.at(2),1,2);
       addLeptonPairs({lp2,lp3});
       if ( m_leptons.size() > 3 ) {
 	TL::EDM::LeptonPair lp4(m_leptons.at(0),
-				m_leptons.at(3));
+				m_leptons.at(3),0,3);
 	TL::EDM::LeptonPair lp5(m_leptons.at(1),
-				m_leptons.at(3));
+				m_leptons.at(3),1,3);
 	TL::EDM::LeptonPair lp6(m_leptons.at(2),
-				m_leptons.at(3));
+				m_leptons.at(3),2,3);
 	addLeptonPairs({lp4,lp5,lp6});
       }
     }
