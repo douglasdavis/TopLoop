@@ -14,6 +14,7 @@
 
 // TL
 #include <TopLoopEDM/Lepton.h>
+#include <TopLoop/Utils.h>
 
 // C++
 #include <cmath>
@@ -26,9 +27,9 @@ namespace TL {
     class LeptonPair : public TL::EDM::PhysicsObject {
     private:
 
-      double m_deltaR;
-      double m_deltaPhi;
-      double m_deltaEta;
+      float  m_deltaR;
+      float  m_deltaPhi;
+      float  m_deltaEta;
       bool   m_SS;
       bool   m_OS;
       bool   m_elel;
@@ -70,7 +71,7 @@ namespace TL {
 	  m_elel = true;
 	}
 	else {
-	  std::cout << "Unexpected pdg sum" << std::endl;
+	  TL::Warning("LeptonPair()","Bad PDG sum!",pdgsum);
 	}
 
 	if ( chargesum == 0 ) {
@@ -82,15 +83,15 @@ namespace TL {
 	  m_OS = false;
 	}
 	else {
-	  std::cout << "Unexpected charge sum" << std::endl;
+	  TL::Warning("LeptonPair()","Unexpected charge sum!",chargesum);
 	}
       }
 
       virtual ~LeptonPair() {}
 
-      double deltaR()   const;
-      double deltaPhi() const;
-      double deltaEta() const;
+      float deltaR()   const;
+      float deltaPhi() const;
+      float deltaEta() const;
 
       bool SS()   const;
       bool OS()   const;
@@ -108,9 +109,9 @@ namespace TL {
   }
 }
 
-inline double TL::EDM::LeptonPair::deltaR()   const { return m_deltaR;   }
-inline double TL::EDM::LeptonPair::deltaPhi() const { return m_deltaPhi; }
-inline double TL::EDM::LeptonPair::deltaEta() const { return m_deltaEta; }
+inline float TL::EDM::LeptonPair::deltaR()   const { return m_deltaR;   }
+inline float TL::EDM::LeptonPair::deltaPhi() const { return m_deltaPhi; }
+inline float TL::EDM::LeptonPair::deltaEta() const { return m_deltaEta; }
 
 inline bool TL::EDM::LeptonPair::SS()   const { return m_SS;   }
 inline bool TL::EDM::LeptonPair::OS()   const { return m_OS;   }

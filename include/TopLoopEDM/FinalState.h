@@ -27,7 +27,7 @@ namespace TL {
 
       std::vector<TL::EDM::LeptonPair> m_leptonPairs;
       
-      double m_M;
+      float  m_M;
       size_t m_llidx;
       size_t m_ljidx;
       
@@ -56,7 +56,7 @@ namespace TL {
       const std::vector<TL::EDM::Jet>&        jets()        const;
       const std::vector<TL::EDM::LeptonPair>& leptonPairs() const;
       
-      double M() const;
+      float M() const;
 
       size_t leadingLeptonIdx() const;
       size_t leadingJetIdx()    const;
@@ -70,7 +70,9 @@ inline void TL::EDM::FinalState::addLepton(const TL::EDM::Lepton& lep) { m_lepto
 inline void TL::EDM::FinalState::addJet(const TL::EDM::Jet& jet)       { m_jets.emplace_back(jet);    }
 inline void TL::EDM::FinalState::setMET(const TL::EDM::MET& met)       { m_MET = met;                 }
 
-inline void TL::EDM::FinalState::addLeptonPair(const TL::EDM::LeptonPair& lp) { m_leptonPairs.emplace_back(lp); }
+inline void TL::EDM::FinalState::addLeptonPair(const TL::EDM::LeptonPair& lp) {
+  m_leptonPairs.emplace_back(lp);
+}
 
 inline void TL::EDM::FinalState::addLeptonPairs(const std::initializer_list<TL::EDM::LeptonPair>& lps) {
   for ( auto const& lp : lps ) {
@@ -124,9 +126,9 @@ inline void TL::EDM::FinalState::evaluateSelf() {
 
   m_llidx = 0;
   if ( !m_leptons.empty() ) {
-    double llpt = m_leptons.at(0).p().Pt();
+    auto llpt = m_leptons.at(0).pT();
     for ( size_t i = 0; i < m_leptons.size(); ++i ) {
-      double cur_pt = m_leptons.at(i).p().Pt();
+      auto cur_pt = m_leptons.at(i).pT();
       if ( cur_pt > llpt ) {
 	llpt = cur_pt;
 	m_llidx = i;
@@ -137,9 +139,9 @@ inline void TL::EDM::FinalState::evaluateSelf() {
 
   if ( !m_jets.empty() ) {
     m_ljidx = 0;
-    double ljpt = m_jets.at(0).p().Pt();
+    auto ljpt = m_jets.at(0).pT();
     for ( size_t i = 0; i < m_jets.size(); ++i ) {
-      double cur_pt = m_jets.at(i).p().Pt();
+      auto cur_pt = m_jets.at(i).pT();
       if ( cur_pt > ljpt ) {
 	ljpt = cur_pt;
 	m_ljidx = i;
@@ -154,7 +156,7 @@ inline const std::vector<TL::EDM::Jet>&    TL::EDM::FinalState::jets()    const 
 
 inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs() const { return m_leptonPairs; }
 
-inline double TL::EDM::FinalState::M() const { return m_M; }
+inline float TL::EDM::FinalState::M() const { return m_M; }
 
 inline size_t TL::EDM::FinalState::leadingLeptonIdx() const { return m_llidx; }
 inline size_t TL::EDM::FinalState::leadingJetIdx()    const { return m_ljidx; }

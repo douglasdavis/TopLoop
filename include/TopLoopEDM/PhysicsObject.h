@@ -33,14 +33,14 @@ namespace TL {
 
       const TLorentzVector& p() const;
 
-      double pT()  const;
-      double eta() const;
-      double phi() const;
-      double E()   const;
-      double m()   const;
-      double px()  const;
-      double py()  const;
-      double pz()  const;
+      float pT()  const;
+      float eta() const;
+      float phi() const;
+      float E()   const;
+      float m()   const;
+      float px()  const;
+      float py()  const;
+      float pz()  const;
       
     };
 
@@ -50,13 +50,13 @@ namespace TL {
 inline const TLorentzVector& TL::EDM::PhysicsObject::p() const { return m_p; }
 inline       TLorentzVector& TL::EDM::PhysicsObject::p()       { return m_p; }
 
-inline double TL::EDM::PhysicsObject::pT()  const { return m_p.Pt();  }
-inline double TL::EDM::PhysicsObject::eta() const { return m_p.Eta(); }
-inline double TL::EDM::PhysicsObject::phi() const { return m_p.Phi(); }
-inline double TL::EDM::PhysicsObject::E()   const { return m_p.E();   }
-inline double TL::EDM::PhysicsObject::m()   const { return m_p.M();   }
-inline double TL::EDM::PhysicsObject::px()  const { return m_p.Px();  }
-inline double TL::EDM::PhysicsObject::py()  const { return m_p.Py();  }
-inline double TL::EDM::PhysicsObject::pz()  const { return m_p.Pz();  }
+inline float TL::EDM::PhysicsObject::pT()  const { return m_p.Pt();  }
+inline float TL::EDM::PhysicsObject::eta() const { return m_p.Eta(); }
+inline float TL::EDM::PhysicsObject::phi() const { return m_p.Phi(); }
+inline float TL::EDM::PhysicsObject::E()   const { return m_p.E();   }
+inline float TL::EDM::PhysicsObject::m()   const { return m_p.M();   }
+inline float TL::EDM::PhysicsObject::px()  const { return m_p.Px();  }
+inline float TL::EDM::PhysicsObject::py()  const { return m_p.Py();  }
+inline float TL::EDM::PhysicsObject::pz()  const { return m_p.Pz();  }
 
 #endif

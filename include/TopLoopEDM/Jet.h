@@ -20,7 +20,7 @@ namespace TL {
 
     class Jet : public TL::EDM::PhysicsObject {
     private:
-      double m_MV1;
+      float m_MV1;
 
       ClassDef(Jet,1);
       
@@ -28,17 +28,17 @@ namespace TL {
       Jet() : TL::EDM::PhysicsObject(), m_MV1(0) {}
       virtual ~Jet() {}
 
-      void set_MV1(const double mv1);
+      void set_MV1(const float mv1);
 
-      double MV1() const;
+      float MV1() const;
       
     };
 
   }
 }
 
-inline void TL::EDM::Jet::set_MV1(const double mv1) { m_MV1 = mv1; }
+inline void TL::EDM::Jet::set_MV1(const float mv1) { m_MV1 = mv1; }
 
-inline double TL::EDM::Jet::MV1() const { return m_MV1; }
+inline float TL::EDM::Jet::MV1() const { return m_MV1; }
 
 #endif
