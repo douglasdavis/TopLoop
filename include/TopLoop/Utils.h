@@ -16,6 +16,21 @@
 #include <sstream>
 #include <vector>
 
+// for std::unique_ptr
+#include <memory>
+
+namespace std {
+  //! An implementation of std::make_unique
+  /*!
+    Since c++11 does not have std::make_unique,
+    we implement a version of it in c++11 here.
+  */
+  template<typename T, typename... Args>
+  std::unique_ptr<T> make_unique(Args&&... args) {
+    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+  }
+}
+
 // boost
 #include <boost/range/combine.hpp>
 

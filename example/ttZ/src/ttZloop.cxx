@@ -1,5 +1,5 @@
 // TL
-#include <MyTopLoopAna/MyTopLoopAna.h>
+#include <ttZloop/ttZloop.h>
 #include <TopLoop/Utils.h>
 
 // C++
@@ -10,25 +10,32 @@
 #include <TFile.h>
 #include <TH1D.h>
 
-MyTopLoopAna::MyTopLoopAna() :
+ttZloop::ttZloop() :
   TL::AnaBase() {}
 
-MyTopLoopAna::~MyTopLoopAna() {}
+ttZloop::~ttZloop() {}
 
-TL::STATUS MyTopLoopAna::init() {
+TL::STATUS ttZloop::init() {
   TL::Info("init()","running init()");
   // ALWAYS MUST CALL THIS FUNCTION in init();
   init_core_vars();
+
+  ht      = new TTreeReaderValue<float>(*reader(),"ht");
+  eT_miss = new TTreeReaderValue<float>(*reader(),"eT_miss");
   
   m_eventCounter = 0;
   
   return TL::STATUS::Good;
 }
 
-TL::STATUS MyTopLoopAna::setupOutput() {
-
+TL::STATUS ttZloop::setupOutput() {
+  
   // setting up a ROOT file to output at the end of the job
-  m_outputFile = new TFile("out.root","recreate");
+  m_outputFile = new TFile(m_outfileName.c_str(),"recreate");
+
+  // we want to save a histogram to the file
+  h_eventMass = new TH1D("eventMass",";Event Mass (TeV);Events/100 GeV",100,0,10);
+  h_eventHt   = new TH1D("eventHt",  ";H_{T} (TeV);Events/40 GeV",50,0,2);
 
   m_outTree = new TTree("nominal_EDM","nominal_EDM");
   m_outTree->Branch("FinalState",&m_finalState);
@@ -36,8 +43,17 @@ TL::STATUS MyTopLoopAna::setupOutput() {
   return TL::STATUS::Good;
 }
 
-TL::STATUS MyTopLoopAna::execute() {
+TL::STATUS ttZloop::execute() {
   m_eventCounter++;
+  // ATLAS Boost is old and lame doesn't include boost::combine.
+  // Leaving this code here for one day if they do have it.
+  /*
+    for ( auto const& el : TL::zip(*(*el_pt),*(*el_eta),*(*el_phi)) ) {
+    auto pt  = boost::get<0>(el);
+    auto eta = boost::get<1>(el);
+    auto phi = boost::get<2>(el);
+    }
+  */
 
   for ( size_t i = 0; i < (*el_pt)->size(); ++ i ) {
     auto pt  = (*el_pt)->at(i);
@@ -73,7 +89,31 @@ TL::STATUS MyTopLoopAna::execute() {
   met.p().SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
   m_finalState.setMET(met);
 
+  h_eventMass->Fill(m_finalState.M()*TL::TeV);
   m_finalState.evaluateSelf();
+
+  if ( m_finalState.leptons().size() > 1  ) {
+    if ( m_eventCounter%2000 == 0 ) {
+      TL::Info("execute()",
+	       met.pT()*TL::GeV - *(*eT_miss),
+	       *(*eT_miss),
+	       met.pT()*TL::GeV);
+      TL::Info("execute()",
+	       m_finalState.leptons().at(0).charge(),
+	       m_finalState.leptons().at(1).charge(),
+	       m_finalState.leptons().at(0).pdgId(),
+	       m_finalState.leptons().at(1).pdgId(),"SS",
+	       m_finalState.leptonPairs().at(0).SS(),"OS",
+	       m_finalState.leptonPairs().at(0).OS(),"elel",
+	       m_finalState.leptonPairs().at(0).elel(),"mumu",
+	       m_finalState.leptonPairs().at(0).mumu(),"elmu",
+	       m_finalState.leptonPairs().at(0).elmu());
+    }
+  }
+
+  auto dr_ht = *(*ht);
+
+  h_eventHt->Fill(dr_ht*TL::GeVtoTeV);
   
   m_outTree->Fill();
   m_finalState.clear();
@@ -81,11 +121,15 @@ TL::STATUS MyTopLoopAna::execute() {
   return TL::STATUS::Good;
 }
 
-TL::STATUS MyTopLoopAna::finish() {
+TL::STATUS ttZloop::finish() {
   TL::Info("finish()","running finished()");
   TL::Info("finish()","Total number of events =",m_eventCounter);
 
+  // write histograms to output file
+  h_eventMass->Write();
+  h_eventHt->Write();
   m_outTree->Write();
+  // close the output file
   m_outputFile->Close();
   
   return TL::STATUS::Good;
