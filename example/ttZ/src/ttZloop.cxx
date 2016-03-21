@@ -34,28 +34,25 @@ TL::STATUS ttZloop::setupOutput() {
   m_outputFile = new TFile(m_outfileName.c_str(),"recreate");
 
   // we want to save a histogram to the file
-  h_eventMass = new TH1D("eventMass",";Event Mass (TeV);Events/100 GeV",100,0,10);
-  h_eventHt   = new TH1D("eventHt",  ";H_{T} (TeV);Events/40 GeV",50,0,2);
+  h_eventMass = new TH1D("eventMass",";Event Mass (TeV);Events/100 GeV",50,0,5);
+  h_eventHt   = new TH1D("eventHt",  ";H_{T} (TeV);Events/40 GeV",25,0,1);
 
-  m_outTree = new TTree("nominal_EDM","nominal_EDM");
-  m_outTree->Branch("FinalState",&m_finalState);
-  
+  m_nominalEDMTree = new TTree("nominal_EDM","nominal_EDM");
+  m_nominalEDMTree->Branch("FinalState",&m_finalState);
+
   return TL::STATUS::Good;
 }
 
 TL::STATUS ttZloop::execute() {
   m_eventCounter++;
-  // ATLAS Boost is old and lame doesn't include boost::combine.
-  // Leaving this code here for one day if they do have it.
-  /*
-    for ( auto const& el : TL::zip(*(*el_pt),*(*el_eta),*(*el_phi)) ) {
-    auto pt  = boost::get<0>(el);
-    auto eta = boost::get<1>(el);
-    auto phi = boost::get<2>(el);
-    }
-  */
 
-  for ( size_t i = 0; i < (*el_pt)->size(); ++ i ) {
+  auto nleps = (*el_pt)->size() + (*mu_pt)->size();
+  
+  if ( nleps > 3 ) {
+    return TL::STATUS::Skip;
+  }
+  
+  for ( size_t i = 0; i < (*el_pt)->size(); ++i ) {
     auto pt  = (*el_pt)->at(i);
     auto eta = (*el_eta)->at(i);
     auto phi = (*el_phi)->at(i);
@@ -65,7 +62,7 @@ TL::STATUS ttZloop::execute() {
     lep.p().SetPtEtaPhiM(pt,eta,phi,0.511);
     m_finalState.addLepton(lep);
   }
-  for ( size_t i = 0; i < (*mu_pt)->size(); ++ i ) {
+  for ( size_t i = 0; i < (*mu_pt)->size(); ++i ) {
     auto pt  = (*mu_pt)->at(i);
     auto eta = (*mu_eta)->at(i);
     auto phi = (*mu_phi)->at(i);
@@ -75,7 +72,7 @@ TL::STATUS ttZloop::execute() {
     lep.p().SetPtEtaPhiM(pt,eta,phi,105.7);
     m_finalState.addLepton(lep);
   }
-  for ( size_t i = 0; i < (*jet_pt)->size(); ++ i ) {
+  for ( size_t i = 0; i < (*jet_pt)->size(); ++i ) {
     auto pt  = (*jet_pt)->at(i);
     auto eta = (*jet_eta)->at(i);
     auto phi = (*jet_phi)->at(i);
@@ -92,30 +89,12 @@ TL::STATUS ttZloop::execute() {
   h_eventMass->Fill(m_finalState.M()*TL::TeV);
   m_finalState.evaluateSelf();
 
-  if ( m_finalState.leptons().size() > 1  ) {
-    if ( m_eventCounter%2000 == 0 ) {
-      TL::Info("execute()",
-	       met.pT()*TL::GeV - *(*eT_miss),
-	       *(*eT_miss),
-	       met.pT()*TL::GeV);
-      TL::Info("execute()",
-	       m_finalState.leptons().at(0).charge(),
-	       m_finalState.leptons().at(1).charge(),
-	       m_finalState.leptons().at(0).pdgId(),
-	       m_finalState.leptons().at(1).pdgId(),"SS",
-	       m_finalState.leptonPairs().at(0).SS(),"OS",
-	       m_finalState.leptonPairs().at(0).OS(),"elel",
-	       m_finalState.leptonPairs().at(0).elel(),"mumu",
-	       m_finalState.leptonPairs().at(0).mumu(),"elmu",
-	       m_finalState.leptonPairs().at(0).elmu());
-    }
-  }
-
   auto dr_ht = *(*ht);
 
   h_eventHt->Fill(dr_ht*TL::GeVtoTeV);
+
+  m_nominalEDMTree->Fill();
   
-  m_outTree->Fill();
   m_finalState.clear();
 
   return TL::STATUS::Good;
@@ -128,7 +107,9 @@ TL::STATUS ttZloop::finish() {
   // write histograms to output file
   h_eventMass->Write();
   h_eventHt->Write();
-  m_outTree->Write();
+
+  m_nominalEDMTree->Write();
+
   // close the output file
   m_outputFile->Close();
   

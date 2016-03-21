@@ -47,7 +47,8 @@ namespace TL {
   
   enum STATUS {
     Good,
-    Fail
+    Fail,
+    Skip
   };
 }
 

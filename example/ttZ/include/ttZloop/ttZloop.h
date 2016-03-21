@@ -19,7 +19,7 @@ private:
   TFile* m_outputFile;
   TH1D*  h_eventMass;
   TH1D*  h_eventHt;
-  TTree* m_outTree;
+  TTree* m_nominalEDMTree;
 
   TL::EDM::FinalState m_finalState;
   
