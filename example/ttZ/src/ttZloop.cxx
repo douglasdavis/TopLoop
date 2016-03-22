@@ -48,18 +48,23 @@ TL::STATUS ttZloop::execute() {
 
   auto nleps = (*el_pt)->size() + (*mu_pt)->size();
   
-  if ( nleps > 3 ) {
+  if ( nleps > 3 || nleps < 2 ) {
     return TL::STATUS::Skip;
   }
   
   for ( size_t i = 0; i < (*el_pt)->size(); ++i ) {
-    auto pt  = (*el_pt)->at(i);
-    auto eta = (*el_eta)->at(i);
-    auto phi = (*el_phi)->at(i);
+    auto pt           = (*el_pt)->at(i);
+    auto eta          = (*el_eta)->at(i);
+    auto phi          = (*el_phi)->at(i);
     TL::EDM::Lepton lep;
     lep.set_pdgId(11);
-    lep.set_charge((*el_charge)->at(i));
     lep.p().SetPtEtaPhiM(pt,eta,phi,0.511);
+    lep.set_charge((*el_charge)->at(i));
+    lep.set_cl_eta((*el_cl_eta)->at(i));
+    lep.set_topoetcone20((*el_topoetcone20)->at(i));
+    lep.set_ptvarcone20((*el_ptvarcone20)->at(i));
+    lep.set_d0sig((*el_d0sig)->at(i));
+    lep.set_delta_z0_sintheta((*el_delta_z0_sintheta)->at(i));
     m_finalState.addLepton(lep);
   }
   for ( size_t i = 0; i < (*mu_pt)->size(); ++i ) {
@@ -68,8 +73,12 @@ TL::STATUS ttZloop::execute() {
     auto phi = (*mu_phi)->at(i);
     TL::EDM::Lepton lep;
     lep.set_pdgId(13);
-    lep.set_charge((*mu_charge)->at(i));
     lep.p().SetPtEtaPhiM(pt,eta,phi,105.7);
+    lep.set_charge((*mu_charge)->at(i));
+    lep.set_topoetcone20((*mu_topoetcone20)->at(i));
+    lep.set_ptvarcone30((*mu_ptvarcone30)->at(i));
+    lep.set_d0sig((*mu_d0sig)->at(i));
+    lep.set_delta_z0_sintheta((*mu_delta_z0_sintheta)->at(i));
     m_finalState.addLepton(lep);
   }
   for ( size_t i = 0; i < (*jet_pt)->size(); ++i ) {

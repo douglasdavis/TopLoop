@@ -41,6 +41,7 @@ namespace TL {
     TTreeReaderValue<std::vector<float> >* el_phi;
     TTreeReaderValue<std::vector<float> >* el_eta;
     TTreeReaderValue<std::vector<float> >* el_e;
+    TTreeReaderValue<std::vector<float> >* el_cl_eta;
     TTreeReaderValue<std::vector<float> >* el_charge;
     TTreeReaderValue<std::vector<float> >* el_topoetcone20;
     TTreeReaderValue<std::vector<float> >* el_ptvarcone20;
@@ -53,7 +54,7 @@ namespace TL {
     TTreeReaderValue<std::vector<float> >* mu_e;
     TTreeReaderValue<std::vector<float> >* mu_charge;
     TTreeReaderValue<std::vector<float> >* mu_topoetcone20;
-    TTreeReaderValue<std::vector<float> >* mu_ptvarcone20;
+    TTreeReaderValue<std::vector<float> >* mu_ptvarcone30;
     TTreeReaderValue<std::vector<float> >* mu_d0sig;
     TTreeReaderValue<std::vector<float> >* mu_delta_z0_sintheta;
     

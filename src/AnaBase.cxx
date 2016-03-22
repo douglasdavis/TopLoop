@@ -27,6 +27,7 @@ void TL::AnaBase::init_core_vars() {
   el_phi    = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_pt");
   el_e      = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_e");
   el_charge = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_charge");
+  el_cl_eta = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_cl_eta");
 
   el_topoetcone20      = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_topoetcone20");
   el_ptvarcone20       = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_ptvarcone20");
@@ -40,7 +41,7 @@ void TL::AnaBase::init_core_vars() {
   mu_charge = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_charge");
 
   mu_topoetcone20      = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_topoetcone20");
-  mu_ptvarcone20       = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_ptvarcone30");
+  mu_ptvarcone30       = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_ptvarcone30");
   mu_d0sig             = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_d0sig");
   mu_delta_z0_sintheta = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_delta_z0_sintheta");
 
