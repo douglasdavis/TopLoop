@@ -23,7 +23,7 @@ To get starting building and setting up a working environment, it is
 suggested to have the following structure:
 
     .
-    └── WorkingArea
+    └── TLWorkArea
         ├── TopLoop
         ├── TopLoopBuild
         └── TopLoopInstall
@@ -75,22 +75,20 @@ development environment.
 
 Boost is a small headache on `lxplus` like environments. In order to
 link with Boost, we must have a RootCore environment to help us
-out. It is suggested that have your RootCore area be the same as the
-`TLWorkArea`.  The basic setup would be of the form:
+out. It is suggested that have your RootCore area be above the
+`TLWorkArea` quoted above.  The basic setup would be of the form:
 
     .
-    └── TLWorkingArea
+    └── AnalysisLand_Top2.3.44
         ├── RootCoreBin
-        ├── TopLoop
-        ├── TopLoopBuild
-        ├── TopLoopInstall
+        ├── TLWorkArea
         ├── rcSetup.csh
         └── rcSetup.sh
 
 
 With a proper `rcSetup`ed environment
 (e.g. `rcSetup,Top,2.3.44`), we can point CMake to the Boost
-dependencies:
+dependencies by running (in `$TL_BUILD`):
 
     $ cmake -DCMAKE_INSTALL_PREFIX=$TL_INSTALL $TL_SOURCE \
       -DBoost_INCLUDE_DIR=$ROOTCOREBIN/include \
