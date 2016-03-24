@@ -22,40 +22,46 @@ void TL::AnaBase::core_init() {
 void TL::AnaBase::init_core_vars() {
   m_reader = new TTreeReader(fileManager()->rootChain());
 
-  el_pt     = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_pt");
-  el_eta    = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_eta");
-  el_phi    = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_pt");
-  el_e      = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_e");
-  el_charge = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_charge");
-  el_cl_eta = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_cl_eta");
+  el_pt     = std::make_shared<TTRV_vec_float>(*m_reader,"el_pt");
+  el_eta    = std::make_shared<TTRV_vec_float>(*m_reader,"el_eta");
+  el_phi    = std::make_shared<TTRV_vec_float>(*m_reader,"el_pt");
+  el_e      = std::make_shared<TTRV_vec_float>(*m_reader,"el_e");
+  el_charge = std::make_shared<TTRV_vec_float>(*m_reader,"el_charge");
+  el_cl_eta = std::make_shared<TTRV_vec_float>(*m_reader,"el_cl_eta");
 
-  el_topoetcone20      = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_topoetcone20");
-  el_ptvarcone20       = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_ptvarcone20");
-  el_d0sig             = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_d0sig");
-  el_delta_z0_sintheta = new TTreeReaderValue<std::vector<float> >(*m_reader,"el_delta_z0_sintheta");
+  el_topoetcone20      = std::make_shared<TTRV_vec_float>(*m_reader,"el_topoetcone20");
+  el_ptvarcone20       = std::make_shared<TTRV_vec_float>(*m_reader,"el_ptvarcone20");
+  el_d0sig             = std::make_shared<TTRV_vec_float>(*m_reader,"el_d0sig");
+  el_delta_z0_sintheta = std::make_shared<TTRV_vec_float>(*m_reader,"el_delta_z0_sintheta");
   
-  mu_pt     = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_pt");
-  mu_eta    = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_eta");
-  mu_phi    = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_pt");
-  mu_e      = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_e");
-  mu_charge = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_charge");
+  mu_pt     = std::make_shared<TTRV_vec_float>(*m_reader,"mu_pt");
+  mu_eta    = std::make_shared<TTRV_vec_float>(*m_reader,"mu_eta");
+  mu_phi    = std::make_shared<TTRV_vec_float>(*m_reader,"mu_pt");
+  mu_e      = std::make_shared<TTRV_vec_float>(*m_reader,"mu_e");
+  mu_charge = std::make_shared<TTRV_vec_float>(*m_reader,"mu_charge");
 
-  mu_topoetcone20      = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_topoetcone20");
-  mu_ptvarcone30       = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_ptvarcone30");
-  mu_d0sig             = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_d0sig");
-  mu_delta_z0_sintheta = new TTreeReaderValue<std::vector<float> >(*m_reader,"mu_delta_z0_sintheta");
+  mu_topoetcone20      = std::make_shared<TTRV_vec_float>(*m_reader,"mu_topoetcone20");
+  mu_ptvarcone30       = std::make_shared<TTRV_vec_float>(*m_reader,"mu_ptvarcone30");
+  mu_d0sig             = std::make_shared<TTRV_vec_float>(*m_reader,"mu_d0sig");
+  mu_delta_z0_sintheta = std::make_shared<TTRV_vec_float>(*m_reader,"mu_delta_z0_sintheta");
 
-  jet_pt  = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_pt");
-  jet_eta = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_eta");
-  jet_phi = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_phi");
-  jet_e   = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_e");
+  jet_pt  = std::make_shared<TTRV_vec_float>(*m_reader,"jet_pt");
+  jet_eta = std::make_shared<TTRV_vec_float>(*m_reader,"jet_eta");
+  jet_phi = std::make_shared<TTRV_vec_float>(*m_reader,"jet_phi");
+  jet_e   = std::make_shared<TTRV_vec_float>(*m_reader,"jet_e");
 
-  jet_mv1 = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_mv1");
-  jet_mvb = new TTreeReaderValue<std::vector<float> >(*m_reader,"jet_mvb");
+  jet_mv1     = std::make_shared<TTRV_vec_float>(*m_reader,"jet_mv1");
+  jet_mvb     = std::make_shared<TTRV_vec_float>(*m_reader,"jet_mvb");
+  jet_mv1c    = std::make_shared<TTRV_vec_float>(*m_reader,"jet_mv1c");
+  jet_mv2c00  = std::make_shared<TTRV_vec_float>(*m_reader,"jet_mv2c00");
+  jet_mv2c10  = std::make_shared<TTRV_vec_float>(*m_reader,"jet_mv2c10");
+  jet_mv2c20  = std::make_shared<TTRV_vec_float>(*m_reader,"jet_mv2c20");
+  jet_ip3dsv1 = std::make_shared<TTRV_vec_float>(*m_reader,"jet_ip3dsv1");
+  jet_jvt     = std::make_shared<TTRV_vec_float>(*m_reader,"jet_jvt");
 
-  met_met = new TTreeReaderValue<float>(*m_reader,"met_met");
-  met_phi = new TTreeReaderValue<float>(*m_reader,"met_phi");
-
+  met_met = std::make_shared<TTRV_float>(*m_reader,"met_met");
+  met_phi = std::make_shared<TTRV_float>(*m_reader,"met_phi");
+  
 }
 
 TL::STATUS TL::AnaBase::init() {

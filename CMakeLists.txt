@@ -46,11 +46,6 @@ include_directories("${CMAKE_SOURCE_DIR}/include")
 include_directories("${CMAKE_SOURCE_DIR}/include/TopLoop")
 include_directories("${CMAKE_SOURCE_DIR}/include/TopLoopEDM")
 
-## Define a list of all src files
-file(GLOB TopLoop_src
-  "src/*.cxx"
-  )
-
 ## Generate a dictionary with all
 ## headers listed as dependencies
 ROOT_GENERATE_DICTIONARY(
@@ -79,12 +74,16 @@ ROOT_GENERATE_DICTIONARY(
 ## called libTopLoop.so/.dylib
 add_library(
   TopLoop SHARED
-  ${TopLoop_src}
+  src/AnaBase.cxx
+  src/Job.cxx
+  src/FileManager.cxx
   TopLoopDict
   )
 
 add_library(
   TopLoopEDM SHARED
+  src/FinalState.cxx
+  src/LeptonPair.cxx
   TopLoopEDMDict
   )
 

@@ -18,10 +18,14 @@
 
 // C++
 #include <string>
+#include <memory>
 
 // ROOT
 #include <TTreeReader.h>
 #include <TTreeReaderValue.h>
+
+typedef TTreeReaderValue<std::vector<float> > TTRV_vec_float;
+typedef TTreeReaderValue<float>               TTRV_float;
 
 namespace TL {
   class FileManager;
@@ -37,37 +41,43 @@ namespace TL {
 
     TTreeReader* m_reader;
     
-    TTreeReaderValue<std::vector<float> >* el_pt;
-    TTreeReaderValue<std::vector<float> >* el_phi;
-    TTreeReaderValue<std::vector<float> >* el_eta;
-    TTreeReaderValue<std::vector<float> >* el_e;
-    TTreeReaderValue<std::vector<float> >* el_cl_eta;
-    TTreeReaderValue<std::vector<float> >* el_charge;
-    TTreeReaderValue<std::vector<float> >* el_topoetcone20;
-    TTreeReaderValue<std::vector<float> >* el_ptvarcone20;
-    TTreeReaderValue<std::vector<float> >* el_d0sig;
-    TTreeReaderValue<std::vector<float> >* el_delta_z0_sintheta;
+    std::shared_ptr<TTRV_vec_float> el_pt;
+    std::shared_ptr<TTRV_vec_float> el_phi;
+    std::shared_ptr<TTRV_vec_float> el_eta;
+    std::shared_ptr<TTRV_vec_float> el_e;
+    std::shared_ptr<TTRV_vec_float> el_cl_eta;
+    std::shared_ptr<TTRV_vec_float> el_charge;
+    std::shared_ptr<TTRV_vec_float> el_topoetcone20;
+    std::shared_ptr<TTRV_vec_float> el_ptvarcone20;
+    std::shared_ptr<TTRV_vec_float> el_d0sig;
+    std::shared_ptr<TTRV_vec_float> el_delta_z0_sintheta;
     
-    TTreeReaderValue<std::vector<float> >* mu_pt;
-    TTreeReaderValue<std::vector<float> >* mu_phi;
-    TTreeReaderValue<std::vector<float> >* mu_eta;
-    TTreeReaderValue<std::vector<float> >* mu_e;
-    TTreeReaderValue<std::vector<float> >* mu_charge;
-    TTreeReaderValue<std::vector<float> >* mu_topoetcone20;
-    TTreeReaderValue<std::vector<float> >* mu_ptvarcone30;
-    TTreeReaderValue<std::vector<float> >* mu_d0sig;
-    TTreeReaderValue<std::vector<float> >* mu_delta_z0_sintheta;
+    std::shared_ptr<TTRV_vec_float> mu_pt;
+    std::shared_ptr<TTRV_vec_float> mu_phi;
+    std::shared_ptr<TTRV_vec_float> mu_eta;
+    std::shared_ptr<TTRV_vec_float> mu_e;
+    std::shared_ptr<TTRV_vec_float> mu_charge;
+    std::shared_ptr<TTRV_vec_float> mu_topoetcone20;
+    std::shared_ptr<TTRV_vec_float> mu_ptvarcone30;
+    std::shared_ptr<TTRV_vec_float> mu_d0sig;
+    std::shared_ptr<TTRV_vec_float> mu_delta_z0_sintheta;
     
-    TTreeReaderValue<std::vector<float> >* jet_pt;
-    TTreeReaderValue<std::vector<float> >* jet_eta;
-    TTreeReaderValue<std::vector<float> >* jet_phi;
-    TTreeReaderValue<std::vector<float> >* jet_e;
-    TTreeReaderValue<std::vector<float> >* jet_mv1;
-    TTreeReaderValue<std::vector<float> >* jet_mvb;
+    std::shared_ptr<TTRV_vec_float> jet_pt;
+    std::shared_ptr<TTRV_vec_float> jet_eta;
+    std::shared_ptr<TTRV_vec_float> jet_phi;
+    std::shared_ptr<TTRV_vec_float> jet_e;
+    std::shared_ptr<TTRV_vec_float> jet_mv1;
+    std::shared_ptr<TTRV_vec_float> jet_mvb;
+    std::shared_ptr<TTRV_vec_float> jet_mv1c;
+    std::shared_ptr<TTRV_vec_float> jet_mv2c00;
+    std::shared_ptr<TTRV_vec_float> jet_mv2c10;
+    std::shared_ptr<TTRV_vec_float> jet_mv2c20; 
+    std::shared_ptr<TTRV_vec_float> jet_ip3dsv1;
+    std::shared_ptr<TTRV_vec_float> jet_jvt;
 
-    TTreeReaderValue<float>* met_met;
-    TTreeReaderValue<float>* met_phi;
-
+    std::shared_ptr<TTRV_float> met_met;
+    std::shared_ptr<TTRV_float> met_phi;
+    
   public:
     AnaBase();
     virtual ~AnaBase();
