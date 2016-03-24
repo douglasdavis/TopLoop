@@ -57,8 +57,7 @@ setupTopLoop() {
     export TL_INSTALL=$HOME/Software/TLWorkArea/install
     export TL_BUILD=$HOME/Software/TLWorkArea/build
     export PATH=$PATH:$TL_INSTALL/bin
-    export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$TL_INSTALL/lib # for OS X
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$TL_INSTALL/lib     # for Arch Linux
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$TL_INSTALL/lib
     alias cleanTLinstall='rm -rf ${TL_INSTALL}/*'
     cd $TL_SOURCE/..
 }
