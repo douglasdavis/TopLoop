@@ -25,6 +25,9 @@ endif()
 set(CMAKE_SHARED_LINKER_FLAGS "")
 set(CMAKE_EXE_LINKER_FLAGS "")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/share/modules")
+## For use on lxplus like environments
+set(Boost_NO_BOOST_CMAKE ON)
+set(Boost_NO_BOOST_CMAKE ON PARENT_SCOPE)
 
 ## Set up to use ROOT
 find_package(ROOT REQUIRED)

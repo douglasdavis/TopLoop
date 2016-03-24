@@ -70,6 +70,23 @@ Which I can then build with (in my `$TL_BUILD` directory):
 And now I also have a set of environment variables for navigating the
 development environment.
 
+### For `lxplus` like environments
+
+Boost is a small headache on `lxplus` like environments. In order to
+link with Boost, we must have a RootCore environment to help us
+out. It is suggested that have your RootCore area be the same as the
+`TLWorkArea`.  With a proper `rcSetup`ed environment
+(e.g. `rcSetup,Top,2.3.44`), we can point CMake to the Boost
+dependencies:
+
+    $ cmake -DCMAKE_INSTALL_PREFIX=$TL_INSTALL $TL_SOURCE \
+      -DBoost_INCLUDE_DIR=$ROOTCOREBIN/include \
+      -DBoost_LIBRARY_DIR=$ROOTCOREBIN/lib/x86_64-slc-gcc49-opt
+
+If using a different RootCore release, `lib/x86_64-slc-gcc49-opt`
+might be different!
+
+
 ## Example
 
 One can find an example `TopLoop` algorithm in the `example`
