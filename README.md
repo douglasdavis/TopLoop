@@ -28,6 +28,7 @@ suggested to have the following structure:
         ├── TopLoopBuild
         └── TopLoopInstall
 
+
 In the `TopLoopBuild` directory, run:
 
     $ cmake -DCMAKE_INSTALL_PREFIX=/path/to/WorkingArea/TopLoopInstall ../TopLoop
@@ -75,7 +76,19 @@ development environment.
 Boost is a small headache on `lxplus` like environments. In order to
 link with Boost, we must have a RootCore environment to help us
 out. It is suggested that have your RootCore area be the same as the
-`TLWorkArea`.  With a proper `rcSetup`ed environment
+`TLWorkArea`.  The basic setup would be of the form:
+
+    .
+    └── TLWorkingArea
+        ├── RootCoreBin
+        ├── TopLoop
+        ├── TopLoopBuild
+        ├── TopLoopInstall
+        ├── rcSetup.csh
+        └── rcSetup.sh
+
+
+With a proper `rcSetup`ed environment
 (e.g. `rcSetup,Top,2.3.44`), we can point CMake to the Boost
 dependencies:
 
@@ -85,7 +98,6 @@ dependencies:
 
 If using a different RootCore release, `lib/x86_64-slc-gcc49-opt`
 might be different!
-
 
 ## Example
 
