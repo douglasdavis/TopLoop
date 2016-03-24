@@ -15,6 +15,7 @@
 #include <utility>
 #include <sstream>
 #include <vector>
+#include <cmath>
 
 // for std::unique_ptr
 #include <memory>
@@ -71,6 +72,8 @@ namespace TL {
   template <typename Arg, typename... Args>
   void Fatal(Arg&& arg, Args&&... args);
 
+  void ProgressPrint(const std::string& func, long cur, long total, int gap);
+  
 }
 
 /*
@@ -119,6 +122,16 @@ template<typename Arg, typename... Args>
 inline void TL::Fatal(Arg&& arg, Args&&... args) {
   TopPrint(std::cerr,"FATAL\t",arg,"\t",args...);
   std::exit(EXIT_FAILURE);
+}
+
+inline void TL::ProgressPrint(const std::string& func,
+			      long cur, long total, int range) {
+  auto progress = 100.0*cur/total;
+  int gap = total/range;
+  if ( cur%gap == 0 ) {
+    TL::Info(func,"Events processed:",cur,
+	     std::to_string(int(std::round(progress)))+"%");
+  }
 }
 
 #endif
