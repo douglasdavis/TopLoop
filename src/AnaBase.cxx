@@ -16,12 +16,23 @@ TL::AnaBase::AnaBase() :
 TL::AnaBase::~AnaBase() {}
 
 void TL::AnaBase::core_init() {
-  m_fm = new TL::FileManager();
+  m_fm = std::make_shared<TL::FileManager>();
 }
 
 void TL::AnaBase::init_core_vars() {
-  m_reader = new TTreeReader(fileManager()->rootChain());
+  m_reader = std::make_shared<TTreeReader>(fileManager()->rootChain());
 
+  weight_mc          = std::make_shared<TTRV_float>(*m_reader,"weight_mc");
+  weight_pileup      = std::make_shared<TTRV_float>(*m_reader,"weight_pileup");
+  weight_leptonSF    = std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF");
+  weight_pileup_UP   = std::make_shared<TTRV_float>(*m_reader,"weight_pileup_UP");
+  weight_pileup_DOWN = std::make_shared<TTRV_float>(*m_reader,"weight_pileup_DOWN");
+  
+  eventNumber     = std::make_shared<TTRV_ulongint>(*m_reader,"eventNumber");
+  runNumber       = std::make_shared<TTRV_uint>    (*m_reader,"runNumber");
+  mcChannelNumber = std::make_shared<TTRV_uint>    (*m_reader,"mcChannelNumber");
+  mu              = std::make_shared<TTRV_float>   (*m_reader,"mu");
+  
   el_pt     = std::make_shared<TTRV_vec_float>(*m_reader,"el_pt");
   el_eta    = std::make_shared<TTRV_vec_float>(*m_reader,"el_eta");
   el_phi    = std::make_shared<TTRV_vec_float>(*m_reader,"el_pt");

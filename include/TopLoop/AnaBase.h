@@ -25,7 +25,9 @@
 #include <TTreeReaderValue.h>
 
 typedef TTreeReaderValue<std::vector<float> > TTRV_vec_float;
-typedef TTreeReaderValue<float>               TTRV_float;
+typedef TTreeReaderValue<Float_t>             TTRV_float;
+typedef TTreeReaderValue<UInt_t>              TTRV_uint;
+typedef TTreeReaderValue<ULong64_t>           TTRV_ulongint;
 
 namespace TL {
   class FileManager;
@@ -37,9 +39,20 @@ namespace TL {
 
   protected:
     std::string      m_datasetName;
-    TL::FileManager* m_fm;
 
-    TTreeReader* m_reader;
+    std::shared_ptr<TL::FileManager> m_fm;
+    std::shared_ptr<TTreeReader>     m_reader;
+
+    std::shared_ptr<TTRV_float> weight_mc;
+    std::shared_ptr<TTRV_float> weight_pileup;
+    std::shared_ptr<TTRV_float> weight_leptonSF;
+    std::shared_ptr<TTRV_float> weight_pileup_UP;
+    std::shared_ptr<TTRV_float> weight_pileup_DOWN;
+    
+    std::shared_ptr<TTRV_ulongint>  eventNumber;
+    std::shared_ptr<TTRV_uint>      runNumber;
+    std::shared_ptr<TTRV_uint>      mcChannelNumber;
+    std::shared_ptr<TTRV_float>     mu;
     
     std::shared_ptr<TTRV_vec_float> el_pt;
     std::shared_ptr<TTRV_vec_float> el_phi;
@@ -128,15 +141,14 @@ namespace TL {
      */
     virtual TL::STATUS finish();
 
-    TL::FileManager* fileManager(); //!< A getter for the file manager
-
-    TTreeReader* reader(); //!< A getter for the TTreeReader
+    std::shared_ptr<TL::FileManager> fileManager(); //!< get pointer to file manager
+    std::shared_ptr<TTreeReader>     reader();      //!< get pointer to TTreeReader
     
   };
 
 }
 
-inline TL::FileManager* TL::AnaBase::fileManager() { return m_fm;     }
-inline TTreeReader*     TL::AnaBase::reader()      { return m_reader; }
+inline std::shared_ptr<TL::FileManager> TL::AnaBase::fileManager() { return m_fm;     }
+inline std::shared_ptr<TTreeReader>     TL::AnaBase::reader()      { return m_reader; }
 
 #endif

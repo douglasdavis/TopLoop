@@ -9,7 +9,6 @@
 #include <TopLoop/AnaBase.h>
 
 void TL::Job::run() {
-
   if ( m_analysis->init() == TL::STATUS::Good ) {}
   else {
     TL::Fatal("your init() returned TL::STATUS::Fail");
@@ -37,5 +36,4 @@ void TL::Job::run() {
   else {
     TL::Fatal("your finish() returned TL::STATUS::Fail");
   }
-
 }

@@ -23,6 +23,9 @@ namespace TL {
     TL::AnaBase* m_analysis;
 
   public:
+    Job() :
+      m_analysis(nullptr)
+    {}
     Job(TL::AnaBase* ab) :
       m_analysis(ab) {}
     virtual ~Job() {}
