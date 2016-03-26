@@ -55,6 +55,7 @@ namespace TL {
       const std::vector<TL::EDM::Lepton>&     leptons()     const;
       const std::vector<TL::EDM::Jet>&        jets()        const;
       const std::vector<TL::EDM::LeptonPair>& leptonPairs() const;
+      const TL::EDM::MET&                     MET()         const;
       
       float M() const;
 
@@ -89,7 +90,7 @@ inline void TL::EDM::FinalState::clear() {
 
 inline const std::vector<TL::EDM::Lepton>& TL::EDM::FinalState::leptons() const { return m_leptons; }
 inline const std::vector<TL::EDM::Jet>&    TL::EDM::FinalState::jets()    const { return m_jets;    }
-
+inline const TL::EDM::MET&                 TL::EDM::FinalState::MET()     const { return m_MET;     }
 inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs() const {
   return m_leptonPairs;
 }
