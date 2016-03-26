@@ -24,10 +24,10 @@
 #include <TTreeReader.h>
 #include <TTreeReaderValue.h>
 
-typedef TTreeReaderValue<std::vector<float> > TTRV_vec_float;
-typedef TTreeReaderValue<Float_t>             TTRV_float;
-typedef TTreeReaderValue<UInt_t>              TTRV_uint;
-typedef TTreeReaderValue<ULong64_t>           TTRV_ulongint;
+using TTRV_vec_float = TTreeReaderValue<std::vector<float> >;
+using TTRV_float     = TTreeReaderValue<Float_t>;
+using TTRV_uint      = TTreeReaderValue<UInt_t>;
+using TTRV_ulongint  = TTreeReaderValue<ULong64_t>;
 
 namespace TL {
   class FileManager;
