@@ -9,7 +9,8 @@
 #include <TopLoop/FileManager.h>
 
 TL::AnaBase::AnaBase() :
-  m_datasetName() {
+  m_datasetName(),
+  m_isMC(true) {
   core_init();
 }
 
@@ -22,11 +23,13 @@ void TL::AnaBase::core_init() {
 void TL::AnaBase::init_core_vars() {
   m_reader = std::make_shared<TTreeReader>(fileManager()->rootChain());
 
-  weight_mc          = std::make_shared<TTRV_float>(*m_reader,"weight_mc");
-  weight_pileup      = std::make_shared<TTRV_float>(*m_reader,"weight_pileup");
-  weight_leptonSF    = std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF");
-  weight_pileup_UP   = std::make_shared<TTRV_float>(*m_reader,"weight_pileup_UP");
-  weight_pileup_DOWN = std::make_shared<TTRV_float>(*m_reader,"weight_pileup_DOWN");
+  if ( m_isMC ) {
+    weight_mc          = std::make_shared<TTRV_float>(*m_reader,"weight_mc");
+    weight_pileup      = std::make_shared<TTRV_float>(*m_reader,"weight_pileup");
+    weight_leptonSF    = std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF");
+    weight_pileup_UP   = std::make_shared<TTRV_float>(*m_reader,"weight_pileup_UP");
+    weight_pileup_DOWN = std::make_shared<TTRV_float>(*m_reader,"weight_pileup_DOWN");
+  }
   
   eventNumber     = std::make_shared<TTRV_ulongint>(*m_reader,"eventNumber");
   runNumber       = std::make_shared<TTRV_uint>    (*m_reader,"runNumber");
@@ -72,7 +75,17 @@ void TL::AnaBase::init_core_vars() {
 
   met_met = std::make_shared<TTRV_float>(*m_reader,"met_met");
   met_phi = std::make_shared<TTRV_float>(*m_reader,"met_phi");
-  
+
+  el_trigMatch_HLT_e60_lhmedium =
+    std::make_shared<TTRV_vec_char>(*m_reader,"el_trigMatch_HLT_e60_lhmedium");
+  el_trigMatch_HLT_e24_lhmedium_L1EM18VH =
+    std::make_shared<TTRV_vec_char>(*m_reader,"el_trigMatch_HLT_e24_lhmedium_L1EM18VH");
+  el_trigMatch_HLT_e120_lhloose =
+    std::make_shared<TTRV_vec_char>(*m_reader,"el_trigMatch_HLT_e120_lhloose");
+  mu_trigMatch_HLT_mu50 =
+    std::make_shared<TTRV_vec_char>(*m_reader,"mu_trigMatch_HLT_mu50");
+  mu_trigMatch_HLT_mu20_iloose_L1MU15 =
+    std::make_shared<TTRV_vec_char>(*m_reader,"mu_trigMatch_HLT_mu20_iloose_L1MU15");
 }
 
 TL::STATUS TL::AnaBase::init() {

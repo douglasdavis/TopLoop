@@ -25,6 +25,7 @@
 #include <TTreeReaderValue.h>
 
 using TTRV_vec_float = TTreeReaderValue<std::vector<float> >;
+using TTRV_vec_char  = TTreeReaderValue<std::vector<char> >;
 using TTRV_float     = TTreeReaderValue<Float_t>;
 using TTRV_uint      = TTreeReaderValue<UInt_t>;
 using TTRV_ulongint  = TTreeReaderValue<ULong64_t>;
@@ -39,7 +40,8 @@ namespace TL {
 
   protected:
     std::string      m_datasetName;
-
+    bool             m_isMC;
+    
     std::shared_ptr<TL::FileManager> m_fm;
     std::shared_ptr<TTreeReader>     m_reader;
 
@@ -90,7 +92,13 @@ namespace TL {
 
     std::shared_ptr<TTRV_float> met_met;
     std::shared_ptr<TTRV_float> met_phi;
-    
+
+    std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e60_lhmedium;
+    std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e24_lhmedium_L1EM18VH;
+    std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e120_lhloose;
+    std::shared_ptr<TTRV_vec_char> mu_trigMatch_HLT_mu50;
+    std::shared_ptr<TTRV_vec_char> mu_trigMatch_HLT_mu20_iloose_L1MU15;
+
   public:
     AnaBase();
     virtual ~AnaBase();
@@ -107,14 +115,14 @@ namespace TL {
       This function sets the TTreeReader variables up.
       It *MUST* be called in the base init file which is
       user modifiable.
-     */
+    */
     void init_core_vars();
 
     //! Initialize the algorithm properties
     /*!
       The point of this function is to initialize various properties
       of the algorithm, e.g. setting user specific member variables.
-     */
+    */
     virtual TL::STATUS init();
 
     
@@ -122,7 +130,7 @@ namespace TL {
     /*!
       This function is meant for declaring files, histograms, trees, etc.
       to be output by the histogram.
-     */
+    */
     virtual TL::STATUS setupOutput();
 
     //! The function which is called in a loop over all events
@@ -131,22 +139,32 @@ namespace TL {
       happens.  All variables which are initialized for the
       TTreeReader are updated at the beginning of execute and all of
       the event information is available.
-     */
+    */
     virtual TL::STATUS execute();
 
     //! The function which is called at the end.
-    /*!
-      This function is meant to wrap up the algorithm, e.g.
-      write histograms and trees to a file, close the file.
-     */
+    /*! 
+      This function is meant to wrap up the algorithm, e.g.  write
+      histograms and trees to a file, close the file.
+    */
     virtual TL::STATUS finish();
 
+    //! Function to tell algorithm it's analyzing data
+    /*! 
+      Some variables don't exist for data, so the algorithm must
+      know if it's touching data, so it knows which variables to avoid
+      initializing.
+    */
+    virtual void isData();
+    
     std::shared_ptr<TL::FileManager> fileManager(); //!< get pointer to file manager
     std::shared_ptr<TTreeReader>     reader();      //!< get pointer to TTreeReader
     
   };
 
 }
+
+inline void TL::AnaBase::isData() { m_isMC = false; }
 
 inline std::shared_ptr<TL::FileManager> TL::AnaBase::fileManager() { return m_fm;     }
 inline std::shared_ptr<TTreeReader>     TL::AnaBase::reader()      { return m_reader; }
