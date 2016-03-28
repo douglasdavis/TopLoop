@@ -37,6 +37,7 @@ namespace TL {
     
     void feedDir(const std::string& dirpath, const bool take_all=false);
     void feedTxt(const std::string& txtfilename);
+    void feedSingle(const char* fileName);
     
     const std::vector<std::string>& fileNames() const;
     const std::string&              treeName()  const;

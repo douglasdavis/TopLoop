@@ -24,7 +24,7 @@ TL::FileManager::FileManager() :
 TL::FileManager::~FileManager() {}
 
 void TL::FileManager::setTreeName(const std::string& tn) {
-  m_treeName  = tn;
+  m_treeName = tn;
 }
 
 void TL::FileManager::initChain() {
@@ -66,4 +66,10 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
       m_rootChain->Add(line.c_str());
     }
   }
+}
+
+void ::TL::FileManager::feedSingle(const char* fileName) {
+  this->initChain();
+  m_fileNames.emplace_back(std::string(fileName));
+  m_rootChain->Add(fileName);
 }
