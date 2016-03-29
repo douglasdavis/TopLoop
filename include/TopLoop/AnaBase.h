@@ -81,9 +81,6 @@ namespace TL {
     std::shared_ptr<TTRV_vec_float> jet_eta;
     std::shared_ptr<TTRV_vec_float> jet_phi;
     std::shared_ptr<TTRV_vec_float> jet_e;
-    std::shared_ptr<TTRV_vec_float> jet_mv1;
-    std::shared_ptr<TTRV_vec_float> jet_mvb;
-    std::shared_ptr<TTRV_vec_float> jet_mv1c;
     std::shared_ptr<TTRV_vec_float> jet_mv2c00;
     std::shared_ptr<TTRV_vec_float> jet_mv2c10;
     std::shared_ptr<TTRV_vec_float> jet_mv2c20; 
