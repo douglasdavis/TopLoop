@@ -92,10 +92,14 @@ dependencies by running (in `$TL_BUILD`):
 
     $ cmake -DCMAKE_INSTALL_PREFIX=$TL_INSTALL $TL_SOURCE \
       -DBoost_INCLUDE_DIR=$ROOTCOREBIN/include \
-      -DBoost_LIBRARY_DIR=$ROOTCOREBIN/lib/x86_64-slc-gcc49-opt
+      -DBoost_LIBRARY_DIR=$ROOTCOREBIN/lib/x86_64-slc-gcc49-opt \
+      -DCMAKE_CXX_COMPILER=`which g++` \
+      $TL_SOURCE -DBUILDEX=ON
 
 If using a different RootCore release, `lib/x86_64-slc-gcc49-opt`
-might be different!
+might be different! Note that the `which g++` might be necessary
+on some systems to ensure that CMake does not find a locally
+installed g++, and instead looks in cvmfs.
 
 ## Example
 
