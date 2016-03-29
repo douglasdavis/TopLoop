@@ -45,11 +45,13 @@ namespace TL {
     std::shared_ptr<TL::FileManager> m_fm;
     std::shared_ptr<TTreeReader>     m_reader;
 
-    std::shared_ptr<TTRV_float> weight_mc;
-    std::shared_ptr<TTRV_float> weight_pileup;
-    std::shared_ptr<TTRV_float> weight_leptonSF;
-    std::shared_ptr<TTRV_float> weight_pileup_UP;
-    std::shared_ptr<TTRV_float> weight_pileup_DOWN;
+    std::shared_ptr<TTRV_float>     weight_mc;
+    std::shared_ptr<TTRV_float>     weight_pileup;
+    std::shared_ptr<TTRV_float>     weight_leptonSF;
+    std::shared_ptr<TTRV_float>     weight_bTagSF_77;
+    std::shared_ptr<TTRV_float>     weight_jvt;
+    std::shared_ptr<TTRV_float>     weight_pileup_UP;
+    std::shared_ptr<TTRV_float>     weight_pileup_DOWN;
     
     std::shared_ptr<TTRV_ulongint>  eventNumber;
     std::shared_ptr<TTRV_uint>      runNumber;

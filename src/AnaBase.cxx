@@ -27,6 +27,8 @@ void TL::AnaBase::init_core_vars() {
     weight_mc          = std::make_shared<TTRV_float>(*m_reader,"weight_mc");
     weight_pileup      = std::make_shared<TTRV_float>(*m_reader,"weight_pileup");
     weight_leptonSF    = std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF");
+    weight_bTagSF_77   = std::make_shared<TTRV_float>(*m_reader,"weight_bTagSF_77");
+    weight_jvt         = std::make_shared<TTRV_float>(*m_reader,"weight_jvt");
     weight_pileup_UP   = std::make_shared<TTRV_float>(*m_reader,"weight_pileup_UP");
     weight_pileup_DOWN = std::make_shared<TTRV_float>(*m_reader,"weight_pileup_DOWN");
   }
