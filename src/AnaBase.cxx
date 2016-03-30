@@ -10,7 +10,8 @@
 
 TL::AnaBase::AnaBase() :
   m_datasetName(),
-  m_isMC(true) {
+  m_isMC(true),
+  m_isNominal(true){
   core_init();
 }
 
@@ -32,10 +33,51 @@ void TL::AnaBase::init_core_vars() {
     weight_leptonSF    = std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF");
     weight_bTagSF_77   = std::make_shared<TTRV_float>(*m_reader,"weight_bTagSF_77");
     weight_jvt         = std::make_shared<TTRV_float>(*m_reader,"weight_jvt");
-    weight_pileup_UP   = std::make_shared<TTRV_float>(*m_reader,"weight_pileup_UP");
-    weight_pileup_DOWN = std::make_shared<TTRV_float>(*m_reader,"weight_pileup_DOWN");
+    if ( m_isNominal ) {
+      weight_pileup_UP    = std::make_shared<TTRV_float>(*m_reader,"weight_pileup_UP");
+      weight_pileup_DOWN  = std::make_shared<TTRV_float>(*m_reader,"weight_pileup_DOWN");
+      weightSyst_leptonSF = {
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_EL_SF_Trigger_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_EL_SF_Trigger_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_EL_SF_Reco_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_EL_SF_Reco_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_EL_SF_ID_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_EL_SF_ID_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_EL_SF_Isol_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_EL_SF_Isol_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_Trigger_STAT_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_Trigger_STAT_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_Trigger_SYST_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_Trigger_SYST_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_ID_STAT_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_ID_STAT_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_ID_SYST_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_ID_SYST_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_Isol_STAT_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_Isol_STAT_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_Isol_SYST_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_Isol_SYST_DOWN"),
+      };
+
+      weightSyst_bTagSF_extrapolation = {
+        std::make_shared<TTRV_float>(*m_reader,"weight_bTagSF_77_extrapolation_up"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_bTagSF_77_extrapolation_down"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_bTagSF_77_extrapolation_from_charm_up"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_bTagSF_77_extrapolation_from_charm_down"),
+      };
+
+      //jet eigenvector weights
+      weightSyst_bTagSF_eigenvars = {
+        std::make_shared<TTRV_vec_float>(*m_reader,"weight_bTagSF_77_eigenvars_B_up"),
+        std::make_shared<TTRV_vec_float>(*m_reader,"weight_bTagSF_77_eigenvars_C_up"),
+        std::make_shared<TTRV_vec_float>(*m_reader,"weight_bTagSF_77_eigenvars_Light_up"),
+        std::make_shared<TTRV_vec_float>(*m_reader,"weight_bTagSF_77_eigenvars_B_down"),
+        std::make_shared<TTRV_vec_float>(*m_reader,"weight_bTagSF_77_eigenvars_C_down"),
+        std::make_shared<TTRV_vec_float>(*m_reader,"weight_bTagSF_77_eigenvars_Light_down"),
+      };
+    }
   }
-  
+
   eventNumber     = std::make_shared<TTRV_ulongint>(*m_reader,"eventNumber");
   runNumber       = std::make_shared<TTRV_uint>    (*m_reader,"runNumber");
   mcChannelNumber = std::make_shared<TTRV_uint>    (*m_reader,"mcChannelNumber");

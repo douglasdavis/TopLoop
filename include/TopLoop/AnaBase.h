@@ -40,7 +40,7 @@ namespace TL {
 
   protected:
     std::string      m_datasetName;
-    bool             m_isMC;
+    bool             m_isMC, m_isNominal;
     
     std::shared_ptr<TL::FileManager> m_fm;
     std::shared_ptr<TTreeReader>     m_reader;
@@ -53,9 +53,13 @@ namespace TL {
     std::shared_ptr<TTRV_float>     weight_leptonSF;
     std::shared_ptr<TTRV_float>     weight_bTagSF_77;
     std::shared_ptr<TTRV_float>     weight_jvt;
+
     std::shared_ptr<TTRV_float>     weight_pileup_UP;
     std::shared_ptr<TTRV_float>     weight_pileup_DOWN;
-    
+    std::vector<std::shared_ptr<TTRV_float> > weightSyst_leptonSF;
+    std::vector<std::shared_ptr<TTRV_float> > weightSyst_bTagSF_extrapolation;
+    std::vector<std::shared_ptr<TTRV_vec_float> > weightSyst_bTagSF_eigenvars;
+
     std::shared_ptr<TTRV_ulongint>  eventNumber;
     std::shared_ptr<TTRV_uint>      runNumber;
     std::shared_ptr<TTRV_uint>      mcChannelNumber;
@@ -165,6 +169,7 @@ namespace TL {
       initializing.
     */
     virtual void isData();
+    virtual void isSystematic();
     
     std::shared_ptr<TL::FileManager> fileManager();   //!< get pointer to file manager
     std::shared_ptr<TTreeReader>     reader();        //!< get pointer to TTreeReader
@@ -175,6 +180,7 @@ namespace TL {
 }
 
 inline void TL::AnaBase::isData() { m_isMC = false; }
+inline void TL::AnaBase::isSystematic() { m_isNominal = false; }
 
 inline std::shared_ptr<TL::FileManager> TL::AnaBase::fileManager()   { return m_fm;     }
 inline std::shared_ptr<TTreeReader>     TL::AnaBase::reader()        { return m_reader; }
