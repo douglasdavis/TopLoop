@@ -1,6 +1,7 @@
 *.o
 *.dylib
 *.so
+*.swp
 example/useDukeTop/use
 html
 *DTdict*
