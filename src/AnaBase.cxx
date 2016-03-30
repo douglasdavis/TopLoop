@@ -21,7 +21,10 @@ void TL::AnaBase::core_init() {
 }
 
 void TL::AnaBase::init_core_vars() {
-  m_reader = std::make_shared<TTreeReader>(fileManager()->rootChain());
+  m_reader        = std::make_shared<TTreeReader>(fileManager()->rootChain());
+  m_weightsReader = std::make_shared<TTreeReader>(fileManager()->rootWeightsChain());
+
+  totalEventsWeighted = std::make_shared<TTRV_float>(*m_weightsReader,"totalEventsWeighted");
 
   if ( m_isMC ) {
     weight_mc          = std::make_shared<TTRV_float>(*m_reader,"weight_mc");
@@ -85,6 +88,20 @@ void TL::AnaBase::init_core_vars() {
     std::make_shared<TTRV_vec_char>(*m_reader,"mu_trigMatch_HLT_mu50");
   mu_trigMatch_HLT_mu20_iloose_L1MU15 =
     std::make_shared<TTRV_vec_char>(*m_reader,"mu_trigMatch_HLT_mu20_iloose_L1MU15");
+}
+
+float TL::AnaBase::countSumWeights() {
+  //sum up the weighted number of events in the metadata tree.  This works for
+  //MC (to get the MC lumi) and data (perhaps as a cross-check)
+  float sumWeights = 0;
+  while ( m_weightsReader->Next() ) {
+    sumWeights += *(*totalEventsWeighted);
+    //todo: add some protection for i/o problems?
+  }
+
+  //todo: cross-check the value with Ami, warn if different?
+  return sumWeights;
+
 }
 
 TL::STATUS TL::AnaBase::init() {

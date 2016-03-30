@@ -44,6 +44,9 @@ namespace TL {
     
     std::shared_ptr<TL::FileManager> m_fm;
     std::shared_ptr<TTreeReader>     m_reader;
+    std::shared_ptr<TTreeReader>     m_weightsReader;
+
+    std::shared_ptr<TTRV_float>     totalEventsWeighted;
 
     std::shared_ptr<TTRV_float>     weight_mc;
     std::shared_ptr<TTRV_float>     weight_pileup;
@@ -117,6 +120,13 @@ namespace TL {
     */
     void init_core_vars();
 
+    //! Count the sumWeights from all input trees
+    /*!
+      This can be called in the init() function if 
+      info about the sum of weights is desired.
+    */
+    float countSumWeights();
+
     //! Initialize the algorithm properties
     /*!
       The point of this function is to initialize various properties
@@ -156,8 +166,9 @@ namespace TL {
     */
     virtual void isData();
     
-    std::shared_ptr<TL::FileManager> fileManager(); //!< get pointer to file manager
-    std::shared_ptr<TTreeReader>     reader();      //!< get pointer to TTreeReader
+    std::shared_ptr<TL::FileManager> fileManager();   //!< get pointer to file manager
+    std::shared_ptr<TTreeReader>     reader();        //!< get pointer to TTreeReader
+    std::shared_ptr<TTreeReader>     weightsReader(); //!< get pointer to TTreeReader for sumweights
     
   };
 
@@ -165,7 +176,8 @@ namespace TL {
 
 inline void TL::AnaBase::isData() { m_isMC = false; }
 
-inline std::shared_ptr<TL::FileManager> TL::AnaBase::fileManager() { return m_fm;     }
-inline std::shared_ptr<TTreeReader>     TL::AnaBase::reader()      { return m_reader; }
+inline std::shared_ptr<TL::FileManager> TL::AnaBase::fileManager()   { return m_fm;     }
+inline std::shared_ptr<TTreeReader>     TL::AnaBase::reader()        { return m_reader; }
+inline std::shared_ptr<TTreeReader>     TL::AnaBase::weightsReader() { return m_weightsReader; }
 
 #endif

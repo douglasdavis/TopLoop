@@ -25,14 +25,15 @@ namespace TL {
   class FileManager {
   private:
     std::vector<std::string> m_fileNames;
-    std::string              m_treeName;
-    TChain*                  m_rootChain;
+    std::string              m_treeName, m_weightsTreeName;
+    TChain*                  m_rootChain, *m_rootWeightsChain;
     
   public:
     FileManager();
     virtual ~FileManager();
 
     void setTreeName(const std::string& tn);
+    void setWeightsTreeName(const std::string& tn);
     void initChain();
     
     void feedDir(const std::string& dirpath, const bool take_all=false);
@@ -41,13 +42,17 @@ namespace TL {
     
     const std::vector<std::string>& fileNames() const;
     const std::string&              treeName()  const;
+    const std::string&              weightsTreeName()  const;
     
     TChain* rootChain();
+    TChain* rootWeightsChain();
   };
 }
 
 inline const std::vector<std::string>& TL::FileManager::fileNames() const { return m_fileNames; }
 inline const std::string&              TL::FileManager::treeName()  const { return m_treeName;  }
+inline const std::string&              TL::FileManager::weightsTreeName() const { return m_weightsTreeName;  }
 inline       TChain*                   TL::FileManager::rootChain()       { return m_rootChain; }
+inline       TChain*                   TL::FileManager::rootWeightsChain(){ return m_rootWeightsChain; }
 
 #endif
