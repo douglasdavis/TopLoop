@@ -16,6 +16,8 @@
 #include <TopLoopEDM/Jet.h>
 #include <TopLoopEDM/MET.h>
 
+#include <algorithm>
+
 namespace TL {
   namespace EDM {
 
@@ -58,6 +60,7 @@ namespace TL {
       const TL::EDM::MET&                     MET()         const;
       
       float M() const;
+      unsigned int nbjets() const;
 
       size_t leadingLeptonIdx() const;
       size_t leadingJetIdx()    const;
@@ -96,6 +99,12 @@ inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs(
 }
 
 inline float TL::EDM::FinalState::M() const { return m_M; }
+
+inline unsigned int TL::EDM::FinalState::nbjets() const {
+  //maybe there's a more elegant boost/STL way to do this
+  auto lambdatag = [](TL::EDM::Jet a) {return a.isTagged();};
+  return count_if(m_jets.begin(), m_jets.end(), lambdatag);
+}
 
 inline size_t TL::EDM::FinalState::leadingLeptonIdx() const { return m_llidx; }
 inline size_t TL::EDM::FinalState::leadingJetIdx()    const { return m_ljidx; }
