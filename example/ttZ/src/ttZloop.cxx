@@ -91,9 +91,7 @@ TL::STATUS ttZloop::execute() {
     m_finalState.addJet(jet);
   }
 
-  TL::EDM::MET met;
-  met.p().SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
-  m_finalState.setMET(met);
+  m_finalState.MET().p().SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
 
   h_eventMass->Fill(m_finalState.M()*TL::TeV);
   m_finalState.evaluateSelf();

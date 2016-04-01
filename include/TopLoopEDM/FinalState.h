@@ -12,10 +12,12 @@
 #ifndef TL_EDM_FinalState_h
 #define TL_EDM_FinalState_h
 
+// TL
 #include <TopLoopEDM/LeptonPair.h>
 #include <TopLoopEDM/Jet.h>
 #include <TopLoopEDM/MET.h>
 
+// C++
 #include <algorithm>
 
 namespace TL {
@@ -23,10 +25,9 @@ namespace TL {
 
     class FinalState : public TObject {
     private:
-      std::vector<TL::EDM::Lepton> m_leptons;
-      std::vector<TL::EDM::Jet>    m_jets;
-      TL::EDM::MET                 m_MET;
-
+      std::vector<TL::EDM::Lepton>     m_leptons;
+      std::vector<TL::EDM::Jet>        m_jets;
+      TL::EDM::MET                     m_MET;
       std::vector<TL::EDM::LeptonPair> m_leptonPairs;
       
       float  m_M;
@@ -44,10 +45,7 @@ namespace TL {
 
       void addLepton(const TL::EDM::Lepton& lep);
       void addJet(const TL::EDM::Jet& jet);
-      void setMET(const TL::EDM::MET& met);
-
       void addLeptonPair(const TL::EDM::LeptonPair& lp);
-
       void addLeptonPairs(const std::initializer_list<TL::EDM::LeptonPair>& lps);
 
       void evaluateLepPairs();
@@ -58,12 +56,12 @@ namespace TL {
       const std::vector<TL::EDM::Jet>&        jets()        const;
       const std::vector<TL::EDM::LeptonPair>& leptonPairs() const;
       const TL::EDM::MET&                     MET()         const;
+      TL::EDM::MET& MET();
       
-      float M() const;
-      unsigned int nbjets() const;
-
-      size_t leadingLeptonIdx() const;
-      size_t leadingJetIdx()    const;
+      float        M()                const;
+      unsigned int nbjets()           const;
+      size_t       leadingLeptonIdx() const;
+      size_t       leadingJetIdx()    const;
       
     };
 
@@ -72,8 +70,6 @@ namespace TL {
 
 inline void TL::EDM::FinalState::addLepton(const TL::EDM::Lepton& lep) { m_leptons.emplace_back(lep); }
 inline void TL::EDM::FinalState::addJet(const TL::EDM::Jet& jet)       { m_jets.emplace_back(jet);    }
-inline void TL::EDM::FinalState::setMET(const TL::EDM::MET& met)       { m_MET = met;                 }
-
 inline void TL::EDM::FinalState::addLeptonPair(const TL::EDM::LeptonPair& lp) {
   m_leptonPairs.emplace_back(lp);
 }
@@ -94,6 +90,9 @@ inline void TL::EDM::FinalState::clear() {
 inline const std::vector<TL::EDM::Lepton>& TL::EDM::FinalState::leptons() const { return m_leptons; }
 inline const std::vector<TL::EDM::Jet>&    TL::EDM::FinalState::jets()    const { return m_jets;    }
 inline const TL::EDM::MET&                 TL::EDM::FinalState::MET()     const { return m_MET;     }
+inline       TL::EDM::MET&                 TL::EDM::FinalState::MET()           { return m_MET;     }
+
+
 inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs() const {
   return m_leptonPairs;
 }
@@ -101,9 +100,8 @@ inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs(
 inline float TL::EDM::FinalState::M() const { return m_M; }
 
 inline unsigned int TL::EDM::FinalState::nbjets() const {
-  //maybe there's a more elegant boost/STL way to do this
-  auto lambdatag = [](TL::EDM::Jet a) {return a.isTagged();};
-  return count_if(m_jets.begin(), m_jets.end(), lambdatag);
+  return std::count_if(m_jets.begin(), m_jets.end(),
+		       [](const TL::EDM::Jet& a) { return a.isTagged(); });
 }
 
 inline size_t TL::EDM::FinalState::leadingLeptonIdx() const { return m_llidx; }
