@@ -68,10 +68,8 @@ TL::STATUS MyTopLoopAna::execute() {
     jet.p().SetPtEtaPhiE(pt,eta,phi,e);
     m_finalState.addJet(jet);
   }
-
-  TL::EDM::MET met;
-  met.p().SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
-  m_finalState.setMET(met);
+  
+  m_finalState.MET().p().SetPtEtaPhiM(*(*met_met),0.0,*(*met_phi),0.0);
 
   m_finalState.evaluateSelf();
   
