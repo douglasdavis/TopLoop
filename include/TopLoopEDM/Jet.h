@@ -28,7 +28,6 @@ namespace TL {
       float m_mv2c20;
       float m_ip3dsv1;
       float m_jvt;
-      bool  m_tagged;
       
       ClassDef(Jet,1);
       
@@ -43,7 +42,6 @@ namespace TL {
       void set_mv2c20(const float val);
       void set_ip3dsv1(const float val);
       void set_jvt(const float val);
-      void set_tagged();
 
       float mv2c00() const;
       float mv2c10() const;
