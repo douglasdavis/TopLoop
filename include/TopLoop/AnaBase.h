@@ -8,6 +8,7 @@
  *  to run a TopLoop algorithm. 
  *
  *  @author Douglas Davis < douglas.davis@cern.ch >
+ *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 #ifndef TL_AnaBase_h

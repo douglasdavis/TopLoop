@@ -2,6 +2,7 @@
  *  @brief TL::AnaBase class implementation
  *
  *  @author Douglas Davis < douglas.davis@cern.ch >
+ *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 // TL

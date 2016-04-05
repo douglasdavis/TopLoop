@@ -4,6 +4,7 @@
  *  Utility functions for TopLoop
  *
  *  @author Douglas Davis < douglas.davis@cern.ch >
+ *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 #ifndef TL_Utils_h
@@ -32,9 +33,6 @@ namespace std {
   }
 }
 
-// boost
-// #include <boost/range/combine.hpp>
-
 namespace TL {
   // default is MeV to other
   const double TeV = 1.0e-6;
@@ -51,9 +49,6 @@ namespace TL {
 }
 
 namespace TL {
-
-  // template<class... containers>
-  // auto zip(containers&... conts) -> decltype(boost::combine(conts...));
   
   auto string_split(const std::string &s, char delim, std::vector<std::string> &elems)
     ->  std::vector<std::string>& ;
@@ -75,13 +70,6 @@ namespace TL {
   void ProgressPrint(const std::string& func, long cur, long total, int gap);
   
 }
-
-/*
-  template<class... containers>
-  inline auto TL::zip(containers&... conts) -> decltype(boost::combine(conts...)) {
-  return boost::combine(conts...);
-  }
-*/
 
 inline auto TL::string_split(const std::string &s, char delim, std::vector<std::string> &elems)
   -> std::vector<std::string>& {

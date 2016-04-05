@@ -7,6 +7,7 @@
  *  contains the properties of the missing tranvserse energy.
  *
  *  @author Douglas Davis < douglas.davis@cern.ch >
+ *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 #ifndef TL_EDM_MET_h
