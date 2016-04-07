@@ -27,7 +27,8 @@ void TL::AnaBase::init_core_vars() {
   m_weightsReader = std::make_shared<TTreeReader>(fileManager()->rootWeightsChain());
 
   totalEventsWeighted = std::make_shared<TTRV_float>(*m_weightsReader,"totalEventsWeighted");
-
+  dsid                = std::make_shared<TTRV_int>  (*m_weightsReader,"dsid");
+  
   if ( m_isMC ) {
     weight_mc          = std::make_shared<TTRV_float>(*m_reader,"weight_mc");
     weight_pileup      = std::make_shared<TTRV_float>(*m_reader,"weight_pileup");
@@ -144,7 +145,17 @@ float TL::AnaBase::countSumWeights() {
 
   //todo: cross-check the value with Ami, warn if different?
   return sumWeights;
+}
 
+unsigned int TL::AnaBase::get_dsid() {
+  m_weightsReader->SetEntry(0);
+  auto ret_dsid = *(*dsid);
+
+  // so TTreeReader::Next() can
+  // be used again if desired
+  m_weightsReader->SetEntry(-1);
+
+  return ret_dsid;
 }
 
 TL::STATUS TL::AnaBase::init() {

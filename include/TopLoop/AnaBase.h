@@ -29,6 +29,7 @@ using TTRV_vec_float = TTreeReaderValue<std::vector<float> >;
 using TTRV_vec_char  = TTreeReaderValue<std::vector<char> >;
 using TTRV_float     = TTreeReaderValue<Float_t>;
 using TTRV_uint      = TTreeReaderValue<UInt_t>;
+using TTRV_int       = TTreeReaderValue<Int_t>;
 using TTRV_ulongint  = TTreeReaderValue<ULong64_t>;
 
 namespace TL {
@@ -48,7 +49,8 @@ namespace TL {
     std::shared_ptr<TTreeReader>     m_weightsReader;
 
     std::shared_ptr<TTRV_float>     totalEventsWeighted;
-
+    std::shared_ptr<TTRV_int>       dsid;
+    
     std::shared_ptr<TTRV_float>     weight_mc;
     std::shared_ptr<TTRV_float>     weight_pileup;
     std::shared_ptr<TTRV_float>     weight_leptonSF;
@@ -132,6 +134,13 @@ namespace TL {
     */
     float countSumWeights();
 
+    //! Get the dataset id
+    /*!
+      This can be called in the init() function if
+      the dataset ID is desired
+    */
+    unsigned int get_dsid();
+    
     //! Initialize the algorithm properties
     /*!
       The point of this function is to initialize various properties
@@ -180,11 +189,11 @@ namespace TL {
 
 }
 
-inline void TL::AnaBase::isData() { m_isMC = false; }
+inline void TL::AnaBase::isData()       { m_isMC      = false; }
 inline void TL::AnaBase::isSystematic() { m_isNominal = false; }
 
-inline std::shared_ptr<TL::FileManager> TL::AnaBase::fileManager()   { return m_fm;     }
-inline std::shared_ptr<TTreeReader>     TL::AnaBase::reader()        { return m_reader; }
+inline std::shared_ptr<TL::FileManager> TL::AnaBase::fileManager()   { return m_fm;            }
+inline std::shared_ptr<TTreeReader>     TL::AnaBase::reader()        { return m_reader;        }
 inline std::shared_ptr<TTreeReader>     TL::AnaBase::weightsReader() { return m_weightsReader; }
 
 #endif
