@@ -32,6 +32,7 @@ namespace TL {
       std::vector<TL::EDM::LeptonPair> m_leptonPairs;
       
       float  m_M;
+      float  m_Ht;
       size_t m_llidx;
       size_t m_ljidx;
       
@@ -40,7 +41,7 @@ namespace TL {
     public:
       FinalState() :
 	m_leptons(), m_jets(), m_MET(), m_leptonPairs(),
-	m_M(0), m_llidx(0), m_ljidx(0)
+	m_M(0), m_Ht(0), m_llidx(0), m_ljidx(0)
       {}
       virtual ~FinalState() {}
 
@@ -57,9 +58,10 @@ namespace TL {
       const std::vector<TL::EDM::Jet>&        jets()        const;
       const std::vector<TL::EDM::LeptonPair>& leptonPairs() const;
       const TL::EDM::MET&                     MET()         const;
-      TL::EDM::MET& MET();
+      TL::EDM::MET&                           MET();
       
       float        M()                const;
+      float        Ht()               const;
       unsigned int nbjets()           const;
       size_t       leadingLeptonIdx() const;
       size_t       leadingJetIdx()    const;
@@ -98,7 +100,8 @@ inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs(
   return m_leptonPairs;
 }
 
-inline float TL::EDM::FinalState::M() const { return m_M; }
+inline float TL::EDM::FinalState::M()  const { return m_M;  }
+inline float TL::EDM::FinalState::Ht() const { return m_Ht; }
 
 inline unsigned int TL::EDM::FinalState::nbjets() const {
   return std::count_if(m_jets.begin(), m_jets.end(),

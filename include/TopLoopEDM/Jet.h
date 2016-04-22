@@ -21,6 +21,12 @@
 
 namespace TL {
   namespace EDM {
+    enum WP_mv2c20 { kEFF_60, kEFF_70, kEFF_77, kEFF_85 };
+  }
+}
+
+namespace TL {
+  namespace EDM {
 
     class Jet : public TL::EDM::PhysicsObject {
     private:
@@ -36,8 +42,6 @@ namespace TL {
       Jet() : TL::EDM::PhysicsObject() {}
       virtual ~Jet() {}
 
-      enum WP_mv2c20 { kEFF_60, kEFF_70, kEFF_77, kEFF_85 };
-
       void set_mv2c00(const float val);
       void set_mv2c10(const float val);
       void set_mv2c20(const float val);
@@ -50,7 +54,7 @@ namespace TL {
       float ip3dsv1() const;
       float jvt() const;
 
-      bool isTagged(WP_mv2c20 wp = WP_mv2c20::kEFF_77) const;
+      bool isTagged(const TL::EDM::WP_mv2c20& wp = WP_mv2c20::kEFF_77) const;
     };
 
   }
@@ -58,11 +62,11 @@ namespace TL {
 
 namespace TL {
   namespace EDM {
-    const std::map<TL::EDM::Jet::WP_mv2c20,float> kBTAGCUTS = {
-      { TL::EDM::Jet::WP_mv2c20::kEFF_60,  0.4496 },
-      { TL::EDM::Jet::WP_mv2c20::kEFF_70, -0.0436 },
-      { TL::EDM::Jet::WP_mv2c20::kEFF_77, -0.4434 },
-      { TL::EDM::Jet::WP_mv2c20::kEFF_85, -0.7887 }
+    const std::map<TL::EDM::WP_mv2c20,float> kBTAGCUTS = {
+      { TL::EDM::WP_mv2c20::kEFF_60,  0.4496 },
+      { TL::EDM::WP_mv2c20::kEFF_70, -0.0436 },
+      { TL::EDM::WP_mv2c20::kEFF_77, -0.4434 },
+      { TL::EDM::WP_mv2c20::kEFF_85, -0.7887 }
     };
   }
 }
@@ -79,7 +83,7 @@ inline float TL::EDM::Jet::mv2c20()  const { return m_mv2c20;  }
 inline float TL::EDM::Jet::ip3dsv1() const { return m_ip3dsv1; }
 inline float TL::EDM::Jet::jvt()     const { return m_jvt;     }
 
-inline bool  TL::EDM::Jet::isTagged(TL::EDM::Jet::WP_mv2c20 wp) const {
+inline bool  TL::EDM::Jet::isTagged(const TL::EDM::WP_mv2c20& wp) const {
   return (m_mv2c20 > TL::EDM::kBTAGCUTS.at(wp));
 }
 
