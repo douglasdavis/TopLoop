@@ -34,13 +34,10 @@ namespace std {
 }
 
 namespace TL {
-  // default is MeV to other
-  const double TeV = 1.0e-6;
-  const double GeV = 1.0e-3;
+  // default is MeV so we make the scale factors
+  const double TeV = 1.0e6;
+  const double GeV = 1.0e3
 
-  // for variables specifically already in GeV
-  const double GeVtoTeV = 1.0e-3;
-  
   enum STATUS {
     Good,
     Fail,
