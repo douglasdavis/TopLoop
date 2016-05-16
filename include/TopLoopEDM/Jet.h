@@ -21,7 +21,8 @@
 
 namespace TL {
   namespace EDM {
-    enum WP_mv2c20 { kEFF_60, kEFF_70, kEFF_77, kEFF_85 };
+    // MV2c b-tagging benchmarks
+    enum WP_mv2cbm { kEFF_60, kEFF_70, kEFF_77, kEFF_85 };
   }
 }
 
@@ -54,19 +55,30 @@ namespace TL {
       float ip3dsv1() const;
       float jvt() const;
 
-      bool isTagged(const TL::EDM::WP_mv2c20& wp = WP_mv2c20::kEFF_77) const;
+      bool isTagged_c20(const TL::EDM::WP_mv2cbm& wp = WP_mv2cbm::kEFF_77) const;
+      bool isTagged_c10(const TL::EDM::WP_mv2cbm& wp = WP_mv2cbm::kEFF_77) const;
     };
 
   }
 }
 
+// b-tagging benchmarks, MV2c10 and MC2c20
+// these are current for MC15c
+// https://twiki.cern.ch/twiki/bin/view/AtlasProtected/BTaggingBenchmarks#b_tagging_Benchmarks_for_mc15c_s
+// The current (as of May 2016) recommendation is to use MV2c10.
 namespace TL {
   namespace EDM {
-    const std::map<TL::EDM::WP_mv2c20,float> kBTAGCUTS = {
-      { TL::EDM::WP_mv2c20::kEFF_60,  0.4496 },
-      { TL::EDM::WP_mv2c20::kEFF_70, -0.0436 },
-      { TL::EDM::WP_mv2c20::kEFF_77, -0.4434 },
-      { TL::EDM::WP_mv2c20::kEFF_85, -0.7887 }
+    const std::map<TL::EDM::WP_mv2cbm,float> kBTAGCUTS_c20 = {
+      { TL::EDM::WP_mv2cbm::kEFF_60, 0.8867 },
+      { TL::EDM::WP_mv2cbm::kEFF_70, 0.7110 },
+      { TL::EDM::WP_mv2cbm::kEFF_77, 0.4803 },
+      { TL::EDM::WP_mv2cbm::kEFF_85, 0.0206 }
+    };
+    const std::map<TL::EDM::WP_mv2cbm,float> kBTAGCUTS_c10 = {
+      { TL::EDM::WP_mv2cbm::kEFF_60, 0.9349 },
+      { TL::EDM::WP_mv2cbm::kEFF_70, 0.8244 },
+      { TL::EDM::WP_mv2cbm::kEFF_77, 0.6459 },
+      { TL::EDM::WP_mv2cbm::kEFF_85, 0.1758 }
     };
   }
 }
@@ -83,8 +95,12 @@ inline float TL::EDM::Jet::mv2c20()  const { return m_mv2c20;  }
 inline float TL::EDM::Jet::ip3dsv1() const { return m_ip3dsv1; }
 inline float TL::EDM::Jet::jvt()     const { return m_jvt;     }
 
-inline bool  TL::EDM::Jet::isTagged(const TL::EDM::WP_mv2c20& wp) const {
-  return (m_mv2c20 > TL::EDM::kBTAGCUTS.at(wp));
+inline bool TL::EDM::Jet::isTagged_c20(const TL::EDM::WP_mv2cbm& wp) const {
+  return (m_mv2c20 > TL::EDM::kBTAGCUTS_c20.at(wp));
+}
+
+inline bool TL::EDM::Jet::isTagged_c10(const TL::EDM::WP_mv2cbm& wp) const {
+  return (m_mv2c10 > TL::EDM::kBTAGCUTS_c10.at(wp));
 }
 
 #endif

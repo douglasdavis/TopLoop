@@ -62,7 +62,8 @@ namespace TL {
       
       float        M()                const;
       float        Ht()               const;
-      unsigned int nbjets()           const;
+      unsigned int nbjets_c20()       const;
+      unsigned int nbjets_c10()       const;
       size_t       leadingLeptonIdx() const;
       size_t       leadingJetIdx()    const;
       
@@ -103,9 +104,14 @@ inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs(
 inline float TL::EDM::FinalState::M()  const { return m_M;  }
 inline float TL::EDM::FinalState::Ht() const { return m_Ht; }
 
-inline unsigned int TL::EDM::FinalState::nbjets() const {
+inline unsigned int TL::EDM::FinalState::nbjets_c20() const {
   return std::count_if(m_jets.begin(), m_jets.end(),
-		       [](const TL::EDM::Jet& a) { return a.isTagged(); });
+		       [](const TL::EDM::Jet& a) { return a.isTagged_c20(); });
+}
+
+inline unsigned int TL::EDM::FinalState::nbjets_c10() const {
+  return std::count_if(m_jets.begin(), m_jets.end(),
+		       [](const TL::EDM::Jet& a) { return a.isTagged_c10(); });
 }
 
 inline size_t TL::EDM::FinalState::leadingLeptonIdx() const { return m_llidx; }

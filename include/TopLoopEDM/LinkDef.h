@@ -6,8 +6,8 @@
 #pragma link C++ class std::pair<size_t,size_t>+;
 #pragma link C++ class TL::EDM::PhysicsObject+;
 #pragma link C++ class TL::EDM::Jet+;
-#pragma link C++ enum  TL::EDM::Jet::WP_mv2c20+;
-#pragma link C++ class std::map<TL::EDM::Jet::WP_mv2c20,float>+;
+#pragma link C++ enum  TL::EDM::Jet::WP_mv2cbm+;
+#pragma link C++ class std::map<TL::EDM::Jet::WP_mv2cbm,float>+;
 #pragma link C++ class TL::EDM::Lepton+;
 #pragma link C++ class TL::EDM::LeptonPair+;
 #pragma link C++ class std::vector<TL::EDM::Jet>+;
