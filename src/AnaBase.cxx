@@ -12,7 +12,7 @@
 TL::AnaBase::AnaBase() :
   m_datasetName(),
   m_isMC(true),
-  m_isNominal(true){
+  m_isNominal(true) {
   core_init();
 }
 
@@ -23,11 +23,12 @@ void TL::AnaBase::core_init() {
 }
 
 void TL::AnaBase::init_core_vars() {
-  m_reader        = std::make_shared<TTreeReader>(fileManager()->rootChain());
-  m_weightsReader = std::make_shared<TTreeReader>(fileManager()->rootWeightsChain());
+  m_reader              = std::make_shared<TTreeReader>(fileManager()->rootChain());
+  m_weightsReader       = std::make_shared<TTreeReader>(fileManager()->rootWeightsChain());
+  m_particleLevelReader = std::make_shared<TTreeReader>(fileManager()->rootParticleLevelChain());
 
-  totalEventsWeighted = std::make_shared<TTRV_float>(*m_weightsReader,"totalEventsWeighted");
-  dsid                = std::make_shared<TTRV_int>  (*m_weightsReader,"dsid");
+  totalEventsWeighted   = std::make_shared<TTRV_float>(*m_weightsReader,"totalEventsWeighted");
+  dsid                  = std::make_shared<TTRV_int>  (*m_weightsReader,"dsid");
   
   if ( m_isMC ) {
     weight_mc          = std::make_shared<TTRV_float>(*m_reader,"weight_mc");

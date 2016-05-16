@@ -47,6 +47,7 @@ namespace TL {
     std::shared_ptr<TL::FileManager> m_fm;
     std::shared_ptr<TTreeReader>     m_reader;
     std::shared_ptr<TTreeReader>     m_weightsReader;
+    std::shared_ptr<TTreeReader>     m_particleLevelReader;
 
     std::shared_ptr<TTRV_float>     totalEventsWeighted;
     std::shared_ptr<TTRV_int>       dsid;
@@ -181,9 +182,10 @@ namespace TL {
     virtual void isData();
     virtual void isSystematic();
     
-    std::shared_ptr<TL::FileManager> fileManager();   //!< get pointer to file manager
-    std::shared_ptr<TTreeReader>     reader();        //!< get pointer to TTreeReader
-    std::shared_ptr<TTreeReader>     weightsReader(); //!< get pointer to TTreeReader for sumweights
+    std::shared_ptr<TL::FileManager> fileManager();         //!< get pointer to file manager
+    std::shared_ptr<TTreeReader>     reader();              //!< get pointer to TTreeReader
+    std::shared_ptr<TTreeReader>     weightsReader();       //!< get pointer to TTreeReader for sumweights
+    std::shared_ptr<TTreeReader>     particleLevelReader(); //!< get pointer to TTreeReader for PL info
     
   };
 
@@ -192,8 +194,9 @@ namespace TL {
 inline void TL::AnaBase::isData()       { m_isMC      = false; }
 inline void TL::AnaBase::isSystematic() { m_isNominal = false; }
 
-inline std::shared_ptr<TL::FileManager> TL::AnaBase::fileManager()   { return m_fm;            }
-inline std::shared_ptr<TTreeReader>     TL::AnaBase::reader()        { return m_reader;        }
-inline std::shared_ptr<TTreeReader>     TL::AnaBase::weightsReader() { return m_weightsReader; }
+inline std::shared_ptr<TL::FileManager> TL::AnaBase::fileManager()         { return m_fm;                  }
+inline std::shared_ptr<TTreeReader>     TL::AnaBase::reader()              { return m_reader;              }
+inline std::shared_ptr<TTreeReader>     TL::AnaBase::weightsReader()       { return m_weightsReader;       }
+inline std::shared_ptr<TTreeReader>     TL::AnaBase::particleLevelReader() { return m_particleLevelReader; }
 
 #endif

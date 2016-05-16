@@ -20,7 +20,8 @@
 
 TL::FileManager::FileManager() :
   m_fileNames(), m_treeName("nominal"), m_weightsTreeName("sumWeights"),
-  m_rootChain(nullptr), m_rootWeightsChain(nullptr) {
+  m_particleLevelTreeName("particleLevel"), m_rootChain(nullptr),
+  m_rootWeightsChain(nullptr), m_particleLevelChain(nullptr) {
 }
 
 TL::FileManager::~FileManager() {}
@@ -33,9 +34,14 @@ void TL::FileManager::setWeightsTreeName(const std::string& tn) {
   m_weightsTreeName = tn;
 }
 
+void TL::FileManager::setParticleLevelTreeName(const std::string& tn) {
+  m_particleLevelTreeName = tn;
+}
+
 void TL::FileManager::initChain() {
-  m_rootChain        = new TChain(m_treeName.c_str());
-  m_rootWeightsChain = new TChain(m_weightsTreeName.c_str());
+  m_rootChain          = new TChain(m_treeName.c_str());
+  m_rootWeightsChain   = new TChain(m_weightsTreeName.c_str());
+  m_particleLevelChain = new TChain(m_particleLevelTreeName.c_str());
 }
 
 void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
@@ -53,8 +59,9 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
 	std::string final_path = i->path().filename().string();
 	TL::Info("feedDir()","Adding file",final_path);
 	m_fileNames.emplace_back(dirpath+(final_path));
-	m_rootChain->       Add((dirpath+"/"+final_path).c_str());
-	m_rootWeightsChain->Add((dirpath+"/"+final_path).c_str());
+	m_rootChain->         Add((dirpath+"/"+final_path).c_str());
+	m_rootWeightsChain->  Add((dirpath+"/"+final_path).c_str());
+	m_particleLevelChain->Add((dirpath+"/"+final_path).c_str());
       }
     }
     else {
@@ -71,8 +78,9 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
     if ( !line.empty() ) {
       TL::Info("feedTxt()","Adding file",line);
       m_fileNames.emplace_back(line);
-      m_rootChain->       Add(line.c_str());
-      m_rootWeightsChain->Add(line.c_str());
+      m_rootChain->         Add(line.c_str());
+      m_rootWeightsChain->  Add(line.c_str());
+      m_particleLevelChain->Add(line.c_str());
     }
   }
 }
@@ -80,6 +88,7 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
 void ::TL::FileManager::feedSingle(const char* fileName) {
   this->initChain();
   m_fileNames.emplace_back(std::string(fileName));
-  m_rootChain->       Add(fileName);
-  m_rootWeightsChain->Add(fileName);
+  m_rootChain->         Add(fileName);
+  m_rootWeightsChain->  Add(fileName);
+  m_particleLevelChain->Add(fileName);
 }
