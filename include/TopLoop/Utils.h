@@ -17,21 +17,7 @@
 #include <sstream>
 #include <vector>
 #include <cmath>
-
-// for std::unique_ptr
 #include <memory>
-
-namespace std {
-  //! An implementation of std::make_unique
-  /*!
-    Since c++11 does not have std::make_unique,
-    we implement a version of it in c++11 here.
-  */
-  template<typename T, typename... Args>
-  std::unique_ptr<T> make_unique(Args&&... args) {
-    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
-  }
-}
 
 namespace TL {
   // default is MeV so we make the scale factors
