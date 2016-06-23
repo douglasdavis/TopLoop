@@ -126,7 +126,7 @@ void TL::AnaBase::init_core_vars() {
   el_trigMatch_HLT_e60_lhmedium =
     std::make_shared<TTRV_vec_char>(*m_reader,"el_trigMatch_HLT_e60_lhmedium");
   el_trigMatch_HLT_e24_lhmedium_L1EM18VH =
-    std::make_shared<TTRV_vec_char>(*m_reader,"el_trigMatch_HLT_e24_lhmedium_L1EM18VH");
+    std::make_shared<TTRV_vec_char>(*m_reader,"el_trigMatch_HLT_e24_lhmedium_L1EM20VH");
   el_trigMatch_HLT_e120_lhloose =
     std::make_shared<TTRV_vec_char>(*m_reader,"el_trigMatch_HLT_e120_lhloose");
   mu_trigMatch_HLT_mu50 =
@@ -140,8 +140,10 @@ float TL::AnaBase::countSumWeights() {
   //MC (to get the MC lumi) and data (perhaps as a cross-check)
   float sumWeights = 0;
   while ( m_weightsReader->Next() ) {
+    if (m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid) {
+      TL::Fatal("countSumWeights()", "Tree reader does not return kEntryValid, I/O Error... terminating");
+    }
     sumWeights += *(*totalEventsWeighted);
-    //todo: add some protection for i/o problems?
   }
 
   //todo: cross-check the value with Ami, warn if different?
