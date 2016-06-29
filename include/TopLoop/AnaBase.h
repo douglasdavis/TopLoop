@@ -27,6 +27,8 @@
 
 using TTRV_vec_float = TTreeReaderValue<std::vector<float> >;
 using TTRV_vec_char  = TTreeReaderValue<std::vector<char> >;
+using TTRV_vec_bool  = TTreeReaderValue<std::vector<bool> >;
+using TTRV_vec_int   = TTreeReaderValue<std::vector<int> >;
 using TTRV_float     = TTreeReaderValue<Float_t>;
 using TTRV_uint      = TTreeReaderValue<UInt_t>;
 using TTRV_int       = TTreeReaderValue<Int_t>;
@@ -79,6 +81,11 @@ namespace TL {
     std::shared_ptr<TTRV_vec_float> el_ptvarcone20;
     std::shared_ptr<TTRV_vec_float> el_d0sig;
     std::shared_ptr<TTRV_vec_float> el_delta_z0_sintheta;
+
+    std::shared_ptr<TTRV_vec_bool>  el_truthMatched;
+    std::shared_ptr<TTRV_vec_int>   el_true_pdg;
+    std::shared_ptr<TTRV_vec_float> el_true_pt;
+    std::shared_ptr<TTRV_vec_float> el_true_eta;
     
     std::shared_ptr<TTRV_vec_float> mu_pt;
     std::shared_ptr<TTRV_vec_float> mu_phi;
@@ -90,6 +97,11 @@ namespace TL {
     std::shared_ptr<TTRV_vec_float> mu_d0sig;
     std::shared_ptr<TTRV_vec_float> mu_delta_z0_sintheta;
     
+    std::shared_ptr<TTRV_vec_bool>  mu_truthMatched;
+    std::shared_ptr<TTRV_vec_int>   mu_true_pdg;
+    std::shared_ptr<TTRV_vec_float> mu_true_pt;
+    std::shared_ptr<TTRV_vec_float> mu_true_eta;
+
     std::shared_ptr<TTRV_vec_float> jet_pt;
     std::shared_ptr<TTRV_vec_float> jet_eta;
     std::shared_ptr<TTRV_vec_float> jet_phi;
@@ -102,12 +114,59 @@ namespace TL {
 
     std::shared_ptr<TTRV_float> met_met;
     std::shared_ptr<TTRV_float> met_phi;
+    std::shared_ptr<TTRV_float> met_sumet;
 
     std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e60_lhmedium;
     std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e24_lhmedium_L1EM18VH;
     std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e120_lhloose;
     std::shared_ptr<TTRV_vec_char> mu_trigMatch_HLT_mu50;
     std::shared_ptr<TTRV_vec_char> mu_trigMatch_HLT_mu20_iloose_L1MU15;
+
+    // All of the truth (particleLevel tree, plt) variables {
+    std::shared_ptr<TTRV_float>       plt_mu;
+    std::shared_ptr<TTRV_vec_float>   plt_el_pt;
+    std::shared_ptr<TTRV_vec_float>   plt_el_eta;
+    std::shared_ptr<TTRV_vec_float>   plt_el_phi;
+    std::shared_ptr<TTRV_vec_float>   plt_el_e;
+    std::shared_ptr<TTRV_vec_float>   plt_el_charge;
+    std::shared_ptr<TTRV_vec_float>   plt_el_pt_bare;
+    std::shared_ptr<TTRV_vec_float>   plt_el_eta_bare;
+    std::shared_ptr<TTRV_vec_float>   plt_el_phi_bare;
+    std::shared_ptr<TTRV_vec_float>   plt_el_e_bare;
+    std::shared_ptr<TTRV_vec_float>   plt_mu_pt;
+    std::shared_ptr<TTRV_vec_float>   plt_mu_eta;
+    std::shared_ptr<TTRV_vec_float>   plt_mu_phi;
+    std::shared_ptr<TTRV_vec_float>   plt_mu_e;
+    std::shared_ptr<TTRV_vec_float>   plt_mu_charge;
+    std::shared_ptr<TTRV_vec_float>   plt_mu_pt_bare;
+    std::shared_ptr<TTRV_vec_float>   plt_mu_eta_bare;
+    std::shared_ptr<TTRV_vec_float>   plt_mu_phi_bare;
+    std::shared_ptr<TTRV_vec_float>   plt_mu_e_bare;
+    std::shared_ptr<TTRV_vec_float>   plt_jet_pt;
+    std::shared_ptr<TTRV_vec_float>   plt_jet_eta;
+    std::shared_ptr<TTRV_vec_float>   plt_jet_phi;
+    std::shared_ptr<TTRV_vec_float>   plt_jet_e;
+    std::shared_ptr<TTRV_vec_int>     plt_jet_nGhosts_bHadron;
+    std::shared_ptr<TTRV_float>       plt_met_met;
+    std::shared_ptr<TTRV_float>       plt_met_phi;
+    std::shared_ptr<TTRV_vec_float>   plt_PDFinfo_X1;
+    std::shared_ptr<TTRV_vec_float>   plt_PDFinfo_X2;
+    std::shared_ptr<TTRV_vec_int>     plt_PDFinfo_PDGID1;
+    std::shared_ptr<TTRV_vec_int>     plt_PDFinfo_PDGID2;
+    std::shared_ptr<TTRV_vec_float>   plt_PDFinfo_Q;
+    std::shared_ptr<TTRV_vec_float>   plt_PDFinfo_XF1;
+    std::shared_ptr<TTRV_vec_float>   plt_PDFinfo_XF2;
+    std::shared_ptr<TTRV_int>         plt_emu_2015;
+    std::shared_ptr<TTRV_int>         plt_mumu_2016;
+    std::shared_ptr<TTRV_int>         plt_mumu_2015;
+    std::shared_ptr<TTRV_int>         plt_emu_2016;
+    std::shared_ptr<TTRV_int>         plt_ee_2016;
+    std::shared_ptr<TTRV_int>         plt_ee_2015;
+    std::shared_ptr<TTRV_vec_float>   plt_nu_pt;
+    std::shared_ptr<TTRV_vec_float>   plt_nu_eta;
+    std::shared_ptr<TTRV_vec_float>   plt_nu_phi;
+    std::shared_ptr<TTRV_vec_int>     plt_nu_origin;
+    // }
 
   public:
     AnaBase();
