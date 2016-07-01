@@ -82,7 +82,11 @@ void TL::AnaBase::init_core_vars() {
   }
 
   eventNumber     = std::make_shared<TTRV_ulongint>(*m_reader,"eventNumber");
-  runNumber       = std::make_shared<TTRV_uint>    (*m_reader,"runNumber");
+  if ( m_isMC ) { //use randomly generated MC run numbers to mimic data conditions
+    runNumber       = std::make_shared<TTRV_uint>    (*m_reader,"randomRunNumber");
+  } else {
+    runNumber       = std::make_shared<TTRV_uint>    (*m_reader,"runNumber");
+  }
   mcChannelNumber = std::make_shared<TTRV_uint>    (*m_reader,"mcChannelNumber");
   mu              = std::make_shared<TTRV_float>   (*m_reader,"mu");
   
