@@ -183,9 +183,9 @@ void TL::AnaBase::init_core_vars() {
     plt_met_phi             = std::make_shared<TTRV_float>(*m_particleLevelReader,"met_phi");
     plt_PDFinfo_X1          = std::make_shared<TTRV_vec_float>(*m_particleLevelReader,"PDFinfo_X1");
     plt_PDFinfo_X2          = std::make_shared<TTRV_vec_float>(*m_particleLevelReader,"PDFinfo_X2");
-    plt_PDFinfo_PDGID1      = std::make_shared<TTRV_vec_int>(*m_particleLevelReader,"PDFinfoPDGID1");
-    plt_PDFinfo_PDGID2      = std::make_shared<TTRV_vec_int>(*m_particleLevelReader,"PDFinfoPDGID2");
-    plt_PDFinfo_Q           = std::make_shared<TTRV_vec_float>(*m_particleLevelReader,"PDFinfoQ");
+    plt_PDFinfo_PDGID1      = std::make_shared<TTRV_vec_int>(*m_particleLevelReader,"PDFinfo_PDGID1");
+    plt_PDFinfo_PDGID2      = std::make_shared<TTRV_vec_int>(*m_particleLevelReader,"PDFinfo_PDGID2");
+    plt_PDFinfo_Q           = std::make_shared<TTRV_vec_float>(*m_particleLevelReader,"PDFinfo_Q");
     plt_PDFinfo_XF1         = std::make_shared<TTRV_vec_float>(*m_particleLevelReader,"PDFinfo_XF1");
     plt_PDFinfo_XF2         = std::make_shared<TTRV_vec_float>(*m_particleLevelReader,"PDFinfo_XF2");
     plt_emu_2015            = std::make_shared<TTRV_int>(*m_particleLevelReader,"emu_2015");

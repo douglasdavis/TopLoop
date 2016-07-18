@@ -22,19 +22,28 @@ namespace TL {
 
   protected:
     TL::AnaBase* m_analysis;
+    bool         m_particleLevelRun;
 
   public:
     Job() :
-      m_analysis(nullptr)
+      m_analysis(nullptr),
+      m_particleLevelRun(false)
     {}
     Job(TL::AnaBase* ab) :
-      m_analysis(ab) {}
+      m_analysis(ab),
+      m_particleLevelRun(false)
+    {}
     virtual ~Job() {}
 
+    void setParticleLevelRun();
     void run();
 
   };
 
+}
+
+inline void TL::Job::setParticleLevelRun() {
+  m_particleLevelRun = true;
 }
 
 #endif

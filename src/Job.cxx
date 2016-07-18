@@ -8,6 +8,7 @@
 // TL
 #include <TopLoop/Job.h>
 #include <TopLoop/AnaBase.h>
+#include <TopLoop/Utils.h>
 
 void TL::Job::run() {
   if ( m_analysis->init() == TL::STATUS::Good ) {}
@@ -19,8 +20,16 @@ void TL::Job::run() {
   else {
     TL::Fatal("your setupOutput() returned TL::STATUS::Fail");
   }
-  
-  while ( m_analysis->reader()->Next() ) {
+
+  auto current_reader = m_analysis->reader();
+  if ( m_particleLevelRun ) {
+    TL::Info("Job::run()","particle level run!");
+    current_reader = m_analysis->particleLevelReader();
+  }
+
+  current_reader->SetEntry(-1); // always start from beginning, TTreeReader::Next() will go to 0.
+  TL::Info("Job::run()","made it to execute");
+  while ( current_reader->Next() ) {
     auto eventResult = m_analysis->execute();
     if ( eventResult == TL::STATUS::Good ) {
       // good event
