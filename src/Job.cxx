@@ -28,7 +28,6 @@ void TL::Job::run() {
   }
 
   current_reader->SetEntry(-1); // always start from beginning, TTreeReader::Next() will go to 0.
-  TL::Info("Job::run()","made it to execute");
   while ( current_reader->Next() ) {
     auto eventResult = m_analysis->execute();
     if ( eventResult == TL::STATUS::Good ) {
