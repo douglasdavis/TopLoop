@@ -12,8 +12,8 @@
 TL::EDM::LeptonPair::LeptonPair() : TL::EDM::PhysicsObject() {}
 
 TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
-				const TL::EDM::Lepton& lep2,
-				const size_t idxf, const size_t idxs) :
+                                const TL::EDM::Lepton& lep2,
+                                const size_t idxf, const size_t idxs) :
   TL::EDM::PhysicsObject()
 {
   m_idxp = std::make_pair(idxf,idxs);

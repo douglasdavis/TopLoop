@@ -40,8 +40,8 @@ namespace TL {
       
     public:
       FinalState() :
-	m_leptons(), m_jets(), m_MET(), m_leptonPairs(),
-	m_M(0), m_Ht(0), m_llidx(0), m_ljidx(0)
+        m_leptons(), m_jets(), m_MET(), m_leptonPairs(),
+        m_M(0), m_Ht(0), m_llidx(0), m_ljidx(0)
       {}
       virtual ~FinalState() {}
 
@@ -106,12 +106,12 @@ inline float TL::EDM::FinalState::Ht() const { return m_Ht; }
 
 inline unsigned int TL::EDM::FinalState::nbjets_c20() const {
   return std::count_if(m_jets.begin(), m_jets.end(),
-		       [](const TL::EDM::Jet& a) { return a.isTagged_c20(); });
+                       [](const TL::EDM::Jet& a) { return a.isTagged_c20(); });
 }
 
 inline unsigned int TL::EDM::FinalState::nbjets_c10() const {
   return std::count_if(m_jets.begin(), m_jets.end(),
-		       [](const TL::EDM::Jet& a) { return a.isTagged_c10(); });
+                       [](const TL::EDM::Jet& a) { return a.isTagged_c10(); });
 }
 
 inline size_t TL::EDM::FinalState::leadingLeptonIdx() const { return m_llidx; }

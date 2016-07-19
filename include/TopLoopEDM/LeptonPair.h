@@ -44,8 +44,8 @@ namespace TL {
       
       LeptonPair();
       LeptonPair(const TL::EDM::Lepton& lep1,
-		 const TL::EDM::Lepton& lep2,
-		 const size_t idxf, const size_t idxs);
+                 const TL::EDM::Lepton& lep2,
+                 const size_t idxf, const size_t idxs);
       virtual ~LeptonPair();
 
       float deltaR()   const;

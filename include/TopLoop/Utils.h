@@ -34,7 +34,7 @@ namespace TL {
 namespace TL {
   
   auto string_split(const std::string &s, char delim, std::vector<std::string> &elems)
-    ->  std::vector<std::string>& ;
+    -> std::vector<std::string>&;
   auto string_split(const std::string &s, char delim)
     -> std::vector<std::string>;
 
@@ -96,12 +96,12 @@ inline void TL::Fatal(Arg&& arg, Args&&... args) {
 }
 
 inline void TL::ProgressPrint(const std::string& func,
-			      long cur, long total, int range) {
+                              long cur, long total, int range) {
   auto progress = 100.0*cur/total;
   int gap = total/range;
   if ( cur%gap == 0 ) {
     TL::Info(func,"Events processed:",cur,
-	     std::to_string(int(std::round(progress)))+"%");
+             std::to_string(int(std::round(progress)))+"%");
   }
 }
 

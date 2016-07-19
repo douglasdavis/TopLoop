@@ -53,15 +53,15 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
     if ( !boost::filesystem::is_directory(i->path()) ) {
       auto split_version = TL::string_split(i->path().filename().string(),'.');
       if ( split_version.back() != "root" && !take_all ) {
-	continue;
+        continue;
       }
       else {
-	std::string final_path = i->path().filename().string();
-	TL::Info("feedDir()","Adding file",final_path);
-	m_fileNames.emplace_back(dirpath+(final_path));
-	m_rootChain->         Add((dirpath+"/"+final_path).c_str());
-	m_rootWeightsChain->  Add((dirpath+"/"+final_path).c_str());
-	m_particleLevelChain->Add((dirpath+"/"+final_path).c_str());
+        std::string final_path = i->path().filename().string();
+        TL::Info("feedDir()","Adding file",final_path);
+        m_fileNames.emplace_back(dirpath+(final_path));
+        m_rootChain->         Add((dirpath+"/"+final_path).c_str());
+        m_rootWeightsChain->  Add((dirpath+"/"+final_path).c_str());
+        m_particleLevelChain->Add((dirpath+"/"+final_path).c_str());
       }
     }
     else {
