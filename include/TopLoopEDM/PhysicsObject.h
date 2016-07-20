@@ -23,16 +23,26 @@ namespace TL {
     class PhysicsObject : public TObject {
     protected:
       TLorentzVector m_p;
+      bool           m_isParticleLevel;
+      bool           m_partLevPassedSelection;
 
       ClassDef(PhysicsObject,1);
 
     public:
-      PhysicsObject() : m_p() {}
+      PhysicsObject() :
+	m_p(), m_isParticleLevel(false), m_partLevPassedSelection(false)
+      {}
       virtual ~PhysicsObject() {}
 
       TLorentzVector& p();
 
       const TLorentzVector& p() const;
+
+      void set_isParticleLevel(const bool val);
+      void set_partLevPassedSelection(const bool val);
+
+      bool isParticleLevel() const;
+      bool partLevPassedSelection() const;
 
       float pT()  const;
       float eta() const;
@@ -50,6 +60,12 @@ namespace TL {
 
 inline const TLorentzVector& TL::EDM::PhysicsObject::p() const { return m_p; }
 inline       TLorentzVector& TL::EDM::PhysicsObject::p()       { return m_p; }
+
+inline void TL::EDM::PhysicsObject::set_isParticleLevel(const bool val)        { m_isParticleLevel        = val; }
+inline void TL::EDM::PhysicsObject::set_partLevPassedSelection(const bool val) { m_partLevPassedSelection = val; }
+
+inline bool TL::EDM::PhysicsObject::isParticleLevel()        const { return m_isParticleLevel;        }
+inline bool TL::EDM::PhysicsObject::partLevPassedSelection() const { return m_partLevPassedSelection; }
 
 inline float TL::EDM::PhysicsObject::pT()  const { return m_p.Pt();  }
 inline float TL::EDM::PhysicsObject::eta() const { return m_p.Eta(); }
