@@ -51,7 +51,7 @@ namespace TL {
   template <typename Arg, typename... Args>
   void Fatal(Arg&& arg, Args&&... args);
 
-  void ProgressPrint(const std::string& func, long cur, long total, int gap);
+  int ProgressPrint(const std::string& func, long cur, long total, int gap);
   
 }
 
@@ -96,13 +96,19 @@ inline void TL::Fatal(Arg&& arg, Args&&... args) {
   std::exit(EXIT_FAILURE);
 }
 
-inline void TL::ProgressPrint(const std::string& func,
+inline int TL::ProgressPrint(const std::string& func,
                               long cur, long total, int range) {
-  auto progress = 100.0*cur/total;
-  int gap = total/range;
-  if ( cur%gap == 0 ) {
-    TL::Info(func,"Events processed:",cur,
-             std::to_string(int(std::round(progress)))+"%");
+  if ( total > 50 ) {
+    auto progress = 100.0*cur/total;
+    int gap = total/range;
+    if ( cur%gap == 0 ) {
+      TL::Info(func,"Events processed:",cur,
+	       std::to_string(int(std::round(progress)))+"%");
+    }
+    return 0;
+  }
+  else {
+    return 0;
   }
 }
 
@@ -147,8 +153,7 @@ namespace TL {
     { 361398 , "zjets" } ,  { 361399 , "zjets" } ,  { 0      , "data"  }
   };
 
-  /*
-    static const std::map<unsigned int, std::string> kDSIDTABLENEW = {
+  static const std::map<unsigned int, std::string> kDSIDTABLENEW = {
     { 410000 , "tt"     } , { 410001 , "tt"     } , { 410002 , "tt"     } ,
     { 410004 , "tt"     } , { 410007 , "tt"     } , { 410008 , "tt"     } ,
     { 410008 , "tt"     } , { 410009 , "tt"     } , { 410021 , "tt"     } ,
@@ -331,10 +336,15 @@ namespace TL {
     { 361528 , "wjets"  } , { 361529 , "wjets"  } , { 361530 , "wjets"  } ,
     { 361531 , "wjets"  } , { 361532 , "wjets"  } , { 361533 , "wjets"  } ,
     { 361534 , "wjets"  } ,
+    { 351600 , "ww"     } , { 361606 , "ww"     } ,
+    { 361601 , "wz"     } , { 361602 , "wz"     } , { 361607 , "wz"     } ,
+    { 361608 , "wz"     } , { 361609 , "wz"     } ,
+    { 361603 , "zz"     } , { 361604 , "zz"     } , { 361605 , "zz"     } ,
+    { 361610 , "zz"     } , { 361611 , "zz"     } ,
 
     { 0      , "data"   }
-    };
-  */
+  };
+
 }
 
 #endif
