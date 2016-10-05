@@ -46,7 +46,7 @@ void TL::FileManager::initChain() {
 
 void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
   this->initChain();
-  TL::Info("feedDir()","feeding");
+  TL::Info(__PRETTY_FUNCTION__,"feeding");
   boost::filesystem::path p(dirpath);
   auto i = boost::filesystem::directory_iterator(p);  
   for ( ; i != boost::filesystem::directory_iterator(); ++i ) {
@@ -57,7 +57,7 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
       }
       else {
         std::string final_path = i->path().filename().string();
-        TL::Info("feedDir()","Adding file",final_path);
+        TL::Info(__PRETTY_FUNCTION__,"Adding file",final_path);
         m_fileNames.emplace_back(dirpath+(final_path));
         m_rootChain->         Add((dirpath+"/"+final_path).c_str());
         m_rootWeightsChain->  Add((dirpath+"/"+final_path).c_str());
@@ -76,7 +76,7 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
   std::ifstream infile(txtfilename);
   while ( std::getline(infile,line) ) {
     if ( !line.empty() ) {
-      TL::Info("feedTxt()","Adding file",line);
+      TL::Info(__PRETTY_FUNCTION__,"Adding file",line);
       m_fileNames.emplace_back(line);
       m_rootChain->         Add(line.c_str());
       m_rootWeightsChain->  Add(line.c_str());

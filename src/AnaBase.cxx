@@ -229,22 +229,22 @@ unsigned int TL::AnaBase::get_dsid() {
 }
 
 TL::STATUS TL::AnaBase::init() {
-  TL::Warning("init()","This is the base init() class, doesn't do anything!");
+  TL::Warning(__PRETTY_FUNCTION__,"This is the base init() class, doesn't do anything!");
   init_core_vars();
   return TL::STATUS::Good;
 }
 
 TL::STATUS TL::AnaBase::setupOutput() {
-  TL::Warning("setupOutput()","This is the base setupOutput() function, doesn't do anything!");
+  TL::Warning(__PRETTY_FUNCTION__,"This is the base setupOutput() function, doesn't do anything!");
   return TL::STATUS::Good;
 }
 
 TL::STATUS TL::AnaBase::execute() {
-  TL::Warning("execute()","This is the base execute() function, doesn't do anything!");
+  TL::Warning(__PRETTY_FUNCTION__,"This is the base execute() function, doesn't do anything!");
   return TL::STATUS::Good;
 }
 
 TL::STATUS TL::AnaBase::finish() {
-  TL::Warning("finish()","This is the base finish() function, doesn't do anything!");
+  TL::Warning(__PRETTY_FUNCTION__,"This is the base finish() function, doesn't do anything!");
   return TL::STATUS::Good;
 }

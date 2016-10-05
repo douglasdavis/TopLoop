@@ -41,7 +41,7 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
     m_elel = true;
   }
   else {
-    TL::Warning("LeptonPair()","Bad PDG sum!",pdgsum);
+    TL::Warning(__PRETTY_FUNCTION__,"Bad PDG sum!",pdgsum);
   }
 
   if ( chargesum == 0 ) {
@@ -53,7 +53,7 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
     m_OS = false;
   }
   else {
-    TL::Warning("LeptonPair()","Unexpected charge sum!",chargesum);
+    TL::Warning(__PRETTY_FUNCTION__,"Unexpected charge sum!",chargesum);
   }
 }
 

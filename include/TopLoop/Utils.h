@@ -80,17 +80,17 @@ inline void TL::TopPrint(std::ostream& out, Arg&& arg, Args&&... args) {
   out << std::endl;
 }
 
-template<typename Arg, typename... Args>
+template <typename Arg, typename... Args>
 inline void TL::Info(Arg&& arg, Args&&... args) {
   TopPrint(std::cout,"INFO\t",arg,"\t",args...);
 }
 
-template<typename Arg, typename... Args>
+template <typename Arg, typename... Args>
 inline void TL::Warning(Arg&& arg, Args&&... args) {
   TopPrint(std::cout,"WARNING\t",arg,"\t",args...);
 }
 
-template<typename Arg, typename... Args>
+template <typename Arg, typename... Args>
 inline void TL::Fatal(Arg&& arg, Args&&... args) {
   TopPrint(std::cerr,"FATAL\t",arg,"\t",args...);
   std::exit(EXIT_FAILURE);
@@ -114,7 +114,7 @@ inline int TL::ProgressPrint(const std::string& func,
 
 namespace TL {
 
-  static const std::map<unsigned int, std::string> kDSIDTABLE = {
+  static const std::map<unsigned int, std::string> kDSIDTABLEOLD = {
     { 361084 , "wz"    } ,  { 361420 , "zjets" } ,  { 361421 , "zjets" } ,
     { 361422 , "zjets" } ,  { 361423 , "zjets" } ,  { 361424 , "zjets" } ,
     { 361425 , "zjets" } ,  { 361426 , "zjets" } ,  { 361427 , "zjets" } ,
@@ -153,7 +153,7 @@ namespace TL {
     { 361398 , "zjets" } ,  { 361399 , "zjets" } ,  { 0      , "data"  }
   };
 
-  static const std::map<unsigned int, std::string> kDSIDTABLENEW = {
+  static const std::map<unsigned int, std::string> kDSIDTABLE = {
     { 410000 , "tt"     } , { 410001 , "tt"     } , { 410002 , "tt"     } ,
     { 410004 , "tt"     } , { 410007 , "tt"     } , { 410008 , "tt"     } ,
     { 410008 , "tt"     } , { 410009 , "tt"     } , { 410021 , "tt"     } ,

@@ -13,17 +13,17 @@
 void TL::Job::run() {
   if ( m_analysis->init() == TL::STATUS::Good ) {}
   else {
-    TL::Fatal("your init() returned TL::STATUS::Fail");
+    TL::Fatal(__PRETTY_FUNCTION__,"your init() returned TL::STATUS::Fail");
   }
 
   if ( m_analysis->setupOutput() == TL::STATUS::Good ) {}
   else {
-    TL::Fatal("your setupOutput() returned TL::STATUS::Fail");
+    TL::Fatal(__PRETTY_FUNCTION__,"your setupOutput() returned TL::STATUS::Fail");
   }
 
   auto current_reader = m_analysis->reader();
   if ( m_particleLevelRun ) {
-    TL::Info("Job::run()","particle level run!");
+    TL::Info(__PRETTY_FUNCTION__,"particle level run!");
     current_reader = m_analysis->particleLevelReader();
   }
 
@@ -37,12 +37,12 @@ void TL::Job::run() {
       continue;
     }
     else {
-      TL::Fatal("your execute() returned TL::STATUS::Fail");
+      TL::Fatal(__PRETTY_FUNCTION__,"your execute() returned TL::STATUS::Fail");
     }
   }
 
   if ( m_analysis->finish() == TL::STATUS::Good ) {}
   else {
-    TL::Fatal("your finish() returned TL::STATUS::Fail");
+    TL::Fatal(__PRETTY_FUNCTION__,"your finish() returned TL::STATUS::Fail");
   }
 }
