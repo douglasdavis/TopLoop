@@ -18,13 +18,23 @@
 #include <fstream>
 #include <sstream>
 
+// ROOT
+#include <TROOT.h>
+
 TL::FileManager::FileManager() :
   m_fileNames(), m_treeName("nominal"), m_weightsTreeName("sumWeights"),
   m_particleLevelTreeName("particleLevel"), m_rootChain(nullptr),
   m_rootWeightsChain(nullptr), m_particleLevelChain(nullptr) {
 }
 
-TL::FileManager::~FileManager() {}
+TL::FileManager::~FileManager() {
+  delete m_rootChain;
+  delete m_rootWeightsChain;
+  delete m_particleLevelChain;
+  gROOT->GetListOfFiles()->Remove(m_rootChain);
+  gROOT->GetListOfFiles()->Remove(m_rootWeightsChain);
+  gROOT->GetListOfFiles()->Remove(m_particleLevelChain);
+}
 
 void TL::FileManager::setTreeName(const std::string& tn) {
   m_treeName = tn;
@@ -48,7 +58,7 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
   this->initChain();
   TL::Info(__PRETTY_FUNCTION__,"feeding");
   boost::filesystem::path p(dirpath);
-  auto i = boost::filesystem::directory_iterator(p);  
+  auto i = boost::filesystem::directory_iterator(p);
   for ( ; i != boost::filesystem::directory_iterator(); ++i ) {
     if ( !boost::filesystem::is_directory(i->path()) ) {
       auto split_version = TL::string_split(i->path().filename().string(),'.');

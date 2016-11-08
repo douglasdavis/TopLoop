@@ -26,9 +26,13 @@ namespace TL {
   class FileManager {
   private:
     std::vector<std::string> m_fileNames;
-    std::string              m_treeName, m_weightsTreeName, m_particleLevelTreeName;
-    TChain*                  m_rootChain, *m_rootWeightsChain, *m_particleLevelChain;
-    
+    std::string              m_treeName;
+    std::string              m_weightsTreeName;
+    std::string              m_particleLevelTreeName;
+    TChain*                  m_rootChain;
+    TChain*                  m_rootWeightsChain;
+    TChain*                  m_particleLevelChain;
+
   public:
     FileManager();
     virtual ~FileManager();
@@ -37,14 +41,14 @@ namespace TL {
     void setWeightsTreeName(const std::string& tn);
     void setParticleLevelTreeName(const std::string& tn);
     void initChain();
-    
+
     void feedDir(const std::string& dirpath, const bool take_all=false);
     void feedTxt(const std::string& txtfilename);
     void feedSingle(const char* fileName);
-    
-    const std::vector<std::string>& fileNames() const;
-    const std::string&              treeName()  const;
-    const std::string&              weightsTreeName()  const;
+
+    const std::vector<std::string>& fileNames()             const;
+    const std::string&              treeName()              const;
+    const std::string&              weightsTreeName()       const;
     const std::string&              particleLevelTreeName() const;
 
     TChain* rootChain();
