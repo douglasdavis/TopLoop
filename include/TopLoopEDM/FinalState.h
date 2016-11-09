@@ -31,10 +31,10 @@ namespace TL {
       TL::EDM::MET                     m_MET;
       std::vector<TL::EDM::LeptonPair> m_leptonPairs;
       
-      float  m_M;
-      float  m_Ht;
-      size_t m_llidx;
-      size_t m_ljidx;
+      float       m_M;
+      float       m_Ht;
+      std::size_t m_llidx;
+      std::size_t m_ljidx;
       
       ClassDef(FinalState,1);
       
@@ -62,11 +62,11 @@ namespace TL {
       
       float        M()                const;
       float        Ht()               const;
-      unsigned int nbjets_c20()       const;
-      unsigned int nbjets_c10()       const;
-      size_t       leadingLeptonIdx() const;
-      size_t       leadingJetIdx()    const;
-      
+      std::size_t  nbjets_c20()       const;
+      std::size_t  nbjets_c10()       const;
+      std::size_t  nbjets_AT()        const;
+      std::size_t  leadingLeptonIdx() const;
+      std::size_t  leadingJetIdx()    const;
     };
 
   }
@@ -104,17 +104,22 @@ inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs(
 inline float TL::EDM::FinalState::M()  const { return m_M;  }
 inline float TL::EDM::FinalState::Ht() const { return m_Ht; }
 
-inline unsigned int TL::EDM::FinalState::nbjets_c20() const {
+inline std::size_t TL::EDM::FinalState::nbjets_c20() const {
   return std::count_if(m_jets.begin(), m_jets.end(),
                        [](const TL::EDM::Jet& a) { return a.isTagged_c20(); });
 }
 
-inline unsigned int TL::EDM::FinalState::nbjets_c10() const {
+inline std::size_t TL::EDM::FinalState::nbjets_c10() const {
   return std::count_if(m_jets.begin(), m_jets.end(),
                        [](const TL::EDM::Jet& a) { return a.isTagged_c10(); });
 }
 
-inline size_t TL::EDM::FinalState::leadingLeptonIdx() const { return m_llidx; }
-inline size_t TL::EDM::FinalState::leadingJetIdx()    const { return m_ljidx; }
+inline std::size_t TL::EDM::FinalState::nbjets_AT() const {
+  return std::count_if(m_jets.begin(), m_jets.end(),
+                       [](const TL::EDM::Jet& a) { return a.isbtagged_77(); });
+}
+
+inline std::size_t TL::EDM::FinalState::leadingLeptonIdx() const { return m_llidx; }
+inline std::size_t TL::EDM::FinalState::leadingJetIdx()    const { return m_ljidx; }
 
 #endif

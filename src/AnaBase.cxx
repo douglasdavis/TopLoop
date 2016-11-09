@@ -132,11 +132,12 @@ void TL::AnaBase::init_core_vars() {
   jet_phi = std::make_shared<TTRV_vec_float>(*m_reader,"jet_phi");
   jet_e   = std::make_shared<TTRV_vec_float>(*m_reader,"jet_e");
 
-  jet_mv2c00  = std::make_shared<TTRV_vec_float>(*m_reader,"jet_mv2c00");
-  jet_mv2c10  = std::make_shared<TTRV_vec_float>(*m_reader,"jet_mv2c10");
-  jet_mv2c20  = std::make_shared<TTRV_vec_float>(*m_reader,"jet_mv2c20");
-  jet_ip3dsv1 = std::make_shared<TTRV_vec_float>(*m_reader,"jet_ip3dsv1");
-  jet_jvt     = std::make_shared<TTRV_vec_float>(*m_reader,"jet_jvt");
+  jet_mv2c00       = std::make_shared<TTRV_vec_float>(*m_reader,"jet_mv2c00");
+  jet_mv2c10       = std::make_shared<TTRV_vec_float>(*m_reader,"jet_mv2c10");
+  jet_mv2c20       = std::make_shared<TTRV_vec_float>(*m_reader,"jet_mv2c20");
+  jet_ip3dsv1      = std::make_shared<TTRV_vec_float>(*m_reader,"jet_ip3dsv1");
+  jet_jvt          = std::make_shared<TTRV_vec_float>(*m_reader,"jet_jvt");
+  jet_isbtagged_77 = std::make_shared<TTRV_vec_char> (*m_reader,"jet_isbtagged_77");
 
   met_met   = std::make_shared<TTRV_float>(*m_reader,"met_met");
   met_phi   = std::make_shared<TTRV_float>(*m_reader,"met_phi");
