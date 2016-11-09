@@ -19,6 +19,7 @@
 #include <map>
 #include <cmath>
 #include <memory>
+#include <string>
 
 namespace TL {
   // default is MeV so we make the scale factors
@@ -30,10 +31,11 @@ namespace TL {
     Fail,
     Skip
   };
+
 }
 
 namespace TL {
-  
+
   auto string_split(const std::string &s, char delim, std::vector<std::string> &elems)
     -> std::vector<std::string>&;
   auto string_split(const std::string &s, char delim)
@@ -52,7 +54,7 @@ namespace TL {
   void Fatal(Arg&& arg, Args&&... args);
 
   int ProgressPrint(const std::string& func, long cur, long total, int gap);
-  
+
 }
 
 inline auto TL::string_split(const std::string &s, char delim, std::vector<std::string> &elems)
@@ -112,6 +114,7 @@ inline int TL::ProgressPrint(const std::string& func,
   }
 }
 
+/*
 namespace TL {
 
   static const std::map<unsigned int, std::string> kDSIDTABLEOLD = {
@@ -346,5 +349,5 @@ namespace TL {
   };
 
 }
-
+*/
 #endif

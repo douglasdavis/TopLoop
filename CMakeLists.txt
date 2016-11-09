@@ -54,6 +54,7 @@ ROOT_GENERATE_DICTIONARY(
   include/TopLoop/Utils.h
   include/TopLoop/Job.h
   include/TopLoop/FileManager.h
+  include/TopLoop/SampleMetaSvc.h
   LINKDEF include/TopLoop/LinkDef.h
   )
 
@@ -102,6 +103,10 @@ target_link_libraries(TopLoopEDM
 ## -DCMAKE_INSTALL_PREFIX=[this dir]
 install(DIRECTORY include/TopLoop
   DESTINATION "${CMAKE_INSTALL_PREFIX}/include"
+  )
+
+install(DIRECTORY data
+  DESTINATION "${CMAKE_INSTALL_PREFIX}"
   )
 
 install(DIRECTORY include/TopLoopEDM

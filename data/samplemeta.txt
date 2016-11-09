@@ -1,0 +1,41 @@
+##DSID min      DSID max        initial-state   generator         sample-type
+
+0               0               Data            Data              Data
+
+410000          410000          ttbar           PowhegPythia      Nominal
+410001          410002          ttbar           PowhegPythia      Systematic
+
+410015          410016          Wt              PowhegPythia      Nominal
+410064          410065          Wt              PowhegPythia      Systematic
+410099          410106          Wt              PowhegPythia      Systematic
+410145          410148          Wt              PowhegPythia      Systematic
+
+361300          361371          Wjets           Sherpa21          Nominal
+
+363436          363483          Wjets           Sherpa22          Nominal
+363331          363354          Wjets           Sherpa22          Nominal
+
+361520          361534          Wjets           MadgraphPythia8   Nominal
+
+361372          361467          Zjets           Sherpa21          Nominal
+
+363361          363435          Zjets           Sherpa22          Nominal
+363102          363122          Zjets           Sherpa22          Nominal
+
+364100          364141          Zjets           Sherpa221         Nominal
+
+361500          361514          Zjets           MadgraphPythia8   Nominal
+
+361091          361092          WW              Sherpa21          Nominal
+361093          361095          WZ              Sherpa21          Nominal
+361096          361097          ZZ              Sherpa21          Nominal
+361063          361090          Diboson         Sherpa21          Unknown
+
+361600          361600          WW              PowhegPythia8     Unknown
+361606          361606          WW              PowhegPythia8     Unknown
+361601          361602          WZ              PowhegPythia8     Unknown
+361607          361609          WZ              PowhegPythia8     Unknown
+361603          361605          ZZ              PowhegPythia8     Unknown
+361610          361611          ZZ              PowhegPythia8     Unknown
+
+361591          361597          Diboson         PowhegHerwigpp    Unknown
