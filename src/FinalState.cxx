@@ -52,7 +52,7 @@ void TL::EDM::FinalState::evaluateSelf() {
   m_llidx = 0;
   if ( !m_leptons.empty() ) {
     auto llpt = m_leptons.at(0).pT();
-    for ( size_t i = 0; i < m_leptons.size(); ++i ) {
+    for ( std::size_t i = 0; i < m_leptons.size(); ++i ) {
       auto cur_pt = m_leptons.at(i).pT();
       if ( cur_pt > llpt ) {
         llpt = cur_pt;
@@ -71,7 +71,7 @@ void TL::EDM::FinalState::evaluateSelf() {
     if ( !m_jets.empty() ) {
     m_ljidx = 0;
     auto ljpt = m_jets.at(0).pT();
-    for ( size_t i = 0; i < m_jets.size(); ++i ) {
+    for ( std::size_t i = 0; i < m_jets.size(); ++i ) {
     auto cur_pt = m_jets.at(i).pT();
     if ( cur_pt > ljpt ) {
     ljpt = cur_pt;

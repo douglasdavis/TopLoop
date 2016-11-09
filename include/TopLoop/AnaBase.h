@@ -111,6 +111,7 @@ namespace TL {
     std::shared_ptr<TTRV_vec_float> jet_mv2c20; 
     std::shared_ptr<TTRV_vec_float> jet_ip3dsv1;
     std::shared_ptr<TTRV_vec_float> jet_jvt;
+    std::shared_ptr<TTRV_vec_char>  jet_isbtagged_77;
 
     std::shared_ptr<TTRV_float> met_met;
     std::shared_ptr<TTRV_float> met_phi;
