@@ -1,7 +1,9 @@
 /** @file  SampleMetaSvc.h
  *  @brief TL::SampleMetaSvc class header
  *
- *  A utility for connect a DSID with meta data.
+ *  A utility for connect a DSID with meta data, which includes the
+ *  initial state, the generator, and the type (nominal or
+ *  systematic).
  *
  *  @author Douglas Davis < ddavis@cern.ch >
  */
@@ -22,6 +24,11 @@
 #include <TObject.h>
 
 namespace TL {
+  // these enums are directly related to the samplemeta.txt file. If a
+  // new intial state, generator, or type is added to that file (that
+  // doesn't already exist in it), these enums must be related. The
+  // setupMaps() function must also be updated to be compatible with
+  // the new entry(ies).
   enum kInitialState {
     Data_1  , ttbar,  Wt      ,
     Zjets   , Wjets,  WW      ,
@@ -38,35 +45,24 @@ namespace TL {
   enum kSampleType {
     Data_3 , Nominal , Systematic , Unknown_3
   };
-
-  const std::map<std::string,TL::kInitialState> s2eInitialState = {
-    { "Data"    , TL::kInitialState::Data_1  } , { "ttbar"  , TL::kInitialState::ttbar  } ,
-    { "Wt"      , TL::kInitialState::Wt      } , { "Zjets"  , TL::kInitialState::Zjets  } ,
-    { "Wjets"   , TL::kInitialState::Wjets   } , { "WW"     , TL::kInitialState::WW     } ,
-    { "WZ"      , TL::kInitialState::WZ      } , { "ZZ"     , TL::kInitialState::ZZ     } ,
-    { "Diboson" , TL::kInitialState::Diboson } , { "ttbarW" , TL::kInitialState::ttbarW } ,
-    { "ttbarZ"  , TL::kInitialState::ttbarZ  }
-  };
-  const std::map<std::string,TL::kGenerator> s2eGenerator = {
-    { "Data"             , TL::kGenerator::Data_2           } , { "PowhegPythia"    , TL::kGenerator::PowhegPythia    } ,
-    { "PowhegPythia8"    , TL::kGenerator::PowhegPythia8    } , { "PowhegHerwig"    , TL::kGenerator::PowhegHerwig    } ,
-    { "PowhegHerwigpp"   , TL::kGenerator::PowhegHerwigpp   } , { "Sherpa21"        , TL::kGenerator::Sherpa21        } ,
-    { "Sherpa22"         , TL::kGenerator::Sherpa22         } , { "Sherpa221"       , TL::kGenerator::Sherpa221       } ,
-    { "MadgraphPythia"   , TL::kGenerator::MadgraphPythia   } , { "MadgraphPythia8" , TL::kGenerator::MadgraphPythia8 } ,
-    { "aMCatNLOPythia8"  , TL::kGenerator::aMCatNLOPythia8  } , { "aMCatNLOHerwig"  , TL::kGenerator::aMCatNLOHerwig  } ,
-    { "aMCatNLOHerwigpp" , TL::kGenerator::aMCatNLOHerwigpp } , { "Unknown"         , TL::kGenerator::Unknown_2       }
-  };
-  const std::map<std::string,TL::kSampleType> s2eSampleType = {
-    { "Data"       , TL::kSampleType::Data_3     } , { "Nominal" , TL::kSampleType::Nominal   } ,
-    { "Systematic" , TL::kSampleType::Systematic } , { "Unknown" , TL::kSampleType::Unknown_3 }
-  };
 }
 
 namespace TL {
   class SampleMetaSvc : public TObject {
   private:
+    std::map<std::string,TL::kInitialState> m_s2eInitialState;
+    std::map<std::string,TL::kGenerator>    m_s2eGenerator;
+    std::map<std::string,TL::kSampleType>   m_s2eSampleType;
+    std::map<TL::kInitialState,std::string> m_e2sInitialState;
+    std::map<TL::kGenerator,   std::string> m_e2sGenerator;
+    std::map<TL::kSampleType,  std::string> m_e2sSampleType;
+
     std::map<int,std::tuple<TL::kInitialState,TL::kGenerator,TL::kSampleType>> m_table;
+
+    void setupMaps();
+
     ClassDef(TL::SampleMetaSvc,1);
+
   public:
     SampleMetaSvc();
     virtual ~SampleMetaSvc();
@@ -104,47 +100,24 @@ inline TL::kSampleType TL::SampleMetaSvc::getSampleType(const unsigned int dsid)
 }
 
 inline const std::string TL::SampleMetaSvc::initialStateString(const TL::kInitialState istat)  const {
-  if ( istat == TL::kInitialState::Data_1  ) return "Data";
-  if ( istat == TL::kInitialState::ttbar   ) return "ttbar";
-  if ( istat == TL::kInitialState::Wt      ) return "Wt";
-  if ( istat == TL::kInitialState::Zjets   ) return "Zjets";
-  if ( istat == TL::kInitialState::Wjets   ) return "Wjets";
-  if ( istat == TL::kInitialState::WW      ) return "WW";
-  if ( istat == TL::kInitialState::WZ      ) return "WZ";
-  if ( istat == TL::kInitialState::ZZ      ) return "ZZ";
-  if ( istat == TL::kInitialState::Diboson ) return "Diboson";
-  if ( istat == TL::kInitialState::ttbarZ  ) return "ttbarZ";
-  if ( istat == TL::kInitialState::ttbarW  ) return "ttbarW";
-  TL::Fatal(__PRETTY_FUNCTION__,"Unknown TL::kInitialState");
-  return "";
+  if ( m_e2sInitialState.find(istat) == m_e2sInitialState.end() ) {
+    TL::Fatal(__PRETTY_FUNCTION__,"bad TL::kInitialState",istat);
+  }
+  return m_e2sInitialState.at(istat);
 }
 
 inline const std::string TL::SampleMetaSvc::generatorString(const TL::kGenerator igen) const {
-  if ( igen == TL::kGenerator::Data_2           ) return "Data";
-  if ( igen == TL::kGenerator::PowhegPythia     ) return "PowhegPythia";
-  if ( igen == TL::kGenerator::PowhegPythia8    ) return "PowhegPythia8";
-  if ( igen == TL::kGenerator::PowhegHerwig     ) return "PowhegHerwig";
-  if ( igen == TL::kGenerator::PowhegHerwigpp   ) return "PowhegHerwigpp";
-  if ( igen == TL::kGenerator::Sherpa21         ) return "Sherpa21";
-  if ( igen == TL::kGenerator::Sherpa22         ) return "Sherpa22";
-  if ( igen == TL::kGenerator::Sherpa221        ) return "Sherpa221";
-  if ( igen == TL::kGenerator::MadgraphPythia   ) return "MadgraphPythia";
-  if ( igen == TL::kGenerator::MadgraphPythia8  ) return "MadgraphPythia8";
-  if ( igen == TL::kGenerator::aMCatNLOPythia8  ) return "aMCatNLOPythia8";
-  if ( igen == TL::kGenerator::aMCatNLOHerwig   ) return "aMCatNLOHerwig";
-  if ( igen == TL::kGenerator::aMCatNLOHerwigpp ) return "aMCatNLOHerwigpp";
-  if ( igen == TL::kGenerator::Unknown_2        ) return "Unknown";
-  TL::Fatal(__PRETTY_FUNCTION__,"Unknown TL::kGenerator");
-  return "";
+  if ( m_e2sGenerator.find(igen) == m_e2sGenerator.end() ) {
+    TL::Fatal(__PRETTY_FUNCTION__,"bad TL::kGenerator",igen);
+  }
+  return m_e2sGenerator.at(igen);
 }
 
 inline const std::string TL::SampleMetaSvc::sampleTypeString(const TL::kSampleType ist) const {
-  if ( ist == TL::kSampleType::Data_3     ) return "Data";
-  if ( ist == TL::kSampleType::Nominal    ) return "Nominal";
-  if ( ist == TL::kSampleType::Systematic ) return "Systematic";
-  if ( ist == TL::kSampleType::Unknown_3  ) return "Unknown";
-  TL::Fatal(__PRETTY_FUNCTION__,"Unknown TL::kSampleType");
-  return "";
+  if ( m_e2sSampleType.find(ist) == m_e2sSampleType.end() ) {
+    TL::Fatal(__PRETTY_FUNCTION__,"bad TL::kSampleType",ist);
+  }
+  return m_e2sSampleType.at(ist);
 }
 
 inline const std::string TL::SampleMetaSvc::initialStateString(const unsigned int dsid) const {
