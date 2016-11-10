@@ -48,6 +48,11 @@ An optional flag to build the included example exists:
 
     $ cmake -DCMAKE_INSTALL_PREFIX=/path/to/WorkingArea/TopLoopInstall ../TopLoop -DBUILDEX=ON
 
+#### Using `TL::SampleMetaSvc`
+
+To use this class for handling a sample's metadata, the environment
+variable `TL_INSTALL` must be set to the installation directory.
+
 ### The author's setup:
 
 I have a function in my shell's init file (.bashrc) of the form:
