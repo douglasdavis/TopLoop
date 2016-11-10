@@ -78,6 +78,7 @@ add_library(
   src/AnaBase.cxx
   src/Job.cxx
   src/FileManager.cxx
+  src/SampleMetaSvc.cxx
   TopLoopDict
   )
 
