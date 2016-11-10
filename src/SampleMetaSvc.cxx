@@ -20,6 +20,19 @@ TL::SampleMetaSvc::SampleMetaSvc() {
     TL::Fatal(__PRETTY_FUNCTION__,"cannot fill meta service from file.",filepath,"cannot be found");
   }
 
+  // lambda function to check to see if str is a key in the map, apply
+  // the value to applyto. used for each DSID in the loop that
+  // follows. The maps that we use below are defined in the header for
+  // this class.
+  auto assigner = [](const auto& s2eMap, const auto& str, auto& applyto) {
+    if ( s2eMap.find(str) == s2eMap.end() ) {
+      TL::Fatal(__PRETTY_FUNCTION__,str,"is not setup in our software metadata");
+    }
+    else {
+      applyto = s2eMap.at(str);
+    }
+  };
+
   for ( ; !in.eof() ; ) {
     if ( !std::getline(in,line) ) break;
 
@@ -34,16 +47,6 @@ TL::SampleMetaSvc::SampleMetaSvc() {
         TL::kGenerator    gen;
         TL::kSampleType   st;
 
-        // check to see if str is a key in the map, apply the value to applyto
-        auto assigner = [](const auto& s2eTable, const auto& str, auto& applyto) {
-          if ( s2eTable.find(str) == s2eTable.end() ) {
-            TL::Fatal(__PRETTY_FUNCTION__,str,"is not setup in our software metadata");
-          }
-          else {
-            applyto = s2eTable.at(str);
-          }
-        };
-
         assigner(TL::s2eInitialState, process,   initstate);
         assigner(TL::s2eGenerator,    generator, gen);
         assigner(TL::s2eSampleType,   type,      st);
@@ -52,12 +55,6 @@ TL::SampleMetaSvc::SampleMetaSvc() {
       } // loop over DSID range
     } // loop over text in the line
   } // loop over lines in file
-  for ( auto const& entry : m_table ) {
-    std::cout << entry.first << " "
-              << std::get<0>(entry.second) << " "
-              << std::get<1>(entry.second) << " "
-              << std::get<2>(entry.second) << std::endl;
-  }
 }
 
 TL::SampleMetaSvc::~SampleMetaSvc() {}
