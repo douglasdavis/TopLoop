@@ -29,7 +29,7 @@ void TL::AnaBase::init_core_vars() {
 
   totalEventsWeighted   = std::make_shared<TTRV_float>(*m_weightsReader,"totalEventsWeighted");
   dsid                  = std::make_shared<TTRV_int>  (*m_weightsReader,"dsid");
-  
+
   if ( m_isMC ) {
     weight_mc          = std::make_shared<TTRV_float>(*m_reader,"weight_mc");
     weight_pileup      = std::make_shared<TTRV_float>(*m_reader,"weight_pileup");
@@ -39,6 +39,8 @@ void TL::AnaBase::init_core_vars() {
     if ( m_isNominal ) {
       weight_pileup_UP    = std::make_shared<TTRV_float>(*m_reader,"weight_pileup_UP");
       weight_pileup_DOWN  = std::make_shared<TTRV_float>(*m_reader,"weight_pileup_DOWN");
+      weight_jvt_UP       = std::make_shared<TTRV_float>(*m_reader,"weight_jvt_UP");
+      weight_jvt_DOWN     = std::make_shared<TTRV_float>(*m_reader,"weight_jvt_DOWN");
       weightSyst_leptonSF = {
         std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_EL_SF_Trigger_UP"),
         std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_EL_SF_Trigger_DOWN"),
@@ -59,14 +61,55 @@ void TL::AnaBase::init_core_vars() {
         std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_Isol_STAT_UP"),
         std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_Isol_STAT_DOWN"),
         std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_Isol_SYST_UP"),
-        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_Isol_SYST_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_leptonSF_MU_SF_Isol_SYST_DOWN")
       };
-
+      /*
+      weights_indivSF = {
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_EL_Trigger"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_EL_Reco"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_EL_ID"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_EL_Isol"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_Trigger"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_ID"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_Isol"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_TTVA")
+      };
+      weightSyst_indivSF = {
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_EL_Trigger_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_EL_Trigger_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_EL_Reco_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_EL_Reco_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_EL_ID_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_EL_ID_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_EL_Isol_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_EL_Isol_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_Trigger_STAT_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_Trigger_STAT_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_Trigger_SYST_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_Trigger_SYST_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_ID_STAT_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_ID_STAT_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_ID_SYST_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_ID_SYST_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_ID_STAT_LOWPT_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_ID_STAT_LOWPT_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_ID_SYST_LOWPT_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_ID_SYST_LOWPT_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_Isol_STAT_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_Isol_STAT_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_Isol_SYST_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_Isol_SYST_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_TTVA_STAT_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_TTVA_STAT_DOWN"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_TTVA_SYST_UP"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_indiv_SF_MU_TTVA_SYST_DOWN")
+      };
+      */
       weightSyst_bTagSF_extrapolation = {
         std::make_shared<TTRV_float>(*m_reader,"weight_bTagSF_77_extrapolation_up"),
         std::make_shared<TTRV_float>(*m_reader,"weight_bTagSF_77_extrapolation_down"),
         std::make_shared<TTRV_float>(*m_reader,"weight_bTagSF_77_extrapolation_from_charm_up"),
-        std::make_shared<TTRV_float>(*m_reader,"weight_bTagSF_77_extrapolation_from_charm_down"),
+        std::make_shared<TTRV_float>(*m_reader,"weight_bTagSF_77_extrapolation_from_charm_down")
       };
 
       //jet eigenvector weights
@@ -76,7 +119,7 @@ void TL::AnaBase::init_core_vars() {
         std::make_shared<TTRV_vec_float>(*m_reader,"weight_bTagSF_77_eigenvars_Light_up"),
         std::make_shared<TTRV_vec_float>(*m_reader,"weight_bTagSF_77_eigenvars_B_down"),
         std::make_shared<TTRV_vec_float>(*m_reader,"weight_bTagSF_77_eigenvars_C_down"),
-        std::make_shared<TTRV_vec_float>(*m_reader,"weight_bTagSF_77_eigenvars_Light_down"),
+        std::make_shared<TTRV_vec_float>(*m_reader,"weight_bTagSF_77_eigenvars_Light_down")
       };
     }
   }
@@ -89,7 +132,7 @@ void TL::AnaBase::init_core_vars() {
   }
   mcChannelNumber = std::make_shared<TTRV_uint>    (*m_reader,"mcChannelNumber");
   mu              = std::make_shared<TTRV_float>   (*m_reader,"mu");
-  
+
   el_pt     = std::make_shared<TTRV_vec_float>(*m_reader,"el_pt");
   el_eta    = std::make_shared<TTRV_vec_float>(*m_reader,"el_eta");
   el_phi    = std::make_shared<TTRV_vec_float>(*m_reader,"el_pt");
@@ -102,13 +145,6 @@ void TL::AnaBase::init_core_vars() {
   el_d0sig             = std::make_shared<TTRV_vec_float>(*m_reader,"el_d0sig");
   el_delta_z0_sintheta = std::make_shared<TTRV_vec_float>(*m_reader,"el_delta_z0_sintheta");
 
-  if ( m_isMC ) {
-    el_truthMatched = std::make_shared<TTRV_vec_bool> (*m_reader,"el_truthMatched");
-    el_true_pdg     = std::make_shared<TTRV_vec_int>  (*m_reader,"el_true_pdg");
-    el_true_pt      = std::make_shared<TTRV_vec_float>(*m_reader,"el_true_pt");
-    el_true_eta     = std::make_shared<TTRV_vec_float>(*m_reader,"el_true_eta");
-  }
-
   mu_pt     = std::make_shared<TTRV_vec_float>(*m_reader,"mu_pt");
   mu_eta    = std::make_shared<TTRV_vec_float>(*m_reader,"mu_eta");
   mu_phi    = std::make_shared<TTRV_vec_float>(*m_reader,"mu_pt");
@@ -119,13 +155,6 @@ void TL::AnaBase::init_core_vars() {
   mu_ptvarcone30       = std::make_shared<TTRV_vec_float>(*m_reader,"mu_ptvarcone30");
   mu_d0sig             = std::make_shared<TTRV_vec_float>(*m_reader,"mu_d0sig");
   mu_delta_z0_sintheta = std::make_shared<TTRV_vec_float>(*m_reader,"mu_delta_z0_sintheta");
-
-  if ( m_isMC ) {
-    mu_truthMatched = std::make_shared<TTRV_vec_bool> (*m_reader,"mu_truthMatched");
-    mu_true_pdg     = std::make_shared<TTRV_vec_int>  (*m_reader,"mu_true_pdg");
-    mu_true_pt      = std::make_shared<TTRV_vec_float>(*m_reader,"mu_true_pt");
-    mu_true_eta     = std::make_shared<TTRV_vec_float>(*m_reader,"mu_true_eta");
-  }
 
   jet_pt  = std::make_shared<TTRV_vec_float>(*m_reader,"jet_pt");
   jet_eta = std::make_shared<TTRV_vec_float>(*m_reader,"jet_eta");
@@ -141,7 +170,6 @@ void TL::AnaBase::init_core_vars() {
 
   met_met   = std::make_shared<TTRV_float>(*m_reader,"met_met");
   met_phi   = std::make_shared<TTRV_float>(*m_reader,"met_phi");
-  met_sumet = std::make_shared<TTRV_float>(*m_reader,"met_sumet");
 
   el_trigMatch_HLT_e60_lhmedium =
     std::make_shared<TTRV_vec_char>(*m_reader,"el_trigMatch_HLT_e60_lhmedium");
@@ -208,7 +236,7 @@ float TL::AnaBase::countSumWeights() {
   //MC (to get the MC lumi) and data (perhaps as a cross-check)
   float sumWeights = 0;
   while ( m_weightsReader->Next() ) {
-    if (m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid) {
+    if ( m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid ) {
       TL::Fatal("countSumWeights()", "Tree reader does not return kEntryValid, I/O Error... terminating");
     }
     sumWeights += *(*totalEventsWeighted);

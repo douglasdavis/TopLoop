@@ -45,7 +45,7 @@ namespace TL {
   protected:
     std::string      m_datasetName;
     bool             m_isMC, m_isNominal;
-    
+
     std::shared_ptr<TL::FileManager> m_fm;
     std::shared_ptr<TTreeReader>     m_reader;
     std::shared_ptr<TTreeReader>     m_weightsReader;
@@ -53,7 +53,7 @@ namespace TL {
 
     std::shared_ptr<TTRV_float>     totalEventsWeighted;
     std::shared_ptr<TTRV_int>       dsid;
-    
+
     std::shared_ptr<TTRV_float>     weight_mc;
     std::shared_ptr<TTRV_float>     weight_pileup;
     std::shared_ptr<TTRV_float>     weight_leptonSF;
@@ -62,15 +62,20 @@ namespace TL {
 
     std::shared_ptr<TTRV_float>     weight_pileup_UP;
     std::shared_ptr<TTRV_float>     weight_pileup_DOWN;
-    std::vector<std::shared_ptr<TTRV_float> > weightSyst_leptonSF;
-    std::vector<std::shared_ptr<TTRV_float> > weightSyst_bTagSF_extrapolation;
+    std::shared_ptr<TTRV_float>     weight_jvt_UP;
+    std::shared_ptr<TTRV_float>     weight_jvt_DOWN;
+
+    std::vector<std::shared_ptr<TTRV_float> >     weightSyst_leptonSF;
+    std::vector<std::shared_ptr<TTRV_float> >     weights_indivSF;
+    std::vector<std::shared_ptr<TTRV_float> >     weightSyst_indivSF;
+    std::vector<std::shared_ptr<TTRV_float> >     weightSyst_bTagSF_extrapolation;
     std::vector<std::shared_ptr<TTRV_vec_float> > weightSyst_bTagSF_eigenvars;
 
     std::shared_ptr<TTRV_ulongint>  eventNumber;
     std::shared_ptr<TTRV_uint>      runNumber;
     std::shared_ptr<TTRV_uint>      mcChannelNumber;
     std::shared_ptr<TTRV_float>     mu;
-    
+
     std::shared_ptr<TTRV_vec_float> el_pt;
     std::shared_ptr<TTRV_vec_float> el_phi;
     std::shared_ptr<TTRV_vec_float> el_eta;
@@ -82,11 +87,6 @@ namespace TL {
     std::shared_ptr<TTRV_vec_float> el_d0sig;
     std::shared_ptr<TTRV_vec_float> el_delta_z0_sintheta;
 
-    std::shared_ptr<TTRV_vec_bool>  el_truthMatched;
-    std::shared_ptr<TTRV_vec_int>   el_true_pdg;
-    std::shared_ptr<TTRV_vec_float> el_true_pt;
-    std::shared_ptr<TTRV_vec_float> el_true_eta;
-    
     std::shared_ptr<TTRV_vec_float> mu_pt;
     std::shared_ptr<TTRV_vec_float> mu_phi;
     std::shared_ptr<TTRV_vec_float> mu_eta;
@@ -96,11 +96,6 @@ namespace TL {
     std::shared_ptr<TTRV_vec_float> mu_ptvarcone30;
     std::shared_ptr<TTRV_vec_float> mu_d0sig;
     std::shared_ptr<TTRV_vec_float> mu_delta_z0_sintheta;
-    
-    std::shared_ptr<TTRV_vec_bool>  mu_truthMatched;
-    std::shared_ptr<TTRV_vec_int>   mu_true_pdg;
-    std::shared_ptr<TTRV_vec_float> mu_true_pt;
-    std::shared_ptr<TTRV_vec_float> mu_true_eta;
 
     std::shared_ptr<TTRV_vec_float> jet_pt;
     std::shared_ptr<TTRV_vec_float> jet_eta;
@@ -115,7 +110,6 @@ namespace TL {
 
     std::shared_ptr<TTRV_float> met_met;
     std::shared_ptr<TTRV_float> met_phi;
-    std::shared_ptr<TTRV_float> met_sumet;
 
     std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e60_lhmedium;
     std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e24_lhmedium_L1EM18VH;
