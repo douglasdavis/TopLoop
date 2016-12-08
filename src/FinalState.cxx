@@ -34,20 +34,19 @@ void TL::EDM::FinalState::evaluateLepPairs() {
 
 void TL::EDM::FinalState::evaluateSelf() {
   evaluateLepPairs();
-  m_Ht = 0.0;
+  m_HT = 0.0;
   TLorentzVector eventFourVector;
   eventFourVector.SetPxPyPzE(0,0,0,0);
   for ( auto const& lep : m_leptons ) {
     eventFourVector += lep.p();
-    m_Ht += lep.pT();
+    m_HT += lep.pT();
   }
   for ( auto const& jet : m_jets ) {
     eventFourVector += jet.p();
-    m_Ht += jet.pT();
+    m_HT += jet.pT();
   }
   eventFourVector += m_MET.p();
   m_M   = eventFourVector.M();
-  m_Ht += m_MET.pT();
 
   m_llidx = 0;
   if ( !m_leptons.empty() ) {

@@ -32,7 +32,7 @@ namespace TL {
       std::vector<TL::EDM::LeptonPair> m_leptonPairs;
       
       float       m_M;
-      float       m_Ht;
+      float       m_HT;
       std::size_t m_llidx;
       std::size_t m_ljidx;
       
@@ -41,7 +41,7 @@ namespace TL {
     public:
       FinalState() :
         m_leptons(), m_jets(), m_MET(), m_leptonPairs(),
-        m_M(0), m_Ht(0), m_llidx(0), m_ljidx(0)
+        m_M(0), m_HT(0), m_llidx(0), m_ljidx(0)
       {}
       virtual ~FinalState() {}
 
@@ -61,7 +61,7 @@ namespace TL {
       TL::EDM::MET&                           MET();
       
       float        M()                const;
-      float        Ht()               const;
+      float        HT()               const;
       std::size_t  nbjets_c20()       const;
       std::size_t  nbjets_c10()       const;
       std::size_t  nbjets_AT()        const;
@@ -102,7 +102,7 @@ inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs(
 }
 
 inline float TL::EDM::FinalState::M()  const { return m_M;  }
-inline float TL::EDM::FinalState::Ht() const { return m_Ht; }
+inline float TL::EDM::FinalState::HT() const { return m_HT; }
 
 inline std::size_t TL::EDM::FinalState::nbjets_c20() const {
   return std::count_if(m_jets.begin(), m_jets.end(),
