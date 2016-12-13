@@ -4,6 +4,16 @@
 
 410000          410000          ttbar           PowhegPythia      Nominal
 410001          410002          ttbar           PowhegPythia      Systematic
+410003          410003          ttbar           aMCatNLOHerwigpp  Systematic
+410004          410004          ttbar           PowhegHerwigpp    Systematic
+410009          410009          ttbar           PowhegPythia      Systematic
+410037          410041          ttbar           PowhegPythia      Systematic
+410103          410106          ttbar           PowhegPythia      Systematic
+410146          410146          ttbar           PowhegHerwigpp    Systematic
+410164          410164          ttbar           aMCatNLOHerwigpp  Systematic
+410252          410252          ttbar           Sherpa221         Systematic
+410503          410503          ttbar           PowhegPythia8     Nominal
+407009          407011          ttbar           PowhegPythia      Systematic
 
 410015          410016          Wt              PowhegPythia      Nominal
 410064          410065          Wt              PowhegPythia      Systematic

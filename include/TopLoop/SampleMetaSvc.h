@@ -60,6 +60,7 @@ namespace TL {
     std::map<int,std::tuple<TL::kInitialState,TL::kGenerator,TL::kSampleType>> m_table;
 
     void setupMaps();
+    void checkTable(const unsigned int dsid) const;
 
     ClassDef(TL::SampleMetaSvc,1);
 
@@ -87,15 +88,24 @@ inline const std::map<int,std::tuple<TL::kInitialState,TL::kGenerator,TL::kSampl
   return m_table;
 }
 
+inline void TL::SampleMetaSvc::checkTable(const unsigned int dsid) const {
+  if ( m_table.find(dsid) == m_table.end() ) {
+    TL::Fatal(__PRETTY_FUNCTION__,"can't find DSID!",dsid,"not in SampleMetaSvc table");
+  }
+}
+
 inline TL::kInitialState TL::SampleMetaSvc::getInitialState(const unsigned int dsid) const {
+  checkTable(dsid);
   return std::get<0>(m_table.at(dsid));
 }
 
 inline TL::kGenerator TL::SampleMetaSvc::getGenerator(const unsigned int dsid) const {
+  checkTable(dsid);
   return std::get<1>(m_table.at(dsid));
 }
 
 inline TL::kSampleType TL::SampleMetaSvc::getSampleType(const unsigned int dsid) const {
+  checkTable(dsid);
   return std::get<2>(m_table.at(dsid));
 }
 
