@@ -21,19 +21,15 @@
 410145          410148          Wt              PowhegPythia      Systematic
 
 361300          361371          Wjets           Sherpa21          Nominal
-
 363436          363483          Wjets           Sherpa22          Nominal
 363331          363354          Wjets           Sherpa22          Nominal
-
+364156          364197          Wjets           Sherpa221         Nominal
 361520          361534          Wjets           MadgraphPythia8   Nominal
 
 361372          361467          Zjets           Sherpa21          Nominal
-
 363361          363435          Zjets           Sherpa22          Nominal
 363102          363122          Zjets           Sherpa22          Nominal
-
 364100          364141          Zjets           Sherpa221         Nominal
-
 361500          361514          Zjets           MadgraphPythia8   Nominal
 
 361091          361092          WW              Sherpa21          Nominal
