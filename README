@@ -1,8 +1,8 @@
 TopLoop RootCore package
 
 TopLoop is a small library inspired by the ASG EventLoop
-package. TopLoop is built specifically for analyzing Top group
-ntuples output by TopAnalysis top-xoad program.
+package. TopLoop is built specifically for analyzing Top group ntuples
+output by the TopAnalysis top-xoad program.
 
 To use the TopLoop library, clone this git repository into your
 RootCore area and follow the standard compilation procedure:
@@ -11,7 +11,8 @@ $ rc find_packages
 $ rc compile
 
 TopLoop delivers a base algorithm class, a job runner, a file manager,
-and a small event data model. The algorithm has the following structure:
+and a small event data model. The algorithm has the following
+structure:
 
 - init(): run at the beginning of the job
 - setupOutput(): run immediately following init()
