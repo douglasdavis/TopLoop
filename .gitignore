@@ -2,9 +2,5 @@
 *.dylib
 *.so
 *.swp
-example/useDukeTop/use
-html
-*DTdict*
-/Makefile
-/Makefile.common
-build
+*Dict.cxx
+*.pcm
