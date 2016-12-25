@@ -163,7 +163,11 @@ namespace TL {
     std::shared_ptr<TTRV_vec_int>     plt_nu_origin;
     // }
 
-  public:
+    template<typename T>
+    std::shared_ptr<T> setupTreeVar(std::shared_ptr<TTreeReader> reader,
+                                    const char* name);
+
+ public:
     AnaBase();
     virtual ~AnaBase();
 
@@ -252,5 +256,17 @@ inline std::shared_ptr<TL::FileManager> TL::AnaBase::fileManager()         { ret
 inline std::shared_ptr<TTreeReader>     TL::AnaBase::reader()              { return m_reader;              }
 inline std::shared_ptr<TTreeReader>     TL::AnaBase::weightsReader()       { return m_weightsReader;       }
 inline std::shared_ptr<TTreeReader>     TL::AnaBase::particleLevelReader() { return m_particleLevelReader; }
+
+template<typename T>
+std::shared_ptr<T> TL::AnaBase::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name) {
+  if ( reader->GetTree()->GetListOfBranches()->FindObject(name) != nullptr ) {
+    auto ptr = std::make_shared<T>(*reader,name);
+    return ptr;
+  }
+  else {
+    TL::Warning(FUNC,name,"variable not found in the tree! If you try to access it, you will crash");
+    return nullptr;
+  }
+}
 
 #endif

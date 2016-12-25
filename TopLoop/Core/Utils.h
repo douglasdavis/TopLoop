@@ -21,6 +21,9 @@
 #include <memory>
 #include <string>
 
+#define FUNC  __FUNCTION__
+#define PFUNC __PRETTY_FUNCTION__
+
 namespace TL {
   // default is MeV so we make the scale factors
   const double TeV = 1.0e6;
@@ -76,7 +79,7 @@ inline auto TL::string_split(const std::string &s, char delim)
 
 template <typename Arg, typename... Args>
 inline void TL::TopPrint(std::ostream& out, Arg&& arg, Args&&... args) {
-  out << "TopLoop:\t" << std::forward<Arg>(arg);
+  out << "TopLoop:  " << std::forward<Arg>(arg);
   using expander = int[];
   (void)expander{0, (void(out << ' ' << std::forward<Args>(args)),0)...};
   out << std::endl;
@@ -84,17 +87,17 @@ inline void TL::TopPrint(std::ostream& out, Arg&& arg, Args&&... args) {
 
 template <typename Arg, typename... Args>
 inline void TL::Info(Arg&& arg, Args&&... args) {
-  TopPrint(std::cout,"INFO\t",arg,"\t",args...);
+  TopPrint(std::cout,"INFO     ",arg,"\t",args...);
 }
 
 template <typename Arg, typename... Args>
 inline void TL::Warning(Arg&& arg, Args&&... args) {
-  TopPrint(std::cout,"WARNING\t",arg,"\t",args...);
+  TopPrint(std::cout,"WARNING  ",arg,"\t",args...);
 }
 
 template <typename Arg, typename... Args>
 inline void TL::Fatal(Arg&& arg, Args&&... args) {
-  TopPrint(std::cerr,"FATAL\t",arg,"\t",args...);
+  TopPrint(std::cerr,"FATAL    ",arg,"\t",args...);
   std::exit(EXIT_FAILURE);
 }
 
