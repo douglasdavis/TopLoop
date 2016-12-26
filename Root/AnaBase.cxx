@@ -13,6 +13,7 @@ TL::AnaBase::AnaBase() :
   m_datasetName(),
   m_isMC(true),
   m_isNominal(true) {
+  m_showTTRVwarning = true;
   core_init();
 }
 

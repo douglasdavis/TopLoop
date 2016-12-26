@@ -163,6 +163,7 @@ namespace TL {
     std::shared_ptr<TTRV_vec_int>     plt_nu_origin;
     // }
 
+    bool m_showTTRVwarning;
     template<typename T>
     std::shared_ptr<T> setupTreeVar(std::shared_ptr<TTreeReader> reader,
                                     const char* name);
@@ -238,8 +239,22 @@ namespace TL {
       initializing.
     */
     virtual void isData();
+
+    //! Function to tell algorithm it's analyzing a systematic variation
+    /*!
+      Some variables in the nominal tree do not exist in the systematic
+      trees; so we need to avoid setting them up for systematic runs.
+    */
     virtual void isSystematic();
-    
+
+    //! Function to turn off warning message for missing variables
+    /*!
+      Before the we setup TTreeReaderVariable pointers, we make sure
+      that the variable actually exists in the tree, if it doesn't a warning
+      is displayed by default. This turns off that warning.
+    */
+    virtual void turnOffTTRVWarning();
+
     std::shared_ptr<TL::FileManager> fileManager();         //!< get pointer to file manager
     std::shared_ptr<TTreeReader>     reader();              //!< get pointer to TTreeReader
     std::shared_ptr<TTreeReader>     weightsReader();       //!< get pointer to TTreeReader for sumweights
@@ -249,8 +264,9 @@ namespace TL {
 
 }
 
-inline void TL::AnaBase::isData()       { m_isMC      = false; }
-inline void TL::AnaBase::isSystematic() { m_isNominal = false; }
+inline void TL::AnaBase::isData()             { m_isMC            = false; }
+inline void TL::AnaBase::isSystematic()       { m_isNominal       = false; }
+inline void TL::AnaBase::turnOffTTRVWarning() { m_showTTRVwarning = false; }
 
 inline std::shared_ptr<TL::FileManager> TL::AnaBase::fileManager()         { return m_fm;                  }
 inline std::shared_ptr<TTreeReader>     TL::AnaBase::reader()              { return m_reader;              }
@@ -264,7 +280,9 @@ std::shared_ptr<T> TL::AnaBase::setupTreeVar(std::shared_ptr<TTreeReader> reader
     return ptr;
   }
   else {
-    TL::Warning(FUNC,name,"variable not found in the tree! If you try to access it, you will crash");
+    if ( m_showTTRVwarning ) {
+      TL::Warning(FUNC,name,"variable not found in the tree! If you try to access it, you will crash");
+    }
     return nullptr;
   }
 }
