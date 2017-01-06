@@ -6,6 +6,7 @@
 
 // TopLoop
 #include <TopLoop/Core/SampleMetaSvc.h>
+#include <TopLoop/json/json.hpp>
 
 TL::SampleMetaSvc::SampleMetaSvc() {
   std::string ROOTCOREBIN = std::getenv("ROOTCOREBIN");
@@ -13,47 +14,40 @@ TL::SampleMetaSvc::SampleMetaSvc() {
     TL::Fatal("ROOTCOREBIN environment variable must be set!");
   }
   setupMaps();
-  std::string filepath = ROOTCOREBIN+"/data/TopLoop/samplemeta.txt";
+  std::string filepath = ROOTCOREBIN+"/data/TopLoop/samplemeta.json";
   std::ifstream in(filepath.c_str());
-  std::string line;
   if ( !in ) {
-    TL::Fatal(__PRETTY_FUNCTION__,"cannot fill meta service from file.",filepath,"cannot be found");
+    TL::Fatal(PFUNC,"cannot fill meta service from file.",filepath,"cannot be found");
   }
+  auto j_top = nlohmann::json::parse(in);
 
   // lambda function to check to see if str is a key in the map, apply
   // the value to applyto. used for each DSID in the loop that
   // follows.
-  auto assigner = [](const auto& s2eMap, const auto& str, auto& applyto) {
+  auto assigner = [](const auto& s2eMap, const auto str, auto& applyto) {
     if ( s2eMap.find(str) == s2eMap.end() ) {
-      TL::Fatal(__PRETTY_FUNCTION__,str,"is not setup in our software metadata");
+      TL::Fatal(PFUNC,str,"is not setup in our software metadata");
     }
     else {
       applyto = s2eMap.at(str);
     }
   };
 
-  for ( ; !in.eof() ; ) {
-    if ( !std::getline(in,line) ) break;
-
-    if ( !line.empty() && line.at(0) != '#' ) {
-      std::istringstream istr(line);
-      int dsidMin, dsidMax;
-      std::string process, generator, type;
-      istr >> dsidMin >> dsidMax >> process >> generator >> type;
-
+  for ( auto const& j_state : j_top) {
+    for ( auto const& j_set : j_state ) {
+      auto dsidMin = j_set.at("DSID_range").at(0).get<int>();
+      auto dsidMax = j_set.at("DSID_range").at(1).get<int>();
       for ( int i = dsidMin; i <= dsidMax; ++i ) {
         TL::kInitialState initstate;
         TL::kGenerator    gen;
         TL::kSampleType   st;
-
-        assigner(m_s2eInitialState, process,   initstate);
-        assigner(m_s2eGenerator,    generator, gen);
-        assigner(m_s2eSampleType,   type,      st);
-
+        assigner(m_s2eInitialState,j_set.at("InitialState").get<std::string>(),initstate);
+        assigner(m_s2eGenerator,   j_set.at("Generator").get<std::string>(),   gen);
+        assigner(m_s2eSampleType,  j_set.at("SampleType").get<std::string>(),  st);
         m_table.emplace(i,std::make_tuple(initstate,gen,st));
-      } // loop over DSID range
-    } // loop over text in the line
-  } // loop over lines in file
+      }
+    }
+  }
 }
 
 //___________________________________________________________________
