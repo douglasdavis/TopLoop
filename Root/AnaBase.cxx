@@ -172,6 +172,16 @@ void TL::AnaBase::init_core_vars() {
   met_met   = setupTreeVar<TTRV_float>(m_reader,"met_met");
   met_phi   = setupTreeVar<TTRV_float>(m_reader,"met_phi");
 
+  HLT_e60_lhmedium_nod0          = setupTreeVar<TTRV_char>(m_reader,"HLT_e60_lhmedium_nod0");
+  HLT_mu26_ivarmedium            = setupTreeVar<TTRV_char>(m_reader,"HLT_mu26_ivarmedium");
+  HLT_e26_lhtight_nod0_ivarloose = setupTreeVar<TTRV_char>(m_reader,"HLT_e26_lhtight_nod0_ivarloose");
+  HLT_e140_lhloose_nod0          = setupTreeVar<TTRV_char>(m_reader,"HLT_e140_lhloose_nod0");
+  HLT_mu20_iloose_L1MU15         = setupTreeVar<TTRV_char>(m_reader,"HLT_mu20_iloose_L1MU15");
+  HLT_mu50                       = setupTreeVar<TTRV_char>(m_reader,"HLT_mu50");
+  HLT_e60_lhmedium               = setupTreeVar<TTRV_char>(m_reader,"HLT_e60_lhmedium");
+  HLT_e24_lhmedium_L1EM20VH      = setupTreeVar<TTRV_char>(m_reader,"HLT_e24_lhmedium_L1EM20VH");
+  HLT_e120_lhloose               = setupTreeVar<TTRV_char>(m_reader,"HLT_e120_lhloose");
+
   el_trigMatch_HLT_e60_lhmedium =
     setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e60_lhmedium");
   el_trigMatch_HLT_e24_lhmedium_L1EM18VH =

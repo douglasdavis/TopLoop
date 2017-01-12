@@ -33,6 +33,7 @@ using TTRV_float     = TTreeReaderValue<Float_t>;
 using TTRV_uint      = TTreeReaderValue<UInt_t>;
 using TTRV_int       = TTreeReaderValue<Int_t>;
 using TTRV_ulongint  = TTreeReaderValue<ULong64_t>;
+using TTRV_char      = TTreeReaderValue<Char_t>;
 
 namespace TL {
   class FileManager;
@@ -110,6 +111,16 @@ namespace TL {
 
     std::shared_ptr<TTRV_float> met_met;
     std::shared_ptr<TTRV_float> met_phi;
+
+    std::shared_ptr<TTRV_char> HLT_e60_lhmedium_nod0;
+    std::shared_ptr<TTRV_char> HLT_mu26_ivarmedium;
+    std::shared_ptr<TTRV_char> HLT_e26_lhtight_nod0_ivarloose;
+    std::shared_ptr<TTRV_char> HLT_e140_lhloose_nod0;
+    std::shared_ptr<TTRV_char> HLT_mu20_iloose_L1MU15;
+    std::shared_ptr<TTRV_char> HLT_mu50;
+    std::shared_ptr<TTRV_char> HLT_e60_lhmedium;
+    std::shared_ptr<TTRV_char> HLT_e24_lhmedium_L1EM20VH;
+    std::shared_ptr<TTRV_char> HLT_e120_lhloose;
 
     std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e60_lhmedium;
     std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e24_lhmedium_L1EM18VH;
