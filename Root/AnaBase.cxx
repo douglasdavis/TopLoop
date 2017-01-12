@@ -169,6 +169,16 @@ void TL::AnaBase::init_core_vars() {
   jet_jvt          = setupTreeVar<TTRV_vec_float>(m_reader,"jet_jvt");
   jet_isbtagged_77 = setupTreeVar<TTRV_vec_char> (m_reader,"jet_isbtagged_77");
 
+  emu_2015      = setupTreeVar<TTRV_int>(m_reader,"emu_2015");
+  emu_2016      = setupTreeVar<TTRV_int>(m_reader,"emu_2016");
+  emu_particle  = setupTreeVar<TTRV_int>(m_reader,"emu_particle");
+  ee_2015       = setupTreeVar<TTRV_int>(m_reader,"ee_2015");
+  ee_2016       = setupTreeVar<TTRV_int>(m_reader,"ee_2016");
+  ee_particle   = setupTreeVar<TTRV_int>(m_reader,"ee_particle");
+  mumu_2015     = setupTreeVar<TTRV_int>(m_reader,"mumu_2015");
+  mumu_2016     = setupTreeVar<TTRV_int>(m_reader,"mumu_2016");
+  mumu_particle = setupTreeVar<TTRV_int>(m_reader,"mumu_particle");
+
   met_met   = setupTreeVar<TTRV_float>(m_reader,"met_met");
   met_phi   = setupTreeVar<TTRV_float>(m_reader,"met_phi");
 

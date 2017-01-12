@@ -109,6 +109,16 @@ namespace TL {
     std::shared_ptr<TTRV_vec_float> jet_jvt;
     std::shared_ptr<TTRV_vec_char>  jet_isbtagged_77;
 
+    std::shared_ptr<TTRV_int> emu_2015;
+    std::shared_ptr<TTRV_int> emu_2016;
+    std::shared_ptr<TTRV_int> emu_particle;
+    std::shared_ptr<TTRV_int> ee_2015;
+    std::shared_ptr<TTRV_int> ee_2016;
+    std::shared_ptr<TTRV_int> ee_particle;
+    std::shared_ptr<TTRV_int> mumu_2015;
+    std::shared_ptr<TTRV_int> mumu_2016;
+    std::shared_ptr<TTRV_int> mumu_particle;
+
     std::shared_ptr<TTRV_float> met_met;
     std::shared_ptr<TTRV_float> met_phi;
 
