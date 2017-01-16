@@ -202,7 +202,7 @@ void TL::AnaBase::init_core_vars() {
     setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu50");
   mu_trigMatch_HLT_mu20_iloose_L1MU15 =
     setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu20_iloose_L1MU15");
-
+  /*
   // All of the truth (particleLevel tree, plt) variables {
   if ( m_isMC ) {
     plt_mu                  = setupTreeVar<TTRV_float>(m_particleLevelReader,"mu");
@@ -250,6 +250,7 @@ void TL::AnaBase::init_core_vars() {
     plt_nu_origin           = setupTreeVar<TTRV_vec_int>(m_particleLevelReader,"nu_origin");
   }
   // }
+  */
 }
 
 float TL::AnaBase::countSumWeights() {

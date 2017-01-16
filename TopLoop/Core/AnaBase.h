@@ -297,8 +297,7 @@ inline std::shared_ptr<TTreeReader>     TL::AnaBase::particleLevelReader() { ret
 template<typename T>
 std::shared_ptr<T> TL::AnaBase::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name) {
   if ( reader->GetTree()->GetListOfBranches()->FindObject(name) != nullptr ) {
-    auto ptr = std::make_shared<T>(*reader,name);
-    return ptr;
+    return std::make_shared<T>(*reader,name);
   }
   else {
     if ( m_showTTRVwarning ) {
