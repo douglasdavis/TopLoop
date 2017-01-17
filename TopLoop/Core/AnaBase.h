@@ -55,22 +55,27 @@ namespace TL {
     std::shared_ptr<TTRV_float>     totalEventsWeighted;
     std::shared_ptr<TTRV_int>       dsid;
 
-    std::shared_ptr<TTRV_float>     weight_mc;
-    std::shared_ptr<TTRV_float>     weight_pileup;
-    std::shared_ptr<TTRV_float>     weight_leptonSF;
-    std::shared_ptr<TTRV_float>     weight_bTagSF_77;
-    std::shared_ptr<TTRV_float>     weight_jvt;
+    std::shared_ptr<TTRV_float>   weight_mc;
+    std::shared_ptr<TTRV_float>   weight_pileup;
+    std::shared_ptr<TTRV_float>   weight_leptonSF;
+    std::shared_ptr<TTRV_float>   weight_bTagSF_77;
+    std::shared_ptr<TTRV_float>   weight_jvt;
 
-    std::shared_ptr<TTRV_float>     weight_pileup_UP;
-    std::shared_ptr<TTRV_float>     weight_pileup_DOWN;
-    std::shared_ptr<TTRV_float>     weight_jvt_UP;
-    std::shared_ptr<TTRV_float>     weight_jvt_DOWN;
+    std::shared_ptr<TTRV_float>   weight_indiv_SF_EL_Trigger;
+    std::shared_ptr<TTRV_float>   weight_indiv_SF_EL_Reco;
+    std::shared_ptr<TTRV_float>   weight_indiv_SF_EL_ID;
+    std::shared_ptr<TTRV_float>   weight_indiv_SF_EL_Isol;
+    std::shared_ptr<TTRV_float>   weight_indiv_SF_MU_Trigger;
+    std::shared_ptr<TTRV_float>   weight_indiv_SF_MU_ID;
+    std::shared_ptr<TTRV_float>   weight_indiv_SF_MU_Isol;
+    std::shared_ptr<TTRV_float>   weight_indiv_SF_MU_TTVA;
 
-    std::vector<std::shared_ptr<TTRV_float> >     weightSyst_leptonSF;
-    std::vector<std::shared_ptr<TTRV_float> >     weights_indivSF;
-    std::vector<std::shared_ptr<TTRV_float> >     weightSyst_indivSF;
-    std::vector<std::shared_ptr<TTRV_float> >     weightSyst_bTagSF_extrapolation;
-    std::vector<std::shared_ptr<TTRV_vec_float> > weightSyst_bTagSF_eigenvars;
+    std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_pileup;
+    std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_jvt;
+    std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_leptonSF;
+    std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_indivSF;
+    std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_bTagSF_extrapolation;
+    std::map<std::string,std::shared_ptr<TTRV_vec_float>> weightSyst_bTagSF_eigenvars;
 
     std::shared_ptr<TTRV_ulongint>  eventNumber;
     std::shared_ptr<TTRV_uint>      runNumber;

@@ -28,8 +28,6 @@ void TL::AnaBase::init_core_vars() {
   m_weightsReader       = std::make_shared<TTreeReader>(fileManager()->rootWeightsChain());
   m_particleLevelReader = std::make_shared<TTreeReader>(fileManager()->rootParticleLevelChain());
 
-  //totalEventsWeighted   = std::make_shared<TTRV_float>(*m_weightsReader,"totalEventsWeighted");
-  //dsid                  = std::make_shared<TTRV_int>  (*m_weightsReader,"dsid");
   totalEventsWeighted = setupTreeVar<TTRV_float>(m_weightsReader,"totalEventsWeighted");
   dsid                = setupTreeVar<TTRV_int>  (m_weightsReader,"dsid");
 
@@ -39,88 +37,92 @@ void TL::AnaBase::init_core_vars() {
     weight_leptonSF    = setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF");
     weight_bTagSF_77   = setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77");
     weight_jvt         = setupTreeVar<TTRV_float>(m_reader,"weight_jvt");
+
+    weight_indiv_SF_EL_Trigger = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Trigger");
+    weight_indiv_SF_EL_Reco    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Reco");
+    weight_indiv_SF_EL_ID      = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_ID");
+    weight_indiv_SF_EL_Isol    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Isol");
+    weight_indiv_SF_MU_Trigger = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger");
+    weight_indiv_SF_MU_ID      = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID");
+    weight_indiv_SF_MU_Isol    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol");
+    weight_indiv_SF_MU_TTVA    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA");
+
     if ( m_isNominal ) {
-      weight_pileup_UP    = setupTreeVar<TTRV_float>(m_reader,"weight_pileup_UP");
-      weight_pileup_DOWN  = setupTreeVar<TTRV_float>(m_reader,"weight_pileup_DOWN");
-      weight_jvt_UP       = setupTreeVar<TTRV_float>(m_reader,"weight_jvt_UP");
-      weight_jvt_DOWN     = setupTreeVar<TTRV_float>(m_reader,"weight_jvt_DOWN");
-      weightSyst_leptonSF = {
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Trigger_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Trigger_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Reco_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Reco_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_ID_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_ID_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Isol_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Isol_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_STAT_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_STAT_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_SYST_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_SYST_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_STAT_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_STAT_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_SYST_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_SYST_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_STAT_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_STAT_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_SYST_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_SYST_DOWN")
+      weightSyst_pileup = {
+        { "pileup_UP"   , setupTreeVar<TTRV_float>(m_reader,"weight_pileup_UP")   } ,
+        { "pileup_DOWN" , setupTreeVar<TTRV_float>(m_reader,"weight_pileup_DOWN") }
       };
-      weights_indivSF = {
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Trigger"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Reco"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_ID"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Isol"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA")
+      weightSyst_jvt = {
+        { "jvt_UP"   , setupTreeVar<TTRV_float>(m_reader,"weight_jvt_UP")   } ,
+        { "jvt_DOWN" , setupTreeVar<TTRV_float>(m_reader,"weight_jvt_DOWN") }
+      };
+      weightSyst_leptonSF = {
+        { "leptonSF_EL_SF_Trigger_UP"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Trigger_UP")        } ,
+        { "leptonSF_EL_SF_Trigger_DOWN"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Trigger_DOWN")      } ,
+        { "leptonSF_EL_SF_Reco_UP"           , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Reco_UP")           } ,
+        { "leptonSF_EL_SF_Reco_DOWN"         , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Reco_DOWN")         } ,
+        { "leptonSF_EL_SF_ID_UP"             , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_ID_UP")             } ,
+        { "leptonSF_EL_SF_ID_DOWN"           , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_ID_DOWN")           } ,
+        { "leptonSF_EL_SF_Isol_UP"           , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Isol_UP")           } ,
+        { "leptonSF_EL_SF_Isol_DOWN"         , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Isol_DOWN")         } ,
+        { "leptonSF_MU_SF_Trigger_STAT_UP"   , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_STAT_UP")   } ,
+        { "leptonSF_MU_SF_Trigger_STAT_DOWN" , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_STAT_DOWN") } ,
+        { "leptonSF_MU_SF_Trigger_SYST_UP"   , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_SYST_UP")   } ,
+        { "leptonSF_MU_SF_Trigger_SYST_DOWN" , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_SYST_DOWN") } ,
+        { "leptonSF_MU_SF_ID_STAT_UP"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_STAT_UP")        } ,
+        { "leptonSF_MU_SF_ID_STAT_DOWN"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_STAT_DOWN")      } ,
+        { "leptonSF_MU_SF_ID_SYST_UP"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_SYST_UP")        } ,
+        { "leptonSF_MU_SF_ID_SYST_DOWN"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_SYST_DOWN")      } ,
+        { "leptonSF_MU_SF_Isol_STAT_UP"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_STAT_UP")      } ,
+        { "leptonSF_MU_SF_Isol_STAT_DOWN"    , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_STAT_DOWN")    } ,
+        { "leptonSF_MU_SF_Isol_SYST_UP"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_SYST_UP")      } ,
+        { "leptonSF_MU_SF_Isol_SYST_DOWN"    , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_SYST_DOWN")    }
       };
       weightSyst_indivSF = {
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Trigger_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Trigger_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Reco_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Reco_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_ID_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_ID_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Isol_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Isol_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger_STAT_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger_STAT_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger_SYST_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger_SYST_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_STAT_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_STAT_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_SYST_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_SYST_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_STAT_LOWPT_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_STAT_LOWPT_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_SYST_LOWPT_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_SYST_LOWPT_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol_STAT_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol_STAT_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol_SYST_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol_SYST_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA_STAT_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA_STAT_DOWN"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA_SYST_UP"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA_SYST_DOWN")
+        { "indiv_SF_EL_Trigger_UP"           , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Trigger_UP")         } ,
+        { "indiv_SF_EL_Trigger_DOWN"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Trigger_DOWN")       } ,
+        { "indiv_SF_EL_Reco_UP"              , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Reco_UP")            } ,
+        { "indiv_SF_EL_Reco_DOWN"            , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Reco_DOWN")          } ,
+        { "indiv_SF_EL_ID_UP"                , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_ID_UP")              } ,
+        { "indiv_SF_EL_ID_DOWN"              , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_ID_DOWN")            } ,
+        { "indiv_SF_EL_Isol_UP"              , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Isol_UP")            } ,
+        { "indiv_SF_EL_Isol_DOWN"            , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Isol_DOWN")          } ,
+        { "indiv_SF_MU_Trigger_STAT_UP"      , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger_STAT_UP")    } ,
+        { "indiv_SF_MU_Trigger_STAT_DOWN"    , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger_STAT_DOWN")  } ,
+        { "indiv_SF_MU_Trigger_SYST_UP"      , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger_SYST_UP")    } ,
+        { "indiv_SF_MU_Trigger_SYST_DOWN"    , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger_SYST_DOWN")  } ,
+        { "indiv_SF_MU_ID_STAT_UP"           , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_STAT_UP")         } ,
+        { "indiv_SF_MU_ID_STAT_DOWN"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_STAT_DOWN")       } ,
+        { "indiv_SF_MU_ID_SYST_UP"           , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_SYST_UP")         } ,
+        { "indiv_SF_MU_ID_SYST_DOWN"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_SYST_DOWN")       } ,
+        { "indiv_SF_MU_ID_STAT_LOWPT_UP"     , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_STAT_LOWPT_UP")   } ,
+        { "indiv_SF_MU_ID_STAT_LOWPT_DOWN"   , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_STAT_LOWPT_DOWN") } ,
+        { "indiv_SF_MU_ID_SYST_LOWPT_UP"     , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_SYST_LOWPT_UP")   } ,
+        { "indiv_SF_MU_ID_SYST_LOWPT_DOWN"   , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_SYST_LOWPT_DOWN") } ,
+        { "indiv_SF_MU_Isol_STAT_UP"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol_STAT_UP")       } ,
+        { "indiv_SF_MU_Isol_STAT_DOWN"       , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol_STAT_DOWN")     } ,
+        { "indiv_SF_MU_Isol_SYST_UP"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol_SYST_UP")       } ,
+        { "indiv_SF_MU_Isol_SYST_DOWN"       , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol_SYST_DOWN")     } ,
+        { "indiv_SF_MU_TTVA_STAT_UP"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA_STAT_UP")       } ,
+        { "indiv_SF_MU_TTVA_STAT_DOWN"       , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA_STAT_DOWN")     } ,
+        { "indiv_SF_MU_TTVA_SYST_UP"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA_SYST_UP")       } ,
+        { "indiv_SF_MU_TTVA_SYST_DOWN"       , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA_SYST_DOWN")     }
       };
       weightSyst_bTagSF_extrapolation = {
-        setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_up"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_down"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_from_charm_up"),
-        setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_from_charm_down")
+        { "bTagSF_77_extrapolation_up"              , setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_up")              } ,
+        { "bTagSF_77_extrapolation_down"            , setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_down")            } ,
+        { "bTagSF_77_extrapolation_from_charm_up"   , setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_from_charm_up")   } ,
+        { "bTagSF_77_extrapolation_from_charm_down" , setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_from_charm_down") }
       };
 
       //jet eigenvector weights
       weightSyst_bTagSF_eigenvars = {
-        setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_B_up"),
-        setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_C_up"),
-        setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_Light_up"),
-        setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_B_down"),
-        setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_C_down"),
-        setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_Light_down")
+        { "bTagSF_77_eigenvars_B_up"       , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_B_up")       } ,
+        { "bTagSF_77_eigenvars_C_up"       , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_C_up")       } ,
+        { "bTagSF_77_eigenvars_Light_up"   , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_Light_up")   } ,
+        { "bTagSF_77_eigenvars_B_down"     , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_B_down")     } ,
+        { "bTagSF_77_eigenvars_C_down"     , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_C_down")     } ,
+        { "bTagSF_77_eigenvars_Light_down" , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_Light_down") }
       };
     }
   }
