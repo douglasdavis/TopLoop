@@ -342,8 +342,8 @@
     },
     {
       "DSID_range": [
-        410503,
-        410503
+        410501,
+        410505
       ],
       "Generator": "PowhegPythia8",
       "InitialState": "ttbar",
