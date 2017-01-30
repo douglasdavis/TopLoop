@@ -8,13 +8,12 @@
 #include <TopLoop/Core/SampleMetaSvc.h>
 #include <TopLoop/json/json.hpp>
 
+// PathResolver
+#include <PathResolver/PathResolver.h>
+
 TL::SampleMetaSvc::SampleMetaSvc() {
-  std::string ROOTCOREBIN = std::getenv("ROOTCOREBIN");
-  if ( ROOTCOREBIN.empty() ) {
-    TL::Fatal("ROOTCOREBIN environment variable must be set!");
-  }
   setupMaps();
-  std::string filepath = ROOTCOREBIN+"/data/TopLoop/samplemeta.json";
+  std::string filepath = PathResolverFindCalibFile("TopLoop/samplemeta.json");
   std::ifstream in(filepath.c_str());
   if ( !in ) {
     TL::Fatal(PFUNC,"cannot fill meta service from file.",filepath,"cannot be found");
