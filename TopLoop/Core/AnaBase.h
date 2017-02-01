@@ -25,10 +25,10 @@
 #include <TTreeReader.h>
 #include <TTreeReaderValue.h>
 
-using TTRV_vec_float = TTreeReaderValue<std::vector<float> >;
-using TTRV_vec_char  = TTreeReaderValue<std::vector<char> >;
-using TTRV_vec_bool  = TTreeReaderValue<std::vector<bool> >;
-using TTRV_vec_int   = TTreeReaderValue<std::vector<int> >;
+using TTRV_vec_float = TTreeReaderValue<std::vector<float>>;
+using TTRV_vec_char  = TTreeReaderValue<std::vector<char>>;
+using TTRV_vec_bool  = TTreeReaderValue<std::vector<bool>>;
+using TTRV_vec_int   = TTreeReaderValue<std::vector<int>>;
 using TTRV_float     = TTreeReaderValue<Float_t>;
 using TTRV_uint      = TTreeReaderValue<UInt_t>;
 using TTRV_int       = TTreeReaderValue<Int_t>;
@@ -190,9 +190,9 @@ namespace TL {
     // }
 
     bool m_showTTRVwarning;
+
     template<typename T>
-    std::shared_ptr<T> setupTreeVar(std::shared_ptr<TTreeReader> reader,
-                                    const char* name);
+    std::shared_ptr<T> setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name);
 
  public:
     AnaBase();
@@ -300,7 +300,7 @@ inline std::shared_ptr<TTreeReader>     TL::AnaBase::weightsReader()       { ret
 inline std::shared_ptr<TTreeReader>     TL::AnaBase::particleLevelReader() { return m_particleLevelReader; }
 
 template<typename T>
-std::shared_ptr<T> TL::AnaBase::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name) {
+inline std::shared_ptr<T> TL::AnaBase::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name) {
   if ( reader->GetTree()->GetListOfBranches()->FindObject(name) != nullptr ) {
     return std::make_shared<T>(*reader,name);
   }
