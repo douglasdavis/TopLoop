@@ -47,6 +47,14 @@ void TL::AnaBase::init_core_vars() {
     weight_indiv_SF_MU_Isol    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol");
     weight_indiv_SF_MU_TTVA    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA");
 
+    el_true_type      = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_type");
+    el_true_origin    = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_origin");
+    el_true_typebkg   = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_typebkg");
+    el_true_originbkg = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_originbkg");
+
+    mu_true_type   = setupTreeVar<TTRV_vec_int>(m_reader,"mu_true_type");
+    mu_true_origin = setupTreeVar<TTRV_vec_int>(m_reader,"mu_true_origin");
+
     if ( m_isNominal ) {
       weightSyst_pileup = {
         { "pileup_UP"   , setupTreeVar<TTRV_float>(m_reader,"weight_pileup_UP")   } ,

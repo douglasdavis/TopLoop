@@ -36,12 +36,15 @@ namespace TL {
       std::size_t m_llidx;
       std::size_t m_ljidx;
       
+      bool m_hasFakeElectron;
+      bool m_hasFakeMuon;
+
       ClassDef(FinalState,1);
       
     public:
       FinalState() :
-        m_leptons(), m_jets(), m_MET(), m_leptonPairs(),
-        m_M(0), m_HT(0), m_llidx(0), m_ljidx(0)
+        m_leptons(), m_jets(), m_MET(), m_leptonPairs(), m_M(0), m_HT(0),
+        m_llidx(0), m_ljidx(0), m_hasFakeElectron(false), m_hasFakeMuon(false)
       {}
       virtual ~FinalState() {}
 
@@ -49,6 +52,9 @@ namespace TL {
       void addJet(const TL::EDM::Jet& jet);
       void addLeptonPair(const TL::EDM::LeptonPair& lp);
       void addLeptonPairs(const std::initializer_list<TL::EDM::LeptonPair>& lps);
+
+      void setHasFakeElectron(const bool flag);
+      void setHasFakeMuon(const bool flag);
 
       void evaluateLepPairs();
       void evaluateSelf();
@@ -67,6 +73,8 @@ namespace TL {
       std::size_t  nbjets_AT()        const;
       std::size_t  leadingLeptonIdx() const;
       std::size_t  leadingJetIdx()    const;
+      bool         hasFakeElectron()  const;
+      bool         hasFakeMuon()      const;
     };
 
   }
@@ -88,8 +96,12 @@ inline void TL::EDM::FinalState::clear() {
   m_leptons.clear();
   m_jets.clear();
   m_leptonPairs.clear();
+  m_hasFakeElectron = false;
+  m_hasFakeMuon     = false;
 }
 
+inline void TL::EDM::FinalState::setHasFakeElectron(const bool flag) { m_hasFakeElectron = flag; }
+inline void TL::EDM::FinalState::setHasFakeMuon(const bool flag)     { m_hasFakeMuon     = flag; }
 
 inline const std::vector<TL::EDM::Lepton>& TL::EDM::FinalState::leptons() const { return m_leptons; }
 inline const std::vector<TL::EDM::Jet>&    TL::EDM::FinalState::jets()    const { return m_jets;    }
@@ -119,7 +131,9 @@ inline std::size_t TL::EDM::FinalState::nbjets_AT() const {
                        [](const TL::EDM::Jet& a) { return a.isbtagged_77(); });
 }
 
-inline std::size_t TL::EDM::FinalState::leadingLeptonIdx() const { return m_llidx; }
-inline std::size_t TL::EDM::FinalState::leadingJetIdx()    const { return m_ljidx; }
+inline std::size_t TL::EDM::FinalState::leadingLeptonIdx() const { return m_llidx;           }
+inline std::size_t TL::EDM::FinalState::leadingJetIdx()    const { return m_ljidx;           }
+inline bool        TL::EDM::FinalState::hasFakeElectron()  const { return m_hasFakeElectron; }
+inline bool        TL::EDM::FinalState::hasFakeMuon()      const { return m_hasFakeMuon;     }
 
 #endif

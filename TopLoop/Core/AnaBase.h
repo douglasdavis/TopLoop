@@ -93,6 +93,11 @@ namespace TL {
     std::shared_ptr<TTRV_vec_float> el_d0sig;
     std::shared_ptr<TTRV_vec_float> el_delta_z0_sintheta;
 
+    std::shared_ptr<TTRV_vec_int> el_true_type;
+    std::shared_ptr<TTRV_vec_int> el_true_origin;
+    std::shared_ptr<TTRV_vec_int> el_true_typebkg;
+    std::shared_ptr<TTRV_vec_int> el_true_originbkg;
+
     std::shared_ptr<TTRV_vec_float> mu_pt;
     std::shared_ptr<TTRV_vec_float> mu_phi;
     std::shared_ptr<TTRV_vec_float> mu_eta;
@@ -102,6 +107,9 @@ namespace TL {
     std::shared_ptr<TTRV_vec_float> mu_ptvarcone30;
     std::shared_ptr<TTRV_vec_float> mu_d0sig;
     std::shared_ptr<TTRV_vec_float> mu_delta_z0_sintheta;
+
+    std::shared_ptr<TTRV_vec_int> mu_true_type;
+    std::shared_ptr<TTRV_vec_int> mu_true_origin;
 
     std::shared_ptr<TTRV_vec_float> jet_pt;
     std::shared_ptr<TTRV_vec_float> jet_eta;
