@@ -38,14 +38,16 @@ void TL::AnaBase::init_core_vars() {
     weight_bTagSF_77   = setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77");
     weight_jvt         = setupTreeVar<TTRV_float>(m_reader,"weight_jvt");
 
-    weight_indiv_SF_EL_Trigger = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Trigger");
-    weight_indiv_SF_EL_Reco    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Reco");
-    weight_indiv_SF_EL_ID      = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_ID");
-    weight_indiv_SF_EL_Isol    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Isol");
-    weight_indiv_SF_MU_Trigger = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger");
-    weight_indiv_SF_MU_ID      = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID");
-    weight_indiv_SF_MU_Isol    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol");
-    weight_indiv_SF_MU_TTVA    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA");
+    if ( m_isNominal ) {
+      weight_indiv_SF_EL_Trigger = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Trigger");
+      weight_indiv_SF_EL_Reco    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Reco");
+      weight_indiv_SF_EL_ID      = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_ID");
+      weight_indiv_SF_EL_Isol    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Isol");
+      weight_indiv_SF_MU_Trigger = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger");
+      weight_indiv_SF_MU_ID      = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID");
+      weight_indiv_SF_MU_Isol    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol");
+      weight_indiv_SF_MU_TTVA    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA");
+    }
 
     el_true_type      = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_type");
     el_true_origin    = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_origin");
