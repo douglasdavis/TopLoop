@@ -72,7 +72,7 @@ void TL::SampleMetaSvc::setupMaps() {
   };
   m_s2eGenerator = {
     { "Data"             , TL::kGenerator::Data_2           } ,
-    { "PowhegPythia"     , TL::kGenerator::PowhegPythia     } ,
+    { "PowhegPythia6"    , TL::kGenerator::PowhegPythia6    } ,
     { "PowhegPythia8"    , TL::kGenerator::PowhegPythia8    } ,
     { "PowhegHerwig"     , TL::kGenerator::PowhegHerwig     } ,
     { "PowhegHerwigpp"   , TL::kGenerator::PowhegHerwigpp   } ,

@@ -36,7 +36,7 @@ namespace TL {
     ttbarZ  , ttbarW
   };
   enum kGenerator {
-    Data_2           , PowhegPythia    , PowhegPythia8  ,
+    Data_2           , PowhegPythia6   , PowhegPythia8  ,
     PowhegHerwig     , PowhegHerwigpp  , Sherpa21       ,
     Sherpa22         , Sherpa221       , MadgraphPythia ,
     MadgraphPythia8  , aMCatNLOPythia8 , aMCatNLOHerwig ,
