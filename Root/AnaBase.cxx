@@ -157,6 +157,7 @@ void TL::AnaBase::init_core_vars() {
   el_ptvarcone20       = setupTreeVar<TTRV_vec_float>(m_reader,"el_ptvarcone20");
   el_d0sig             = setupTreeVar<TTRV_vec_float>(m_reader,"el_d0sig");
   el_delta_z0_sintheta = setupTreeVar<TTRV_vec_float>(m_reader,"el_delta_z0_sintheta");
+  el_CF                = setupTreeVar<TTRV_vec_char> (m_reader,"el_CF");
 
   mu_pt     = setupTreeVar<TTRV_vec_float>(m_reader,"mu_pt");
   mu_eta    = setupTreeVar<TTRV_vec_float>(m_reader,"mu_eta");

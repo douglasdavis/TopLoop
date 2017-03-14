@@ -52,8 +52,8 @@ namespace TL {
     std::shared_ptr<TTreeReader>     m_weightsReader;
     std::shared_ptr<TTreeReader>     m_particleLevelReader;
 
-    std::shared_ptr<TTRV_float>     totalEventsWeighted;
-    std::shared_ptr<TTRV_int>       dsid;
+    std::shared_ptr<TTRV_float>  totalEventsWeighted;
+    std::shared_ptr<TTRV_int>    dsid;
 
     std::shared_ptr<TTRV_float>   weight_mc;
     std::shared_ptr<TTRV_float>   weight_pileup;
@@ -92,7 +92,7 @@ namespace TL {
     std::shared_ptr<TTRV_vec_float> el_ptvarcone20;
     std::shared_ptr<TTRV_vec_float> el_d0sig;
     std::shared_ptr<TTRV_vec_float> el_delta_z0_sintheta;
-
+    std::shared_ptr<TTRV_vec_char>  el_CF;
     std::shared_ptr<TTRV_vec_int> el_true_type;
     std::shared_ptr<TTRV_vec_int> el_true_origin;
     std::shared_ptr<TTRV_vec_int> el_true_typebkg;
