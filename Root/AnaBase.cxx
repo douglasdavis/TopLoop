@@ -283,7 +283,7 @@ std::vector<float> TL::AnaBase::countSumWeights() {
     weights[0] += *(*totalEventsWeighted);
 
     // now get all the rest
-    for ( std::size_t i = 0; i <= (*totalEventsWeighted_mc_generator_weights)->size(); ++i ) {
+    for ( std::size_t i = 0; i < (*totalEventsWeighted_mc_generator_weights)->size(); ++i ) {
       weights[i+1] += (*totalEventsWeighted_mc_generator_weights)->at(i);
     }
   }
