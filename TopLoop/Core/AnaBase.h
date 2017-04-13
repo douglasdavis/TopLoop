@@ -52,8 +52,9 @@ namespace TL {
     std::shared_ptr<TTreeReader>     m_weightsReader;
     std::shared_ptr<TTreeReader>     m_particleLevelReader;
 
-    std::shared_ptr<TTRV_float>  totalEventsWeighted;
-    std::shared_ptr<TTRV_int>    dsid;
+    std::shared_ptr<TTRV_float>     totalEventsWeighted;
+    std::shared_ptr<TTRV_vec_float> totalEventsWeighted_mc_generator_weights;
+    std::shared_ptr<TTRV_int>       dsid;
 
     std::shared_ptr<TTRV_float>   weight_mc;
     std::shared_ptr<TTRV_float>   weight_pileup;
@@ -223,10 +224,11 @@ namespace TL {
 
     //! Count the sumWeights from all input trees
     /*!
-      This can be called in the init() function if 
-      info about the sum of weights is desired.
+      This can be called in the init() function if info about the
+      sum of weights is desired.  First entry is the nominal sum of
+      weights, all following entries are extra MC generator weights.
     */
-    float countSumWeights();
+    std::vector<float> countSumWeights();
 
     //! Get the dataset id
     /*!
@@ -234,7 +236,7 @@ namespace TL {
       the dataset ID is desired
     */
     unsigned int get_dsid();
-    
+
     //! Initialize the algorithm properties
     /*!
       The point of this function is to initialize various properties

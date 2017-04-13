@@ -29,6 +29,8 @@ void TL::AnaBase::init_core_vars() {
   m_particleLevelReader = std::make_shared<TTreeReader>(fileManager()->rootParticleLevelChain());
 
   totalEventsWeighted = setupTreeVar<TTRV_float>(m_weightsReader,"totalEventsWeighted");
+  totalEventsWeighted_mc_generator_weights =
+    setupTreeVar<TTRV_vec_float>(m_weightsReader,"totalEventsWeighted_mc_generator_weights");
   dsid                = setupTreeVar<TTRV_int>  (m_weightsReader,"dsid");
 
   if ( m_isMC ) {
@@ -266,19 +268,28 @@ void TL::AnaBase::init_core_vars() {
   */
 }
 
-float TL::AnaBase::countSumWeights() {
+std::vector<float> TL::AnaBase::countSumWeights() {
   //sum up the weighted number of events in the metadata tree.  This works for
   //MC (to get the MC lumi) and data (perhaps as a cross-check)
-  float sumWeights = 0;
+  m_weightsReader->SetEntry(0);
+  std::vector<float> weights(1+(*totalEventsWeighted_mc_generator_weights)->size(),0.0);
+  m_weightsReader->SetEntry(-1);
+
   while ( m_weightsReader->Next() ) {
     if ( m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid ) {
       TL::Fatal("countSumWeights()", "Tree reader does not return kEntryValid, I/O Error... terminating");
     }
-    sumWeights += *(*totalEventsWeighted);
+    // first entry in weights vector is nominal
+    weights[0] += *(*totalEventsWeighted);
+
+    // now get all the rest
+    for ( std::size_t i = 0; i <= (*totalEventsWeighted_mc_generator_weights)->size(); ++i ) {
+      weights[i+1] += (*totalEventsWeighted_mc_generator_weights)->at(i);
+    }
   }
 
   //todo: cross-check the value with Ami, warn if different?
-  return sumWeights;
+  return weights;
 }
 
 unsigned int TL::AnaBase::get_dsid() {
