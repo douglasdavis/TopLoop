@@ -358,5 +358,74 @@
       "InitialState": "ttbar",
       "SampleType": "Systematic"
     }
+  ],
+  "ttbarW": [
+    {
+      "DSID_range": [
+        410066,
+        410068
+      ],
+      "Generator": "MadgraphPythia8",
+      "InitialState": "ttbarW",
+      "SampleType": "Unknown"
+    },
+    {
+      "DSID_range": [
+        410155,
+        410155
+      ],
+      "Generator": "aMCatNLOPythia8",
+      "InitialState": "ttbarW",
+      "SampleType": "Unknown"
+    }
+  ],
+  "ttbarZ": [
+    {
+      "DSID_range": [
+        410069,
+        410070
+      ],
+      "Generator": "MadgraphPythia8",
+      "InitialState": "ttbarZ",
+      "SampleType": "Unknown"
+    },
+    {
+      "DSID_range": [
+        410073,
+        410075
+      ],
+      "Generator": "MadgraphPythia8",
+      "InitialState": "ttbarZ",
+      "SampleType": "Unknown"
+    },
+    {
+      "DSID_range": [
+        410156,
+        410157
+      ],
+      "Generator": "aMCatNLOPythia8",
+      "InitialState": "ttbarZ",
+      "SampleType": "Unknown"
+    }
+  ],
+  "ttbarll": [
+    {
+      "DSID_range": [
+        410111,
+        410116
+      ],
+      "Generator": "MadgraphPythia8",
+      "InitialState": "ttbarll",
+      "SampleType": "Unknown"
+    },
+    {
+      "DSID_range": [
+        410218,
+        410220
+      ],
+      "Generator": "aMCatNLOPythia8",
+      "InitialState": "ttbarll",
+      "SampleType": "Unknown"
+    }
   ]
 }

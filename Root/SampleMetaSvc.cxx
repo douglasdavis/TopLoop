@@ -68,7 +68,8 @@ void TL::SampleMetaSvc::setupMaps() {
     { "ZZ"      , TL::kInitialState::ZZ      } ,
     { "Diboson" , TL::kInitialState::Diboson } ,
     { "ttbarW"  , TL::kInitialState::ttbarW  } ,
-    { "ttbarZ"  , TL::kInitialState::ttbarZ  }
+    { "ttbarZ"  , TL::kInitialState::ttbarZ  } ,
+    { "ttbarll" , TL::kInitialState::ttbarll }
   };
   m_s2eGenerator = {
     { "Data"             , TL::kGenerator::Data_2           } ,

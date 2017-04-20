@@ -33,7 +33,7 @@ namespace TL {
     Data_1  , ttbar,  Wt      ,
     Zjets   , Wjets,  WW      ,
     WZ      , ZZ,     Diboson ,
-    ttbarZ  , ttbarW
+    ttbarZ  , ttbarW, ttbarll
   };
   enum kGenerator {
     Data_2           , PowhegPythia6   , PowhegPythia8  ,
