@@ -21,3 +21,5 @@ structure:
 
 Within the AIDA group, we have a mature algorithm built on top of the
 TopLoop framework called AIDALoop.
+
+Doxygen documentation can be found here: cern.ch/ddavis/TopLoop
