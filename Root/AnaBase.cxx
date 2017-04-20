@@ -14,6 +14,7 @@ TL::AnaBase::AnaBase() :
   m_isMC(true),
   m_isNominal(true) {
   m_showTTRVwarning = true;
+  m_verbose = false;
   core_init();
 }
 

@@ -48,7 +48,7 @@ namespace TL {
     std::string   m_datasetName;
     bool          m_isMC, m_isNominal;
     bool          m_showTTRVwarning;
-
+    bool          m_verbose;
 
     std::shared_ptr<TL::FileManager> m_fm;
     std::shared_ptr<TTreeReader>     m_reader;
@@ -283,14 +283,21 @@ namespace TL {
       know if it's touching data, so it knows which variables to avoid
       initializing.
     */
-    virtual void setIsData();
+    void setIsData();
 
     //! Function to tell algorithm it's analyzing a systematic variation
     /*!
       Some variables in the nominal tree do not exist in the systematic
       trees; so we need to avoid setting them up for systematic runs.
     */
-    virtual void setIsSystematic();
+    void setIsSystematic();
+
+    //! Function to turn on all INFO messages
+    /*!
+      Some messages will always be printed from TL::Info
+      This function will turn on all messages that by default are off.
+    */
+    void setVerboseOn();
 
     //! Function to turn off warning message for missing variables
     /*!
@@ -312,6 +319,7 @@ namespace TL {
 inline void TL::AnaBase::setIsData()          { m_isMC            = false; }
 inline void TL::AnaBase::setIsSystematic()    { m_isNominal       = false; }
 inline void TL::AnaBase::turnOffTTRVWarning() { m_showTTRVwarning = false; }
+inline void TL::AnaBase::setVerboseOn()       { m_verbose         = true;  }
 
 inline std::shared_ptr<TL::FileManager> TL::AnaBase::fileManager()         { return m_fm;                  }
 inline std::shared_ptr<TTreeReader>     TL::AnaBase::reader()              { return m_reader;              }
@@ -320,6 +328,13 @@ inline std::shared_ptr<TTreeReader>     TL::AnaBase::particleLevelReader() { ret
 
 template<typename T>
 inline std::shared_ptr<T> TL::AnaBase::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name) {
+  if ( reader->GetTree() == nullptr ) {
+    if ( m_showTTRVwarning ) {
+      TL::Warning(FUNC,"var",name,"from reader",reader->GetName(),
+                  "belongs to a null tree, if you use this variable you're gonna crash!");
+    }
+    return nullptr;
+  }
   if ( reader->GetTree()->GetListOfBranches()->FindObject(name) != nullptr ) {
     return std::make_shared<T>(*reader,name);
   }
