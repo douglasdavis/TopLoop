@@ -31,7 +31,9 @@ void TL::AnaBase::init_core_vars() {
   totalEventsWeighted = setupTreeVar<TTRV_float>(m_weightsReader,"totalEventsWeighted");
   totalEventsWeighted_mc_generator_weights =
     setupTreeVar<TTRV_vec_float>(m_weightsReader,"totalEventsWeighted_mc_generator_weights");
-  dsid                = setupTreeVar<TTRV_int>  (m_weightsReader,"dsid");
+  names_mc_generator_weights =
+    setupTreeVar<TTRV_vec_str>(m_weightsReader,"names_mc_generator_weights");
+  dsid = setupTreeVar<TTRV_int>  (m_weightsReader,"dsid");
 
   if ( m_isMC ) {
     weight_mc          = setupTreeVar<TTRV_float>(m_reader,"weight_mc");
@@ -217,7 +219,7 @@ void TL::AnaBase::init_core_vars() {
     setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu50");
   mu_trigMatch_HLT_mu20_iloose_L1MU15 =
     setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu20_iloose_L1MU15");
-  /*
+
   // All of the truth (particleLevel tree, plt) variables {
   if ( m_isMC ) {
     plt_mu                  = setupTreeVar<TTRV_float>(m_particleLevelReader,"mu");
@@ -265,7 +267,7 @@ void TL::AnaBase::init_core_vars() {
     plt_nu_origin           = setupTreeVar<TTRV_vec_int>(m_particleLevelReader,"nu_origin");
   }
   // }
-  */
+
 }
 
 std::vector<float> TL::AnaBase::countSumWeights() {
@@ -290,6 +292,13 @@ std::vector<float> TL::AnaBase::countSumWeights() {
 
   //todo: cross-check the value with Ami, warn if different?
   return weights;
+}
+
+std::vector<std::string> TL::AnaBase::generatorWeightNames() {
+  m_weightsReader->SetEntry(0);
+  auto retvec = *(*names_mc_generator_weights);
+  m_weightsReader->SetEntry(-1);
+  return retvec;
 }
 
 unsigned int TL::AnaBase::get_dsid() {

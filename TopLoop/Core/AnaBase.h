@@ -25,6 +25,7 @@
 #include <TTreeReader.h>
 #include <TTreeReaderValue.h>
 
+using TTRV_vec_str   = TTreeReaderValue<std::vector<std::string>>;
 using TTRV_vec_float = TTreeReaderValue<std::vector<float>>;
 using TTRV_vec_char  = TTreeReaderValue<std::vector<char>>;
 using TTRV_vec_bool  = TTreeReaderValue<std::vector<bool>>;
@@ -44,8 +45,10 @@ namespace TL {
   class AnaBase {
 
   protected:
-    std::string      m_datasetName;
-    bool             m_isMC, m_isNominal;
+    std::string   m_datasetName;
+    bool          m_isMC, m_isNominal;
+    bool          m_showTTRVwarning;
+
 
     std::shared_ptr<TL::FileManager> m_fm;
     std::shared_ptr<TTreeReader>     m_reader;
@@ -54,6 +57,7 @@ namespace TL {
 
     std::shared_ptr<TTRV_float>     totalEventsWeighted;
     std::shared_ptr<TTRV_vec_float> totalEventsWeighted_mc_generator_weights;
+    std::shared_ptr<TTRV_vec_str>   names_mc_generator_weights;
     std::shared_ptr<TTRV_int>       dsid;
 
     std::shared_ptr<TTRV_float>   weight_mc;
@@ -198,8 +202,6 @@ namespace TL {
     std::shared_ptr<TTRV_vec_int>     plt_nu_origin;
     // }
 
-    bool m_showTTRVwarning;
-
     template<typename T>
     std::shared_ptr<T> setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name);
 
@@ -229,6 +231,13 @@ namespace TL {
       weights, all following entries are extra MC generator weights.
     */
     std::vector<float> countSumWeights();
+
+    //! Get names of Generator based weights
+    /*!
+      Can be called to retrieve the list of strings corresponding
+      to the name of the generator based weights.
+    */
+    std::vector<std::string> generatorWeightNames();
 
     //! Get the dataset id
     /*!
@@ -274,14 +283,14 @@ namespace TL {
       know if it's touching data, so it knows which variables to avoid
       initializing.
     */
-    virtual void isData();
+    virtual void setIsData();
 
     //! Function to tell algorithm it's analyzing a systematic variation
     /*!
       Some variables in the nominal tree do not exist in the systematic
       trees; so we need to avoid setting them up for systematic runs.
     */
-    virtual void isSystematic();
+    virtual void setIsSystematic();
 
     //! Function to turn off warning message for missing variables
     /*!
@@ -300,8 +309,8 @@ namespace TL {
 
 }
 
-inline void TL::AnaBase::isData()             { m_isMC            = false; }
-inline void TL::AnaBase::isSystematic()       { m_isNominal       = false; }
+inline void TL::AnaBase::setIsData()          { m_isMC            = false; }
+inline void TL::AnaBase::setIsSystematic()    { m_isNominal       = false; }
 inline void TL::AnaBase::turnOffTTRVWarning() { m_showTTRVwarning = false; }
 
 inline std::shared_ptr<TL::FileManager> TL::AnaBase::fileManager()         { return m_fm;                  }
