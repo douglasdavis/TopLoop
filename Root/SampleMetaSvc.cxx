@@ -72,20 +72,21 @@ void TL::SampleMetaSvc::setupMaps() {
     { "ttbarll" , TL::kInitialState::ttbarll }
   };
   m_s2eGenerator = {
-    { "Data"             , TL::kGenerator::Data_2           } ,
-    { "PowhegPythia6"    , TL::kGenerator::PowhegPythia6    } ,
-    { "PowhegPythia8"    , TL::kGenerator::PowhegPythia8    } ,
-    { "PowhegHerwig"     , TL::kGenerator::PowhegHerwig     } ,
-    { "PowhegHerwigpp"   , TL::kGenerator::PowhegHerwigpp   } ,
-    { "Sherpa21"         , TL::kGenerator::Sherpa21         } ,
-    { "Sherpa22"         , TL::kGenerator::Sherpa22         } ,
-    { "Sherpa221"        , TL::kGenerator::Sherpa221        } ,
-    { "MadgraphPythia"   , TL::kGenerator::MadgraphPythia   } ,
-    { "MadgraphPythia8"  , TL::kGenerator::MadgraphPythia8  } ,
-    { "aMCatNLOPythia8"  , TL::kGenerator::aMCatNLOPythia8  } ,
-    { "aMCatNLOHerwig"   , TL::kGenerator::aMCatNLOHerwig   } ,
-    { "aMCatNLOHerwigpp" , TL::kGenerator::aMCatNLOHerwigpp } ,
-    { "Unknown"          , TL::kGenerator::Unknown_2        }
+    { "Data"             , TL::kGenerator::Data_2            } ,
+    { "PowhegPythia6"    , TL::kGenerator::PowhegPythia6     } ,
+    { "PowhegPythia8"    , TL::kGenerator::PowhegPythia8     } ,
+    { "PowhegPythia8_dil", TL::kGenerator::PowhegPythia8_dil } ,
+    { "PowhegHerwig"     , TL::kGenerator::PowhegHerwig      } ,
+    { "PowhegHerwigpp"   , TL::kGenerator::PowhegHerwigpp    } ,
+    { "Sherpa21"         , TL::kGenerator::Sherpa21          } ,
+    { "Sherpa22"         , TL::kGenerator::Sherpa22          } ,
+    { "Sherpa221"        , TL::kGenerator::Sherpa221         } ,
+    { "MadgraphPythia"   , TL::kGenerator::MadgraphPythia    } ,
+    { "MadgraphPythia8"  , TL::kGenerator::MadgraphPythia8   } ,
+    { "aMCatNLOPythia8"  , TL::kGenerator::aMCatNLOPythia8   } ,
+    { "aMCatNLOHerwig"   , TL::kGenerator::aMCatNLOHerwig    } ,
+    { "aMCatNLOHerwigpp" , TL::kGenerator::aMCatNLOHerwigpp  } ,
+    { "Unknown"          , TL::kGenerator::Unknown_2         }
   };
   m_s2eSampleType = {
     { "Data"       , TL::kSampleType::Data_3     } ,

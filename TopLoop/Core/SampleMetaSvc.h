@@ -36,11 +36,11 @@ namespace TL {
     ttbarZ  , ttbarW, ttbarll
   };
   enum kGenerator {
-    Data_2           , PowhegPythia6   , PowhegPythia8  ,
-    PowhegHerwig     , PowhegHerwigpp  , Sherpa21       ,
-    Sherpa22         , Sherpa221       , MadgraphPythia ,
-    MadgraphPythia8  , aMCatNLOPythia8 , aMCatNLOHerwig ,
-    aMCatNLOHerwigpp , Unknown_2
+    Data_2           , PowhegPythia6     , PowhegPythia8  ,
+    PowhegHerwig     , PowhegHerwigpp    , Sherpa21       ,
+    Sherpa22         , Sherpa221         , MadgraphPythia ,
+    MadgraphPythia8  , aMCatNLOPythia8   , aMCatNLOHerwig ,
+    aMCatNLOHerwigpp , PowhegPythia8_dil , Unknown_2
   };
   enum kSampleType {
     Data_3 , Nominal , Systematic , Unknown_3

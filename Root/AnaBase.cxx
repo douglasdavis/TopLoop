@@ -271,25 +271,44 @@ void TL::AnaBase::init_core_vars() {
 
 }
 
-std::vector<float> TL::AnaBase::countSumWeights() {
+float TL::AnaBase::countSumWeights() {
+  //sum up the weighted number of events in the metadata tree.  This works for
+  //MC (to get the MC lumi) and data (perhaps as a cross-check)
+  float sumWeights = 0;
+
+  //  while ( m_weightsReader->Next() ) { this didnt work WTF.
+  for ( int i = 0; i < fileManager()->rootWeightsChain()->GetEntries(); ++i ) {
+    m_weightsReader->SetEntry(i);
+    if ( m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid ) {
+      TL::Fatal("countSumWeights()", "Tree reader does not return kEntryValid");
+    }
+    sumWeights += *(*totalEventsWeighted);
+  }
+  m_weightsReader->SetEntry(-1);
+  //todo: cross-check the value with Ami, warn if different?
+
+  return sumWeights;
+}
+
+std::vector<float> TL::AnaBase::generatorVariedSumWeights() {
   //sum up the weighted number of events in the metadata tree.  This works for
   //MC (to get the MC lumi) and data (perhaps as a cross-check)
   m_weightsReader->SetEntry(0);
-  std::vector<float> weights(1+(*totalEventsWeighted_mc_generator_weights)->size(),0.0);
+  std::vector<float> weights((*totalEventsWeighted_mc_generator_weights)->size(),0.0);
   m_weightsReader->SetEntry(-1);
 
-  while ( m_weightsReader->Next() ) {
+  for ( int i = 0; i < fileManager()->rootWeightsChain()->GetEntries(); ++i ) {
+  //while ( m_weightsReader->Next() ) { //this didnt work WTF.
+    m_weightsReader->SetEntry(i);
     if ( m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid ) {
-      TL::Fatal("countSumWeights()", "Tree reader does not return kEntryValid, I/O Error... terminating");
+      TL::Fatal("generatorVariedSumWeights()","Tree reader does not return kEntryValid");
     }
-    // first entry in weights vector is nominal
-    weights[0] += *(*totalEventsWeighted);
-
     // now get all the rest
-    for ( std::size_t i = 0; i < (*totalEventsWeighted_mc_generator_weights)->size(); ++i ) {
-      weights[i+1] += (*totalEventsWeighted_mc_generator_weights)->at(i);
+    for ( std::size_t j = 0; j < (*totalEventsWeighted_mc_generator_weights)->size(); ++j ) {
+      weights[j] += (*totalEventsWeighted_mc_generator_weights)->at(j);
     }
   }
+  m_weightsReader->SetEntry(-1);
 
   //todo: cross-check the value with Ami, warn if different?
   return weights;

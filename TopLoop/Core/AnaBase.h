@@ -227,10 +227,16 @@ namespace TL {
     //! Count the sumWeights from all input trees
     /*!
       This can be called in the init() function if info about the
-      sum of weights is desired.  First entry is the nominal sum of
-      weights, all following entries are extra MC generator weights.
+      sum of weights is desired; s the nominal sum of weights
     */
-    std::vector<float> countSumWeights();
+    float countSumWeights();
+
+    //! Generator based changes in the sum of weights
+    /*!
+      Generator "on the fly" weight variations stored in a vector
+      The first entry (as of April 2017) is the same as nominal.
+     */
+    std::vector<float> generatorVariedSumWeights();
 
     //! Get names of Generator based weights
     /*!
@@ -253,7 +259,6 @@ namespace TL {
     */
     virtual TL::STATUS init();
 
-    
     //! The function which is called after init(), for output.
     /*!
       This function is meant for declaring files, histograms, trees, etc.
