@@ -4,8 +4,12 @@ TopLoop is a small library inspired by the ASG EventLoop
 package. TopLoop is built specifically for analyzing Top group ntuples
 output by the TopAnalysis top-xoad program.
 
-To use the TopLoop library, clone this git repository into your
-RootCore area and follow the standard compilation procedure:
+To use the TopLoop library in a setup for the 2.6.X AnalysisTop
+series, clone this git repository into your sources area.
+
+To use the TopLoop library in a setup for the 2.4.X AnalysisTop
+series, clone this git repository into your RootCore area and follow
+the standard compilation procedure:
 
 $ rc find_packages
 $ rc compile
