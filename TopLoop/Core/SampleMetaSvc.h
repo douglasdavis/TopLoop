@@ -41,7 +41,7 @@ namespace TL {
     Sherpa22         , Sherpa221         , MadgraphPythia    ,
     MadgraphPythia8  , aMCatNLOPythia8   , aMCatNLOHerwig    ,
     aMCatNLOHerwigpp , PowhegPythia8_dil , PowhegPythia6_dil ,
-    Unknown_2
+    PowhegHerwig7    , Unknown_2
   };
   enum kSampleType {
     Data_3 , Nominal , Systematic , Unknown_3
