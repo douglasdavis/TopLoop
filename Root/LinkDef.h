@@ -1,5 +1,5 @@
 #include <TopLoop/Core/FileManager.h>
-#include <TopLoop/Core/AnaBase.h>
+#include <TopLoop/Core/AlgBase.h>
 #include <TopLoop/Core/Job.h>
 #include <TopLoop/Core/SampleMetaSvc.h>
 #include <TopLoop/EDM/PhysicsObject.h>
@@ -19,7 +19,7 @@
 #pragma link C++ enum TL::STATUS+;
 
 #pragma link C++ class TL::FileManager+;
-#pragma link C++ class TL::AnaBase+;
+#pragma link C++ class TL::AlgBase+;
 #pragma link C++ class TL::Job+;
 
 #pragma link C++ enum TL::kInitialState+;

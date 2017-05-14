@@ -1,15 +1,15 @@
-/** @file AnaBase.cxx
- *  @brief TL::AnaBase class implementation
+/** @file AlgBase.cxx
+ *  @brief TL::AlgBase class implementation
  *
  *  @author Douglas Davis < douglas.davis@cern.ch >
  *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 // TL
-#include <TopLoop/Core/AnaBase.h>
+#include <TopLoop/Core/AlgBase.h>
 #include <TopLoop/Core/FileManager.h>
 
-TL::AnaBase::AnaBase() :
+TL::AlgBase::AlgBase() :
   m_datasetName(),
   m_isMC(true),
   m_isNominal(true) {
@@ -18,13 +18,13 @@ TL::AnaBase::AnaBase() :
   core_init();
 }
 
-TL::AnaBase::~AnaBase() {}
+TL::AlgBase::~AlgBase() {}
 
-void TL::AnaBase::core_init() {
+void TL::AlgBase::core_init() {
   m_fm = std::make_shared<TL::FileManager>();
 }
 
-void TL::AnaBase::init_core_vars() {
+void TL::AlgBase::init_core_vars() {
   m_reader              = std::make_shared<TTreeReader>(fileManager()->rootChain());
   m_weightsReader       = std::make_shared<TTreeReader>(fileManager()->rootWeightsChain());
   m_particleLevelReader = std::make_shared<TTreeReader>(fileManager()->rootParticleLevelChain());
@@ -271,7 +271,7 @@ void TL::AnaBase::init_core_vars() {
 
 }
 
-float TL::AnaBase::countSumWeights() {
+float TL::AlgBase::countSumWeights() {
   //sum up the weighted number of events in the metadata tree.  This works for
   //MC (to get the MC lumi) and data (perhaps as a cross-check)
   float sumWeights = 0;
@@ -290,7 +290,7 @@ float TL::AnaBase::countSumWeights() {
   return sumWeights;
 }
 
-std::vector<float> TL::AnaBase::generatorVariedSumWeights() {
+std::vector<float> TL::AlgBase::generatorVariedSumWeights() {
   //sum up the weighted number of events in the metadata tree.  This works for
   //MC (to get the MC lumi) and data (perhaps as a cross-check)
   m_weightsReader->SetEntry(0);
@@ -314,14 +314,14 @@ std::vector<float> TL::AnaBase::generatorVariedSumWeights() {
   return weights;
 }
 
-std::vector<std::string> TL::AnaBase::generatorWeightNames() {
+std::vector<std::string> TL::AlgBase::generatorWeightNames() {
   m_weightsReader->SetEntry(0);
   auto retvec = *(*names_mc_generator_weights);
   m_weightsReader->SetEntry(-1);
   return retvec;
 }
 
-unsigned int TL::AnaBase::get_dsid() {
+unsigned int TL::AlgBase::get_dsid() {
   m_weightsReader->SetEntry(0);
   auto ret_dsid = *(*dsid);
 
@@ -332,23 +332,23 @@ unsigned int TL::AnaBase::get_dsid() {
   return ret_dsid;
 }
 
-TL::STATUS TL::AnaBase::init() {
+TL::STATUS TL::AlgBase::init() {
   TL::Warning(__PRETTY_FUNCTION__,"This is the base init() class, doesn't do anything!");
   init_core_vars();
   return TL::STATUS::Good;
 }
 
-TL::STATUS TL::AnaBase::setupOutput() {
+TL::STATUS TL::AlgBase::setupOutput() {
   TL::Warning(__PRETTY_FUNCTION__,"This is the base setupOutput() function, doesn't do anything!");
   return TL::STATUS::Good;
 }
 
-TL::STATUS TL::AnaBase::execute() {
+TL::STATUS TL::AlgBase::execute() {
   TL::Warning(__PRETTY_FUNCTION__,"This is the base execute() function, doesn't do anything!");
   return TL::STATUS::Good;
 }
 
-TL::STATUS TL::AnaBase::finish() {
+TL::STATUS TL::AlgBase::finish() {
   TL::Warning(__PRETTY_FUNCTION__,"This is the base finish() function, doesn't do anything!");
   return TL::STATUS::Good;
 }

@@ -1,6 +1,6 @@
-/** @file  AnaBase.h
- *  @brief TL::AnaBase class header
- *  @class TL::AnaBase
+/** @file  AlgBase.h
+ *  @brief TL::AlgBase class header
+ *  @class TL::AlgBase
  *  @brief Base class for running a
  *         TopLoop analysis algorithm
  *
@@ -11,8 +11,8 @@
  *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
-#ifndef TL_AnaBase_h
-#define TL_AnaBase_h
+#ifndef TL_AlgBase_h
+#define TL_AlgBase_h
 
 // TL
 #include <TopLoop/Core/Utils.h>
@@ -42,7 +42,7 @@ namespace TL {
 
 namespace TL {
 
-  class AnaBase {
+  class AlgBase {
 
   protected:
     std::string   m_datasetName;
@@ -206,8 +206,8 @@ namespace TL {
     std::shared_ptr<T> setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name);
 
  public:
-    AnaBase();
-    virtual ~AnaBase();
+    AlgBase();
+    virtual ~AlgBase();
 
     //! Initialize core members
     /*!
@@ -321,18 +321,18 @@ namespace TL {
 
 }
 
-inline void TL::AnaBase::setIsData()          { m_isMC            = false; }
-inline void TL::AnaBase::setIsSystematic()    { m_isNominal       = false; }
-inline void TL::AnaBase::turnOffTTRVWarning() { m_showTTRVwarning = false; }
-inline void TL::AnaBase::setVerboseOn()       { m_verbose         = true;  }
+inline void TL::AlgBase::setIsData()          { m_isMC            = false; }
+inline void TL::AlgBase::setIsSystematic()    { m_isNominal       = false; }
+inline void TL::AlgBase::turnOffTTRVWarning() { m_showTTRVwarning = false; }
+inline void TL::AlgBase::setVerboseOn()       { m_verbose         = true;  }
 
-inline std::shared_ptr<TL::FileManager> TL::AnaBase::fileManager()         { return m_fm;                  }
-inline std::shared_ptr<TTreeReader>     TL::AnaBase::reader()              { return m_reader;              }
-inline std::shared_ptr<TTreeReader>     TL::AnaBase::weightsReader()       { return m_weightsReader;       }
-inline std::shared_ptr<TTreeReader>     TL::AnaBase::particleLevelReader() { return m_particleLevelReader; }
+inline std::shared_ptr<TL::FileManager> TL::AlgBase::fileManager()         { return m_fm;                  }
+inline std::shared_ptr<TTreeReader>     TL::AlgBase::reader()              { return m_reader;              }
+inline std::shared_ptr<TTreeReader>     TL::AlgBase::weightsReader()       { return m_weightsReader;       }
+inline std::shared_ptr<TTreeReader>     TL::AlgBase::particleLevelReader() { return m_particleLevelReader; }
 
 template<typename T>
-inline std::shared_ptr<T> TL::AnaBase::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name) {
+inline std::shared_ptr<T> TL::AlgBase::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name) {
   if ( reader->GetTree() == nullptr ) {
     if ( m_showTTRVwarning ) {
       TL::Warning(FUNC,"var",name,"from reader",reader->GetName(),
