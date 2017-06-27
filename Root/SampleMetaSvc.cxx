@@ -58,18 +58,19 @@ TL::SampleMetaSvc::~SampleMetaSvc() {}
 // added to that file, this function must be updated.
 void TL::SampleMetaSvc::setupMaps() {
   m_s2eInitialState = {
-    { "Data"    , TL::kInitialState::Data_1  } ,
-    { "ttbar"   , TL::kInitialState::ttbar   } ,
-    { "Wt"      , TL::kInitialState::Wt      } ,
-    { "Zjets"   , TL::kInitialState::Zjets   } ,
-    { "Wjets"   , TL::kInitialState::Wjets   } ,
-    { "WW"      , TL::kInitialState::WW      } ,
-    { "WZ"      , TL::kInitialState::WZ      } ,
-    { "ZZ"      , TL::kInitialState::ZZ      } ,
-    { "Diboson" , TL::kInitialState::Diboson } ,
-    { "ttbarW"  , TL::kInitialState::ttbarW  } ,
-    { "ttbarZ"  , TL::kInitialState::ttbarZ  } ,
-    { "ttbarll" , TL::kInitialState::ttbarll }
+    { "Data"     , TL::kInitialState::Data_1   } ,
+    { "ttbar"    , TL::kInitialState::ttbar    } ,
+    { "Wt"       , TL::kInitialState::Wt       } ,
+    { "Zjets"    , TL::kInitialState::Zjets    } ,
+    { "Wjets"    , TL::kInitialState::Wjets    } ,
+    { "WW"       , TL::kInitialState::WW       } ,
+    { "WZ"       , TL::kInitialState::WZ       } ,
+    { "ZZ"       , TL::kInitialState::ZZ       } ,
+    { "Diboson"  , TL::kInitialState::Diboson  } ,
+    { "ttbarW"   , TL::kInitialState::ttbarW   } ,
+    { "ttbarZ"   , TL::kInitialState::ttbarZ   } ,
+    { "ttbarll"  , TL::kInitialState::ttbarll  } ,
+    { "ttbarphi" , TL::kInitialState::ttbarphi }
   };
   m_s2eGenerator = {
     { "Data"             , TL::kGenerator::Data_2            } ,

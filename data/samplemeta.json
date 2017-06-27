@@ -481,5 +481,16 @@
             "InitialState": "ttbarll",
             "SampleType": "Unknown"
         }
+    ],
+    "ttbarphi": [
+        {
+            "DSID_range": [
+                303078,
+                303135
+            ],
+            "Generator": "MadgraphPythia8",
+            "InitialState": "ttbarphi",
+            "SampleType": "Nominal"
+        }
     ]
 }

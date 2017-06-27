@@ -30,10 +30,11 @@ namespace TL {
   // setupMaps() function must also be updated to be compatible with
   // the new entry(ies).
   enum kInitialState {
-    Data_1  , ttbar  , Wt      ,
-    Zjets   , Wjets  , WW      ,
-    WZ      , ZZ     , Diboson ,
-    ttbarZ  , ttbarW , ttbarll
+    Data_1   , ttbar  , Wt      ,
+    Zjets    , Wjets  , WW      ,
+    WZ       , ZZ     , Diboson ,
+    ttbarZ   , ttbarW , ttbarll ,
+    ttbarphi
   };
   enum kGenerator {
     Data_2           , PowhegPythia6     , PowhegPythia8     ,
