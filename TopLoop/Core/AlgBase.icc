@@ -1,3 +1,6 @@
+// Dear emacs, this is -*- C++ -*-
+// Implementation of inline functions from AlgBase.h
+
 inline void TL::AlgBase::setIsData()          { m_isMC            = false; }
 inline void TL::AlgBase::setIsSystematic()    { m_isNominal       = false; }
 inline void TL::AlgBase::turnOffTTRVWarning() { m_showTTRVwarning = false; }
