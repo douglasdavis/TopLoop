@@ -321,34 +321,6 @@ namespace TL {
 
 }
 
-inline void TL::AlgBase::setIsData()          { m_isMC            = false; }
-inline void TL::AlgBase::setIsSystematic()    { m_isNominal       = false; }
-inline void TL::AlgBase::turnOffTTRVWarning() { m_showTTRVwarning = false; }
-inline void TL::AlgBase::setVerboseOn()       { m_verbose         = true;  }
-
-inline std::shared_ptr<TL::FileManager> TL::AlgBase::fileManager()         { return m_fm;                  }
-inline std::shared_ptr<TTreeReader>     TL::AlgBase::reader()              { return m_reader;              }
-inline std::shared_ptr<TTreeReader>     TL::AlgBase::weightsReader()       { return m_weightsReader;       }
-inline std::shared_ptr<TTreeReader>     TL::AlgBase::particleLevelReader() { return m_particleLevelReader; }
-
-template<typename T>
-inline std::shared_ptr<T> TL::AlgBase::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name) {
-  if ( reader->GetTree() == nullptr ) {
-    if ( m_showTTRVwarning ) {
-      TL::Warning(FUNC,"var",name,"from reader",reader->GetName(),
-                  "belongs to a null tree, if you use this variable you're gonna crash!");
-    }
-    return nullptr;
-  }
-  if ( reader->GetTree()->GetListOfBranches()->FindObject(name) != nullptr ) {
-    return std::make_shared<T>(*reader,name);
-  }
-  else {
-    if ( m_showTTRVwarning ) {
-      TL::Warning(FUNC,name,"variable not found in the tree! If you try to access it, you will crash");
-    }
-    return nullptr;
-  }
-}
+#include "AlgBase.icc"
 
 #endif
