@@ -21,18 +21,16 @@ void TL::Job::run() {
   else {
     TL::Fatal(__PRETTY_FUNCTION__,"your setupOutput() returned TL::STATUS::Fail");
   }
-  TChain *current_chain = m_analysis->fileManager()->rootChain();
-  auto current_reader = m_analysis->reader();
-  if ( m_particleLevelRun ) {
-    TL::Info(__PRETTY_FUNCTION__,"particle level run!");
-    current_reader = m_analysis->particleLevelReader();
-    current_chain  = m_analysis->fileManager()->rootParticleLevelChain();
-  }
 
-  //current_reader->SetEntry(-1); // always start from beginning, TTreeReader::Next() will go to 0.
-  //while ( current_reader->Next() ) {
-  for ( Long64_t i = 0; i < current_chain->GetEntries(); ++i ) {
-    current_reader->SetEntry(i);
+  auto current_reader = m_analysis->reader();
+  //if ( m_particleLevelRun ) {
+  //  TL::Info(__PRETTY_FUNCTION__,"particle level run!");
+  //  current_reader = m_analysis->particleLevelReader();
+  //  current_chain  = m_analysis->fileManager()->rootParticleLevelChain();
+  //}
+
+  current_reader->Restart();
+  while ( current_reader->Next() ) {
     auto eventResult = m_analysis->execute();
     if ( eventResult == TL::STATUS::Good ) {
       // good event

@@ -1,4 +1,15 @@
 {
+    "Unknown": [
+        {
+            "DSID_range": [
+                999999,
+                999999
+            ],
+            "Generator": "Unknown",
+            "InitialState": "Unknown",
+            "SampleType": "Unknown"
+        }
+    ],
     "Data": [
         {
             "DSID_range": [

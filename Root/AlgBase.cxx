@@ -279,15 +279,13 @@ float TL::AlgBase::countSumWeights() {
   //MC (to get the MC lumi) and data (perhaps as a cross-check)
   float sumWeights = 0;
 
-  //  while ( m_weightsReader->Next() ) { this didnt work WTF.
-  for ( int i = 0; i < fileManager()->rootWeightsChain()->GetEntries(); ++i ) {
-    m_weightsReader->SetEntry(i);
+  while ( m_weightsReader->Next() ) { // this didnt work WTF.
     if ( m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid ) {
       TL::Fatal("countSumWeights()", "Tree reader does not return kEntryValid");
     }
     sumWeights += *(*totalEventsWeighted);
   }
-  m_weightsReader->SetEntry(-1);
+  m_weightsReader->Restart();
   //todo: cross-check the value with Ami, warn if different?
 
   return sumWeights;
@@ -296,13 +294,15 @@ float TL::AlgBase::countSumWeights() {
 std::vector<float> TL::AlgBase::generatorVariedSumWeights() {
   //sum up the weighted number of events in the metadata tree.  This works for
   //MC (to get the MC lumi) and data (perhaps as a cross-check)
-  m_weightsReader->SetEntry(0);
-  std::vector<float> weights((*totalEventsWeighted_mc_generator_weights)->size(),0.0);
-  m_weightsReader->SetEntry(-1);
+  std::size_t vsize = 0;
+  while ( m_weightsReader->Next() ) {
+    vsize = (*totalEventsWeighted_mc_generator_weights)->size();
+    break;
+  }
+  std::vector<float> weights(vsize,0.0);
+  m_weightsReader->Restart();
 
-  for ( int i = 0; i < fileManager()->rootWeightsChain()->GetEntries(); ++i ) {
-  //while ( m_weightsReader->Next() ) { //this didnt work WTF.
-    m_weightsReader->SetEntry(i);
+  while ( m_weightsReader->Next() ) {
     if ( m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid ) {
       TL::Fatal("generatorVariedSumWeights()","Tree reader does not return kEntryValid");
     }
@@ -311,26 +311,31 @@ std::vector<float> TL::AlgBase::generatorVariedSumWeights() {
       weights[j] += (*totalEventsWeighted_mc_generator_weights)->at(j);
     }
   }
-  m_weightsReader->SetEntry(-1);
+  m_weightsReader->Restart();
 
   //todo: cross-check the value with Ami, warn if different?
   return weights;
 }
 
 std::vector<std::string> TL::AlgBase::generatorWeightNames() {
-  m_weightsReader->SetEntry(0);
-  auto retvec = *(*names_mc_generator_weights);
-  m_weightsReader->SetEntry(-1);
+  std::vector<std::string> retvec;
+  while ( m_weightsReader->Next() ) {
+    retvec = *(*names_mc_generator_weights);
+    break;
+  }
+  m_weightsReader->Restart();
   return retvec;
 }
 
 unsigned int TL::AlgBase::get_dsid() {
-  m_weightsReader->SetEntry(0);
-  auto ret_dsid = *(*dsid);
-
+  unsigned int ret_dsid = 999999;
+  while ( m_weightsReader->Next() ) {
+    ret_dsid = *(*dsid);
+    break;
+  }
   // so TTreeReader::Next() can
   // be used again if desired
-  m_weightsReader->SetEntry(-1);
+  m_weightsReader->Restart();
 
   return ret_dsid;
 }
