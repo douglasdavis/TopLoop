@@ -29,11 +29,12 @@ void TL::AlgBase::init_core_vars() {
   m_weightsReader       = std::make_shared<TTreeReader>(fileManager()->rootWeightsChain());
   m_particleLevelReader = std::make_shared<TTreeReader>(fileManager()->rootParticleLevelChain());
 
-  totalEventsWeighted = setupTreeVar<TTRV_float>(m_weightsReader,"totalEventsWeighted");
-  totalEventsWeighted_mc_generator_weights =
-    setupTreeVar<TTRV_vec_float>(m_weightsReader,"totalEventsWeighted_mc_generator_weights");
-  names_mc_generator_weights =
-    setupTreeVar<TTRV_vec_str>(m_weightsReader,"names_mc_generator_weights");
+  if ( m_isMC ) { totalEventsWeighted = setupTreeVar<TTRV_float>(m_weightsReader,"totalEventsWeighted");
+    totalEventsWeighted_mc_generator_weights =
+      setupTreeVar<TTRV_vec_float>(m_weightsReader,"totalEventsWeighted_mc_generator_weights");
+    names_mc_generator_weights =
+      setupTreeVar<TTRV_vec_str>(m_weightsReader,"names_mc_generator_weights");
+  }
   dsid = setupTreeVar<TTRV_int>  (m_weightsReader,"dsid");
 
   if ( m_isMC ) {
@@ -153,7 +154,7 @@ void TL::AlgBase::init_core_vars() {
 
   el_pt     = setupTreeVar<TTRV_vec_float>(m_reader,"el_pt");
   el_eta    = setupTreeVar<TTRV_vec_float>(m_reader,"el_eta");
-  el_phi    = setupTreeVar<TTRV_vec_float>(m_reader,"el_pt");
+  el_phi    = setupTreeVar<TTRV_vec_float>(m_reader,"el_phi");
   el_e      = setupTreeVar<TTRV_vec_float>(m_reader,"el_e");
   el_charge = setupTreeVar<TTRV_vec_float>(m_reader,"el_charge");
   el_cl_eta = setupTreeVar<TTRV_vec_float>(m_reader,"el_cl_eta");
@@ -166,7 +167,7 @@ void TL::AlgBase::init_core_vars() {
 
   mu_pt     = setupTreeVar<TTRV_vec_float>(m_reader,"mu_pt");
   mu_eta    = setupTreeVar<TTRV_vec_float>(m_reader,"mu_eta");
-  mu_phi    = setupTreeVar<TTRV_vec_float>(m_reader,"mu_pt");
+  mu_phi    = setupTreeVar<TTRV_vec_float>(m_reader,"mu_phi");
   mu_e      = setupTreeVar<TTRV_vec_float>(m_reader,"mu_e");
   mu_charge = setupTreeVar<TTRV_vec_float>(m_reader,"mu_charge");
 
@@ -222,6 +223,7 @@ void TL::AlgBase::init_core_vars() {
     setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu20_iloose_L1MU15");
 
   // All of the truth (particleLevel tree, plt) variables {
+  /*
   if ( m_isMC ) {
     plt_mu                  = setupTreeVar<TTRV_float>(m_particleLevelReader,"mu");
     plt_el_pt               = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"el_pt");
@@ -267,6 +269,7 @@ void TL::AlgBase::init_core_vars() {
     plt_nu_phi              = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"nu_phi");
     plt_nu_origin           = setupTreeVar<TTRV_vec_int>(m_particleLevelReader,"nu_origin");
   }
+  */
   // }
 
 }
