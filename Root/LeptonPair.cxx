@@ -46,7 +46,7 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
     m_elel = true;
   }
   else {
-    ASG_MSG_WARNING("PDG Sum for Lepton Pair is bad: " << pdgsum);
+    ANA_MSG_WARNING("PDG Sum for Lepton Pair is bad: " << pdgsum);
   }
 
   if ( chargesum == 0 ) {
@@ -58,7 +58,7 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
     m_OS = false;
   }
   else {
-    ASG_MSG_WARNING("Charge sum is pad in Lepton Pair: " << chargesum);
+    ANA_MSG_WARNING("Charge sum is pad in Lepton Pair: " << chargesum);
   }
 }
 
