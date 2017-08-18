@@ -37,12 +37,12 @@ TL::SampleMetaSvc::SampleMetaSvc() {
       auto dsidMin = j_set.at("DSID_range").at(0).get<int>();
       auto dsidMax = j_set.at("DSID_range").at(1).get<int>();
       for ( int i = dsidMin; i <= dsidMax; ++i ) {
-        TL::kInitialState initstate;
-        TL::kGenerator    gen;
-        TL::kSampleType   st;
-        assigner(m_s2eInitialState,j_set.at("InitialState").get<std::string>(),initstate);
-        assigner(m_s2eGenerator,   j_set.at("Generator").get<std::string>(),   gen);
-        assigner(m_s2eSampleType,  j_set.at("SampleType").get<std::string>(),  st);
+        TL::kMeta initstate;
+        TL::kMeta gen;
+        TL::kMeta st;
+        assigner(m_s2e,j_set.at("InitialState").get<std::string>(),initstate);
+        assigner(m_s2e,j_set.at("Generator").get<std::string>()   ,gen);
+        assigner(m_s2e,j_set.at("SampleType").get<std::string>()  ,st);
         m_table.emplace(i,std::make_tuple(initstate,gen,st));
       }
     }
@@ -57,53 +57,46 @@ TL::SampleMetaSvc::~SampleMetaSvc() {}
 // samplemeta.txt file. If a new initial state, generator, or type is
 // added to that file, this function must be updated.
 void TL::SampleMetaSvc::setupMaps() {
-  m_s2eInitialState = {
-    { "Data"     , TL::kInitialState::Data_1    } ,
-    { "ttbar"    , TL::kInitialState::ttbar     } ,
-    { "Wt"       , TL::kInitialState::Wt        } ,
-    { "Zjets"    , TL::kInitialState::Zjets     } ,
-    { "Wjets"    , TL::kInitialState::Wjets     } ,
-    { "WW"       , TL::kInitialState::WW        } ,
-    { "WZ"       , TL::kInitialState::WZ        } ,
-    { "ZZ"       , TL::kInitialState::ZZ        } ,
-    { "Diboson"  , TL::kInitialState::Diboson   } ,
-    { "ttbarW"   , TL::kInitialState::ttbarW    } ,
-    { "ttbarZ"   , TL::kInitialState::ttbarZ    } ,
-    { "ttbarll"  , TL::kInitialState::ttbarll   } ,
-    { "ttbarphi" , TL::kInitialState::ttbarphi  } ,
-    { "Unknown"  , TL::kInitialState::Unknown_1 }
-  };
-  m_s2eGenerator = {
-    { "Data"             , TL::kGenerator::Data_2            } ,
-    { "PowhegPythia6"    , TL::kGenerator::PowhegPythia6     } ,
-    { "PowhegPythia6_dil", TL::kGenerator::PowhegPythia6_dil } ,
-    { "PowhegPythia8"    , TL::kGenerator::PowhegPythia8     } ,
-    { "PowhegPythia8_dil", TL::kGenerator::PowhegPythia8_dil } ,
-    { "PowhegHerwig"     , TL::kGenerator::PowhegHerwig      } ,
-    { "PowhegHerwigpp"   , TL::kGenerator::PowhegHerwigpp    } ,
-    { "PowhegHerwig7"    , TL::kGenerator::PowhegHerwig7     } ,
-    { "Sherpa21"         , TL::kGenerator::Sherpa21          } ,
-    { "Sherpa22"         , TL::kGenerator::Sherpa22          } ,
-    { "Sherpa221"        , TL::kGenerator::Sherpa221         } ,
-    { "MadgraphPythia"   , TL::kGenerator::MadgraphPythia    } ,
-    { "MadgraphPythia8"  , TL::kGenerator::MadgraphPythia8   } ,
-    { "aMCatNLOPythia8"  , TL::kGenerator::aMCatNLOPythia8   } ,
-    { "aMCatNLOHerwig"   , TL::kGenerator::aMCatNLOHerwig    } ,
-    { "aMCatNLOHerwigpp" , TL::kGenerator::aMCatNLOHerwigpp  } ,
-    { "Unknown"          , TL::kGenerator::Unknown_2         }
-  };
-  m_s2eSampleType = {
-    { "Data"       , TL::kSampleType::Data_3     } ,
-    { "Nominal"    , TL::kSampleType::Nominal    } ,
-    { "Systematic" , TL::kSampleType::Systematic } ,
-    { "Unknown"    , TL::kSampleType::Unknown_3  }
+  m_s2e = {
+    { "Unknown"              , TL::kMeta::Unknown               } ,
+      //
+    { "Data"                 , TL::kMeta::Data                  } ,
+    { "Nominal"              , TL::kMeta::Nominal		} ,
+    { "Systematic"           , TL::kMeta::Systematic		} ,
+      //
+    { "ttbar"                , TL::kMeta::ttbar			} ,
+    { "Wt"                   , TL::kMeta::Wt			} ,
+    { "Zjets"                , TL::kMeta::Zjets			} ,
+    { "Wjets"                , TL::kMeta::Wjets			} ,
+    { "WW"                   , TL::kMeta::WW			} ,
+    { "WZ"                   , TL::kMeta::WZ			} ,
+    { "ZZ"                   , TL::kMeta::ZZ			} ,
+    { "Diboson"              , TL::kMeta::Diboson		} ,
+    { "ttbarW"               , TL::kMeta::ttbarW		} ,
+    { "ttbarZ"               , TL::kMeta::ttbarZ		} ,
+    { "ttbarll"              , TL::kMeta::ttbarll		} ,
+    { "ttbarphi"             , TL::kMeta::ttbarphi		} ,
+      //
+    { "PowhegPythia6"        , TL::kMeta::PowhegPythia6         } ,
+    { "PowhegPythia6_dil"    , TL::kMeta::PowhegPythia6_dil     } ,
+    { "PowhegPythia8"        , TL::kMeta::PowhegPythia8         } ,
+    { "PowhegPythia8_dil"    , TL::kMeta::PowhegPythia8_dil     } ,
+    { "PowhegHerwig"         , TL::kMeta::PowhegHerwig          } ,
+    { "PowhegHerwigpp"       , TL::kMeta::PowhegHerwigpp        } ,
+    { "PowhegHerwig7"        , TL::kMeta::PowhegHerwig7         } ,
+    { "Sherpa21"             , TL::kMeta::Sherpa21              } ,
+    { "Sherpa22"             , TL::kMeta::Sherpa22              } ,
+    { "Sherpa221"            , TL::kMeta::Sherpa221             } ,
+    { "MadgraphPythia"       , TL::kMeta::MadgraphPythia        } ,
+    { "MadgraphPythia8"      , TL::kMeta::MadgraphPythia8       } ,
+    { "aMCatNLOPythia8"      , TL::kMeta::aMCatNLOPythia8       } ,
+    { "aMCatNLOHerwig"       , TL::kMeta::aMCatNLOHerwig        } ,
+    { "aMCatNLOHerwigpp"     , TL::kMeta::aMCatNLOHerwigpp      } ,
   };
   auto flipMap = [](auto const& templateMap, auto& newMap) {
     for ( auto const& templatePair : templateMap ) {
       newMap.emplace(templatePair.second,templatePair.first);
     }
   };
-  flipMap(m_s2eInitialState,m_e2sInitialState);
-  flipMap(m_s2eGenerator,   m_e2sGenerator);
-  flipMap(m_s2eSampleType,  m_e2sSampleType);
+  flipMap(m_s2e, m_e2s);
 }

@@ -202,25 +202,30 @@ namespace TL {
     std::shared_ptr<TTRV_vec_int>     plt_nu_origin;
     // }
 
+    //! Set up a variable as a TTreeReaderValue pointer
+    /*!
+      This one liner checks to make sure that the variable is on
+      the tree. If its not - you get a warning. If the variable isn't
+      there your program will still work as long as you don't try to
+      dereference the pointer.
+    */
     template<typename T>
-    std::shared_ptr<T> setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name = "");
+    std::shared_ptr<T>
+    setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name = "");
 
  public:
     AlgBase();
     virtual ~AlgBase();
 
-    //! Initialize core members
-    /*!
-      This function is always called by the constructor.
-      It initializes the file manager.
+    //! Set the file manager
+    /*! 
+      This is a requirement of all TopLoop algorithms
     */
-    void core_init();
+    void setFileManager(std::shared_ptr<TL::FileManager> fm);
 
     //! Initialize the variables for the TTreeReader
     /*!
       This function sets the TTreeReader variables up.
-      It *MUST* be called in the base init file which is
-      user modifiable.
     */
     void init_core_vars();
 
@@ -321,6 +326,8 @@ namespace TL {
 
 }
 
+inline void TL::AlgBase::setFileManager(std::shared_ptr<TL::FileManager> fm) { m_fm = fm; }
+
 inline void TL::AlgBase::setIsData()          { m_isMC            = false; }
 inline void TL::AlgBase::setIsSystematic()    { m_isNominal       = false; }
 inline void TL::AlgBase::turnOffTTRVWarning() { m_showTTRVwarning = false; }
@@ -332,7 +339,8 @@ inline std::shared_ptr<TTreeReader>     TL::AlgBase::weightsReader()       { ret
 inline std::shared_ptr<TTreeReader>     TL::AlgBase::particleLevelReader() { return m_particleLevelReader; }
 
 template<typename T>
-inline std::shared_ptr<T> TL::AlgBase::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name) {
+inline std::shared_ptr<T>
+TL::AlgBase::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name) {
   if ( reader->GetTree() == nullptr ) {
     if ( m_showTTRVwarning ) {
       TL::Warning(FUNC,"var",name,"from reader",reader->GetName(),
