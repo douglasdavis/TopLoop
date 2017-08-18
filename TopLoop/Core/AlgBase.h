@@ -7,12 +7,16 @@
  *  This class is a skeleton for the steps needed
  *  to run a TopLoop algorithm. 
  *
- *  @author Douglas Davis < douglas.davis@cern.ch >
+ *  @author Douglas Davis < ddavis@cern.ch >
  *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 #ifndef TL_AlgBase_h
 #define TL_AlgBase_h
+
+// ATLAS
+#include <AsgTools/StatusCode.h>
+#include <AsgTools/MessageCheck.h>
 
 // TL
 #include <TopLoop/Core/Utils.h>
@@ -24,6 +28,9 @@
 // ROOT
 #include <TTreeReader.h>
 #include <TTreeReaderValue.h>
+
+ANA_MSG_HEADER(msgAlgBase)
+//ANA_MSG_HEADER(msgAlgBaseVars)
 
 using TTRV_vec_str   = TTreeReaderValue<std::vector<std::string>>;
 using TTRV_vec_float = TTreeReaderValue<std::vector<float>>;
@@ -42,13 +49,12 @@ namespace TL {
 
 namespace TL {
 
-  class AlgBase {
+  class AlgBase : public TNamed {
 
   protected:
     std::string   m_datasetName;
     bool          m_isMC, m_isNominal;
     bool          m_showTTRVwarning;
-    bool          m_verbose;
 
     std::shared_ptr<TL::FileManager> m_fm;
     std::shared_ptr<TTreeReader>     m_reader;
@@ -156,52 +162,6 @@ namespace TL {
     std::shared_ptr<TTRV_vec_char> mu_trigMatch_HLT_mu50;
     std::shared_ptr<TTRV_vec_char> mu_trigMatch_HLT_mu20_iloose_L1MU15;
 
-    // All of the truth (particleLevel tree, plt) variables {
-    std::shared_ptr<TTRV_float>       plt_mu;
-    std::shared_ptr<TTRV_vec_float>   plt_el_pt;
-    std::shared_ptr<TTRV_vec_float>   plt_el_eta;
-    std::shared_ptr<TTRV_vec_float>   plt_el_phi;
-    std::shared_ptr<TTRV_vec_float>   plt_el_e;
-    std::shared_ptr<TTRV_vec_float>   plt_el_charge;
-    std::shared_ptr<TTRV_vec_float>   plt_el_pt_bare;
-    std::shared_ptr<TTRV_vec_float>   plt_el_eta_bare;
-    std::shared_ptr<TTRV_vec_float>   plt_el_phi_bare;
-    std::shared_ptr<TTRV_vec_float>   plt_el_e_bare;
-    std::shared_ptr<TTRV_vec_float>   plt_mu_pt;
-    std::shared_ptr<TTRV_vec_float>   plt_mu_eta;
-    std::shared_ptr<TTRV_vec_float>   plt_mu_phi;
-    std::shared_ptr<TTRV_vec_float>   plt_mu_e;
-    std::shared_ptr<TTRV_vec_float>   plt_mu_charge;
-    std::shared_ptr<TTRV_vec_float>   plt_mu_pt_bare;
-    std::shared_ptr<TTRV_vec_float>   plt_mu_eta_bare;
-    std::shared_ptr<TTRV_vec_float>   plt_mu_phi_bare;
-    std::shared_ptr<TTRV_vec_float>   plt_mu_e_bare;
-    std::shared_ptr<TTRV_vec_float>   plt_jet_pt;
-    std::shared_ptr<TTRV_vec_float>   plt_jet_eta;
-    std::shared_ptr<TTRV_vec_float>   plt_jet_phi;
-    std::shared_ptr<TTRV_vec_float>   plt_jet_e;
-    std::shared_ptr<TTRV_vec_int>     plt_jet_nGhosts_bHadron;
-    std::shared_ptr<TTRV_float>       plt_met_met;
-    std::shared_ptr<TTRV_float>       plt_met_phi;
-    std::shared_ptr<TTRV_vec_float>   plt_PDFinfo_X1;
-    std::shared_ptr<TTRV_vec_float>   plt_PDFinfo_X2;
-    std::shared_ptr<TTRV_vec_int>     plt_PDFinfo_PDGID1;
-    std::shared_ptr<TTRV_vec_int>     plt_PDFinfo_PDGID2;
-    std::shared_ptr<TTRV_vec_float>   plt_PDFinfo_Q;
-    std::shared_ptr<TTRV_vec_float>   plt_PDFinfo_XF1;
-    std::shared_ptr<TTRV_vec_float>   plt_PDFinfo_XF2;
-    std::shared_ptr<TTRV_int>         plt_emu_2015;
-    std::shared_ptr<TTRV_int>         plt_mumu_2016;
-    std::shared_ptr<TTRV_int>         plt_mumu_2015;
-    std::shared_ptr<TTRV_int>         plt_emu_2016;
-    std::shared_ptr<TTRV_int>         plt_ee_2016;
-    std::shared_ptr<TTRV_int>         plt_ee_2015;
-    std::shared_ptr<TTRV_vec_float>   plt_nu_pt;
-    std::shared_ptr<TTRV_vec_float>   plt_nu_eta;
-    std::shared_ptr<TTRV_vec_float>   plt_nu_phi;
-    std::shared_ptr<TTRV_vec_int>     plt_nu_origin;
-    // }
-
     //! Set up a variable as a TTreeReaderValue pointer
     /*!
       This one liner checks to make sure that the variable is on
@@ -213,7 +173,9 @@ namespace TL {
     std::shared_ptr<T>
     setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name = "");
 
- public:
+    void progress(long cur, long total, int range = 10) const;
+
+  public:
     AlgBase();
     virtual ~AlgBase();
 
@@ -222,12 +184,6 @@ namespace TL {
       This is a requirement of all TopLoop algorithms
     */
     void setFileManager(std::shared_ptr<TL::FileManager> fm);
-
-    //! Initialize the variables for the TTreeReader
-    /*!
-      This function sets the TTreeReader variables up.
-    */
-    void init_core_vars();
 
     //! Count the sumWeights from all input trees
     /*!
@@ -240,7 +196,7 @@ namespace TL {
     /*!
       Generator "on the fly" weight variations stored in a vector
       The first entry (as of April 2017) is the same as nominal.
-     */
+    */
     std::vector<float> generatorVariedSumWeights();
 
     //! Get names of Generator based weights
@@ -257,19 +213,25 @@ namespace TL {
     */
     unsigned int get_dsid();
 
+    //! Initialize the variables for the TTreeReader
+    /*!
+      This function sets the TTreeReader variables up.
+    */
+    StatusCode init_core_vars();
+
     //! Initialize the algorithm properties
     /*!
       The point of this function is to initialize various properties
       of the algorithm, e.g. setting user specific member variables.
     */
-    virtual TL::STATUS init();
+    virtual StatusCode init();
 
     //! The function which is called after init(), for output.
     /*!
       This function is meant for declaring files, histograms, trees, etc.
       to be output by the histogram.
     */
-    virtual TL::STATUS setupOutput();
+    virtual StatusCode setupOutput();
 
     //! The function which is called in a loop over all events
     /*! 
@@ -278,14 +240,14 @@ namespace TL {
       TTreeReader are updated at the beginning of execute and all of
       the event information is available.
     */
-    virtual TL::STATUS execute();
+    virtual StatusCode execute();
 
     //! The function which is called at the end.
     /*! 
       This function is meant to wrap up the algorithm, e.g.  write
       histograms and trees to a file, close the file.
     */
-    virtual TL::STATUS finish();
+    virtual StatusCode finish();
 
     //! Function to tell algorithm it's analyzing data
     /*! 
@@ -302,13 +264,6 @@ namespace TL {
     */
     void setIsSystematic();
 
-    //! Function to turn on all INFO messages
-    /*!
-      Some messages will always be printed from TL::Info
-      This function will turn on all messages that by default are off.
-    */
-    void setVerboseOn();
-
     //! Function to turn off warning message for missing variables
     /*!
       Before the we setup TTreeReaderVariable pointers, we make sure
@@ -318,33 +273,38 @@ namespace TL {
     virtual void turnOffTTRVWarning();
 
     std::shared_ptr<TL::FileManager> fileManager();         //!< get pointer to file manager
+
     std::shared_ptr<TTreeReader>     reader();              //!< get pointer to TTreeReader
+
     std::shared_ptr<TTreeReader>     weightsReader();       //!< get pointer to TTreeReader for sumweights
+
     std::shared_ptr<TTreeReader>     particleLevelReader(); //!< get pointer to TTreeReader for PL info
     
+  private:
+    ClassDef(AlgBase, 1);
   };
 
 }
 
-inline void TL::AlgBase::setFileManager(std::shared_ptr<TL::FileManager> fm) { m_fm = fm; }
-
 inline void TL::AlgBase::setIsData()          { m_isMC            = false; }
 inline void TL::AlgBase::setIsSystematic()    { m_isNominal       = false; }
 inline void TL::AlgBase::turnOffTTRVWarning() { m_showTTRVwarning = false; }
-inline void TL::AlgBase::setVerboseOn()       { m_verbose         = true;  }
 
 inline std::shared_ptr<TL::FileManager> TL::AlgBase::fileManager()         { return m_fm;                  }
 inline std::shared_ptr<TTreeReader>     TL::AlgBase::reader()              { return m_reader;              }
 inline std::shared_ptr<TTreeReader>     TL::AlgBase::weightsReader()       { return m_weightsReader;       }
 inline std::shared_ptr<TTreeReader>     TL::AlgBase::particleLevelReader() { return m_particleLevelReader; }
 
+inline void TL::AlgBase::setFileManager(std::shared_ptr<TL::FileManager> fm) { m_fm = fm; }
+
 template<typename T>
 inline std::shared_ptr<T>
 TL::AlgBase::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name) {
+  //ANA_MSG_SOURCE(msgAlgBase,"TL::AlgBase");
+  using namespace msgAlgBase;
   if ( reader->GetTree() == nullptr ) {
     if ( m_showTTRVwarning ) {
-      TL::Warning(FUNC,"var",name,"from reader",reader->GetName(),
-                  "belongs to a null tree, if you use this variable you're gonna crash! tree_name:",tree_name);
+      ANA_MSG_WARNING(name << " branch trying to link to a null tree! tree_name: " << tree_name);
     }
     return nullptr;
   }
@@ -353,7 +313,7 @@ TL::AlgBase::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name,
   }
   else {
     if ( m_showTTRVwarning ) {
-      TL::Warning(FUNC,name,"variable not found in the tree! If you try to access it, you will crash");
+      ANA_MSG_WARNING(name << " branch not found in the tree! If you try to access it, you will crash");
     }
     return nullptr;
   }

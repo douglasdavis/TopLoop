@@ -1,13 +1,17 @@
 /** @file LeptonPair.cxx
  *  @brief TL::EDM::LeptonPair class implementation
  *
- *  @author Douglas Davis < douglas.davis@cern.ch >
+ *  @author Douglas Davis < ddavis@cern.ch >
  *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 // TL
 #include <TopLoop/EDM/LeptonPair.h>
 #include <TopLoop/Core/Utils.h>
+
+#include <TopLoop/Core/AlgBase.h>
+
+ANA_MSG_SOURCE(msgLeptonPair,"TL::EDM::LeptonPair")
 
 TL::EDM::LeptonPair::LeptonPair() : TL::EDM::PhysicsObject() {}
 
@@ -16,6 +20,7 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
                                 const size_t idxf, const size_t idxs) :
   TL::EDM::PhysicsObject()
 {
+  using namespace msgLeptonPair;
   m_idxp = std::make_pair(idxf,idxs);
   m_p = lep1.p() + lep2.p();
   m_deltaR   = lep1.p().DeltaR(lep2.p());
@@ -41,7 +46,7 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
     m_elel = true;
   }
   else {
-    TL::Warning(__PRETTY_FUNCTION__,"Bad PDG sum!",pdgsum);
+    ASG_MSG_WARNING("PDG Sum for Lepton Pair is bad: " << pdgsum);
   }
 
   if ( chargesum == 0 ) {
@@ -53,7 +58,7 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
     m_OS = false;
   }
   else {
-    TL::Warning(__PRETTY_FUNCTION__,"Unexpected charge sum!",chargesum);
+    ASG_MSG_WARNING("Charge sum is pad in Lepton Pair: " << chargesum);
   }
 }
 

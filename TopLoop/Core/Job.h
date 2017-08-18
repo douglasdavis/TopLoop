@@ -5,7 +5,7 @@
  *
  *  This class handles the running of the TL::AlgBase algorithm.
  *
- *  @author Douglas Davis < douglas.davis@cern.ch >
+ *  @author Douglas Davis < ddavis@cern.ch >
  *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
@@ -16,34 +16,28 @@ namespace TL {
   class AlgBase;
 }
 
+class StatusCode;
+
 namespace TL {
 
   class Job {
 
   protected:
     TL::AlgBase* m_analysis;
-    bool         m_particleLevelRun;
 
   public:
     Job() :
-      m_analysis(nullptr),
-      m_particleLevelRun(false)
+      m_analysis(nullptr)
     {}
     Job(TL::AlgBase* ab) :
-      m_analysis(ab),
-      m_particleLevelRun(false)
+      m_analysis(ab)
     {}
     virtual ~Job() {}
 
-    void setParticleLevelRun();
-    void run();
+    StatusCode run();
 
   };
 
-}
-
-inline void TL::Job::setParticleLevelRun() {
-  m_particleLevelRun = true;
 }
 
 #endif

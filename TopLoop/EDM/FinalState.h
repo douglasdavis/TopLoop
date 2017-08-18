@@ -6,7 +6,7 @@
  *  This class is part of the TopLoop event data model (EDM). It
  *  contains the information about a final state.
  *
- *  @author Douglas Davis < douglas.davis@cern.ch >
+ *  @author Douglas Davis < ddavis@cern.ch >
  *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 

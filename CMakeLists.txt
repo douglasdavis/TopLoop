@@ -1,5 +1,5 @@
 ## CMakeLists.txt for TopLoop package to be built within ATLAS
-## Analysis Relase 2.6.X series.
+## Analysis Relase 21.2X series.
 ## Author: Doug Davis <ddavis@cern.ch>
 
 # Declare the name of this package:
@@ -7,14 +7,15 @@ atlas_subdir( TopLoop None )
 
 # This package depends on other packages:
 atlas_depends_on_subdirs( PUBLIC
-  PathResolver
+  Tools/PathResolver
+  Control/AthToolSupport/AsgTools
   )
 
 # This package uses ROOT:
 find_package( ROOT REQUIRED COMPONENTS Physics Core Gpad Tree Hist RIO MathCore Graf TreePlayer )
 find_package( Boost COMPONENTS filesystem system )
 # Custom definitions needed for this package:
-add_definitions( -g )
+add_definitions( -g -std=c++14 )
 
 # Generate a CINT dictionary source file:
 atlas_add_root_dictionary( TopLoop _cintDictSource
@@ -30,6 +31,7 @@ atlas_add_library( TopLoop Root/*.cxx Root/*.h Root/*.icc
   ${ROOT_LIBRARIES}
   ${Boost_LIBRARIES}
   PathResolver
+  AsgTools
   INCLUDE_DIRS ${ROOT_INCLUDE_DIRS} )
 
 # Install data files from the package:

@@ -7,7 +7,7 @@
  *  contains the properties of a physics object. This includes
  *  leptons, jets, MET..
  *
- *  @author Douglas Davis < douglas.davis@cern.ch >
+ *  @author Douglas Davis < ddavis@cern.ch >
  *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 

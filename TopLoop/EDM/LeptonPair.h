@@ -6,7 +6,7 @@
  *  This class is part of the TopLoop event data model (EDM). It
  *  contains the properties of a pair of leptons.
  *
- *  @author Douglas Davis < douglas.davis@cern.ch >
+ *  @author Douglas Davis < ddavis@cern.ch >
  *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
@@ -20,6 +20,10 @@
 #include <cmath>
 #include <iostream>
 #include <utility>
+
+#include <AsgTools/MessageCheck.h>
+
+ANA_MSG_HEADER(msgLeptonPair)
 
 namespace TL {
   namespace EDM {

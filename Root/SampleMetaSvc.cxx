@@ -11,12 +11,15 @@
 // PathResolver
 #include <PathResolver/PathResolver.h>
 
+ANA_MSG_SOURCE(msgSampleMetaSvc,"TL::SampleMetaSvc")
+
 TL::SampleMetaSvc::SampleMetaSvc() {
-  setupMaps();
+  using namespace msgSampleMetaSvc;
+  setupMap();
   std::string filepath = PathResolverFindCalibFile("TopLoop/samplemeta.json");
   std::ifstream in(filepath.c_str());
   if ( !in ) {
-    TL::Fatal(PFUNC,"cannot fill meta service from file.",filepath,"cannot be found");
+    ANA_MSG_FATAL("cannot fill meta service from file. " << filepath << " cannot be found");
   }
   auto j_top = nlohmann::json::parse(in);
 
@@ -25,7 +28,7 @@ TL::SampleMetaSvc::SampleMetaSvc() {
   // follows.
   auto assigner = [](const auto& s2eMap, const auto str, auto& applyto) {
     if ( s2eMap.find(str) == s2eMap.end() ) {
-      TL::Fatal(PFUNC,str,"is not setup in our software metadata");
+      ANA_MSG_FATAL(str << " is not setup in our software metadata");
     }
     else {
       applyto = s2eMap.at(str);
@@ -56,7 +59,7 @@ TL::SampleMetaSvc::~SampleMetaSvc() {}
 // The structure of these maps is directly related to entries in
 // samplemeta.txt file. If a new initial state, generator, or type is
 // added to that file, this function must be updated.
-void TL::SampleMetaSvc::setupMaps() {
+void TL::SampleMetaSvc::setupMap() {
   m_s2e = {
     { "Unknown"              , TL::kMeta::Unknown               } ,
       //

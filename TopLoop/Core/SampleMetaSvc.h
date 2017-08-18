@@ -23,26 +23,29 @@
 // ROOT
 #include <TObject.h>
 
+#include <AsgTools/MessageCheck.h>
+
+ANA_MSG_HEADER(msgSampleMetaSvc)
+
 namespace TL {
-  // these enums are directly related to the samplemeta.txt file. If a
+  // this enum is directly related to the samplemeta.json file. If a
   // new intial state, generator, or type is added to that file (that
-  // doesn't already exist in it), these enums must be related. The
-  // setupMaps() function must also be updated to be compatible with
+  // doesn't already exist in it), this enum must be updated. The
+  // setupMap() function must also be updated to be compatible with
   // the new entry(ies).
   enum kMeta {
     Unknown ,
-    //
+    // sample types
     Data , Nominal , Systematic ,
-    //
+    // initial states
     ttbar  , Wt      , Zjets    ,
     Wjets  , WW      , WZ       ,
     ZZ     , Diboson , ttbarZ   ,
-    //
+    // generators
     ttbarW , ttbarll , ttbarphi ,
     PowhegPythia6     , PowhegPythia8     , PowhegHerwig      ,
     PowhegHerwigpp    , Sherpa21          , Sherpa22          ,
     Sherpa221         , MadgraphPythia    , MadgraphPythia8   ,
-    //
     aMCatNLOPythia8   , aMCatNLOHerwig    , aMCatNLOHerwigpp  ,
     PowhegPythia8_dil , PowhegPythia6_dil , PowhegHerwig7     ,
   };
@@ -58,12 +61,10 @@ namespace TL {
     std::map<TL::kMeta,std::string> m_e2s;
     typedef std::map<TL::kMeta,std::string>::const_iterator e2sIter_t;
 
-    //std::map<int,std::tuple<TL::kInitialState,TL::kGenerator,TL::kSampleType>> m_table;
-    // init state ,, generator ,, sample type
     std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>> m_table;
     typedef std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>>::const_iterator TableIter_t;
 
-    void setupMaps();
+    void setupMap();
     const TableIter_t checkTable(const unsigned int dsid) const;
 
     ClassDef(TL::SampleMetaSvc,1);
@@ -91,9 +92,10 @@ inline const std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>>& TL::Sample
 }
 
 inline const TL::SampleMetaSvc::TableIter_t TL::SampleMetaSvc::checkTable(const unsigned int dsid) const {
+  using namespace msgSampleMetaSvc;
   const TableIter_t itr = m_table.find(dsid);
   if ( itr == m_table.end() ) {
-    TL::Fatal(__PRETTY_FUNCTION__,"can't find DSID!",dsid,"not in SampleMetaSvc table");
+    ANA_MSG_FATAL("can't find DSID! " << dsid << " not in SampleMetaSvc table!");
   }
   return itr;
 }
@@ -114,9 +116,10 @@ inline TL::kMeta TL::SampleMetaSvc::getSampleType(const unsigned int dsid) const
 }
 
 inline const std::string TL::SampleMetaSvc::stringFromEnum(const TL::kMeta ienum) const {
+  using namespace msgSampleMetaSvc;
   e2sIter_t itr = m_e2s.find(ienum);
   if ( itr == m_e2s.end() ) {
-    TL::Fatal(__PRETTY_FUNCTION__,"bad TL::kMeta",ienum);
+    ANA_MSG_FATAL("bad TL::kMeta - " << ienum);
   }
   return itr->second;
 }

@@ -1,8 +1,7 @@
 /** @file Job.cxx
  *  @brief TL::Job class implementation
  *
- *  @author Douglas Davis < douglas.davis@cern.ch >
- *  @author Kevin Finelli < kevin.finelli@cern.ch >
+ *  @author Douglas Davis < ddavis@cern.ch >
  */
 
 // TL
@@ -11,40 +10,18 @@
 #include <TopLoop/Core/Utils.h>
 #include <TopLoop/Core/FileManager.h>
 
-void TL::Job::run() {
-  if ( m_analysis->init() == TL::STATUS::Good ) {}
-  else {
-    TL::Fatal(__PRETTY_FUNCTION__,"your init() returned TL::STATUS::Fail");
-  }
+ANA_MSG_SOURCE(msgTopLoop,"TL::Job")
 
-  if ( m_analysis->setupOutput() == TL::STATUS::Good ) {}
-  else {
-    TL::Fatal(__PRETTY_FUNCTION__,"your setupOutput() returned TL::STATUS::Fail");
+StatusCode TL::Job::run() {
+  using namespace msgTopLoop;
+  StatusCode::enableFailure();
+  ANA_CHECK_SET_TYPE(StatusCode);
+  ANA_CHECK(m_analysis->init());
+  ANA_CHECK(m_analysis->setupOutput());
+  m_analysis->reader()->Restart();
+  while ( m_analysis->reader()->Next() ) {
+    ANA_CHECK(m_analysis->execute());
   }
-
-  auto current_reader = m_analysis->reader();
-  //if ( m_particleLevelRun ) {
-  //  TL::Info(__PRETTY_FUNCTION__,"particle level run!");
-  //  current_reader = m_analysis->particleLevelReader();
-  //  current_chain  = m_analysis->fileManager()->rootParticleLevelChain();
-  //}
-
-  current_reader->Restart();
-  while ( current_reader->Next() ) {
-    auto eventResult = m_analysis->execute();
-    if ( eventResult == TL::STATUS::Good ) {
-      // good event
-    }
-    else if ( eventResult == TL::STATUS::Skip ) {
-      continue;
-    }
-    else {
-      TL::Fatal(__PRETTY_FUNCTION__,"your execute() returned TL::STATUS::Fail");
-    }
-  }
-
-  if ( m_analysis->finish() == TL::STATUS::Good ) {}
-  else {
-    TL::Fatal(__PRETTY_FUNCTION__,"your finish() returned TL::STATUS::Fail");
-  }
+  ANA_CHECK(m_analysis->finish());
+  return StatusCode::SUCCESS;
 }

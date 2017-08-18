@@ -1,22 +1,29 @@
 /** @file AlgBase.cxx
  *  @brief TL::AlgBase class TTreeReader variables implementation
  *
- *  @author Douglas Davis < douglas.davis@cern.ch >
+ *  @author Douglas Davis < ddavis@cern.ch >
  *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 #include <TopLoop/Core/AlgBase.h>
 #include <TopLoop/Core/FileManager.h>
 
-void TL::AlgBase::init_core_vars() {
-  if ( m_fm == nullptr ) {
-    TL::Fatal(PFUNC,"You forgot a file manager");
-  }
-  m_reader              = std::make_shared<TTreeReader>(fileManager()->rootChain());
-  m_weightsReader       = std::make_shared<TTreeReader>(fileManager()->rootWeightsChain());
-  m_particleLevelReader = std::make_shared<TTreeReader>(fileManager()->rootParticleLevelChain());
+//ANA_MSG_SOURCE(msgTopLoopVars,"TL::AlgBase")
 
-  if ( m_isMC ) { totalEventsWeighted = setupTreeVar<TTRV_float>(m_weightsReader,"totalEventsWeighted");
+StatusCode TL::AlgBase::init_core_vars() {
+  using namespace msgAlgBase;
+  ANA_CHECK_SET_TYPE(StatusCode);
+  msgAlgBase::setMsgLevel(MSG::DEBUG);
+  if ( m_fm == nullptr ) {
+    ATH_MSG_FATAL("Your algorithm has a null FileManager");
+  }
+
+  m_reader        = std::make_shared<TTreeReader>(fileManager()->rootChain());
+  m_weightsReader = std::make_shared<TTreeReader>(fileManager()->rootWeightsChain());
+
+  if ( m_isMC ) {
+    totalEventsWeighted =
+      setupTreeVar<TTRV_float>(m_weightsReader,"totalEventsWeighted");
     totalEventsWeighted_mc_generator_weights =
       setupTreeVar<TTRV_vec_float>(m_weightsReader,"totalEventsWeighted_mc_generator_weights");
     names_mc_generator_weights =
@@ -130,14 +137,15 @@ void TL::AlgBase::init_core_vars() {
     }
   }
 
-  eventNumber     = setupTreeVar<TTRV_ulongint>(m_reader,"eventNumber");
+  eventNumber = setupTreeVar<TTRV_ulongint>(m_reader,"eventNumber");
   if ( m_isMC ) { //use randomly generated MC run numbers to mimic data conditions
-    runNumber       = setupTreeVar<TTRV_uint>    (m_reader,"randomRunNumber");
-  } else {
-    runNumber       = setupTreeVar<TTRV_uint>    (m_reader,"runNumber");
+    runNumber = setupTreeVar<TTRV_uint>(m_reader,"randomRunNumber");
   }
-  mcChannelNumber = setupTreeVar<TTRV_uint>    (m_reader,"mcChannelNumber");
-  mu              = setupTreeVar<TTRV_float>   (m_reader,"mu");
+  else {
+    runNumber = setupTreeVar<TTRV_uint>(m_reader,"runNumber");
+  }
+  mcChannelNumber = setupTreeVar<TTRV_uint>(m_reader,"mcChannelNumber");
+  mu = setupTreeVar<TTRV_float>(m_reader,"mu");
 
   el_pt     = setupTreeVar<TTRV_vec_float>(m_reader,"el_pt");
   el_eta    = setupTreeVar<TTRV_vec_float>(m_reader,"el_eta");
@@ -209,54 +217,5 @@ void TL::AlgBase::init_core_vars() {
   mu_trigMatch_HLT_mu20_iloose_L1MU15 =
     setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu20_iloose_L1MU15");
 
-  // All of the truth (particleLevel tree, plt) variables {
-  /*
-  if ( m_isMC ) {
-    plt_mu                  = setupTreeVar<TTRV_float>(m_particleLevelReader,"mu");
-    plt_el_pt               = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"el_pt");
-    plt_el_eta              = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"el_eta");
-    plt_el_phi              = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"el_phi");
-    plt_el_e                = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"el_e");
-    plt_el_charge           = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"el_charge");
-    plt_el_pt_bare          = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"el_pt_bare");
-    plt_el_eta_bare         = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"el_eta_bare");
-    plt_el_phi_bare         = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"el_phi_bare");
-    plt_el_e_bare           = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"el_e_bare");
-    plt_mu_pt               = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"mu_pt");
-    plt_mu_eta              = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"mu_eta");
-    plt_mu_phi              = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"mu_phi");
-    plt_mu_e                = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"mu_e");
-    plt_mu_charge           = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"mu_charge");
-    plt_mu_pt_bare          = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"mu_pt_bare");
-    plt_mu_eta_bare         = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"mu_eta_bare");
-    plt_mu_phi_bare         = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"mu_phi_bare");
-    plt_mu_e_bare           = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"mu_e_bare");
-    plt_jet_pt              = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"jet_pt");
-    plt_jet_eta             = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"jet_eta");
-    plt_jet_phi             = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"jet_phi");
-    plt_jet_e               = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"jet_e");
-    plt_jet_nGhosts_bHadron = setupTreeVar<TTRV_vec_int>(m_particleLevelReader,"jet_nGhosts_bHadron");
-    plt_met_met             = setupTreeVar<TTRV_float>(m_particleLevelReader,"met_met");
-    plt_met_phi             = setupTreeVar<TTRV_float>(m_particleLevelReader,"met_phi");
-    plt_PDFinfo_X1          = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"PDFinfo_X1");
-    plt_PDFinfo_X2          = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"PDFinfo_X2");
-    plt_PDFinfo_PDGID1      = setupTreeVar<TTRV_vec_int>(m_particleLevelReader,"PDFinfo_PDGID1");
-    plt_PDFinfo_PDGID2      = setupTreeVar<TTRV_vec_int>(m_particleLevelReader,"PDFinfo_PDGID2");
-    plt_PDFinfo_Q           = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"PDFinfo_Q");
-    plt_PDFinfo_XF1         = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"PDFinfo_XF1");
-    plt_PDFinfo_XF2         = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"PDFinfo_XF2");
-    plt_emu_2015            = setupTreeVar<TTRV_int>(m_particleLevelReader,"emu_2015");
-    plt_mumu_2016           = setupTreeVar<TTRV_int>(m_particleLevelReader,"mumu_2016");
-    plt_mumu_2015           = setupTreeVar<TTRV_int>(m_particleLevelReader,"mumu_2015");
-    plt_emu_2016            = setupTreeVar<TTRV_int>(m_particleLevelReader,"emu_2016");
-    plt_ee_2016             = setupTreeVar<TTRV_int>(m_particleLevelReader,"ee_2016");
-    plt_ee_2015             = setupTreeVar<TTRV_int>(m_particleLevelReader,"ee_2015");
-    plt_nu_pt               = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"nu_pt");
-    plt_nu_eta              = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"nu_eta");
-    plt_nu_phi              = setupTreeVar<TTRV_vec_float>(m_particleLevelReader,"nu_phi");
-    plt_nu_origin           = setupTreeVar<TTRV_vec_int>(m_particleLevelReader,"nu_origin");
-  }
-  */
-  // }
-
+  return StatusCode::SUCCESS;
 }

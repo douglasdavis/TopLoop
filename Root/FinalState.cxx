@@ -1,7 +1,7 @@
 /** @file FinalState.cxx
  *  @brief TL::EDM::FinalState class implementation
  *
- *  @author Douglas Davis < douglas.davis@cern.ch >
+ *  @author Douglas Davis < ddavis@cern.ch >
  *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
@@ -46,7 +46,7 @@ void TL::EDM::FinalState::evaluateSelf() {
     m_HT += jet.pT();
   }
   eventFourVector += m_MET.p();
-  m_M   = eventFourVector.M();
+  m_M = eventFourVector.M();
 
   m_llidx = 0;
   if ( !m_leptons.empty() ) {
