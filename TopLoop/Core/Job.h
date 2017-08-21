@@ -3,7 +3,7 @@
  *  @class TL::Job
  *  @brief Job handler.
  *
- *  This class handles the running of the TL::AlgBase algorithm.
+ *  This class handles the running of the TL::Algorithm algorithm.
  *
  *  @author Douglas Davis < ddavis@cern.ch >
  *  @author Kevin Finelli < kevin.finelli@cern.ch >
@@ -13,7 +13,7 @@
 #define TL_Job_h
 
 namespace TL {
-  class AlgBase;
+  class Algorithm;
 }
 
 class StatusCode;
@@ -23,13 +23,13 @@ namespace TL {
   class Job {
 
   protected:
-    TL::AlgBase* m_analysis;
+    TL::Algorithm* m_analysis;
 
   public:
     Job() :
       m_analysis(nullptr)
     {}
-    Job(TL::AlgBase* ab) :
+    Job(TL::Algorithm* ab) :
       m_analysis(ab)
     {}
     virtual ~Job() {}

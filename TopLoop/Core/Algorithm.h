@@ -1,6 +1,6 @@
-/** @file  AlgBase.h
- *  @brief TL::AlgBase class header
- *  @class TL::AlgBase
+/** @file  Algorithm.h
+ *  @brief TL::Algorithm class header
+ *  @class TL::Algorithm
  *  @brief Base class for running a
  *         TopLoop analysis algorithm
  *
@@ -11,8 +11,8 @@
  *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
-#ifndef TL_AlgBase_h
-#define TL_AlgBase_h
+#ifndef TL_Algorithm_h
+#define TL_Algorithm_h
 
 // ATLAS
 #include <AsgTools/StatusCode.h>
@@ -29,8 +29,8 @@
 #include <TTreeReader.h>
 #include <TTreeReaderValue.h>
 
-ANA_MSG_HEADER(msgAlgBase)
-//ANA_MSG_HEADER(msgAlgBaseVars)
+ANA_MSG_HEADER(msgAlgorithm)
+//ANA_MSG_HEADER(msgAlgorithmVars)
 
 using TTRV_vec_str   = TTreeReaderValue<std::vector<std::string>>;
 using TTRV_vec_float = TTreeReaderValue<std::vector<float>>;
@@ -49,7 +49,7 @@ namespace TL {
 
 namespace TL {
 
-  class AlgBase : public TNamed {
+  class Algorithm : public TNamed {
 
   protected:
     std::string   m_datasetName;
@@ -176,8 +176,8 @@ namespace TL {
     void progress(long cur, long total, int range = 10) const;
 
   public:
-    AlgBase();
-    virtual ~AlgBase();
+    Algorithm();
+    virtual ~Algorithm();
 
     //! Set the file manager
     /*! 
@@ -281,27 +281,27 @@ namespace TL {
     std::shared_ptr<TTreeReader>     particleLevelReader(); //!< get pointer to TTreeReader for PL info
     
   private:
-    ClassDef(AlgBase, 1);
+    ClassDef(Algorithm, 1);
   };
 
 }
 
-inline void TL::AlgBase::setIsData()          { m_isMC            = false; }
-inline void TL::AlgBase::setIsSystematic()    { m_isNominal       = false; }
-inline void TL::AlgBase::turnOffTTRVWarning() { m_showTTRVwarning = false; }
+inline void TL::Algorithm::setIsData()          { m_isMC            = false; }
+inline void TL::Algorithm::setIsSystematic()    { m_isNominal       = false; }
+inline void TL::Algorithm::turnOffTTRVWarning() { m_showTTRVwarning = false; }
 
-inline std::shared_ptr<TL::FileManager> TL::AlgBase::fileManager()         { return m_fm;                  }
-inline std::shared_ptr<TTreeReader>     TL::AlgBase::reader()              { return m_reader;              }
-inline std::shared_ptr<TTreeReader>     TL::AlgBase::weightsReader()       { return m_weightsReader;       }
-inline std::shared_ptr<TTreeReader>     TL::AlgBase::particleLevelReader() { return m_particleLevelReader; }
+inline std::shared_ptr<TL::FileManager> TL::Algorithm::fileManager()         { return m_fm;                  }
+inline std::shared_ptr<TTreeReader>     TL::Algorithm::reader()              { return m_reader;              }
+inline std::shared_ptr<TTreeReader>     TL::Algorithm::weightsReader()       { return m_weightsReader;       }
+inline std::shared_ptr<TTreeReader>     TL::Algorithm::particleLevelReader() { return m_particleLevelReader; }
 
-inline void TL::AlgBase::setFileManager(std::shared_ptr<TL::FileManager> fm) { m_fm = fm; }
+inline void TL::Algorithm::setFileManager(std::shared_ptr<TL::FileManager> fm) { m_fm = fm; }
 
 template<typename T>
 inline std::shared_ptr<T>
-TL::AlgBase::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name) {
-  //ANA_MSG_SOURCE(msgAlgBase,"TL::AlgBase");
-  using namespace msgAlgBase;
+TL::Algorithm::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name) {
+  //ANA_MSG_SOURCE(msgAlgorithm,"TL::Algorithm");
+  using namespace msgAlgorithm;
   if ( reader->GetTree() == nullptr ) {
     if ( m_showTTRVwarning ) {
       ANA_MSG_WARNING(name << " branch trying to link to a null tree! tree_name: " << tree_name);

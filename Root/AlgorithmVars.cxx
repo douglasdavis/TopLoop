@@ -1,19 +1,19 @@
-/** @file AlgBase.cxx
- *  @brief TL::AlgBase class TTreeReader variables implementation
+/** @file Algorithm.cxx
+ *  @brief TL::Algorithm class TTreeReader variables implementation
  *
  *  @author Douglas Davis < ddavis@cern.ch >
  *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
-#include <TopLoop/Core/AlgBase.h>
+#include <TopLoop/Core/Algorithm.h>
 #include <TopLoop/Core/FileManager.h>
 
-//ANA_MSG_SOURCE(msgTopLoopVars,"TL::AlgBase")
+//ANA_MSG_SOURCE(msgTopLoopVars,"TL::Algorithm")
 
-StatusCode TL::AlgBase::init_core_vars() {
-  using namespace msgAlgBase;
+StatusCode TL::Algorithm::init_core_vars() {
+  using namespace msgAlgorithm;
   ANA_CHECK_SET_TYPE(StatusCode);
-  msgAlgBase::setMsgLevel(MSG::DEBUG);
+
   if ( m_fm == nullptr ) {
     ATH_MSG_FATAL("Your algorithm has a null FileManager");
   }

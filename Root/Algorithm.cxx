@@ -1,17 +1,17 @@
-/** @file AlgBase.cxx
- *  @brief TL::AlgBase class implementation
+/** @file Algorithm.cxx
+ *  @brief TL::Algorithm class implementation
  *
  *  @author Douglas Davis < ddavis@cern.ch >
  *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 // TL
-#include <TopLoop/Core/AlgBase.h>
+#include <TopLoop/Core/Algorithm.h>
 #include <TopLoop/Core/FileManager.h>
 
-ANA_MSG_SOURCE(msgAlgBase,"TL::AlgBase")
+ANA_MSG_SOURCE(msgAlgorithm,"TL::Algorithm")
 
-TL::AlgBase::AlgBase() :
+TL::Algorithm::Algorithm() :
 m_datasetName(),
   m_isMC(true),
   m_isNominal(true),
@@ -20,10 +20,10 @@ m_datasetName(),
   SetName("TopLoop");
 }
 
-TL::AlgBase::~AlgBase() {}
+TL::Algorithm::~Algorithm() {}
 
-float TL::AlgBase::countSumWeights() {
-  using namespace msgAlgBase;
+float TL::Algorithm::countSumWeights() {
+  using namespace msgAlgorithm;
   //sum up the weighted number of events in the metadata tree.  This works for
   //MC (to get the MC lumi) and data (perhaps as a cross-check)
   float sumWeights = 0;
@@ -40,8 +40,8 @@ float TL::AlgBase::countSumWeights() {
   return sumWeights;
 }
 
-std::vector<float> TL::AlgBase::generatorVariedSumWeights() {
-  using namespace msgAlgBase;
+std::vector<float> TL::Algorithm::generatorVariedSumWeights() {
+  using namespace msgAlgorithm;
   //sum up the weighted number of events in the metadata tree.  This works for
   //MC (to get the MC lumi) and data (perhaps as a cross-check)
   std::size_t vsize = 0;
@@ -67,7 +67,7 @@ std::vector<float> TL::AlgBase::generatorVariedSumWeights() {
   return weights;
 }
 
-std::vector<std::string> TL::AlgBase::generatorWeightNames() {
+std::vector<std::string> TL::Algorithm::generatorWeightNames() {
   std::vector<std::string> retvec;
   while ( m_weightsReader->Next() ) {
     retvec = *(*names_mc_generator_weights);
@@ -77,7 +77,7 @@ std::vector<std::string> TL::AlgBase::generatorWeightNames() {
   return retvec;
 }
 
-unsigned int TL::AlgBase::get_dsid() {
+unsigned int TL::Algorithm::get_dsid() {
   unsigned int ret_dsid = 999999;
   while ( m_weightsReader->Next() ) {
     ret_dsid = *(*dsid);
@@ -88,30 +88,30 @@ unsigned int TL::AlgBase::get_dsid() {
   return ret_dsid;
 }
 
-StatusCode TL::AlgBase::init() {
-  using namespace msgAlgBase;
+StatusCode TL::Algorithm::init() {
+  using namespace msgAlgorithm;
   ANA_CHECK_SET_TYPE(StatusCode);
   ANA_CHECK(init_core_vars());
   return StatusCode::SUCCESS;
 }
 
-StatusCode TL::AlgBase::setupOutput() {
+StatusCode TL::Algorithm::setupOutput() {
   ANA_CHECK_SET_TYPE(StatusCode);
   return StatusCode::SUCCESS;
 }
 
-StatusCode TL::AlgBase::execute() {
+StatusCode TL::Algorithm::execute() {
   ANA_CHECK_SET_TYPE(StatusCode);
   return StatusCode::SUCCESS;
 }
 
-StatusCode TL::AlgBase::finish() {
+StatusCode TL::Algorithm::finish() {
   ANA_CHECK_SET_TYPE(StatusCode);
   return StatusCode::SUCCESS;
 }
 
-void TL::AlgBase::progress(long cur, long total, int range) const {
-  using namespace msgAlgBase;
+void TL::Algorithm::progress(long cur, long total, int range) const {
+  using namespace msgAlgorithm;
   if ( total > range ) {
     auto progress = 100.0*cur/total;
     int gap = total/range;

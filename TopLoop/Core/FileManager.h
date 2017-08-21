@@ -47,9 +47,9 @@ namespace TL {
     void feedTxt(const std::string& txtfilename);
     void feedSingle(const char* fileName);
 
-    const std::vector<std::string>& fileNames()             const;
-    const std::string&              treeName()              const;
-    const std::string&              weightsTreeName()       const;
+    const std::vector<std::string>& fileNames()       const;
+    const std::string&              treeName()        const;
+    const std::string&              weightsTreeName() const;
 
     TChain* rootChain();
     TChain* rootWeightsChain();
@@ -58,10 +58,10 @@ namespace TL {
 
 inline const std::vector<std::string>& TL::FileManager::fileNames() const { return m_fileNames; }
 
-inline const std::string&   TL::FileManager::weightsTreeName()       const { return m_weightsTreeName;       }
-inline const std::string&   TL::FileManager::treeName()              const { return m_treeName;              }
+inline const std::string&   TL::FileManager::weightsTreeName() const { return m_weightsTreeName; }
+inline const std::string&   TL::FileManager::treeName()        const { return m_treeName;        }
 
-inline       TChain*   TL::FileManager::rootChain()              { return m_rootChain;           }
-inline       TChain*   TL::FileManager::rootWeightsChain()       { return m_rootWeightsChain;    }
+inline       TChain*   TL::FileManager::rootChain()        { return m_rootChain;        }
+inline       TChain*   TL::FileManager::rootWeightsChain() { return m_rootWeightsChain; }
 
 #endif

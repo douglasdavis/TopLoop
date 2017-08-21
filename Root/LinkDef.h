@@ -1,5 +1,5 @@
 #include <TopLoop/Core/FileManager.h>
-#include <TopLoop/Core/AlgBase.h>
+#include <TopLoop/Core/Algorithm.h>
 #include <TopLoop/Core/Job.h>
 #include <TopLoop/Core/SampleMetaSvc.h>
 #include <TopLoop/EDM/PhysicsObject.h>
@@ -16,16 +16,12 @@
 #pragma link off all functions;
 #pragma link C++ nestedclass;
 
-#pragma link C++ enum TL::STATUS+;
-
 #pragma link C++ class TL::FileManager+;
-#pragma link C++ class TL::AlgBase+;
+#pragma link C++ class TL::Algorithm+;
 #pragma link C++ class TL::Job+;
 
-#pragma link C++ enum TL::kInitialState+;
-#pragma link C++ enum TL::kGenerator+;
-#pragma link C++ enum TL::kSampleType+;
-#pragma link C++ class std::map<int,std::tuple<TL::kInitialState,TL::kGenerator,TL::kSampleType>+;
+#pragma link C++ enum TL::kMeta;
+#pragma link C++ class std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>>+;
 #pragma link C++ class TL::SampleMetaSvc+;
 
 #pragma link C++ class std::pair<size_t,size_t>+;

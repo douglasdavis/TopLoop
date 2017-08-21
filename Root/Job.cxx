@@ -6,7 +6,7 @@
 
 // TL
 #include <TopLoop/Core/Job.h>
-#include <TopLoop/Core/AlgBase.h>
+#include <TopLoop/Core/Algorithm.h>
 #include <TopLoop/Core/Utils.h>
 #include <TopLoop/Core/FileManager.h>
 
