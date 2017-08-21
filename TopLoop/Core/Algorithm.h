@@ -20,28 +20,9 @@
 
 // TL
 #include <TopLoop/Core/Utils.h>
-
-// C++
-#include <string>
-#include <memory>
-
-// ROOT
-#include <TTreeReader.h>
-#include <TTreeReaderValue.h>
+#include <TopLoop/Core/Variables.h>
 
 ANA_MSG_HEADER(msgAlgorithm)
-//ANA_MSG_HEADER(msgAlgorithmVars)
-
-using TTRV_vec_str   = TTreeReaderValue<std::vector<std::string>>;
-using TTRV_vec_float = TTreeReaderValue<std::vector<float>>;
-using TTRV_vec_char  = TTreeReaderValue<std::vector<char>>;
-using TTRV_vec_bool  = TTreeReaderValue<std::vector<bool>>;
-using TTRV_vec_int   = TTreeReaderValue<std::vector<int>>;
-using TTRV_float     = TTreeReaderValue<Float_t>;
-using TTRV_uint      = TTreeReaderValue<UInt_t>;
-using TTRV_int       = TTreeReaderValue<Int_t>;
-using TTRV_ulongint  = TTreeReaderValue<ULong64_t>;
-using TTRV_char      = TTreeReaderValue<Char_t>;
 
 namespace TL {
   class FileManager;
@@ -49,7 +30,7 @@ namespace TL {
 
 namespace TL {
 
-  class Algorithm : public TNamed {
+  class Algorithm : public TNamed, public TL::Variables {
 
   protected:
     std::string   m_datasetName;
@@ -59,108 +40,6 @@ namespace TL {
     std::shared_ptr<TL::FileManager> m_fm;
     std::shared_ptr<TTreeReader>     m_reader;
     std::shared_ptr<TTreeReader>     m_weightsReader;
-    std::shared_ptr<TTreeReader>     m_particleLevelReader;
-
-    std::shared_ptr<TTRV_float>     totalEventsWeighted;
-    std::shared_ptr<TTRV_vec_float> totalEventsWeighted_mc_generator_weights;
-    std::shared_ptr<TTRV_vec_str>   names_mc_generator_weights;
-    std::shared_ptr<TTRV_int>       dsid;
-
-    std::shared_ptr<TTRV_float>   weight_mc;
-    std::shared_ptr<TTRV_float>   weight_pileup;
-    std::shared_ptr<TTRV_float>   weight_leptonSF;
-    std::shared_ptr<TTRV_float>   weight_bTagSF_77;
-    std::shared_ptr<TTRV_float>   weight_jvt;
-
-    std::shared_ptr<TTRV_float>   weight_indiv_SF_EL_Trigger;
-    std::shared_ptr<TTRV_float>   weight_indiv_SF_EL_Reco;
-    std::shared_ptr<TTRV_float>   weight_indiv_SF_EL_ID;
-    std::shared_ptr<TTRV_float>   weight_indiv_SF_EL_Isol;
-    std::shared_ptr<TTRV_float>   weight_indiv_SF_MU_Trigger;
-    std::shared_ptr<TTRV_float>   weight_indiv_SF_MU_ID;
-    std::shared_ptr<TTRV_float>   weight_indiv_SF_MU_Isol;
-    std::shared_ptr<TTRV_float>   weight_indiv_SF_MU_TTVA;
-
-    std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_pileup;
-    std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_jvt;
-    std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_leptonSF;
-    std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_indivSF;
-    std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_bTagSF_extrapolation;
-    std::map<std::string,std::shared_ptr<TTRV_vec_float>> weightSyst_bTagSF_eigenvars;
-
-    std::shared_ptr<TTRV_ulongint>  eventNumber;
-    std::shared_ptr<TTRV_uint>      runNumber;
-    std::shared_ptr<TTRV_uint>      mcChannelNumber;
-    std::shared_ptr<TTRV_float>     mu;
-
-    std::shared_ptr<TTRV_vec_float> el_pt;
-    std::shared_ptr<TTRV_vec_float> el_phi;
-    std::shared_ptr<TTRV_vec_float> el_eta;
-    std::shared_ptr<TTRV_vec_float> el_e;
-    std::shared_ptr<TTRV_vec_float> el_cl_eta;
-    std::shared_ptr<TTRV_vec_float> el_charge;
-    std::shared_ptr<TTRV_vec_float> el_topoetcone20;
-    std::shared_ptr<TTRV_vec_float> el_ptvarcone20;
-    std::shared_ptr<TTRV_vec_float> el_d0sig;
-    std::shared_ptr<TTRV_vec_float> el_delta_z0_sintheta;
-    std::shared_ptr<TTRV_vec_char>  el_CF;
-    std::shared_ptr<TTRV_vec_int> el_true_type;
-    std::shared_ptr<TTRV_vec_int> el_true_origin;
-    std::shared_ptr<TTRV_vec_int> el_true_typebkg;
-    std::shared_ptr<TTRV_vec_int> el_true_originbkg;
-
-    std::shared_ptr<TTRV_vec_float> mu_pt;
-    std::shared_ptr<TTRV_vec_float> mu_phi;
-    std::shared_ptr<TTRV_vec_float> mu_eta;
-    std::shared_ptr<TTRV_vec_float> mu_e;
-    std::shared_ptr<TTRV_vec_float> mu_charge;
-    std::shared_ptr<TTRV_vec_float> mu_topoetcone20;
-    std::shared_ptr<TTRV_vec_float> mu_ptvarcone30;
-    std::shared_ptr<TTRV_vec_float> mu_d0sig;
-    std::shared_ptr<TTRV_vec_float> mu_delta_z0_sintheta;
-
-    std::shared_ptr<TTRV_vec_int> mu_true_type;
-    std::shared_ptr<TTRV_vec_int> mu_true_origin;
-
-    std::shared_ptr<TTRV_vec_float> jet_pt;
-    std::shared_ptr<TTRV_vec_float> jet_eta;
-    std::shared_ptr<TTRV_vec_float> jet_phi;
-    std::shared_ptr<TTRV_vec_float> jet_e;
-    std::shared_ptr<TTRV_vec_float> jet_mv2c00;
-    std::shared_ptr<TTRV_vec_float> jet_mv2c10;
-    std::shared_ptr<TTRV_vec_float> jet_mv2c20; 
-    std::shared_ptr<TTRV_vec_float> jet_ip3dsv1;
-    std::shared_ptr<TTRV_vec_float> jet_jvt;
-    std::shared_ptr<TTRV_vec_char>  jet_isbtagged_77;
-
-    std::shared_ptr<TTRV_int> emu_2015;
-    std::shared_ptr<TTRV_int> emu_2016;
-    std::shared_ptr<TTRV_int> emu_particle;
-    std::shared_ptr<TTRV_int> ee_2015;
-    std::shared_ptr<TTRV_int> ee_2016;
-    std::shared_ptr<TTRV_int> ee_particle;
-    std::shared_ptr<TTRV_int> mumu_2015;
-    std::shared_ptr<TTRV_int> mumu_2016;
-    std::shared_ptr<TTRV_int> mumu_particle;
-
-    std::shared_ptr<TTRV_float> met_met;
-    std::shared_ptr<TTRV_float> met_phi;
-
-    std::shared_ptr<TTRV_char> HLT_e60_lhmedium_nod0;
-    std::shared_ptr<TTRV_char> HLT_mu26_ivarmedium;
-    std::shared_ptr<TTRV_char> HLT_e26_lhtight_nod0_ivarloose;
-    std::shared_ptr<TTRV_char> HLT_e140_lhloose_nod0;
-    std::shared_ptr<TTRV_char> HLT_mu20_iloose_L1MU15;
-    std::shared_ptr<TTRV_char> HLT_mu50;
-    std::shared_ptr<TTRV_char> HLT_e60_lhmedium;
-    std::shared_ptr<TTRV_char> HLT_e24_lhmedium_L1EM20VH;
-    std::shared_ptr<TTRV_char> HLT_e120_lhloose;
-
-    std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e60_lhmedium;
-    std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e24_lhmedium_L1EM18VH;
-    std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e120_lhloose;
-    std::shared_ptr<TTRV_vec_char> mu_trigMatch_HLT_mu50;
-    std::shared_ptr<TTRV_vec_char> mu_trigMatch_HLT_mu20_iloose_L1MU15;
 
     //! Set up a variable as a TTreeReaderValue pointer
     /*!
@@ -273,50 +152,16 @@ namespace TL {
     virtual void turnOffTTRVWarning();
 
     std::shared_ptr<TL::FileManager> fileManager();         //!< get pointer to file manager
-
     std::shared_ptr<TTreeReader>     reader();              //!< get pointer to TTreeReader
-
     std::shared_ptr<TTreeReader>     weightsReader();       //!< get pointer to TTreeReader for sumweights
-
-    std::shared_ptr<TTreeReader>     particleLevelReader(); //!< get pointer to TTreeReader for PL info
     
   private:
     ClassDef(Algorithm, 1);
+
   };
 
 }
 
-inline void TL::Algorithm::setIsData()          { m_isMC            = false; }
-inline void TL::Algorithm::setIsSystematic()    { m_isNominal       = false; }
-inline void TL::Algorithm::turnOffTTRVWarning() { m_showTTRVwarning = false; }
-
-inline std::shared_ptr<TL::FileManager> TL::Algorithm::fileManager()         { return m_fm;                  }
-inline std::shared_ptr<TTreeReader>     TL::Algorithm::reader()              { return m_reader;              }
-inline std::shared_ptr<TTreeReader>     TL::Algorithm::weightsReader()       { return m_weightsReader;       }
-inline std::shared_ptr<TTreeReader>     TL::Algorithm::particleLevelReader() { return m_particleLevelReader; }
-
-inline void TL::Algorithm::setFileManager(std::shared_ptr<TL::FileManager> fm) { m_fm = fm; }
-
-template<typename T>
-inline std::shared_ptr<T>
-TL::Algorithm::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name) {
-  //ANA_MSG_SOURCE(msgAlgorithm,"TL::Algorithm");
-  using namespace msgAlgorithm;
-  if ( reader->GetTree() == nullptr ) {
-    if ( m_showTTRVwarning ) {
-      ANA_MSG_WARNING(name << " branch trying to link to a null tree! tree_name: " << tree_name);
-    }
-    return nullptr;
-  }
-  if ( reader->GetTree()->GetListOfBranches()->FindObject(name) != nullptr ) {
-    return std::make_shared<T>(*reader,name);
-  }
-  else {
-    if ( m_showTTRVwarning ) {
-      ANA_MSG_WARNING(name << " branch not found in the tree! If you try to access it, you will crash");
-    }
-    return nullptr;
-  }
-}
+#include "Algorithm.icc"
 
 #endif

@@ -1,3 +1,4 @@
+#include <TopLoop/Core/Variables.h>
 #include <TopLoop/Core/FileManager.h>
 #include <TopLoop/Core/Algorithm.h>
 #include <TopLoop/Core/Job.h>
@@ -16,6 +17,7 @@
 #pragma link off all functions;
 #pragma link C++ nestedclass;
 
+#pragma link C++ class TL::Variables+;
 #pragma link C++ class TL::FileManager+;
 #pragma link C++ class TL::Algorithm+;
 #pragma link C++ class TL::Job+;
