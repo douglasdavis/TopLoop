@@ -26,6 +26,7 @@ inline std::shared_ptr<TTreeReader> TL::Algorithm::weightsReader() {
 
 inline void TL::Algorithm::setFileManager(std::shared_ptr<TL::FileManager> fm) {
   m_fm = fm;
+  m_totalEntries = m_fm->rootChain()->GetEntries();
 }
 
 template<typename T>

@@ -118,7 +118,7 @@ StatusCode TL::Algorithm::init_core_vars() {
         { "indiv_SF_MU_TTVA_SYST_UP"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA_SYST_UP")       } ,
         { "indiv_SF_MU_TTVA_SYST_DOWN"       , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA_SYST_DOWN")     }
       };
-      weightSyst_bTagSF_extrapolation = {
+      weightSyst_bTagSF_77_extrapolation = {
         { "bTagSF_77_extrapolation_up"              , setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_up")              } ,
         { "bTagSF_77_extrapolation_down"            , setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_down")            } ,
         { "bTagSF_77_extrapolation_from_charm_up"   , setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_from_charm_up")   } ,
@@ -126,7 +126,7 @@ StatusCode TL::Algorithm::init_core_vars() {
       };
 
       //jet eigenvector weights
-      weightSyst_bTagSF_eigenvars = {
+      weightSyst_bTagSF_77_eigenvars = {
         { "bTagSF_77_eigenvars_B_up"       , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_B_up")       } ,
         { "bTagSF_77_eigenvars_C_up"       , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_C_up")       } ,
         { "bTagSF_77_eigenvars_Light_up"   , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_Light_up")   } ,

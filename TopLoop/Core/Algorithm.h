@@ -37,6 +37,9 @@ namespace TL {
     bool          m_isMC, m_isNominal;
     bool          m_showTTRVwarning;
 
+    long m_eventCounter;
+    long m_totalEntries;
+
     std::shared_ptr<TL::FileManager> m_fm;
     std::shared_ptr<TTreeReader>     m_reader;
     std::shared_ptr<TTreeReader>     m_weightsReader;
@@ -53,7 +56,7 @@ namespace TL {
     setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name = "");
 
     //! Print the progess of the event loop (percent done)
-    void progress(long cur, long total, int range = 10) const;
+    void progress(int percent_base = 10) const;
 
   public:
     Algorithm();

@@ -18,6 +18,8 @@ m_datasetName(),
   m_showTTRVwarning(true)
 {
   SetName("TopLoop");
+  m_totalEntries = 0;
+  m_eventCounter = 0;
 }
 
 TL::Algorithm::~Algorithm() {}
@@ -27,7 +29,7 @@ float TL::Algorithm::countSumWeights() {
   //sum up the weighted number of events in the metadata tree.  This works for
   //MC (to get the MC lumi) and data (perhaps as a cross-check)
   float sumWeights = 0;
-
+  m_weightsReader->Restart();
   while ( m_weightsReader->Next() ) {
     if ( m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid ) {
       FATAL("countSumWeights(): Tree reader does not return kEntryValid");
@@ -45,6 +47,7 @@ std::vector<float> TL::Algorithm::generatorVariedSumWeights() {
   //sum up the weighted number of events in the metadata tree.  This works for
   //MC (to get the MC lumi) and data (perhaps as a cross-check)
   std::size_t vsize = 0;
+  m_weightsReader->Restart();
   while ( m_weightsReader->Next() ) {
     vsize = (*totalEventsWeighted_mc_generator_weights)->size();
     break;
@@ -68,6 +71,7 @@ std::vector<float> TL::Algorithm::generatorVariedSumWeights() {
 }
 
 std::vector<std::string> TL::Algorithm::generatorWeightNames() {
+  m_weightsReader->Restart();
   std::vector<std::string> retvec;
   while ( m_weightsReader->Next() ) {
     retvec = *(*names_mc_generator_weights);
@@ -79,6 +83,7 @@ std::vector<std::string> TL::Algorithm::generatorWeightNames() {
 
 unsigned int TL::Algorithm::get_dsid() {
   unsigned int ret_dsid = 999999;
+  m_weightsReader->Restart();
   while ( m_weightsReader->Next() ) {
     ret_dsid = *(*dsid);
     break;
@@ -102,6 +107,7 @@ StatusCode TL::Algorithm::setupOutput() {
 
 StatusCode TL::Algorithm::execute() {
   ANA_CHECK_SET_TYPE(StatusCode);
+  m_eventCounter++;
   return StatusCode::SUCCESS;
 }
 
@@ -110,13 +116,13 @@ StatusCode TL::Algorithm::finish() {
   return StatusCode::SUCCESS;
 }
 
-void TL::Algorithm::progress(long cur, long total, int range) const {
+void TL::Algorithm::progress(int percent_base) const {
   using namespace msgAlgorithm;
-  if ( total > range ) {
-    auto progress = 100.0*cur/total;
-    int gap = total/range;
-    if ( cur%gap == 0 ) {
-      ANA_MSG_INFO("Event " << cur << ", " << std::round(progress) << "%");
+  if ( m_totalEntries > percent_base ) {
+    int gap = m_totalEntries/percent_base;
+    if ( m_eventCounter%gap == 0 ) {
+      auto progress = 100.0*m_eventCounter/m_totalEntries;
+      ANA_MSG_INFO("Event " << m_eventCounter << ", " << std::round(progress) << "%");
     }
   }
   return;

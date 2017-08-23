@@ -82,8 +82,9 @@ namespace TL {
     std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_jvt;
     std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_leptonSF;
     std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_indivSF;
-    std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_bTagSF_extrapolation;
-    std::map<std::string,std::shared_ptr<TTRV_vec_float>> weightSyst_bTagSF_eigenvars;
+
+    std::map<std::string,std::shared_ptr<TTRV_float>>     weightSyst_bTagSF_77_extrapolation;
+    std::map<std::string,std::shared_ptr<TTRV_vec_float>> weightSyst_bTagSF_77_eigenvars;
 
     std::shared_ptr<TTRV_ulongint>  eventNumber;
     std::shared_ptr<TTRV_uint>      runNumber;
