@@ -36,12 +36,18 @@ using TTRV_char      = TTreeReaderValue<Char_t>;
 namespace TL {
 
   class Variables {
+  protected:
+    std::vector<std::string> m_ignoreList;
 
   public:
+    Variables();
+    virtual ~Variables();
     Variables(const Variables&) = delete;
     Variables& operator=(const Variables&) = delete;
-    Variables() {}
-    virtual ~Variables() {}
+
+    void ignoreListFile(const std::string& filename);
+
+    const std::vector<std::string>& ignoreList() const { return m_ignoreList; }
 
   protected:
     std::shared_ptr<TTRV_float>     totalEventsWeighted;
