@@ -13,9 +13,9 @@ structure:
 - execute(): run on each iteration of the event set
 - finish(): run after the completion of all execute() calls
 
-A list of available variables are found in TopLoop/Core/AlgBase.h
+A list of available variables are found in TopLoop/Core/Varibles.h
 
 Within the AIDA group, we have a mature algorithm built on top of the
 TopLoop framework called AIDALoop.
 
-Doxygen documentation can be found here: cern.ch/ddavis/TopLoop
+Doxygen documentation can be found here: cern.ch/ddavis/TopLoopDoc

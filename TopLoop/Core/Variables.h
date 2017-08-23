@@ -45,8 +45,16 @@ namespace TL {
     Variables(const Variables&) = delete;
     Variables& operator=(const Variables&) = delete;
 
+    //! Create a list of branches to ignore from a plain text file
+    /*!
+      The list of strings in the txt file given will be ignores
+      when setting up the TTreeReader variables.  WARNING: If you try
+      to access a file in the ignore list you will get a glorious
+      crash.
+     */
     void ignoreListFile(const std::string& filename);
 
+    //! Return the ignore list.
     const std::vector<std::string>& ignoreList() const { return m_ignoreList; }
 
   protected:

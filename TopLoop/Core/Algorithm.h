@@ -52,6 +52,7 @@ namespace TL {
     std::shared_ptr<T>
     setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name = "");
 
+    //! Print the progess of the event loop (percent done)
     void progress(long cur, long total, int range = 10) const;
 
   public:
