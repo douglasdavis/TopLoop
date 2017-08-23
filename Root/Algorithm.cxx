@@ -7,7 +7,6 @@
 
 // TL
 #include <TopLoop/Core/Algorithm.h>
-#include <TopLoop/Core/FileManager.h>
 
 ANA_MSG_SOURCE(msgAlgorithm,"TL::Algorithm")
 

@@ -1,14 +1,11 @@
-/** @file Algorithm.cxx
+/** @file AlgorithmVars.cxx
  *  @brief TL::Algorithm class TTreeReader variables implementation
  *
  *  @author Douglas Davis < ddavis@cern.ch >
- *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 #include <TopLoop/Core/Algorithm.h>
 #include <TopLoop/Core/FileManager.h>
-
-//ANA_MSG_SOURCE(msgTopLoopVars,"TL::Algorithm")
 
 StatusCode TL::Algorithm::init_core_vars() {
   using namespace msgAlgorithm;
@@ -49,14 +46,6 @@ StatusCode TL::Algorithm::init_core_vars() {
       weight_indiv_SF_MU_TTVA    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA");
     }
 
-    el_true_type      = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_type");
-    el_true_origin    = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_origin");
-    el_true_typebkg   = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_typebkg");
-    el_true_originbkg = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_originbkg");
-
-    mu_true_type   = setupTreeVar<TTRV_vec_int>(m_reader,"mu_true_type");
-    mu_true_origin = setupTreeVar<TTRV_vec_int>(m_reader,"mu_true_origin");
-
     if ( m_isNominal ) {
       weightSyst_pileup = {
         { "pileup_UP"   , setupTreeVar<TTRV_float>(m_reader,"weight_pileup_UP")   } ,
@@ -67,26 +56,34 @@ StatusCode TL::Algorithm::init_core_vars() {
         { "jvt_DOWN" , setupTreeVar<TTRV_float>(m_reader,"weight_jvt_DOWN") }
       };
       weightSyst_leptonSF = {
-        { "leptonSF_EL_SF_Trigger_UP"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Trigger_UP")        } ,
-        { "leptonSF_EL_SF_Trigger_DOWN"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Trigger_DOWN")      } ,
-        { "leptonSF_EL_SF_Reco_UP"           , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Reco_UP")           } ,
-        { "leptonSF_EL_SF_Reco_DOWN"         , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Reco_DOWN")         } ,
-        { "leptonSF_EL_SF_ID_UP"             , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_ID_UP")             } ,
-        { "leptonSF_EL_SF_ID_DOWN"           , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_ID_DOWN")           } ,
-        { "leptonSF_EL_SF_Isol_UP"           , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Isol_UP")           } ,
-        { "leptonSF_EL_SF_Isol_DOWN"         , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Isol_DOWN")         } ,
-        { "leptonSF_MU_SF_Trigger_STAT_UP"   , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_STAT_UP")   } ,
-        { "leptonSF_MU_SF_Trigger_STAT_DOWN" , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_STAT_DOWN") } ,
-        { "leptonSF_MU_SF_Trigger_SYST_UP"   , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_SYST_UP")   } ,
-        { "leptonSF_MU_SF_Trigger_SYST_DOWN" , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_SYST_DOWN") } ,
-        { "leptonSF_MU_SF_ID_STAT_UP"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_STAT_UP")        } ,
-        { "leptonSF_MU_SF_ID_STAT_DOWN"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_STAT_DOWN")      } ,
-        { "leptonSF_MU_SF_ID_SYST_UP"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_SYST_UP")        } ,
-        { "leptonSF_MU_SF_ID_SYST_DOWN"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_SYST_DOWN")      } ,
-        { "leptonSF_MU_SF_Isol_STAT_UP"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_STAT_UP")      } ,
-        { "leptonSF_MU_SF_Isol_STAT_DOWN"    , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_STAT_DOWN")    } ,
-        { "leptonSF_MU_SF_Isol_SYST_UP"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_SYST_UP")      } ,
-        { "leptonSF_MU_SF_Isol_SYST_DOWN"    , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_SYST_DOWN")    }
+        { "leptonSF_EL_SF_Trigger_UP"          , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Trigger_UP")         } ,
+        { "leptonSF_EL_SF_Trigger_DOWN"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Trigger_DOWN")       } ,
+        { "leptonSF_EL_SF_Reco_UP"             , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Reco_UP")            } ,
+        { "leptonSF_EL_SF_Reco_DOWN"           , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Reco_DOWN")          } ,
+        { "leptonSF_EL_SF_ID_UP"               , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_ID_UP")              } ,
+        { "leptonSF_EL_SF_ID_DOWN"             , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_ID_DOWN")            } ,
+        { "leptonSF_EL_SF_Isol_UP"             , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Isol_UP")            } ,
+        { "leptonSF_EL_SF_Isol_DOWN"           , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Isol_DOWN")          } ,
+        { "leptonSF_MU_SF_Trigger_STAT_UP"     , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_STAT_UP")    } ,
+        { "leptonSF_MU_SF_Trigger_STAT_DOWN"   , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_STAT_DOWN")  } ,
+        { "leptonSF_MU_SF_Trigger_SYST_UP"     , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_SYST_UP")    } ,
+        { "leptonSF_MU_SF_Trigger_SYST_DOWN"   , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_SYST_DOWN")  } ,
+        { "leptonSF_MU_SF_ID_STAT_LOWPT_UP"    , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_STAT_LOWPT_UP")   } ,
+        { "leptonSF_MU_SF_ID_STAT_LOWPT_DOWN"  , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_STAT_LOWPT_DOWN") } ,
+        { "leptonSF_MU_SF_ID_SYST_LOWPT_UP"    , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_SYST_LOWPT_UP")   } ,
+        { "leptonSF_MU_SF_ID_SYST_LOWPT_DOWN"  , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_SYST_LOWPT_DOWN") } ,
+        { "leptonSF_MU_SF_ID_STAT_UP"          , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_STAT_UP")         } ,
+        { "leptonSF_MU_SF_ID_STAT_DOWN"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_STAT_DOWN")       } ,
+        { "leptonSF_MU_SF_ID_SYST_UP"          , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_SYST_UP")         } ,
+        { "leptonSF_MU_SF_ID_SYST_DOWN"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_SYST_DOWN")       } ,
+        { "leptonSF_MU_SF_Isol_STAT_UP"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_STAT_UP")       } ,
+        { "leptonSF_MU_SF_Isol_STAT_DOWN"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_STAT_DOWN")     } ,
+        { "leptonSF_MU_SF_Isol_SYST_UP"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_SYST_UP")       } ,
+        { "leptonSF_MU_SF_Isol_SYST_DOWN"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_SYST_DOWN")     } ,
+        { "leptonSF_MU_SF_TTVA_STAT_UP"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_TTVA_STAT_UP")       } ,
+        { "leptonSF_MU_SF_TTVA_STAT_DOWN"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_TTVA_STAT_DOWN")     } ,
+        { "leptonSF_MU_SF_TTVA_SYST_UP"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_TTVA_SYST_UP")       } ,
+        { "leptonSF_MU_SF_TTVA_SYST_DOWN"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_TTVA_SYST_DOWN")     }
       };
       weightSyst_indivSF = {
         { "indiv_SF_EL_Trigger_UP"           , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Trigger_UP")         } ,
@@ -144,8 +141,10 @@ StatusCode TL::Algorithm::init_core_vars() {
   else {
     runNumber = setupTreeVar<TTRV_uint>(m_reader,"runNumber");
   }
-  mcChannelNumber = setupTreeVar<TTRV_uint>(m_reader,"mcChannelNumber");
-  mu = setupTreeVar<TTRV_float>(m_reader,"mu");
+  mcChannelNumber = setupTreeVar<TTRV_uint> (m_reader,"mcChannelNumber");
+  mu              = setupTreeVar<TTRV_float>(m_reader,"mu");
+  backgroundFlags = setupTreeVar<TTRV_uint> (m_reader,"backgroundFlags");
+  hasBadMuon      = setupTreeVar<TTRV_uint> (m_reader,"hasBadMuon");
 
   el_pt     = setupTreeVar<TTRV_vec_float>(m_reader,"el_pt");
   el_eta    = setupTreeVar<TTRV_vec_float>(m_reader,"el_eta");
@@ -170,6 +169,16 @@ StatusCode TL::Algorithm::init_core_vars() {
   mu_ptvarcone30       = setupTreeVar<TTRV_vec_float>(m_reader,"mu_ptvarcone30");
   mu_d0sig             = setupTreeVar<TTRV_vec_float>(m_reader,"mu_d0sig");
   mu_delta_z0_sintheta = setupTreeVar<TTRV_vec_float>(m_reader,"mu_delta_z0_sintheta");
+
+  if ( m_isMC ) {
+    el_true_type      = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_type");
+    el_true_origin    = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_origin");
+    el_true_typebkg   = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_typebkg");
+    el_true_originbkg = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_originbkg");
+
+    mu_true_type   = setupTreeVar<TTRV_vec_int>(m_reader,"mu_true_type");
+    mu_true_origin = setupTreeVar<TTRV_vec_int>(m_reader,"mu_true_origin");
+  }
 
   jet_pt  = setupTreeVar<TTRV_vec_float>(m_reader,"jet_pt");
   jet_eta = setupTreeVar<TTRV_vec_float>(m_reader,"jet_eta");
@@ -206,16 +215,15 @@ StatusCode TL::Algorithm::init_core_vars() {
   HLT_e24_lhmedium_L1EM20VH      = setupTreeVar<TTRV_char>(m_reader,"HLT_e24_lhmedium_L1EM20VH");
   HLT_e120_lhloose               = setupTreeVar<TTRV_char>(m_reader,"HLT_e120_lhloose");
 
-  el_trigMatch_HLT_e60_lhmedium =
-    setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e60_lhmedium");
-  el_trigMatch_HLT_e24_lhmedium_L1EM18VH =
-    setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e24_lhmedium_L1EM20VH");
-  el_trigMatch_HLT_e120_lhloose =
-    setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e120_lhloose");
-  mu_trigMatch_HLT_mu50 =
-    setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu50");
-  mu_trigMatch_HLT_mu20_iloose_L1MU15 =
-    setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu20_iloose_L1MU15");
+  el_trigMatch_HLT_e60_lhmedium_nod0          = setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e60_lhmedium_nod0");
+  el_trigMatch_HLT_e26_lhtight_nod0_ivarloose = setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e26_lhtight_nod0_ivarloose");
+  el_trigMatch_HLT_e140_lhloose_nod0          = setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e140_lhloose_nod0");
+  el_trigMatch_HLT_e60_lhmedium               = setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e60_lhmedium");
+  el_trigMatch_HLT_e24_lhmedium_L1EM20VH      = setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e24_lhmedium_L1EM20VH");
+  el_trigMatch_HLT_e120_lhloose               = setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e120_lhloose");
+  mu_trigMatch_HLT_mu26_ivarmedium            = setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu26_ivarmedium");
+  mu_trigMatch_HLT_mu50                       = setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu50");
+  mu_trigMatch_HLT_mu20_iloose_L1MU15         = setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu20_iloose_L1MU15");
 
   return StatusCode::SUCCESS;
 }

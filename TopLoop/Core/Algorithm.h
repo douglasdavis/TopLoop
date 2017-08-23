@@ -21,12 +21,9 @@
 // TL
 #include <TopLoop/Core/Utils.h>
 #include <TopLoop/Core/Variables.h>
+#include <TopLoop/Core/FileManager.h>
 
 ANA_MSG_HEADER(msgAlgorithm)
-
-namespace TL {
-  class FileManager;
-}
 
 namespace TL {
 

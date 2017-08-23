@@ -90,6 +90,8 @@ namespace TL {
     std::shared_ptr<TTRV_uint>      runNumber;
     std::shared_ptr<TTRV_uint>      mcChannelNumber;
     std::shared_ptr<TTRV_float>     mu;
+    std::shared_ptr<TTRV_uint>      backgroundFlags;
+    std::shared_ptr<TTRV_uint>      hasBadMuon;
 
     std::shared_ptr<TTRV_vec_float> el_pt;
     std::shared_ptr<TTRV_vec_float> el_phi;
@@ -154,9 +156,13 @@ namespace TL {
     std::shared_ptr<TTRV_char> HLT_e24_lhmedium_L1EM20VH;
     std::shared_ptr<TTRV_char> HLT_e120_lhloose;
 
+    std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e60_lhmedium_nod0;
+    std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e26_lhtight_nod0_ivarloose;
+    std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e140_lhloose_nod0;
     std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e60_lhmedium;
-    std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e24_lhmedium_L1EM18VH;
+    std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e24_lhmedium_L1EM20VH;
     std::shared_ptr<TTRV_vec_char> el_trigMatch_HLT_e120_lhloose;
+    std::shared_ptr<TTRV_vec_char> mu_trigMatch_HLT_mu26_ivarmedium;
     std::shared_ptr<TTRV_vec_char> mu_trigMatch_HLT_mu50;
     std::shared_ptr<TTRV_vec_char> mu_trigMatch_HLT_mu20_iloose_L1MU15;
 
