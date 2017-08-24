@@ -57,16 +57,20 @@ algorithm's `init()` function you use TopLoop function
 
 ```cpp
 // in the header
+// TTRV_vec_float is of type TTreeReader<std::vector<float>>
+// typedefs are defined in TopLoop/Core/Variables.h
 std::shared_ptr<TTRV_vec_float> el_true_pt;
 ```
+
 ```cpp
 // in init() source
 el_true_pt = setupTreeVar<TTRV_vec_float>(m_reader,"el_true_pt");
 ```
+
 ```cpp
 // in execute() source
-for ( aut const& truepT : *(*el_true_pt) ) {
-  auto true_pt_squqred = truepT*truepT;
+for ( auto const& truepT : *(*el_true_pt) ) {
+  auto true_pt_squared = truepT*truepT;
 }
 ```
 
@@ -81,4 +85,4 @@ We're also starting to ramp up an algorithm for the Wt dilepton analysis:
 
 ## API Documentation
 
-Doxygen documentation can be found here: cern.ch/ddavis/TopLoopDoc
+Doxygen documentation can be found here: http://ddavis.web.cern.ch/ddavis/TopLoopDoc/
