@@ -16,7 +16,11 @@ void TL::EDM::FinalState::evaluateLepPairs() {
   }
 }
 
-void TL::EDM::FinalState::evaluateSelf() {
+void TL::EDM::FinalState::evaluateSelf(bool sort_leptons) {
+  if ( sort_leptons ) {
+    std::sort(m_leptons.begin(),m_leptons.end(),
+              [](const auto& lep1, const auto& lep2) { return (lep1.pT() > lep2.pT()); });
+  }
   evaluateLepPairs();
   m_HT = 0.0;
   TLorentzVector eventFourVector;
@@ -32,36 +36,4 @@ void TL::EDM::FinalState::evaluateSelf() {
   eventFourVector += m_MET.p();
   m_M = eventFourVector.M();
 
-  m_llidx = 0;
-  if ( !m_leptons.empty() ) {
-    auto llpt = m_leptons.at(0).pT();
-    for ( std::size_t i = 0; i < m_leptons.size(); ++i ) {
-      auto cur_pt = m_leptons.at(i).pT();
-      if ( cur_pt > llpt ) {
-        llpt = cur_pt;
-        m_llidx = i;
-      }
-      else {
-        continue;
-      }
-    }
-  }
-  //  According to Kerim S. jets will always be in order of leading pT
-  //  down.
-  m_ljidx = 0;
-
-  /*
-    if ( !m_jets.empty() ) {
-    m_ljidx = 0;
-    auto ljpt = m_jets.at(0).pT();
-    for ( std::size_t i = 0; i < m_jets.size(); ++i ) {
-    auto cur_pt = m_jets.at(i).pT();
-    if ( cur_pt > ljpt ) {
-    ljpt = cur_pt;
-    m_ljidx = i;
-    }
-    else { continue; }
-    }
-    }  
-  */
 }
