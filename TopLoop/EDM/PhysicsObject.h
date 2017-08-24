@@ -8,7 +8,6 @@
  *  leptons, jets, MET..
  *
  *  @author Douglas Davis < ddavis@cern.ch >
- *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 #ifndef TL_EDM_PhysicsObject_h

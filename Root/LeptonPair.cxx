@@ -2,12 +2,10 @@
  *  @brief TL::EDM::LeptonPair class implementation
  *
  *  @author Douglas Davis < ddavis@cern.ch >
- *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 // TL
 #include <TopLoop/EDM/LeptonPair.h>
-#include <TopLoop/Core/Utils.h>
 
 ANA_MSG_SOURCE(msgLeptonPair,"TL::EDM::LeptonPair")
 

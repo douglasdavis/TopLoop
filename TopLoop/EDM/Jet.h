@@ -7,7 +7,6 @@
  *  contains the properties of a jet.
  *
  *  @author Douglas Davis < ddavis@cern.ch >
- *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 #ifndef TL_EDM_Jet_h
@@ -36,7 +35,9 @@ namespace TL {
       float m_mv2c20;
       float m_ip3dsv1;
       float m_jvt;
+      bool  m_isbtagged_70;
       bool  m_isbtagged_77;
+      bool  m_isbtagged_85;
 
       ClassDef(Jet,1);
       
@@ -49,14 +50,18 @@ namespace TL {
       void set_mv2c20(const float val);
       void set_ip3dsv1(const float val);
       void set_jvt(const float val);
+      void set_isbtagged_70(const bool val);
       void set_isbtagged_77(const bool val);
+      void set_isbtagged_85(const bool val);
 
       float mv2c00()       const;
       float mv2c10()       const;
       float mv2c20()       const;
       float ip3dsv1()      const;
       float jvt()          const;
+      bool  isbtagged_70() const;
       bool  isbtagged_77() const;
+      bool  isbtagged_85() const;
 
       bool isTagged_c20(const TL::EDM::WP_mv2cbm& wp = WP_mv2cbm::kEFF_77) const;
       bool isTagged_c10(const TL::EDM::WP_mv2cbm& wp = WP_mv2cbm::kEFF_77) const;
@@ -91,14 +96,18 @@ inline void TL::EDM::Jet::set_mv2c10(const float val)      { m_mv2c10       = va
 inline void TL::EDM::Jet::set_mv2c20(const float val)      { m_mv2c20       = val; }
 inline void TL::EDM::Jet::set_ip3dsv1(const float val)     { m_ip3dsv1      = val; }
 inline void TL::EDM::Jet::set_jvt(const float val)         { m_jvt          = val; }
+inline void TL::EDM::Jet::set_isbtagged_70(const bool val) { m_isbtagged_70 = val; }
 inline void TL::EDM::Jet::set_isbtagged_77(const bool val) { m_isbtagged_77 = val; }
+inline void TL::EDM::Jet::set_isbtagged_85(const bool val) { m_isbtagged_85 = val; }
 
 inline float TL::EDM::Jet::mv2c00()       const { return m_mv2c00;       }
 inline float TL::EDM::Jet::mv2c10()       const { return m_mv2c10;       }
 inline float TL::EDM::Jet::mv2c20()       const { return m_mv2c20;       }
 inline float TL::EDM::Jet::ip3dsv1()      const { return m_ip3dsv1;      }
 inline float TL::EDM::Jet::jvt()          const { return m_jvt;          }
+inline bool  TL::EDM::Jet::isbtagged_70() const { return m_isbtagged_70; }
 inline bool  TL::EDM::Jet::isbtagged_77() const { return m_isbtagged_77; }
+inline bool  TL::EDM::Jet::isbtagged_85() const { return m_isbtagged_85; }
 
 inline bool TL::EDM::Jet::isTagged_c20(const TL::EDM::WP_mv2cbm& wp) const {
   return (m_mv2c20 > TL::EDM::kBTAGCUTS_c20.at(wp));

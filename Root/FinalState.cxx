@@ -2,32 +2,16 @@
  *  @brief TL::EDM::FinalState class implementation
  *
  *  @author Douglas Davis < ddavis@cern.ch >
- *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 // TL
 #include <TopLoop/EDM/FinalState.h>
 
 void TL::EDM::FinalState::evaluateLepPairs() {
-  if  ( m_leptons.size() > 1 ) {
-    TL::EDM::LeptonPair lp(m_leptons.at(0),
-                           m_leptons.at(1),0,1);
-    addLeptonPair(lp);
-    if ( m_leptons.size() > 2 ) {
-      TL::EDM::LeptonPair lp2(m_leptons.at(0),
-                              m_leptons.at(2),0,2);
-      TL::EDM::LeptonPair lp3(m_leptons.at(1),
-                              m_leptons.at(2),1,2);
-      addLeptonPairs({lp2,lp3});
-      if ( m_leptons.size() > 3 ) {
-        TL::EDM::LeptonPair lp4(m_leptons.at(0),
-                                m_leptons.at(3),0,3);
-        TL::EDM::LeptonPair lp5(m_leptons.at(1),
-                                m_leptons.at(3),1,3);
-        TL::EDM::LeptonPair lp6(m_leptons.at(2),
-                                m_leptons.at(3),2,3);
-        addLeptonPairs({lp4,lp5,lp6});
-      }
+  for ( std::size_t i = 0; i < m_leptons.size(); ++i ) {
+    for ( std::size_t j = (i+1); j < m_leptons.size(); ++j ) {
+      TL::EDM::LeptonPair lp(m_leptons.at(i),m_leptons.at(j),i,j);
+      addLeptonPair(lp);
     }
   }
 }

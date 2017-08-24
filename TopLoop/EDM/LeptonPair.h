@@ -7,7 +7,6 @@
  *  contains the properties of a pair of leptons.
  *
  *  @author Douglas Davis < ddavis@cern.ch >
- *  @author Kevin Finelli < kevin.finelli@cern.ch >
  */
 
 #ifndef TL_EDM_LeptonPair_h
