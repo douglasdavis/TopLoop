@@ -32,13 +32,12 @@ inline void TL::Algorithm::setFileManager(std::shared_ptr<TL::FileManager> fm) {
 template<typename T>
 inline std::shared_ptr<T>
 TL::Algorithm::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name) {
-  using namespace msgAlgorithm;
   if ( !(ignoreList().empty()) && std::find(ignoreList().begin(),ignoreList().end(),name) != ignoreList().end() ) {
     return nullptr;
   }
   if ( reader->GetTree() == nullptr ) {
     if ( m_showTTRVwarning ) {
-      ANA_MSG_INFO(name << " branch trying to link to a null tree! tree_name: " << tree_name);
+      logger()->debug("{} branch trying to link to a null tree! tree name: {}", name, tree_name);
     }
     return nullptr;
   }
@@ -47,7 +46,7 @@ TL::Algorithm::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* nam
   }
   else {
     if ( m_showTTRVwarning ) {
-      ANA_MSG_INFO(name << " branch not found in the tree! If you try to access it, you will crash");
+      logger()->debug("{} branch not found in the tree! use will crash!", name);
     }
     return nullptr;
   }

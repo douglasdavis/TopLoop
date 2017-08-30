@@ -14,20 +14,15 @@
 #ifndef TL_Algorithm_h
 #define TL_Algorithm_h
 
-// ATLAS
-#include <AsgTools/StatusCode.h>
-#include <AsgTools/MessageCheck.h>
-
 // TL
 #include <TopLoop/Core/Utils.h>
 #include <TopLoop/Core/Variables.h>
 #include <TopLoop/Core/FileManager.h>
-
-ANA_MSG_HEADER(msgAlgorithm)
+#include <TopLoop/Core/Logable.h>
 
 namespace TL {
 
-  class Algorithm : public TNamed, public TL::Variables {
+  class Algorithm : public TL::Logable, public TNamed, public TL::Variables {
 
   protected:
     std::string   m_datasetName;
@@ -97,21 +92,21 @@ namespace TL {
     /*!
       This function sets the TTreeReader variables up.
     */
-    StatusCode init_core_vars();
+    TL::StatusCode init_core_vars();
 
     //! Initialize the algorithm properties
     /*!
       The point of this function is to initialize various properties
       of the algorithm, e.g. setting user specific member variables.
     */
-    virtual StatusCode init();
+    virtual TL::StatusCode init();
 
     //! The function which is called after init(), for output.
     /*!
       This function is meant for declaring files, histograms, trees, etc.
       to be output by the histogram.
     */
-    virtual StatusCode setupOutput();
+    virtual TL::StatusCode setupOutput();
 
     //! The function which is called in a loop over all events
     /*! 
@@ -120,14 +115,14 @@ namespace TL {
       TTreeReader are updated at the beginning of execute and all of
       the event information is available.
     */
-    virtual StatusCode execute();
+    virtual TL::StatusCode execute();
 
     //! The function which is called at the end.
     /*! 
       This function is meant to wrap up the algorithm, e.g.  write
       histograms and trees to a file, close the file.
     */
-    virtual StatusCode finish();
+    virtual TL::StatusCode finish();
 
     //! Function to tell algorithm it's analyzing data
     /*! 

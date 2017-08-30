@@ -8,10 +8,9 @@
 // TL
 #include <TopLoop/Core/Algorithm.h>
 
-ANA_MSG_SOURCE(msgAlgorithm,"TL::Algorithm")
-
 TL::Algorithm::Algorithm() :
-m_datasetName(),
+  TL::Logable("TL::Algorithm"),
+  m_datasetName(),
   m_isMC(true),
   m_isNominal(true),
   m_showTTRVwarning(true)
@@ -24,14 +23,13 @@ m_datasetName(),
 TL::Algorithm::~Algorithm() {}
 
 float TL::Algorithm::countSumWeights() {
-  using namespace msgAlgorithm;
   //sum up the weighted number of events in the metadata tree.  This works for
   //MC (to get the MC lumi) and data (perhaps as a cross-check)
   float sumWeights = 0;
   m_weightsReader->Restart();
   while ( m_weightsReader->Next() ) {
     if ( m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid ) {
-      FATAL("countSumWeights(): Tree reader does not return kEntryValid");
+      logger()->critical("countSumWeights(): Tree reader does not return kEntryValid");
     }
     sumWeights += *(*totalEventsWeighted);
   }
@@ -42,7 +40,6 @@ float TL::Algorithm::countSumWeights() {
 }
 
 std::vector<float> TL::Algorithm::generatorVariedSumWeights() {
-  using namespace msgAlgorithm;
   //sum up the weighted number of events in the metadata tree.  This works for
   //MC (to get the MC lumi) and data (perhaps as a cross-check)
   std::size_t vsize = 0;
@@ -56,7 +53,7 @@ std::vector<float> TL::Algorithm::generatorVariedSumWeights() {
 
   while ( m_weightsReader->Next() ) {
     if ( m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid ) {
-      FATAL("generatorVariedSumWeights(): Tree reader does not return kEntryValid");
+      logger()->critical("generatorVariedSumWeights(): Tree reader does not return kEntryValid");
     }
     // now get all the rest
     for ( std::size_t j = 0; j < (*totalEventsWeighted_mc_generator_weights)->size(); ++j ) {
@@ -92,36 +89,30 @@ unsigned int TL::Algorithm::get_dsid() {
   return ret_dsid;
 }
 
-StatusCode TL::Algorithm::init() {
-  using namespace msgAlgorithm;
-  ANA_CHECK_SET_TYPE(StatusCode);
-  ANA_CHECK(init_core_vars());
-  return StatusCode::SUCCESS;
+TL::StatusCode TL::Algorithm::init() {
+  init_core_vars();
+  return TL::StatusCode::SUCCESS;
 }
 
-StatusCode TL::Algorithm::setupOutput() {
-  ANA_CHECK_SET_TYPE(StatusCode);
-  return StatusCode::SUCCESS;
+TL::StatusCode TL::Algorithm::setupOutput() {
+  return TL::StatusCode::SUCCESS;
 }
 
-StatusCode TL::Algorithm::execute() {
-  ANA_CHECK_SET_TYPE(StatusCode);
+TL::StatusCode TL::Algorithm::execute() {
   m_eventCounter++;
-  return StatusCode::SUCCESS;
+  return TL::StatusCode::SUCCESS;
 }
 
-StatusCode TL::Algorithm::finish() {
-  ANA_CHECK_SET_TYPE(StatusCode);
-  return StatusCode::SUCCESS;
+TL::StatusCode TL::Algorithm::finish() {
+  return TL::StatusCode::SUCCESS;
 }
 
 void TL::Algorithm::progress(int percent_base) const {
-  using namespace msgAlgorithm;
   if ( m_totalEntries > percent_base ) {
     int gap = m_totalEntries/percent_base;
     if ( m_eventCounter%gap == 0 ) {
       auto progress = 100.0*m_eventCounter/m_totalEntries;
-      ANA_MSG_INFO("Event " << m_eventCounter << ", " << std::round(progress) << "%");
+      logger()->info("Event {}, {}%",m_eventCounter,std::round(progress));
     }
   }
   return;

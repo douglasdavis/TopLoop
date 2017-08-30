@@ -19,13 +19,10 @@
 
 // TL
 #include <TopLoop/Core/Utils.h>
+#include <TopLoop/Core/Logable.h>
 
 // ROOT
 #include <TObject.h>
-
-#include <AsgTools/MessageCheck.h>
-
-ANA_MSG_HEADER(msgSampleMetaSvc)
 
 namespace TL {
   // this enum is directly related to the samplemeta.json file. If a
@@ -52,7 +49,7 @@ namespace TL {
 }
 
 namespace TL {
-  class SampleMetaSvc : public TObject {
+  class SampleMetaSvc : public TL::Logable, public TObject {
   private:
 
     std::map<std::string,TL::kMeta> m_s2e;
@@ -92,10 +89,9 @@ inline const std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>>& TL::Sample
 }
 
 inline const TL::SampleMetaSvc::TableIter_t TL::SampleMetaSvc::checkTable(const unsigned int dsid) const {
-  using namespace msgSampleMetaSvc;
   const TableIter_t itr = m_table.find(dsid);
   if ( itr == m_table.end() ) {
-    ANA_MSG_FATAL("can't find DSID! " << dsid << " not in SampleMetaSvc table!");
+    logger()->critical("can't find DSID! {} not in SampleMetaSvc table!",dsid);
   }
   return itr;
 }
@@ -116,10 +112,9 @@ inline TL::kMeta TL::SampleMetaSvc::getSampleType(const unsigned int dsid) const
 }
 
 inline const std::string TL::SampleMetaSvc::stringFromEnum(const TL::kMeta ienum) const {
-  using namespace msgSampleMetaSvc;
   e2sIter_t itr = m_e2s.find(ienum);
   if ( itr == m_e2s.end() ) {
-    ANA_MSG_FATAL("bad TL::kMeta - " << ienum);
+    logger()->critical("can't find enum entry {}!",ienum);
   }
   return itr->second;
 }

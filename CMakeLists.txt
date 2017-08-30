@@ -8,7 +8,6 @@ atlas_subdir( TopLoop None )
 # This package depends on other packages:
 atlas_depends_on_subdirs( PUBLIC
   Tools/PathResolver
-  Control/AthToolSupport/AsgTools
   )
 
 # This package uses ROOT:
@@ -31,7 +30,6 @@ atlas_add_library( TopLoop Root/*.cxx Root/*.h Root/*.icc
   ${ROOT_LIBRARIES}
   ${Boost_LIBRARIES}
   PathResolver
-  AsgTools
   INCLUDE_DIRS ${ROOT_INCLUDE_DIRS} )
 
 # Install data files from the package:

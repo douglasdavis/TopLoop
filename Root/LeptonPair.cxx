@@ -7,15 +7,12 @@
 // TL
 #include <TopLoop/EDM/LeptonPair.h>
 
-ANA_MSG_SOURCE(msgLeptonPair,"TL::EDM::LeptonPair")
-
 TL::EDM::LeptonPair::LeptonPair() : TL::EDM::PhysicsObject() {}
 
 TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
                                 const TL::EDM::Lepton& lep2,
                                 const size_t idxf, const size_t idxs) :
   TL::EDM::PhysicsObject() {
-  using namespace msgLeptonPair;
   m_idxp = std::make_pair(idxf,idxs);
   m_p = lep1.p() + lep2.p();
   m_deltaR   = lep1.p().DeltaR(lep2.p());
@@ -41,7 +38,7 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
     m_elel = true;
   }
   else {
-    ANA_MSG_WARNING("PDG Sum for Lepton Pair is bad: " << pdgsum);
+    //logger()->warn("PDG sum for Lepton Pair is bad: {}", pdgsum);
   }
 
   if ( chargesum == 0 ) {
@@ -53,7 +50,7 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
     m_OS = false;
   }
   else {
-    ANA_MSG_WARNING("Charge sum is pad in Lepton Pair: " << chargesum);
+    //logger()->warn("Charge sum is pad in Lepton Pair: {}", chargesum);
   }
 }
 

@@ -20,10 +20,6 @@
 #include <iostream>
 #include <utility>
 
-#include <AsgTools/MessageCheck.h>
-
-ANA_MSG_HEADER(msgLeptonPair)
-
 namespace TL {
   namespace EDM {
 
@@ -40,11 +36,11 @@ namespace TL {
       bool   m_elmu;
 
       std::pair<size_t,size_t> m_idxp;
-      
+
       ClassDef(LeptonPair,1);
-      
+
     public:
-      
+
       LeptonPair();
       LeptonPair(const TL::EDM::Lepton& lep1,
                  const TL::EDM::Lepton& lep2,
@@ -65,7 +61,7 @@ namespace TL {
 
       size_t firstIdx()  const;
       size_t secondIdx() const;
-      
+
     };
 
   }

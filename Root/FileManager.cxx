@@ -24,9 +24,7 @@
 // ROOT
 #include <TROOT.h>
 
-ANA_MSG_SOURCE(msgFileManager,"TL::FileManager")
-
-TL::FileManager::FileManager() :
+TL::FileManager::FileManager() : TL::Logable("TL::FileManager"),
   m_fileNames(), m_treeName("nominal"), m_weightsTreeName("sumWeights"),
   m_rootChain(nullptr), m_rootWeightsChain(nullptr) {
 }
@@ -52,9 +50,8 @@ void TL::FileManager::initChain() {
 }
 
 void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
-  using namespace msgFileManager;
   this->initChain();
-  ANA_MSG_INFO("feeding " << dirpath);
+  logger()->info("Feeding {}", dirpath);
   boost::filesystem::path p(dirpath);
   auto i = boost::filesystem::directory_iterator(p);
   for ( ; i != boost::filesystem::directory_iterator(); ++i ) {
@@ -65,7 +62,7 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
       }
       else {
         std::string final_path = i->path().filename().string();
-        ANA_MSG_INFO("Adding file " << final_path);
+        logger()->info("Adding file: {}",final_path);
         m_fileNames.emplace_back(dirpath+(final_path));
         m_rootChain->Add((dirpath+"/"+final_path).c_str());
         m_rootWeightsChain->Add((dirpath+"/"+final_path).c_str());
@@ -78,13 +75,12 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
 }
 
 void TL::FileManager::feedTxt(const std::string& txtfilename) {
-  using namespace msgFileManager;
   this->initChain();
   std::string line;
   std::ifstream infile(txtfilename);
   while ( std::getline(infile,line) ) {
     if ( !line.empty() ) {
-      ANA_MSG_INFO("Adding file " << line);
+      logger()->info("Adding file {}",line);
       m_fileNames.emplace_back(line);
       m_rootChain->Add(line.c_str());
       m_rootWeightsChain->Add(line.c_str());

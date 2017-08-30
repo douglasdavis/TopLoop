@@ -20,11 +20,12 @@
 #include <string>
 #include <sstream>
 
-#define FATAL(PRINTOUT)    \
-  ANA_MSG_FATAL(PRINTOUT); \
-  std::exit(EXIT_FAILURE);
-
 namespace TL {
+  enum StatusCode {
+    SUCCESS = 1,
+    FAILURE = 0
+  };
+
   const double TeV   = 1.0e6;
   const double GeV   = 1.0e3;
   const double toGeV = 1.0e-3;

@@ -7,12 +7,10 @@
 #include <TopLoop/Core/Algorithm.h>
 #include <TopLoop/Core/FileManager.h>
 
-StatusCode TL::Algorithm::init_core_vars() {
-  using namespace msgAlgorithm;
-  ANA_CHECK_SET_TYPE(StatusCode);
+TL::StatusCode TL::Algorithm::init_core_vars() {
 
   if ( m_fm == nullptr ) {
-    ATH_MSG_FATAL("Your algorithm has a null FileManager");
+    logger()->critical("Your algorithm has a null FileManager");
   }
 
   m_reader        = std::make_shared<TTreeReader>(fileManager()->rootChain());
@@ -225,5 +223,5 @@ StatusCode TL::Algorithm::init_core_vars() {
   mu_trigMatch_HLT_mu50                       = setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu50");
   mu_trigMatch_HLT_mu20_iloose_L1MU15         = setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu20_iloose_L1MU15");
 
-  return StatusCode::SUCCESS;
+  return TL::StatusCode::SUCCESS;
 }

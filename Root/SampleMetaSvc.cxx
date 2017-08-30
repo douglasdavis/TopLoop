@@ -11,24 +11,21 @@
 // PathResolver
 #include <PathResolver/PathResolver.h>
 
-ANA_MSG_SOURCE(msgSampleMetaSvc,"TL::SampleMetaSvc")
-
-TL::SampleMetaSvc::SampleMetaSvc() {
-  using namespace msgSampleMetaSvc;
+TL::SampleMetaSvc::SampleMetaSvc() : TL::Logable("TL::SampleMetaSvc") {
   setupMap();
   std::string filepath = PathResolverFindCalibFile("TopLoop/samplemeta.json");
   std::ifstream in(filepath.c_str());
   if ( !in ) {
-    ANA_MSG_FATAL("cannot fill meta service from file. " << filepath << " cannot be found");
+    logger()->critical("cannot fill meta service from file. {} cannot be found", filepath);
   }
   auto j_top = nlohmann::json::parse(in);
 
   // lambda function to check to see if str is a key in the map, apply
   // the value to applyto. used for each DSID in the loop that
   // follows.
-  auto assigner = [](const auto& s2eMap, const auto str, auto& applyto) {
+  auto assigner = [this](const auto& s2eMap, const auto str, auto& applyto) {
     if ( s2eMap.find(str) == s2eMap.end() ) {
-      ANA_MSG_FATAL(str << " is not setup in our software metadata");
+      logger()->critical("{} is not setup in our software metadata!");
     }
     else {
       applyto = s2eMap.at(str);

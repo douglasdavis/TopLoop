@@ -12,11 +12,11 @@
 #ifndef TL_Job_h
 #define TL_Job_h
 
+#include <TopLoop/Core/Utils.h>
+
 namespace TL {
   class Algorithm;
 }
-
-class StatusCode;
 
 namespace TL {
 
@@ -34,7 +34,7 @@ namespace TL {
     {}
     virtual ~Job() {}
 
-    StatusCode run();
+    TL::StatusCode run();
 
   };
 

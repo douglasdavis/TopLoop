@@ -13,6 +13,9 @@
 #ifndef TL_FileManager_h
 #define TL_FileManager_h
 
+// TopLoop
+#include <TopLoop/Core/Logable.h>
+
 // ROOT
 #include <TFile.h>
 #include <TChain.h>
@@ -22,12 +25,8 @@
 #include <vector>
 #include <string>
 
-#include <AsgTools/MessageCheck.h>
-
-ANA_MSG_HEADER(msgFileManager)
-
 namespace TL {
-  class FileManager {
+  class FileManager : public TL::Logable {
   private:
     std::vector<std::string> m_fileNames;
     std::string              m_treeName;

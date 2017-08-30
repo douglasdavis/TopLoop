@@ -10,18 +10,13 @@
 #include <TopLoop/Core/Utils.h>
 #include <TopLoop/Core/FileManager.h>
 
-ANA_MSG_SOURCE(msgTopLoop,"TL::Job")
-
-StatusCode TL::Job::run() {
-  using namespace msgTopLoop;
-  StatusCode::enableFailure();
-  ANA_CHECK_SET_TYPE(StatusCode);
-  ANA_CHECK(m_analysis->init());
-  ANA_CHECK(m_analysis->setupOutput());
+TL::StatusCode TL::Job::run() {
+  m_analysis->init();
+  m_analysis->setupOutput();
   m_analysis->reader()->Restart();
   while ( m_analysis->reader()->Next() ) {
-    ANA_CHECK(m_analysis->execute());
+    m_analysis->execute();
   }
-  ANA_CHECK(m_analysis->finish());
-  return StatusCode::SUCCESS;
+  m_analysis->finish();
+  return TL::StatusCode::SUCCESS;
 }
