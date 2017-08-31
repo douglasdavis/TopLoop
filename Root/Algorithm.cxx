@@ -90,7 +90,7 @@ unsigned int TL::Algorithm::get_dsid() {
 }
 
 TL::StatusCode TL::Algorithm::init() {
-  init_core_vars();
+  TL_CHECK(init_core_vars());
   return TL::StatusCode::SUCCESS;
 }
 

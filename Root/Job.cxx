@@ -11,12 +11,12 @@
 #include <TopLoop/Core/FileManager.h>
 
 TL::StatusCode TL::Job::run() {
-  m_analysis->init();
-  m_analysis->setupOutput();
+  TL_CHECK(m_analysis->init());
+  TL_CHECK(m_analysis->setupOutput());
   m_analysis->reader()->Restart();
   while ( m_analysis->reader()->Next() ) {
-    m_analysis->execute();
+    TL_CHECK(m_analysis->execute());
   }
-  m_analysis->finish();
+  TL_CHECK(m_analysis->finish());
   return TL::StatusCode::SUCCESS;
 }
