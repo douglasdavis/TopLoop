@@ -1,5 +1,7 @@
 /** @file  SampleMetaSvc.h
  *  @brief TL::SampleMetaSvc class header
+ *  @class TL::SampleMetaSvc
+ *  @brief Class for handling sample meta data
  *
  *  A utility for connect a DSID with meta data, which includes the
  *  initial state, the generator, and the type (nominal or
