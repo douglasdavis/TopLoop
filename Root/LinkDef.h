@@ -1,3 +1,9 @@
+/** @file LinkDef.h
+ *  @brief ROOT Dictionary LinkDef
+ *
+ *  @author Douglas Davis < ddavis@cern.ch >
+ */
+
 #include <TopLoop/Core/Variables.h>
 #include <TopLoop/Core/FileManager.h>
 #include <TopLoop/Core/Algorithm.h>

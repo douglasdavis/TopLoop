@@ -36,41 +36,67 @@ namespace TL {
       bool m_hasFakeElectron;
       bool m_hasFakeMuon;
 
+      void addLeptonPair(const TL::EDM::LeptonPair& lp);
+      void setHasFakeElectron(const bool flag);
+      void setHasFakeMuon(const bool flag);
+      void evaluateLepPairs();
+
       ClassDef(FinalState,1);
 
     public:
+
+      /// default constructor
       FinalState() :
-        m_leptons(), m_jets(), m_MET(), m_leptonPairs(), m_M(0), m_HT(0),
-        m_hasFakeElectron(false), m_hasFakeMuon(false)
+        m_leptons(),
+        m_jets(),
+        m_MET(),
+        m_leptonPairs(),
+        m_M(0),
+        m_HT(0),
+        m_hasFakeElectron(false),
+        m_hasFakeMuon(false)
       {}
+
+      /// destructor
       virtual ~FinalState() {}
 
+      /// add a lepton to the lepton container
       void addLepton(const TL::EDM::Lepton& lep);
+      /// add a jet to the final state
       void addJet(const TL::EDM::Jet& jet);
-      void addLeptonPair(const TL::EDM::LeptonPair& lp);
-
-      void setHasFakeElectron(const bool flag);
-      void setHasFakeMuon(const bool flag);
-
-      void evaluateLepPairs();
+      /// parse the leptons, jets, and MET to set some final state properties
       void evaluateSelf(bool sort_leptons = true);
-      void clear();
 
+      /// get the leptons
       const std::vector<TL::EDM::Lepton>&     leptons()     const;
+      /// get the jets
       const std::vector<TL::EDM::Jet>&        jets()        const;
+      /// get the lepton pairs
       const std::vector<TL::EDM::LeptonPair>& leptonPairs() const;
+      /// get the MET (const)
       const TL::EDM::MET&                     MET()         const;
+      /// get the MET (non const)
       TL::EDM::MET&                           MET();
 
+      /// retrieve the invariant mass of all objects in the event
       float        M()                const;
+      /// retrieve the sum of transverse energy of objects in the final state
       float        HT()               const;
       std::size_t  nbjets_c20()       const;
       std::size_t  nbjets_c10()       const;
+      /// retrieve the number of bjets using the 70% efficiency working point
       std::size_t  nbjets_AT70()      const;
+      /// retrieve the number of bjets using the 77% efficiency working point
       std::size_t  nbjets_AT77()      const;
+      /// retrieve the number of bjets using the 85% efficiency working point
       std::size_t  nbjets_AT85()      const;
+      /// true if the event has a fake electron (at least one electron that failed truth matching)
       bool         hasFakeElectron()  const;
+      /// true if the event has a fake muon (at least one muon that failed truth matching)
       bool         hasFakeMuon()      const;
+
+      /// clear the final state
+      void clear();
     };
 
   }

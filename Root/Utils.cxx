@@ -1,3 +1,9 @@
+/** @file Utils.cxx
+ *  @brief TL::Utils functions and TL::StatusCode class implementation
+ *
+ *  @author Douglas Davis < ddavis@cern.ch >
+ */
+
 #include <TopLoop/Core/Utils.h>
 
 namespace {

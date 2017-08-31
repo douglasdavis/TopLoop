@@ -2,6 +2,8 @@
  *  @brief TL::Utils class header
  *  @namespace TL
  *  @brief the main TopLoop namespace
+ *  @namespace TL::EDM
+ *  @brief the TopLoop event data model (EDM) namespace
  *
  *  Utility functions for TopLoop
  *
@@ -30,7 +32,10 @@ namespace TL {
   const double GeV   = 1.0e3;
   const double toGeV = 1.0e-3;
 
+  /// split string recursive
   auto& string_split(const std::string &s, char delim, std::vector<std::string> &elems);
+
+  /// return a vector of strings based on a char (similar to python list split)
   auto string_split(const std::string &s, char delim);
 }
 
