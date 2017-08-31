@@ -14,7 +14,7 @@
 #define TL_FileManager_h
 
 // TopLoop
-#include <TopLoop/Core/Logable.h>
+#include <TopLoop/Core/Loggable.h>
 
 // ROOT
 #include <TFile.h>
@@ -26,7 +26,7 @@
 #include <string>
 
 namespace TL {
-  class FileManager : public TL::Logable {
+  class FileManager : public TL::Loggable {
   private:
     std::vector<std::string> m_fileNames;
     std::string              m_treeName;

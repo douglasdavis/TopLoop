@@ -24,7 +24,7 @@
 // ROOT
 #include <TROOT.h>
 
-TL::FileManager::FileManager() : TL::Logable("TL::FileManager"),
+TL::FileManager::FileManager() : TL::Loggable("TL::FileManager"),
   m_fileNames(), m_treeName("nominal"), m_weightsTreeName("sumWeights"),
   m_rootChain(nullptr), m_rootWeightsChain(nullptr) {
 }

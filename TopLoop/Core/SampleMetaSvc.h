@@ -19,7 +19,7 @@
 
 // TL
 #include <TopLoop/Core/Utils.h>
-#include <TopLoop/Core/Logable.h>
+#include <TopLoop/Core/Loggable.h>
 
 // ROOT
 #include <TObject.h>
@@ -49,7 +49,7 @@ namespace TL {
 }
 
 namespace TL {
-  class SampleMetaSvc : public TL::Logable, public TObject {
+  class SampleMetaSvc : public TL::Loggable, public TObject {
   private:
 
     std::map<std::string,TL::kMeta> m_s2e;

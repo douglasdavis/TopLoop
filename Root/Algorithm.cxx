@@ -9,7 +9,7 @@
 #include <TopLoop/Core/Algorithm.h>
 
 TL::Algorithm::Algorithm() :
-  TL::Logable("TL::Algorithm"),
+  TL::Loggable("TL::Algorithm"),
   m_datasetName(),
   m_isMC(true),
   m_isNominal(true),

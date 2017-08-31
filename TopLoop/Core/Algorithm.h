@@ -18,11 +18,11 @@
 #include <TopLoop/Core/Utils.h>
 #include <TopLoop/Core/Variables.h>
 #include <TopLoop/Core/FileManager.h>
-#include <TopLoop/Core/Logable.h>
+#include <TopLoop/Core/Loggable.h>
 
 namespace TL {
 
-  class Algorithm : public TL::Logable, public TNamed, public TL::Variables {
+  class Algorithm : public TL::Loggable, public TNamed, public TL::Variables {
 
   protected:
     std::string   m_datasetName;

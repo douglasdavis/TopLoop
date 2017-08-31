@@ -11,7 +11,7 @@
 // PathResolver
 #include <PathResolver/PathResolver.h>
 
-TL::SampleMetaSvc::SampleMetaSvc() : TL::Logable("TL::SampleMetaSvc") {
+TL::SampleMetaSvc::SampleMetaSvc() : TL::Loggable("TL::SampleMetaSvc") {
   setupMap();
   std::string filepath = PathResolverFindCalibFile("TopLoop/samplemeta.json");
   std::ifstream in(filepath.c_str());

@@ -1,19 +1,19 @@
-#ifndef TL_Logable_h
-#define TL_Logable_h
+#ifndef TL_Loggable_h
+#define TL_Loggable_h
 
 #include <TopLoop/spdlog/spdlog.h>
 
 namespace TL {
-  class Logable {
+  class Loggable {
   protected:
     std::shared_ptr<spdlog::logger> m_logger;
 
   public:
-    Logable() {}
-    Logable(const std::string& name) {
+    Loggable() {}
+    Loggable(const std::string& name) {
       m_logger = spdlog::stdout_color_mt(name);
     }
-    virtual ~Logable() {}
+    virtual ~Loggable() {}
 
     void setLogLevel(spdlog::level::level_enum lvl) { m_logger->set_level(lvl); }
 
