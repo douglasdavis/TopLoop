@@ -1,5 +1,7 @@
 /** @file  Utils.h
  *  @brief TL::Utils class header
+ *  @namespace TL
+ *  @brief the main TopLoop namespace
  *
  *  Utility functions for TopLoop
  *
@@ -49,6 +51,12 @@ inline auto TL::string_split(const std::string &s, char delim) {
 
 namespace TL {
   class StatusCode {
+    /** @class TL::StatusCode
+     *  @brief Class for handling return codes
+     *
+     *  Essentially a copy of StatusCode from ATLAS AsgTools.
+     *  You can find the documentation there :)
+     */
   public:
     enum {
       SUCCESS = 1,
@@ -92,6 +100,10 @@ namespace TL {
   };
 }
 
+/*!
+  \def TL_CHECK
+  Checks the return code for SUCCESS or FAILURE
+*/
 #define TL_CHECK(EXP)                                           \
   { const auto sc__ = EXP;                                      \
     if ( sc__.isFailure() ) {                                   \

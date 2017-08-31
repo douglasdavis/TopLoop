@@ -27,11 +27,17 @@
 #include <TObject.h>
 
 namespace TL {
-  // this enum is directly related to the samplemeta.json file. If a
-  // new intial state, generator, or type is added to that file (that
-  // doesn't already exist in it), this enum must be updated. The
-  // setupMap() function must also be updated to be compatible with
-  // the new entry(ies).
+
+  /*!
+    \enum kMeta
+
+    this enum is directly related to the samplemeta.json file. If a
+    new intial state, generator, or type is added to that file (that
+    doesn't already exist in it), this enum must be updated. The
+    setupMap() function must also be updated to be compatible with
+    the new entry(ies)!
+  */
+
   enum kMeta {
     Unknown ,
     // sample types
@@ -69,20 +75,37 @@ namespace TL {
     ClassDef(TL::SampleMetaSvc,1);
 
   public:
+
+    /// default constructor
     SampleMetaSvc();
+
+    /// destructor
     virtual ~SampleMetaSvc();
 
+    /// get the table of the form (DSID,(initial state, generator, sample type))
     const std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>>& table() const;
 
+    /// retrieve a enum value corresponding to the initial state based on a DSID
     TL::kMeta getInitialState(const unsigned int dsid) const;
+
+    /// retrieve a enum value corresponding to the generator based on a DSID    
     TL::kMeta getGenerator(const unsigned int dsid)    const;
+
+    /// retrieve a enum value corresponding to the sample type based on a DSID
     TL::kMeta getSampleType(const unsigned int dsid)   const;
 
+    /// retrieve a string based on the meta enum table
     const std::string stringFromEnum(const TL::kMeta ienum) const;
 
+    /// get the initial state name based on a dsid
     const std::string initialStateString(const unsigned int dsid) const;
+
+    /// get the generator name based on a dsid
     const std::string generatorString(const unsigned int dsid)    const;
+
+    /// get the sample type name based on a dsid
     const std::string sampleTypeString(const unsigned int dsid)   const;
+
   };
 }
 

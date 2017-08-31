@@ -25,16 +25,14 @@
 #include <TROOT.h>
 
 TL::FileManager::FileManager() : TL::Loggable("TL::FileManager"),
-  m_fileNames(), m_treeName("nominal"), m_weightsTreeName("sumWeights"),
-  m_rootChain(nullptr), m_rootWeightsChain(nullptr) {
+  m_fileNames(),
+  m_treeName("nominal"),
+  m_weightsTreeName("sumWeights"),
+  m_rootChain(nullptr),
+  m_rootWeightsChain(nullptr) {
 }
 
-TL::FileManager::~FileManager() {
-  delete m_rootChain;
-  delete m_rootWeightsChain;
-  gROOT->GetListOfFiles()->Remove(m_rootChain);
-  gROOT->GetListOfFiles()->Remove(m_rootWeightsChain);
-}
+TL::FileManager::~FileManager() {}
 
 void TL::FileManager::setTreeName(const std::string& tn) {
   m_treeName = tn;
@@ -44,13 +42,21 @@ void TL::FileManager::setWeightsTreeName(const std::string& tn) {
   m_weightsTreeName = tn;
 }
 
-void TL::FileManager::initChain() {
-  m_rootChain        = new TChain(m_treeName.c_str());
-  m_rootWeightsChain = new TChain(m_weightsTreeName.c_str());
+TL::StatusCode TL::FileManager::initChain() {
+  if ( !m_rootChain ) {
+    m_rootChain = std::make_unique<TChain>(m_treeName.c_str());
+  }
+  if ( !m_rootWeightsChain ) {
+    m_rootWeightsChain = std::make_unique<TChain>(m_weightsTreeName.c_str());
+  }
+  if ( !m_rootChain || !m_rootWeightsChain ) {
+    return TL::StatusCode::FAILURE;
+  }
+  return TL::StatusCode::SUCCESS;
 }
 
 void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
-  this->initChain();
+  TL_CHECK(initChain());
   logger()->info("Feeding {}", dirpath);
   boost::filesystem::path p(dirpath);
   auto i = boost::filesystem::directory_iterator(p);
@@ -75,7 +81,7 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
 }
 
 void TL::FileManager::feedTxt(const std::string& txtfilename) {
-  this->initChain();
+  TL_CHECK(initChain());
   std::string line;
   std::ifstream infile(txtfilename);
   while ( std::getline(infile,line) ) {
@@ -89,7 +95,7 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
 }
 
 void ::TL::FileManager::feedSingle(const char* fileName) {
-  this->initChain();
+  TL_CHECK(initChain());
   m_fileNames.emplace_back(std::string(fileName));
   m_rootChain->Add(fileName);
   m_rootWeightsChain->Add(fileName);
