@@ -8,10 +8,6 @@ inline void TL::Algorithm::setIsSystematic() {
   m_isNominal = false;
 }
 
-inline void TL::Algorithm::turnOffTTRVWarning() {
-  m_showTTRVwarning = false;
-}
-
 inline std::shared_ptr<TL::FileManager> TL::Algorithm::fileManager() {
   return m_fm;
 }
@@ -36,18 +32,14 @@ TL::Algorithm::setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* nam
     return nullptr;
   }
   if ( reader->GetTree() == nullptr ) {
-    if ( m_showTTRVwarning ) {
-      logger()->debug("{} branch trying to link to a null tree! tree name: {}", name, tree_name);
-    }
+    logger()->debug("{} branch trying to link to a null tree! tree name: {}", name, tree_name);
     return nullptr;
   }
   if ( reader->GetTree()->GetListOfBranches()->FindObject(name) != nullptr ) {
     return std::make_shared<T>(*reader,name);
   }
   else {
-    if ( m_showTTRVwarning ) {
-      logger()->debug("{} branch not found in the tree! use will crash!", name);
-    }
+    logger()->debug("{} branch not found in the tree! use will crash!", name);
     return nullptr;
   }
 }

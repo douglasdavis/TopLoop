@@ -26,11 +26,11 @@ namespace TL {
 
   protected:
     std::string   m_datasetName;
-    bool          m_isMC, m_isNominal;
-    bool          m_showTTRVwarning;
+    bool          m_isMC;
+    bool          m_isNominal;
 
-    long m_eventCounter;
     long m_totalEntries;
+    long m_eventCounter;
 
     std::shared_ptr<TL::FileManager> m_fm;
     std::shared_ptr<TTreeReader>     m_reader;
@@ -48,11 +48,18 @@ namespace TL {
     setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name = "");
 
     //! Print the progess of the event loop (percent done)
-    void progress(int percent_base = 10) const;
+    void progress(int n_prints = 10) const;
 
   public:
+    /// default constructor
     Algorithm();
+    /// destructor
     virtual ~Algorithm();
+
+    /// delete copy constructor
+    Algorithm(const Algorithm&) = delete;
+    /// delete assignment operator
+    Algorithm& operator=(const Algorithm&) = delete;
 
     //! Set the file manager
     /*! 
@@ -139,17 +146,12 @@ namespace TL {
     */
     void setIsSystematic();
 
-    //! Function to turn off warning message for missing variables
-    /*!
-      Before the we setup TTreeReaderVariable pointers, we make sure
-      that the variable actually exists in the tree, if it doesn't a warning
-      is displayed by default. This turns off that warning.
-    */
-    virtual void turnOffTTRVWarning();
-
-    std::shared_ptr<TL::FileManager> fileManager();         //!< get pointer to file manager
-    std::shared_ptr<TTreeReader>     reader();              //!< get pointer to TTreeReader
-    std::shared_ptr<TTreeReader>     weightsReader();       //!< get pointer to TTreeReader for sumweights
+    /// get pointer to the file manager
+    std::shared_ptr<TL::FileManager> fileManager();
+    /// get pointer to the main reader
+    std::shared_ptr<TTreeReader>     reader();
+    /// get pointer to the weights reader
+    std::shared_ptr<TTreeReader>     weightsReader();
     
   private:
     ClassDef(Algorithm, 1);

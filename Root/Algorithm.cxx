@@ -12,12 +12,10 @@ TL::Algorithm::Algorithm() :
   TL::Loggable("TL::Algorithm"),
   m_datasetName(),
   m_isMC(true),
-  m_isNominal(true),
-  m_showTTRVwarning(true)
+  m_isNominal(true)
 {
-  SetName("TopLoop");
   m_totalEntries = 0;
-  m_eventCounter = 0;
+  SetName("TopLoop");
 }
 
 TL::Algorithm::~Algorithm() {}
@@ -91,6 +89,8 @@ unsigned int TL::Algorithm::get_dsid() {
 
 TL::StatusCode TL::Algorithm::init() {
   TL_CHECK(init_core_vars());
+  m_eventCounter = 0;
+  m_totalEntries = fileManager()->rootChain()->GetEntries();
   return TL::StatusCode::SUCCESS;
 }
 
@@ -107,9 +107,9 @@ TL::StatusCode TL::Algorithm::finish() {
   return TL::StatusCode::SUCCESS;
 }
 
-void TL::Algorithm::progress(int percent_base) const {
-  if ( m_totalEntries > percent_base ) {
-    int gap = m_totalEntries/percent_base;
+void TL::Algorithm::progress(int n_prints) const {
+  if ( m_totalEntries > n_prints ) {
+    int gap = m_totalEntries/n_prints;
     if ( m_eventCounter%gap == 0 ) {
       auto progress = 100.0*m_eventCounter/m_totalEntries;
       logger()->info("Event {}, {}%",m_eventCounter,std::round(progress));

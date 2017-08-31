@@ -40,9 +40,14 @@ namespace TL {
     std::vector<std::string> m_ignoreList;
 
   public:
+    /// default constructor
     Variables();
+    /// destructor
     virtual ~Variables();
+
+    /// disable copy constructor
     Variables(const Variables&) = delete;
+    /// disable assignment operator
     Variables& operator=(const Variables&) = delete;
 
     //! Create a list of branches to ignore from a plain text file
@@ -54,7 +59,7 @@ namespace TL {
      */
     void ignoreListFile(const std::string& filename);
 
-    //! Return the ignore list.
+    /// Return the ignore list.
     const std::vector<std::string>& ignoreList() const { return m_ignoreList; }
 
   protected:
