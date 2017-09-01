@@ -84,6 +84,7 @@ namespace TL {
 
   public:
 
+    /// get the instance of the singleton class
     static SampleMetaSvc& get();
 
     /// get the table of the form (DSID,(initial state, generator, sample type))
