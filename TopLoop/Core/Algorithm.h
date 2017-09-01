@@ -44,8 +44,8 @@ namespace TL {
       dereference the pointer.
     */
     template<typename T>
-    std::shared_ptr<T>
-    setupTreeVar(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name = "");
+    std::unique_ptr<T>
+    setupBranch(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name = "");
 
     //! Print the progess of the event loop (percent done)
     void progress(int n_prints = 10) const;

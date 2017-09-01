@@ -16,212 +16,179 @@ TL::StatusCode TL::Algorithm::init_core_vars() {
   m_reader        = std::make_shared<TTreeReader>(fileManager()->rootChain());
   m_weightsReader = std::make_shared<TTreeReader>(fileManager()->rootWeightsChain());
 
+  CONNECT_BRANCH(dsid,Int_t,m_weightsReader);
   if ( m_isMC ) {
-    totalEventsWeighted =
-      setupTreeVar<TTRV_float>(m_weightsReader,"totalEventsWeighted");
-    totalEventsWeighted_mc_generator_weights =
-      setupTreeVar<TTRV_vec_float>(m_weightsReader,"totalEventsWeighted_mc_generator_weights");
-    names_mc_generator_weights =
-      setupTreeVar<TTRV_vec_str>(m_weightsReader,"names_mc_generator_weights");
-  }
-  dsid = setupTreeVar<TTRV_int>(m_weightsReader,"dsid");
-
-  if ( m_isMC ) {
-    weight_mc          = setupTreeVar<TTRV_float>(m_reader,"weight_mc");
-    weight_pileup      = setupTreeVar<TTRV_float>(m_reader,"weight_pileup");
-    weight_leptonSF    = setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF");
-    weight_bTagSF_77   = setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77");
-    weight_jvt         = setupTreeVar<TTRV_float>(m_reader,"weight_jvt");
-
-    if ( m_isNominal ) {
-      weight_indiv_SF_EL_Trigger = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Trigger");
-      weight_indiv_SF_EL_Reco    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Reco");
-      weight_indiv_SF_EL_ID      = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_ID");
-      weight_indiv_SF_EL_Isol    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Isol");
-      weight_indiv_SF_MU_Trigger = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger");
-      weight_indiv_SF_MU_ID      = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID");
-      weight_indiv_SF_MU_Isol    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol");
-      weight_indiv_SF_MU_TTVA    = setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA");
-    }
-
-    if ( m_isNominal ) {
-      weightSyst_pileup = {
-        { "pileup_UP"   , setupTreeVar<TTRV_float>(m_reader,"weight_pileup_UP")   } ,
-        { "pileup_DOWN" , setupTreeVar<TTRV_float>(m_reader,"weight_pileup_DOWN") }
-      };
-      weightSyst_jvt = {
-        { "jvt_UP"   , setupTreeVar<TTRV_float>(m_reader,"weight_jvt_UP")   } ,
-        { "jvt_DOWN" , setupTreeVar<TTRV_float>(m_reader,"weight_jvt_DOWN") }
-      };
-      weightSyst_leptonSF = {
-        { "leptonSF_EL_SF_Trigger_UP"          , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Trigger_UP")         } ,
-        { "leptonSF_EL_SF_Trigger_DOWN"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Trigger_DOWN")       } ,
-        { "leptonSF_EL_SF_Reco_UP"             , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Reco_UP")            } ,
-        { "leptonSF_EL_SF_Reco_DOWN"           , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Reco_DOWN")          } ,
-        { "leptonSF_EL_SF_ID_UP"               , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_ID_UP")              } ,
-        { "leptonSF_EL_SF_ID_DOWN"             , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_ID_DOWN")            } ,
-        { "leptonSF_EL_SF_Isol_UP"             , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Isol_UP")            } ,
-        { "leptonSF_EL_SF_Isol_DOWN"           , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_EL_SF_Isol_DOWN")          } ,
-        { "leptonSF_MU_SF_Trigger_STAT_UP"     , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_STAT_UP")    } ,
-        { "leptonSF_MU_SF_Trigger_STAT_DOWN"   , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_STAT_DOWN")  } ,
-        { "leptonSF_MU_SF_Trigger_SYST_UP"     , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_SYST_UP")    } ,
-        { "leptonSF_MU_SF_Trigger_SYST_DOWN"   , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Trigger_SYST_DOWN")  } ,
-        { "leptonSF_MU_SF_ID_STAT_LOWPT_UP"    , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_STAT_LOWPT_UP")   } ,
-        { "leptonSF_MU_SF_ID_STAT_LOWPT_DOWN"  , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_STAT_LOWPT_DOWN") } ,
-        { "leptonSF_MU_SF_ID_SYST_LOWPT_UP"    , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_SYST_LOWPT_UP")   } ,
-        { "leptonSF_MU_SF_ID_SYST_LOWPT_DOWN"  , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_SYST_LOWPT_DOWN") } ,
-        { "leptonSF_MU_SF_ID_STAT_UP"          , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_STAT_UP")         } ,
-        { "leptonSF_MU_SF_ID_STAT_DOWN"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_STAT_DOWN")       } ,
-        { "leptonSF_MU_SF_ID_SYST_UP"          , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_SYST_UP")         } ,
-        { "leptonSF_MU_SF_ID_SYST_DOWN"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_ID_SYST_DOWN")       } ,
-        { "leptonSF_MU_SF_Isol_STAT_UP"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_STAT_UP")       } ,
-        { "leptonSF_MU_SF_Isol_STAT_DOWN"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_STAT_DOWN")     } ,
-        { "leptonSF_MU_SF_Isol_SYST_UP"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_SYST_UP")       } ,
-        { "leptonSF_MU_SF_Isol_SYST_DOWN"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_Isol_SYST_DOWN")     } ,
-        { "leptonSF_MU_SF_TTVA_STAT_UP"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_TTVA_STAT_UP")       } ,
-        { "leptonSF_MU_SF_TTVA_STAT_DOWN"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_TTVA_STAT_DOWN")     } ,
-        { "leptonSF_MU_SF_TTVA_SYST_UP"        , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_TTVA_SYST_UP")       } ,
-        { "leptonSF_MU_SF_TTVA_SYST_DOWN"      , setupTreeVar<TTRV_float>(m_reader,"weight_leptonSF_MU_SF_TTVA_SYST_DOWN")     }
-      };
-      weightSyst_indivSF = {
-        { "indiv_SF_EL_Trigger_UP"           , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Trigger_UP")         } ,
-        { "indiv_SF_EL_Trigger_DOWN"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Trigger_DOWN")       } ,
-        { "indiv_SF_EL_Reco_UP"              , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Reco_UP")            } ,
-        { "indiv_SF_EL_Reco_DOWN"            , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Reco_DOWN")          } ,
-        { "indiv_SF_EL_ID_UP"                , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_ID_UP")              } ,
-        { "indiv_SF_EL_ID_DOWN"              , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_ID_DOWN")            } ,
-        { "indiv_SF_EL_Isol_UP"              , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Isol_UP")            } ,
-        { "indiv_SF_EL_Isol_DOWN"            , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_EL_Isol_DOWN")          } ,
-        { "indiv_SF_MU_Trigger_STAT_UP"      , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger_STAT_UP")    } ,
-        { "indiv_SF_MU_Trigger_STAT_DOWN"    , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger_STAT_DOWN")  } ,
-        { "indiv_SF_MU_Trigger_SYST_UP"      , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger_SYST_UP")    } ,
-        { "indiv_SF_MU_Trigger_SYST_DOWN"    , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Trigger_SYST_DOWN")  } ,
-        { "indiv_SF_MU_ID_STAT_UP"           , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_STAT_UP")         } ,
-        { "indiv_SF_MU_ID_STAT_DOWN"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_STAT_DOWN")       } ,
-        { "indiv_SF_MU_ID_SYST_UP"           , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_SYST_UP")         } ,
-        { "indiv_SF_MU_ID_SYST_DOWN"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_SYST_DOWN")       } ,
-        { "indiv_SF_MU_ID_STAT_LOWPT_UP"     , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_STAT_LOWPT_UP")   } ,
-        { "indiv_SF_MU_ID_STAT_LOWPT_DOWN"   , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_STAT_LOWPT_DOWN") } ,
-        { "indiv_SF_MU_ID_SYST_LOWPT_UP"     , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_SYST_LOWPT_UP")   } ,
-        { "indiv_SF_MU_ID_SYST_LOWPT_DOWN"   , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_ID_SYST_LOWPT_DOWN") } ,
-        { "indiv_SF_MU_Isol_STAT_UP"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol_STAT_UP")       } ,
-        { "indiv_SF_MU_Isol_STAT_DOWN"       , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol_STAT_DOWN")     } ,
-        { "indiv_SF_MU_Isol_SYST_UP"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol_SYST_UP")       } ,
-        { "indiv_SF_MU_Isol_SYST_DOWN"       , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_Isol_SYST_DOWN")     } ,
-        { "indiv_SF_MU_TTVA_STAT_UP"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA_STAT_UP")       } ,
-        { "indiv_SF_MU_TTVA_STAT_DOWN"       , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA_STAT_DOWN")     } ,
-        { "indiv_SF_MU_TTVA_SYST_UP"         , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA_SYST_UP")       } ,
-        { "indiv_SF_MU_TTVA_SYST_DOWN"       , setupTreeVar<TTRV_float>(m_reader,"weight_indiv_SF_MU_TTVA_SYST_DOWN")     }
-      };
-      weightSyst_bTagSF_77_extrapolation = {
-        { "bTagSF_77_extrapolation_up"              , setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_up")              } ,
-        { "bTagSF_77_extrapolation_down"            , setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_down")            } ,
-        { "bTagSF_77_extrapolation_from_charm_up"   , setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_from_charm_up")   } ,
-        { "bTagSF_77_extrapolation_from_charm_down" , setupTreeVar<TTRV_float>(m_reader,"weight_bTagSF_77_extrapolation_from_charm_down") }
-      };
-
-      //jet eigenvector weights
-      weightSyst_bTagSF_77_eigenvars = {
-        { "bTagSF_77_eigenvars_B_up"       , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_B_up")       } ,
-        { "bTagSF_77_eigenvars_C_up"       , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_C_up")       } ,
-        { "bTagSF_77_eigenvars_Light_up"   , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_Light_up")   } ,
-        { "bTagSF_77_eigenvars_B_down"     , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_B_down")     } ,
-        { "bTagSF_77_eigenvars_C_down"     , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_C_down")     } ,
-        { "bTagSF_77_eigenvars_Light_down" , setupTreeVar<TTRV_vec_float>(m_reader,"weight_bTagSF_77_eigenvars_Light_down") }
-      };
-    }
+    CONNECT_BRANCH(totalEventsWeighted,Float_t,m_weightsReader);
+    CONNECT_BRANCH(totalEvents,ULong64_t,m_weightsReader);
+    CONNECT_BRANCH(totalEventsWeighted_mc_generator_weights,std::vector<float>,m_weightsReader);
+    CONNECT_BRANCH(names_mc_generator_weights,std::vector<std::string>,m_weightsReader);
   }
 
-  eventNumber = setupTreeVar<TTRV_ulongint>(m_reader,"eventNumber");
-  if ( m_isMC ) { //use randomly generated MC run numbers to mimic data conditions
-    runNumber = setupTreeVar<TTRV_uint>(m_reader,"randomRunNumber");
-  }
-  else {
-    runNumber = setupTreeVar<TTRV_uint>(m_reader,"runNumber");
-  }
-  mcChannelNumber = setupTreeVar<TTRV_uint> (m_reader,"mcChannelNumber");
-  mu              = setupTreeVar<TTRV_float>(m_reader,"mu");
-  backgroundFlags = setupTreeVar<TTRV_uint> (m_reader,"backgroundFlags");
-  hasBadMuon      = setupTreeVar<TTRV_uint> (m_reader,"hasBadMuon");
-
-  el_pt     = setupTreeVar<TTRV_vec_float>(m_reader,"el_pt");
-  el_eta    = setupTreeVar<TTRV_vec_float>(m_reader,"el_eta");
-  el_phi    = setupTreeVar<TTRV_vec_float>(m_reader,"el_phi");
-  el_e      = setupTreeVar<TTRV_vec_float>(m_reader,"el_e");
-  el_charge = setupTreeVar<TTRV_vec_float>(m_reader,"el_charge");
-  el_cl_eta = setupTreeVar<TTRV_vec_float>(m_reader,"el_cl_eta");
-
-  el_topoetcone20      = setupTreeVar<TTRV_vec_float>(m_reader,"el_topoetcone20");
-  el_ptvarcone20       = setupTreeVar<TTRV_vec_float>(m_reader,"el_ptvarcone20");
-  el_d0sig             = setupTreeVar<TTRV_vec_float>(m_reader,"el_d0sig");
-  el_delta_z0_sintheta = setupTreeVar<TTRV_vec_float>(m_reader,"el_delta_z0_sintheta");
-  el_CF                = setupTreeVar<TTRV_vec_char> (m_reader,"el_CF");
-
-  mu_pt     = setupTreeVar<TTRV_vec_float>(m_reader,"mu_pt");
-  mu_eta    = setupTreeVar<TTRV_vec_float>(m_reader,"mu_eta");
-  mu_phi    = setupTreeVar<TTRV_vec_float>(m_reader,"mu_phi");
-  mu_e      = setupTreeVar<TTRV_vec_float>(m_reader,"mu_e");
-  mu_charge = setupTreeVar<TTRV_vec_float>(m_reader,"mu_charge");
-
-  mu_topoetcone20      = setupTreeVar<TTRV_vec_float>(m_reader,"mu_topoetcone20");
-  mu_ptvarcone30       = setupTreeVar<TTRV_vec_float>(m_reader,"mu_ptvarcone30");
-  mu_d0sig             = setupTreeVar<TTRV_vec_float>(m_reader,"mu_d0sig");
-  mu_delta_z0_sintheta = setupTreeVar<TTRV_vec_float>(m_reader,"mu_delta_z0_sintheta");
+  CONNECT_BRANCH(eventNumber,ULong64_t,m_reader);
+  CONNECT_BRANCH(runNumber,UInt_t,m_reader);
+  CONNECT_BRANCH(mcChannelNumber,UInt_t,m_reader);
+  CONNECT_BRANCH(mu,Float_t,m_reader);
+  CONNECT_BRANCH(backgroundFlags,UInt_t,m_reader);
+  CONNECT_BRANCH(hasBadMuon,UInt_t,m_reader);
+  CONNECT_BRANCH(el_pt,std::vector<float>,m_reader);
+  CONNECT_BRANCH(el_eta,std::vector<float>,m_reader);
+  CONNECT_BRANCH(el_cl_eta,std::vector<float>,m_reader);
+  CONNECT_BRANCH(el_phi,std::vector<float>,m_reader);
+  CONNECT_BRANCH(el_e,std::vector<float>,m_reader);
+  CONNECT_BRANCH(el_charge,std::vector<float>,m_reader);
+  CONNECT_BRANCH(el_topoetcone20,std::vector<float>,m_reader);
+  CONNECT_BRANCH(el_ptvarcone20,std::vector<float>,m_reader);
+  CONNECT_BRANCH(el_CF,std::vector<char>,m_reader);
+  CONNECT_BRANCH(el_d0sig,std::vector<float>,m_reader);
+  CONNECT_BRANCH(el_delta_z0_sintheta,std::vector<float>,m_reader);
+  CONNECT_BRANCH(mu_pt,std::vector<float>,m_reader);
+  CONNECT_BRANCH(mu_eta,std::vector<float>,m_reader);
+  CONNECT_BRANCH(mu_phi,std::vector<float>,m_reader);
+  CONNECT_BRANCH(mu_e,std::vector<float>,m_reader);
+  CONNECT_BRANCH(mu_charge,std::vector<float>,m_reader);
+  CONNECT_BRANCH(mu_topoetcone20,std::vector<float>,m_reader);
+  CONNECT_BRANCH(mu_ptvarcone30,std::vector<float>,m_reader);
+  CONNECT_BRANCH(mu_d0sig,std::vector<float>,m_reader);
+  CONNECT_BRANCH(mu_delta_z0_sintheta,std::vector<float>,m_reader);
+  CONNECT_BRANCH(jet_pt,std::vector<float>,m_reader);
+  CONNECT_BRANCH(jet_eta,std::vector<float>,m_reader);
+  CONNECT_BRANCH(jet_phi,std::vector<float>,m_reader);
+  CONNECT_BRANCH(jet_e,std::vector<float>,m_reader);
+  CONNECT_BRANCH(jet_mv2c00,std::vector<float>,m_reader);
+  CONNECT_BRANCH(jet_mv2c10,std::vector<float>,m_reader);
+  CONNECT_BRANCH(jet_mv2c20,std::vector<float>,m_reader);
+  CONNECT_BRANCH(jet_ip3dsv1,std::vector<float>,m_reader);
+  CONNECT_BRANCH(jet_jvt,std::vector<float>,m_reader);
+  CONNECT_BRANCH(jet_passfjvt,std::vector<char>,m_reader);
+  CONNECT_BRANCH(jet_isbtagged_MV2c10_77,std::vector<char>,m_reader);
+  CONNECT_BRANCH(met_met,Float_t,m_reader);
+  CONNECT_BRANCH(met_phi,Float_t,m_reader);
+  CONNECT_BRANCH(emu_2015,Int_t,m_reader);
+  CONNECT_BRANCH(emu_2016,Int_t,m_reader);
+  CONNECT_BRANCH(emu_particle,Int_t,m_reader);
+  CONNECT_BRANCH(ee_2015,Int_t,m_reader);
+  CONNECT_BRANCH(ee_2016,Int_t,m_reader);
+  CONNECT_BRANCH(ee_particle,Int_t,m_reader);
+  CONNECT_BRANCH(mumu_2015,Int_t,m_reader);
+  CONNECT_BRANCH(mumu_2016,Int_t,m_reader);
+  CONNECT_BRANCH(mumu_particle,Int_t,m_reader);
+  CONNECT_BRANCH(HLT_e60_lhmedium_nod0,Char_t,m_reader);
+  CONNECT_BRANCH(HLT_mu26_ivarmedium,Char_t,m_reader);
+  CONNECT_BRANCH(HLT_e26_lhtight_nod0_ivarloose,Char_t,m_reader);
+  CONNECT_BRANCH(HLT_e140_lhloose_nod0,Char_t,m_reader);
+  CONNECT_BRANCH(HLT_e120_lhloose,Char_t,m_reader);
+  CONNECT_BRANCH(HLT_e24_lhmedium_L1EM20VH,Char_t,m_reader);
+  CONNECT_BRANCH(HLT_mu50,Char_t,m_reader);
+  CONNECT_BRANCH(HLT_e60_lhmedium,Char_t,m_reader);
+  CONNECT_BRANCH(HLT_mu20_iloose_L1MU15,Char_t,m_reader);
+  CONNECT_BRANCH(el_trigMatch_HLT_e60_lhmedium_nod0,std::vector<char>,m_reader);
+  CONNECT_BRANCH(el_trigMatch_HLT_e120_lhloose,std::vector<char>,m_reader);
+  CONNECT_BRANCH(el_trigMatch_HLT_e24_lhmedium_L1EM20VH,std::vector<char>,m_reader);
+  CONNECT_BRANCH(el_trigMatch_HLT_e60_lhmedium,std::vector<char>,m_reader);
+  CONNECT_BRANCH(el_trigMatch_HLT_e26_lhtight_nod0_ivarloose,std::vector<char>,m_reader);
+  CONNECT_BRANCH(el_trigMatch_HLT_e140_lhloose_nod0,std::vector<char>,m_reader);
+  CONNECT_BRANCH(mu_trigMatch_HLT_mu26_ivarmedium,std::vector<char>,m_reader);
+  CONNECT_BRANCH(mu_trigMatch_HLT_mu50,std::vector<char>,m_reader);
+  CONNECT_BRANCH(mu_trigMatch_HLT_mu20_iloose_L1MU15,std::vector<char>,m_reader);
 
   if ( m_isMC ) {
-    el_true_type      = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_type");
-    el_true_origin    = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_origin");
-    el_true_typebkg   = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_typebkg");
-    el_true_originbkg = setupTreeVar<TTRV_vec_int>(m_reader,"el_true_originbkg");
+    CONNECT_BRANCH(weight_mc,Float_t,m_reader);
+    CONNECT_BRANCH(weight_pileup,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF,Float_t,m_reader);
+    CONNECT_BRANCH(weight_bTagSF_MV2c10_77,Float_t,m_reader);
+    CONNECT_BRANCH(weight_bTagSF_77,Float_t,m_reader);
+    CONNECT_BRANCH(weight_jvt,Float_t,m_reader);
+    CONNECT_BRANCH(randomRunNumber,UInt_t,m_reader);
+    CONNECT_BRANCH(el_true_type,std::vector<int>,m_reader);
+    CONNECT_BRANCH(el_true_origin,std::vector<int>,m_reader);
+    CONNECT_BRANCH(el_true_typebkg,std::vector<int>,m_reader);
+    CONNECT_BRANCH(el_true_originbkg,std::vector<int>,m_reader);
+    CONNECT_BRANCH(mu_true_type,std::vector<int>,m_reader);
+    CONNECT_BRANCH(mu_true_origin,std::vector<int>,m_reader);
+    CONNECT_BRANCH(jet_truthflav,std::vector<int>,m_reader);
+    CONNECT_BRANCH(jet_truthPartonLabel,std::vector<int>,m_reader);
+    CONNECT_BRANCH(jet_isTrueHS,std::vector<char>,m_reader);
+  } // if is MC
 
-    mu_true_type   = setupTreeVar<TTRV_vec_int>(m_reader,"mu_true_type");
-    mu_true_origin = setupTreeVar<TTRV_vec_int>(m_reader,"mu_true_origin");
-  }
-
-  jet_pt  = setupTreeVar<TTRV_vec_float>(m_reader,"jet_pt");
-  jet_eta = setupTreeVar<TTRV_vec_float>(m_reader,"jet_eta");
-  jet_phi = setupTreeVar<TTRV_vec_float>(m_reader,"jet_phi");
-  jet_e   = setupTreeVar<TTRV_vec_float>(m_reader,"jet_e");
-
-  jet_mv2c00       = setupTreeVar<TTRV_vec_float>(m_reader,"jet_mv2c00");
-  jet_mv2c10       = setupTreeVar<TTRV_vec_float>(m_reader,"jet_mv2c10");
-  jet_mv2c20       = setupTreeVar<TTRV_vec_float>(m_reader,"jet_mv2c20");
-  jet_ip3dsv1      = setupTreeVar<TTRV_vec_float>(m_reader,"jet_ip3dsv1");
-  jet_jvt          = setupTreeVar<TTRV_vec_float>(m_reader,"jet_jvt");
-  jet_isbtagged_77 = setupTreeVar<TTRV_vec_char> (m_reader,"jet_isbtagged_77");
-
-  emu_2015      = setupTreeVar<TTRV_int>(m_reader,"emu_2015");
-  emu_2016      = setupTreeVar<TTRV_int>(m_reader,"emu_2016");
-  emu_particle  = setupTreeVar<TTRV_int>(m_reader,"emu_particle");
-  ee_2015       = setupTreeVar<TTRV_int>(m_reader,"ee_2015");
-  ee_2016       = setupTreeVar<TTRV_int>(m_reader,"ee_2016");
-  ee_particle   = setupTreeVar<TTRV_int>(m_reader,"ee_particle");
-  mumu_2015     = setupTreeVar<TTRV_int>(m_reader,"mumu_2015");
-  mumu_2016     = setupTreeVar<TTRV_int>(m_reader,"mumu_2016");
-  mumu_particle = setupTreeVar<TTRV_int>(m_reader,"mumu_particle");
-
-  met_met   = setupTreeVar<TTRV_float>(m_reader,"met_met");
-  met_phi   = setupTreeVar<TTRV_float>(m_reader,"met_phi");
-
-  HLT_e60_lhmedium_nod0          = setupTreeVar<TTRV_char>(m_reader,"HLT_e60_lhmedium_nod0");
-  HLT_mu26_ivarmedium            = setupTreeVar<TTRV_char>(m_reader,"HLT_mu26_ivarmedium");
-  HLT_e26_lhtight_nod0_ivarloose = setupTreeVar<TTRV_char>(m_reader,"HLT_e26_lhtight_nod0_ivarloose");
-  HLT_e140_lhloose_nod0          = setupTreeVar<TTRV_char>(m_reader,"HLT_e140_lhloose_nod0");
-  HLT_mu20_iloose_L1MU15         = setupTreeVar<TTRV_char>(m_reader,"HLT_mu20_iloose_L1MU15");
-  HLT_mu50                       = setupTreeVar<TTRV_char>(m_reader,"HLT_mu50");
-  HLT_e60_lhmedium               = setupTreeVar<TTRV_char>(m_reader,"HLT_e60_lhmedium");
-  HLT_e24_lhmedium_L1EM20VH      = setupTreeVar<TTRV_char>(m_reader,"HLT_e24_lhmedium_L1EM20VH");
-  HLT_e120_lhloose               = setupTreeVar<TTRV_char>(m_reader,"HLT_e120_lhloose");
-
-  el_trigMatch_HLT_e60_lhmedium_nod0          = setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e60_lhmedium_nod0");
-  el_trigMatch_HLT_e26_lhtight_nod0_ivarloose = setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e26_lhtight_nod0_ivarloose");
-  el_trigMatch_HLT_e140_lhloose_nod0          = setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e140_lhloose_nod0");
-  el_trigMatch_HLT_e60_lhmedium               = setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e60_lhmedium");
-  el_trigMatch_HLT_e24_lhmedium_L1EM20VH      = setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e24_lhmedium_L1EM20VH");
-  el_trigMatch_HLT_e120_lhloose               = setupTreeVar<TTRV_vec_char>(m_reader,"el_trigMatch_HLT_e120_lhloose");
-  mu_trigMatch_HLT_mu26_ivarmedium            = setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu26_ivarmedium");
-  mu_trigMatch_HLT_mu50                       = setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu50");
-  mu_trigMatch_HLT_mu20_iloose_L1MU15         = setupTreeVar<TTRV_vec_char>(m_reader,"mu_trigMatch_HLT_mu20_iloose_L1MU15");
+  if( m_isMC && m_isNominal ) {
+    CONNECT_BRANCH(weight_pileup_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_pileup_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_EL_SF_Trigger_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_EL_SF_Trigger_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_EL_SF_Reco_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_EL_SF_Reco_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_EL_SF_ID_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_EL_SF_ID_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_EL_SF_Isol_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_EL_SF_Isol_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_Trigger_STAT_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_Trigger_STAT_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_Trigger_SYST_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_Trigger_SYST_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_ID_STAT_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_ID_STAT_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_ID_SYST_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_ID_SYST_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_ID_STAT_LOWPT_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_ID_STAT_LOWPT_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_ID_SYST_LOWPT_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_ID_SYST_LOWPT_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_Isol_STAT_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_Isol_STAT_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_Isol_SYST_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_Isol_SYST_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_TTVA_STAT_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_TTVA_STAT_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_TTVA_SYST_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_leptonSF_MU_SF_TTVA_SYST_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_Trigger,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_Trigger_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_Trigger_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_Reco,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_Reco_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_Reco_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_ID,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_ID_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_ID_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_Isol,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_Isol_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_Isol_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_ChargeID,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_ChargeID_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_ChargeID_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_ChargeMisID,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_ChargeMisID_STAT_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_ChargeMisID_STAT_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_ChargeMisID_SYST_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_EL_ChargeMisID_SYST_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_Trigger,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_Trigger_STAT_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_Trigger_STAT_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_Trigger_SYST_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_Trigger_SYST_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_ID,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_ID_STAT_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_ID_STAT_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_ID_SYST_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_ID_SYST_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_ID_STAT_LOWPT_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_ID_STAT_LOWPT_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_ID_SYST_LOWPT_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_ID_SYST_LOWPT_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_Isol,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_Isol_STAT_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_Isol_STAT_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_Isol_SYST_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_Isol_SYST_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_TTVA,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_TTVA_STAT_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_TTVA_STAT_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_TTVA_SYST_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_indiv_SF_MU_TTVA_SYST_DOWN,Float_t,m_reader);
+    CONNECT_BRANCH(weight_jvt_UP,Float_t,m_reader);
+    CONNECT_BRANCH(weight_jvt_DOWN,Float_t,m_reader);
+  } // if MC and nominal
 
   return TL::StatusCode::SUCCESS;
+
 }
