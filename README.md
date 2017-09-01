@@ -49,23 +49,25 @@ It's very easy to add additional variable access in a TopLoop based
 algorithm. If your analysis adds more output on top of the standard
 AnalysisTop variables, you'll need this.
 
-In your algorithm's header you declare the
-`std::shared_ptr<TTreeReaderValue<T>>` object. Then in your
-algorithm's `init()` function you use TopLoop function
-`setupTreeVar<T>`. An example where the additional variable
+There are two macros defined: `DECLARE_BRANCH` and
+`CONNECT_BRANCH`. In the header, we use the first, it just takes the
+name of the branch and the type. Then in the source `init()` function,
+we use second and say which TTreeReader pointer to connect to.
+
+An example where the additional variable of interest is called
 `el_true_pt` exists:
 
 ```cpp
-// in the header
-// TTRV_vec_float is of type TTreeReader<std::vector<float>>
-// typedefs are defined in TopLoop/Core/Variables.h
-std::shared_ptr<TTRV_vec_float> el_true_pt;
+// in the header class definition (private or protected area).
+DECLARE_BRANCH(el_true_pt, std::vector<float>)
 ```
 
+
 ```cpp
-// in init() source
-el_true_pt = setupTreeVar<TTRV_vec_float>(m_reader,"el_true_pt");
+// in init() source where m_reader is the main reader.
+CONNECT_BRANCH(el_true_pt, std::vector<float>, m_reader);
 ```
+
 
 ```cpp
 // in execute() source
