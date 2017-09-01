@@ -100,3 +100,11 @@ void TL::SampleMetaSvc::setupMap() {
   };
   flipMap(m_s2e, m_e2s);
 }
+
+void TL::SampleMetaSvc::printInfo(const int dsid) const {
+  logger()->info(">> Sample DSID:      {}",dsid);
+  logger()->info(">> Sample Process:   {}",initialStateString(dsid));
+  logger()->info(">> Sample Generator: {}",generatorString(dsid));
+  logger()->info(">> Sample Type:      {}",sampleTypeString(dsid));
+  return;
+}

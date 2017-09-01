@@ -1,7 +1,7 @@
 /** @file  SampleMetaSvc.h
  *  @brief TL::SampleMetaSvc class header
  *  @class TL::SampleMetaSvc
- *  @brief Class for handling sample meta data
+ *  @brief C++11 singleton class for handling sample meta data
  *
  *  A utility for connect a DSID with meta data, which includes the
  *  initial state, the generator, and the type (nominal or
@@ -57,8 +57,16 @@ namespace TL {
 }
 
 namespace TL {
-  class SampleMetaSvc : public TL::Loggable, public TObject {
+  class SampleMetaSvc final : public TL::Loggable, public TObject {
   private:
+
+    SampleMetaSvc();
+    ~SampleMetaSvc();
+
+    SampleMetaSvc(const SampleMetaSvc&) = delete;
+    SampleMetaSvc& operator=(const SampleMetaSvc&) = delete;
+    SampleMetaSvc(SampleMetaSvc&&) = delete;
+    SampleMetaSvc& operator=(SampleMetaSvc&&) = delete;
 
     std::map<std::string,TL::kMeta> m_s2e;
     typedef std::map<std::string,TL::kMeta>::const_iterator s2eIter_t;
@@ -76,11 +84,7 @@ namespace TL {
 
   public:
 
-    /// default constructor
-    SampleMetaSvc();
-
-    /// destructor
-    virtual ~SampleMetaSvc();
+    static SampleMetaSvc& get();
 
     /// get the table of the form (DSID,(initial state, generator, sample type))
     const std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>>& table() const;
@@ -106,7 +110,15 @@ namespace TL {
     /// get the sample type name based on a dsid
     const std::string sampleTypeString(const unsigned int dsid)   const;
 
+    /// have logger print out info based on dsid
+    void printInfo(const int dsid) const;
+
   };
+}
+
+inline TL::SampleMetaSvc& TL::SampleMetaSvc::get() {
+  static SampleMetaSvc inst;
+  return inst;
 }
 
 inline const std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>>& TL::SampleMetaSvc::table() const {
