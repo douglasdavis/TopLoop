@@ -64,8 +64,8 @@ DECLARE_BRANCH(el_true_pt, std::vector<float>)
 
 
 ```cpp
-// in init() source where m_reader is the main reader.
-CONNECT_BRANCH(el_true_pt, std::vector<float>, m_reader);
+// in init() source
+CONNECT_BRANCH(el_true_pt, std::vector<float>, reader());
 ```
 
 
