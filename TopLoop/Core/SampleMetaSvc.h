@@ -57,7 +57,7 @@ namespace TL {
 }
 
 namespace TL {
-  class SampleMetaSvc final : public TL::Loggable, public TObject {
+  class SampleMetaSvc final : public TL::Loggable {
   private:
 
     SampleMetaSvc();
@@ -79,8 +79,6 @@ namespace TL {
 
     void setupMap();
     const TableIter_t checkTable(const unsigned int dsid) const;
-
-    ClassDef(TL::SampleMetaSvc,1);
 
   public:
 
