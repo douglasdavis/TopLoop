@@ -29,7 +29,6 @@ namespace TL {
     /// only usable constructor, gives name to the logger
     Loggable(const std::string& name) {
       m_logger = spdlog::stdout_color_mt(name);
-      m_logger->set_pattern("[%n]   \t [%l]   \t %v");
     }
 
     /// delete copy
