@@ -78,11 +78,7 @@ for ( auto const& truepT : *(*el_true_pt) ) {
 
 ## Example Algorithms
 
-Within the AIDA group, we have a mature algorithm built on top of the
-TopLoop framework called
-[AIDALoop](https://gitlab.cern.ch/atlas-aida/AIDALoop/tree/rel21Wt_test)
-
-We're also starting to ramp up an algorithm for the Wt dilepton analysis:
+We're starting to ramp up an algorithm for the Wt dilepton analysis:
 [WtLoop](http://gitlab.cern.ch/atlas-aida/WtLoop)
 
 ## API Documentation
