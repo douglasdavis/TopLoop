@@ -80,7 +80,7 @@ void TL::Algorithm::progress(int n_prints) const {
     int gap = m_totalEntries/n_prints;
     if ( m_eventCounter%gap == 0 ) {
       auto progress = 100.0*m_eventCounter/m_totalEntries;
-      logger()->info("-- [{:3.0f}%] Event {}",std::round(progress),m_eventCounter);
+      logger()->info("-- [{:3.0f}%] Event: {}",std::round(progress),m_eventCounter);
     }
   }
   return;
