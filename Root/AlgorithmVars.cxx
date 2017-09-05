@@ -9,21 +9,24 @@
 
 TL::StatusCode TL::Algorithm::init_core_vars() {
 
-  if ( m_fm == nullptr ) {
+  if ( fileManager() == nullptr ) {
     logger()->critical("Your algorithm has a null FileManager");
   }
 
   m_reader        = std::make_shared<TTreeReader>(fileManager()->rootChain());
   m_weightsReader = std::make_shared<TTreeReader>(fileManager()->rootWeightsChain());
 
+  //////////////// weights information ///////
   CONNECT_BRANCH(dsid,Int_t,m_weightsReader);
-  if ( m_isMC ) {
+  if ( isMC() ) {
     CONNECT_BRANCH(totalEventsWeighted,Float_t,m_weightsReader);
     CONNECT_BRANCH(totalEvents,ULong64_t,m_weightsReader);
     CONNECT_BRANCH(totalEventsWeighted_mc_generator_weights,std::vector<float>,m_weightsReader);
     CONNECT_BRANCH(names_mc_generator_weights,std::vector<std::string>,m_weightsReader);
   }
+  ////////////////////////////////////////////
 
+  ///////////////////// variables in all default trees
   CONNECT_BRANCH(eventNumber,ULong64_t,m_reader);
   CONNECT_BRANCH(runNumber,UInt_t,m_reader);
   CONNECT_BRANCH(mcChannelNumber,UInt_t,m_reader);
@@ -90,13 +93,14 @@ TL::StatusCode TL::Algorithm::init_core_vars() {
   CONNECT_BRANCH(mu_trigMatch_HLT_mu26_ivarmedium,std::vector<char>,m_reader);
   CONNECT_BRANCH(mu_trigMatch_HLT_mu50,std::vector<char>,m_reader);
   CONNECT_BRANCH(mu_trigMatch_HLT_mu20_iloose_L1MU15,std::vector<char>,m_reader);
+  ////////////////////////////////////////////////////
 
-  if ( m_isMC ) {
+  ////////////////////// all MC trees by default
+  if ( isMC() ) {
     CONNECT_BRANCH(weight_mc,Float_t,m_reader);
     CONNECT_BRANCH(weight_pileup,Float_t,m_reader);
     CONNECT_BRANCH(weight_leptonSF,Float_t,m_reader);
     CONNECT_BRANCH(weight_bTagSF_MV2c10_77,Float_t,m_reader);
-    CONNECT_BRANCH(weight_bTagSF_77,Float_t,m_reader);
     CONNECT_BRANCH(weight_jvt,Float_t,m_reader);
     CONNECT_BRANCH(randomRunNumber,UInt_t,m_reader);
     CONNECT_BRANCH(el_true_type,std::vector<int>,m_reader);
@@ -109,8 +113,10 @@ TL::StatusCode TL::Algorithm::init_core_vars() {
     CONNECT_BRANCH(jet_truthPartonLabel,std::vector<int>,m_reader);
     CONNECT_BRANCH(jet_isTrueHS,std::vector<char>,m_reader);
   } // if is MC
+  /////////////////////////////////////////////
 
-  if( m_isMC && m_isNominal ) {
+  //////////////////////////// all default MC nominal
+  if( isMC() && isNominal() ) {
     CONNECT_BRANCH(weight_pileup_UP,Float_t,m_reader);
     CONNECT_BRANCH(weight_pileup_DOWN,Float_t,m_reader);
     CONNECT_BRANCH(weight_leptonSF_EL_SF_Trigger_UP,Float_t,m_reader);
@@ -188,7 +194,7 @@ TL::StatusCode TL::Algorithm::init_core_vars() {
     CONNECT_BRANCH(weight_jvt_UP,Float_t,m_reader);
     CONNECT_BRANCH(weight_jvt_DOWN,Float_t,m_reader);
   } // if MC and nominal
+  ////////////////////////////////////////////////
 
   return TL::StatusCode::SUCCESS;
-
 }

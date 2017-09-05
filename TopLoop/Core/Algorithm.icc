@@ -43,3 +43,11 @@ TL::Algorithm::setupBranch(std::shared_ptr<TTreeReader> reader, const char* name
     return nullptr;
   }
 }
+
+inline bool TL::Algorithm::isMC() const {
+  return m_isMC;
+}
+
+inline bool TL::Algorithm::isNominal() const {
+  return m_isNominal;
+}

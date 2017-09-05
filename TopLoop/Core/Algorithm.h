@@ -22,9 +22,9 @@
 
 namespace TL {
 
-  class Algorithm : public TL::Loggable, public TNamed, public TL::Variables {
+  class Algorithm : public TL::Loggable, public TL::Variables, public TNamed {
 
-  protected:
+  private:
     std::string   m_datasetName;
     bool          m_isMC;
     bool          m_isNominal;
@@ -36,6 +36,7 @@ namespace TL {
     std::shared_ptr<TTreeReader>     m_reader;
     std::shared_ptr<TTreeReader>     m_weightsReader;
 
+  protected:
     //! Set up a variable as a TTreeReaderValue pointer
     /*!
       This one liner checks to make sure that the variable is on
@@ -152,7 +153,12 @@ namespace TL {
     std::shared_ptr<TTreeReader>     reader();
     /// get pointer to the weights reader
     std::shared_ptr<TTreeReader>     weightsReader();
-    
+
+    /// get is MC
+    bool isMC() const;
+    /// get is nominal
+    bool isNominal() const;
+
   private:
     ClassDef(Algorithm, 1);
 

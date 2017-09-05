@@ -35,5 +35,4 @@ void TL::EDM::FinalState::evaluateSelf(bool sort_leptons) {
   }
   eventFourVector += m_MET.p();
   m_M = eventFourVector.M();
-
 }

@@ -135,7 +135,6 @@ namespace TL {
     DECLARE_BRANCH(weight_pileup           , Float_t           )
     DECLARE_BRANCH(weight_leptonSF         , Float_t           )
     DECLARE_BRANCH(weight_bTagSF_MV2c10_77 , Float_t           )
-    DECLARE_BRANCH(weight_bTagSF_77        , Float_t           )
     DECLARE_BRANCH(weight_jvt              , Float_t           )
     DECLARE_BRANCH(randomRunNumber         , UInt_t            )
     DECLARE_BRANCH(el_true_type            , std::vector<int>  )
