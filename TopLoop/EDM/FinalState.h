@@ -46,19 +46,13 @@ namespace TL {
     public:
 
       /// default constructor
-      FinalState() :
-        m_leptons(),
-        m_jets(),
-        m_MET(),
-        m_leptonPairs(),
-        m_M(0),
-        m_HT(0),
-        m_hasFakeElectron(false),
-        m_hasFakeMuon(false)
-      {}
+      FinalState() = default;
 
       /// destructor
-      virtual ~FinalState() {}
+      virtual ~FinalState() = default;
+
+      FinalState(const FinalState&) = delete;
+      FinalState& operator=(const FinalState&) = delete;
 
       /// add a lepton to the lepton container
       void addLepton(const TL::EDM::Lepton& lep);
@@ -156,7 +150,7 @@ inline std::size_t TL::EDM::FinalState::nbjets_AT85() const {
                        [](const TL::EDM::Jet& a) { return a.isbtagged_85(); });
 }
 
-inline bool        TL::EDM::FinalState::hasFakeElectron()  const { return m_hasFakeElectron; }
-inline bool        TL::EDM::FinalState::hasFakeMuon()      const { return m_hasFakeMuon;     }
+inline bool TL::EDM::FinalState::hasFakeElectron()  const { return m_hasFakeElectron; }
+inline bool TL::EDM::FinalState::hasFakeMuon()      const { return m_hasFakeMuon;     }
 
 #endif

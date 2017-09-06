@@ -37,13 +37,11 @@ namespace TL {
       ClassDef(Lepton,1);
       
     public:
-      Lepton() : TL::EDM::PhysicsObject(), m_pdgId(0), m_charge(-99999),
-                 m_cl_eta(-99999), m_topoetcone20(-99999), m_ptvarcone20(-99999),
-                 m_ptvarcone30(-99999), m_d0sig(-99999), m_delta_z0_sintheta(-99999),
-                 m_el_trigMatch_HLT_e60_lhmedium(0), m_el_trigMatch_HLT_e24_lhmedium_L1EM18VH(0),
-                 m_el_trigMatch_HLT_e120_lhloose(0),m_mu_trigMatch_HLT_mu50(0),
-                 m_mu_trigMatch_HLT_mu20_iloose_L1MU15(0) {}
-      virtual ~Lepton() {}
+      Lepton() = default;
+      virtual ~Lepton() = default;
+
+      Lepton& operator=(const Lepton&) = default;
+      Lepton(const Lepton&) = default;
 
       void set_pdgId(const unsigned int val);
       void set_charge(const int val);

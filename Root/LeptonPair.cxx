@@ -6,8 +6,7 @@
 
 // TL
 #include <TopLoop/EDM/LeptonPair.h>
-
-TL::EDM::LeptonPair::LeptonPair() : TL::EDM::PhysicsObject() {}
+#include <TopLoop/spdlog/spdlog.h>
 
 TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
                                 const TL::EDM::Lepton& lep2,
@@ -38,7 +37,12 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
     m_elel = true;
   }
   else {
-    //logger()->warn("PDG sum for Lepton Pair is bad: {}", pdgsum);
+    if ( spdlog::get("TL::EDM::LeptonPair") == nullptr ) {
+      spdlog::stdout_color_mt("TL::EDM::LeptonPair");
+    }
+    else {
+      spdlog::get("TL::EDM::LeptonPair")->warn("Bad pdgsum: {}",pdgsum);
+    }
   }
 
   if ( chargesum == 0 ) {
@@ -50,8 +54,11 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
     m_OS = false;
   }
   else {
-    //logger()->warn("Charge sum is pad in Lepton Pair: {}", chargesum);
+    if ( spdlog::get("TL::EDM::LeptonPair") == nullptr ) {
+      spdlog::stdout_color_mt("TL::EDM::LeptonPair");
+    }
+    else {
+      spdlog::get("TL::EDM::LeptonPair")->warn("Bad charge sum: {}",chargesum);
+    }
   }
 }
-
-TL::EDM::LeptonPair::~LeptonPair() {}

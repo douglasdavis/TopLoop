@@ -22,36 +22,40 @@ namespace TL {
     class PhysicsObject : public TObject {
     protected:
       TLorentzVector m_p;
-      bool           m_isParticleLevel;
-      bool           m_partLevPassedSelection;
 
       ClassDef(PhysicsObject,1);
 
     public:
-      PhysicsObject() :
-	m_p(), m_isParticleLevel(false), m_partLevPassedSelection(false)
-      {}
-      virtual ~PhysicsObject() {}
+      /// default constructor
+      PhysicsObject() = default;
+      /// default destructor
+      virtual ~PhysicsObject() = default;
 
+      PhysicsObject(const PhysicsObject&) = default;
+      PhysicsObject& operator=(const PhysicsObject&) = default;
+
+      /// retrieve the four vector
       TLorentzVector& p();
-
+      /// retrieve the const four vector
       const TLorentzVector& p() const;
 
-      void set_isParticleLevel(const bool val);
-      void set_partLevPassedSelection(const bool val);
-
-      bool isParticleLevel() const;
-      bool partLevPassedSelection() const;
-
+      /// get the transverse momentum
       float pT()  const;
+      /// get the pseudorapidity
       float eta() const;
+      /// get the angle in the transerve plane
       float phi() const;
+      /// get the energy
       float E()   const;
+      /// get the mass *from the four vector*
       float m()   const;
+      /// get the x-component of the momentum
       float px()  const;
+      /// get the y-compnent of the momentum
       float py()  const;
+      /// get the z-compnent of the momentum
       float pz()  const;
-      
+
     };
 
   }
@@ -59,12 +63,6 @@ namespace TL {
 
 inline const TLorentzVector& TL::EDM::PhysicsObject::p() const { return m_p; }
 inline       TLorentzVector& TL::EDM::PhysicsObject::p()       { return m_p; }
-
-inline void TL::EDM::PhysicsObject::set_isParticleLevel(const bool val)        { m_isParticleLevel        = val; }
-inline void TL::EDM::PhysicsObject::set_partLevPassedSelection(const bool val) { m_partLevPassedSelection = val; }
-
-inline bool TL::EDM::PhysicsObject::isParticleLevel()        const { return m_isParticleLevel;        }
-inline bool TL::EDM::PhysicsObject::partLevPassedSelection() const { return m_partLevPassedSelection; }
 
 inline float TL::EDM::PhysicsObject::pT()  const { return m_p.Pt();  }
 inline float TL::EDM::PhysicsObject::eta() const { return m_p.Eta(); }

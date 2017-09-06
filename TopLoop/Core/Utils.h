@@ -27,11 +27,11 @@
 
 #include <TopLoop/spdlog/spdlog.h>
 
-namespace TL {
-  const double TeV   = 1.0e6;
-  const double GeV   = 1.0e3;
-  const double toGeV = 1.0e-3;
+#define TeV   1000000.0
+#define GeV   1000.0
+#define toGeV 0.001
 
+namespace TL {
   /// split string recursive
   auto& string_split(const std::string &s, char delim, std::vector<std::string> &elems);
 

@@ -42,8 +42,11 @@ namespace TL {
       ClassDef(Jet,1);
       
     public:
-      Jet() : TL::EDM::PhysicsObject() {}
-      virtual ~Jet() {}
+      Jet() = default;
+      virtual ~Jet() = default;
+
+      Jet& operator=(const Jet&) = default;
+      Jet(const Jet&) = default;
 
       void set_mv2c00(const float val);
       void set_mv2c10(const float val);

@@ -24,8 +24,11 @@ namespace TL {
       ClassDef(MET,1);
 
     public:
-      MET() : TL::EDM::PhysicsObject() {}
-      virtual ~MET() {}
+      MET() = default;
+      virtual ~MET() = default;
+
+      MET(const MET&) = default;
+      MET& operator=(const MET&) = default;
 
     };
 
