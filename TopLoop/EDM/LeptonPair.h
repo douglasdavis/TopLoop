@@ -91,17 +91,17 @@ namespace TL {
       /// return true if electron-muon lepton pair (same as OF())
       bool elmu() const;
 
+      /// get the pair of indices see firstIdx() and secondIdx()
       const std::pair<size_t,size_t>& indexPair() const;
-
       /// get the index of the first lepton in the pair
-      /*
+      /**
        *  because we store leptons in a vector in the
        *  TL::EDM::FinalState class, it may be useful to have the
        *  index in that vector, that's what this is for.
        */
       size_t firstIdx()  const;
       /// get the index of the second lepton in the pair
-      /*
+      /**
        *  because we store leptons in a vector in the
        *  TL::EDM::FinalState class, it may be useful to have the
        *  index in that vector, that's what this is for.
