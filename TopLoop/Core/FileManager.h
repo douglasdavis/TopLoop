@@ -48,22 +48,24 @@ namespace TL {
 
     /// set the tree name to something other than "nominal"
     /**
-       If this function is to be used - it must be called before any feeds!
-    */
+     * If this function is to be used - it must be called before any feeds!
+     */
     void setTreeName(const std::string& tn);
 
     /// set the weight tree name to something other than "sumWeights"
     /**
-       If this function is to be used - it must be called before any feeds!
-    */
+     * If this function is to be used - it must be called before any feeds!
+     */
     void setWeightsTreeName(const std::string& tn);
 
     /// Feed the chains with files in a directory
     /**
-       By default this function will only look for files ending in
-       "*.root" the take_all param set to true will eat _all_ files!
-       (e.g. "*.root.2")
-       @param take_all take all files no matter what the extension is
+     * By default this function will only look for files ending in
+     * "*.root" the take_all param set to true will eat _all_ files!
+     * (e.g. "*.root.2")
+     *
+     * @param dirpath  path of the directory containing files to process
+     * @param take_all take all files no matter what the extension is
      */
     void feedDir(const std::string& dirpath, const bool take_all=false);
 

@@ -45,7 +45,7 @@ namespace TL {
       LeptonPair() = default;
 
       /// main constructor
-      /*
+      /**
        *  We feed the leptons *and* their indices to the
        *  constructor. Because we use an std::vector as a
        *  TL::EDM::Lepton container in the TL::EDM::FinalState class,
@@ -57,7 +57,7 @@ namespace TL {
        *  @param lep1 The first lepton ingrediant
        *  @param lep2 The second lepton ingrediant
        *  @param idxf The index of the first lepton in the TL::EDM::FinalState lepton container
-       *  @param idxf The index of the first lepton in the TL::EDM::FinalState lepton container
+       *  @param idxs The index of the first lepton in the TL::EDM::FinalState lepton container
        */
       LeptonPair(const TL::EDM::Lepton& lep1,
                  const TL::EDM::Lepton& lep2,

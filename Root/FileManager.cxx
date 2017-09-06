@@ -94,7 +94,7 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
   }
 }
 
-void ::TL::FileManager::feedSingle(const char* fileName) {
+void TL::FileManager::feedSingle(const char* fileName) {
   TL_CHECK(initChain());
   m_fileNames.emplace_back(std::string(fileName));
   m_rootChain->Add(fileName);
