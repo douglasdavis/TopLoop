@@ -46,8 +46,8 @@ namespace TL {
     ttbar  , Wt      , Zjets    ,
     Wjets  , WW      , WZ       ,
     ZZ     , Diboson , ttbarZ   ,
+    ttbarW , ttbarll , ttbarphi , tchan ,
     // generators
-    ttbarW , ttbarll , ttbarphi ,
     PowhegPythia6     , PowhegPythia8     , PowhegHerwig      ,
     PowhegHerwigpp    , Sherpa21          , Sherpa22          ,
     Sherpa221         , MadgraphPythia    , MadgraphPythia8   ,

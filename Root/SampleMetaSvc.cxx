@@ -59,24 +59,25 @@ TL::SampleMetaSvc::~SampleMetaSvc() {}
 void TL::SampleMetaSvc::setupMap() {
   m_s2e = {
     { "Unknown"              , TL::kMeta::Unknown               } ,
-      //
+    //
     { "Data"                 , TL::kMeta::Data                  } ,
-    { "Nominal"              , TL::kMeta::Nominal		} ,
-    { "Systematic"           , TL::kMeta::Systematic		} ,
-      //
-    { "ttbar"                , TL::kMeta::ttbar			} ,
-    { "Wt"                   , TL::kMeta::Wt			} ,
-    { "Zjets"                , TL::kMeta::Zjets			} ,
-    { "Wjets"                , TL::kMeta::Wjets			} ,
-    { "WW"                   , TL::kMeta::WW			} ,
-    { "WZ"                   , TL::kMeta::WZ			} ,
-    { "ZZ"                   , TL::kMeta::ZZ			} ,
-    { "Diboson"              , TL::kMeta::Diboson		} ,
-    { "ttbarW"               , TL::kMeta::ttbarW		} ,
-    { "ttbarZ"               , TL::kMeta::ttbarZ		} ,
-    { "ttbarll"              , TL::kMeta::ttbarll		} ,
-    { "ttbarphi"             , TL::kMeta::ttbarphi		} ,
-      //
+    { "Nominal"              , TL::kMeta::Nominal               } ,
+    { "Systematic"           , TL::kMeta::Systematic            } ,
+    //
+    { "ttbar"                , TL::kMeta::ttbar                 } ,
+    { "Wt"                   , TL::kMeta::Wt                    } ,
+    { "Zjets"                , TL::kMeta::Zjets                 } ,
+    { "Wjets"                , TL::kMeta::Wjets                 } ,
+    { "WW"                   , TL::kMeta::WW                    } ,
+    { "WZ"                   , TL::kMeta::WZ                    } ,
+    { "ZZ"                   , TL::kMeta::ZZ                    } ,
+    { "Diboson"              , TL::kMeta::Diboson               } ,
+    { "ttbarW"               , TL::kMeta::ttbarW                } ,
+    { "ttbarZ"               , TL::kMeta::ttbarZ                } ,
+    { "ttbarll"              , TL::kMeta::ttbarll               } ,
+    { "ttbarphi"             , TL::kMeta::ttbarphi              } ,
+    { "tchan"                , TL::kMeta::tchan                 } ,
+    //
     { "PowhegPythia6"        , TL::kMeta::PowhegPythia6         } ,
     { "PowhegPythia6_dil"    , TL::kMeta::PowhegPythia6_dil     } ,
     { "PowhegPythia8"        , TL::kMeta::PowhegPythia8         } ,

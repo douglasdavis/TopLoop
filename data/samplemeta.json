@@ -24,6 +24,33 @@
     "Diboson": [
         {
             "DSID_range": [
+                361096,
+                361097
+            ],
+            "Generator": "Sherpa21",
+            "InitialState": "ZZ",
+            "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [
+                361603,
+                361605
+            ],
+            "Generator": "PowhegPythia8",
+            "InitialState": "ZZ",
+            "SampleType": "Unknown"
+        },
+        {
+            "DSID_range": [
+                361610,
+                361611
+            ],
+            "Generator": "PowhegPythia8",
+            "InitialState": "ZZ",
+            "SampleType": "Unknown"
+        },
+        {
+            "DSID_range": [
                 361063,
                 361090
             ],
@@ -39,9 +66,7 @@
             "Generator": "PowhegHerwigpp",
             "InitialState": "Diboson",
             "SampleType": "Unknown"
-        }
-    ],
-    "WW": [
+        },
         {
             "DSID_range": [
                 361091,
@@ -68,9 +93,7 @@
             "Generator": "PowhegPythia8",
             "InitialState": "WW",
             "SampleType": "Unknown"
-        }
-    ],
-    "WZ": [
+        },
         {
             "DSID_range": [
                 361093,
@@ -97,6 +120,51 @@
             "Generator": "PowhegPythia8",
             "InitialState": "WZ",
             "SampleType": "Unknown"
+        },
+        {
+            "DSID_range": [
+                363355,
+                363356
+            ],
+            "Generator": "Sherpa221",
+            "InitialState": "ZZ",
+            "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [
+                363357,
+                363358
+            ],
+            "Generator": "Sherpa221",
+            "InitialState": "WZ",
+            "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [
+                363359,
+                363360
+            ],
+            "Generator": "Sherpa221",
+            "InitialState": "WW",
+            "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [
+                363489,
+                363489
+            ],
+            "Generator": "Sherpa221",
+            "InitialState": "WZ",
+            "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [
+                363494,
+                363494
+            ],
+            "Generator": "Sherpa221",
+            "InitialState": "ZZ",
+            "SampleType": "Nominal"
         }
     ],
     "Wjets": [
@@ -143,6 +211,17 @@
             ],
             "Generator": "MadgraphPythia8",
             "InitialState": "Wjets",
+            "SampleType": "Nominal"
+        }
+    ],
+    "tchan" : [
+        {
+            "DSID_range": [
+                410011,
+                410012
+            ],
+            "Generator" : "PowhegPythia6",
+            "InitialState": "tchan",
             "SampleType": "Nominal"
         }
     ],
@@ -200,35 +279,6 @@
             "Generator": "aMCatNLOHerwigpp",
             "InitialState": "Wt",
             "SampleType": "Systematic"
-        }
-    ],
-    "ZZ": [
-        {
-            "DSID_range": [
-                361096,
-                361097
-            ],
-            "Generator": "Sherpa21",
-            "InitialState": "ZZ",
-            "SampleType": "Nominal"
-        },
-        {
-            "DSID_range": [
-                361603,
-                361605
-            ],
-            "Generator": "PowhegPythia8",
-            "InitialState": "ZZ",
-            "SampleType": "Unknown"
-        },
-        {
-            "DSID_range": [
-                361610,
-                361611
-            ],
-            "Generator": "PowhegPythia8",
-            "InitialState": "ZZ",
-            "SampleType": "Unknown"
         }
     ],
     "Zjets": [
