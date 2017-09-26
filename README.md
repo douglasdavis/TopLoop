@@ -71,7 +71,7 @@ CONNECT_BRANCH(el_true_pt, std::vector<float>, reader());
 
 ```cpp
 // in execute() source
-for ( auto const& truepT : *(*el_true_pt) ) {
+for ( const auto& truepT : *(*el_true_pt) ) {
   auto true_pt_squared = truepT*truepT;
 }
 ```

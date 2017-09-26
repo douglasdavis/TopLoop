@@ -75,7 +75,7 @@ unsigned int TL::Algorithm::get_dsid() {
   return ret_dsid;
 }
 
-void TL::Algorithm::progress(int n_prints) const {
+void TL::Algorithm::printProgress(int n_prints) const {
   if ( m_totalEntries > n_prints ) {
     int gap = m_totalEntries/n_prints;
     if ( m_eventCounter%gap == 0 ) {
