@@ -3,7 +3,7 @@ TopLoop Analysis Package      {#mainpage}
 
 TopLoop is a small library inspired by the ASG EventLoop
 package. TopLoop is built specifically for analyzing Top group ntuples
-output by the TopAnalysis top-xaod program.
+output by the TopAnalysis `top-xaod` program.
 
 TopLoop delivers a base algorithm class, a job runner, a file manager,
 and a small event data model. The algorithm has the following
@@ -50,9 +50,9 @@ algorithm. If your analysis adds more output on top of the standard
 AnalysisTop variables, you'll need this.
 
 There are two macros defined: `DECLARE_BRANCH` and
-`CONNECT_BRANCH`. In the header, we use the first, it just takes the
+`CONNECT_BRANCH`. In the header, we use the former, it just takes the
 name of the branch and the type. Then in the source `init()` function,
-we use second and say which TTreeReader pointer to connect to.
+we use the latter and say which TTreeReader pointer to connect to.
 
 An example where the additional variable of interest is called
 `el_true_pt` exists:
