@@ -148,11 +148,11 @@ namespace TL {
     void setIsSystematic();
 
     /// get pointer to the file manager
-    std::shared_ptr<TL::FileManager> fileManager();
+    std::shared_ptr<TL::FileManager> fileManager() const;
     /// get pointer to the main reader
-    std::shared_ptr<TTreeReader>     reader();
+    std::shared_ptr<TTreeReader>     reader() const;
     /// get pointer to the weights reader
-    std::shared_ptr<TTreeReader>     weightsReader();
+    std::shared_ptr<TTreeReader>     weightsReader() const;
 
     /// get if sample is MC
     bool isMC() const;

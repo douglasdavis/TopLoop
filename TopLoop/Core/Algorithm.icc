@@ -8,15 +8,15 @@ inline void TL::Algorithm::setIsSystematic() {
   m_isNominal = false;
 }
 
-inline std::shared_ptr<TL::FileManager> TL::Algorithm::fileManager() {
+inline std::shared_ptr<TL::FileManager> TL::Algorithm::fileManager() const {
   return m_fm;
 }
 
-inline std::shared_ptr<TTreeReader> TL::Algorithm::reader() {
+inline std::shared_ptr<TTreeReader> TL::Algorithm::reader() const {
   return m_reader;
 }
 
-inline std::shared_ptr<TTreeReader> TL::Algorithm::weightsReader() {
+inline std::shared_ptr<TTreeReader> TL::Algorithm::weightsReader() const {
   return m_weightsReader;
 }
 
