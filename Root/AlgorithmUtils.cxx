@@ -9,8 +9,9 @@
 #include <TopLoop/Core/Algorithm.h>
 
 float TL::Algorithm::countSumWeights() {
-  //sum up the weighted number of events in the metadata tree.  This works for
-  //MC (to get the MC lumi) and data (perhaps as a cross-check)
+  // sum up the weighted number of events in the metadata tree.  This
+  // works for MC (to get the MC lumi) and data (perhaps as a
+  // cross-check)
   float sumWeights = 0;
   m_weightsReader->Restart();
   while ( m_weightsReader->Next() ) {
@@ -22,12 +23,11 @@ float TL::Algorithm::countSumWeights() {
   m_weightsReader->Restart();
   //todo: cross-check the value with Ami, warn if different?
 
+  logger()->debug("Value of countSumWeights(): {}",sumWeights);
   return sumWeights;
 }
 
 std::vector<float> TL::Algorithm::generatorVariedSumWeights() {
-  //sum up the weighted number of events in the metadata tree.  This works for
-  //MC (to get the MC lumi) and data (perhaps as a cross-check)
   std::size_t vsize = 0;
   m_weightsReader->Restart();
   while ( m_weightsReader->Next() ) {
@@ -71,7 +71,6 @@ unsigned int TL::Algorithm::get_dsid() {
     break;
   }
   m_weightsReader->Restart();
-
   return ret_dsid;
 }
 
@@ -79,8 +78,8 @@ void TL::Algorithm::printProgress(int n_prints) const {
   if ( m_totalEntries > n_prints ) {
     int gap = m_totalEntries/n_prints;
     if ( m_eventCounter%gap == 0 ) {
-      auto progress = 100.0*m_eventCounter/m_totalEntries;
-      logger()->info("-- [{:3.0f}%] Event: {}",std::round(progress),m_eventCounter);
+      auto progress = std::round(100.0*m_eventCounter/m_totalEntries);
+      logger()->info("-- [{:3.0f}%] Event: {}",progress,m_eventCounter);
     }
   }
   return;

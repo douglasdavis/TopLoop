@@ -154,10 +154,14 @@ namespace TL {
     /// get pointer to the weights reader
     std::shared_ptr<TTreeReader>     weightsReader();
 
-    /// get is MC
+    /// get if sample is MC
     bool isMC() const;
+    /// get if sample is data (for readability, opposite of isMC())
+    bool isData() const;
     /// get is nominal
     bool isNominal() const;
+    /// get is systematic (for readability, opposite of isNominal())
+    bool isSystematic() const;
 
   private:
     ClassDef(Algorithm, 1);

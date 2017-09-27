@@ -69,10 +69,7 @@ namespace TL {
     SampleMetaSvc& operator=(SampleMetaSvc&&) = delete;
 
     std::map<std::string,TL::kMeta> m_s2e;
-    typedef std::map<std::string,TL::kMeta>::const_iterator s2eIter_t;
-
     std::map<TL::kMeta,std::string> m_e2s;
-    typedef std::map<TL::kMeta,std::string>::const_iterator e2sIter_t;
 
     std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>> m_table;
     typedef std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>>::const_iterator TableIter_t;
@@ -90,10 +87,8 @@ namespace TL {
 
     /// retrieve a enum value corresponding to the initial state based on a DSID
     TL::kMeta getInitialState(const unsigned int dsid) const;
-
     /// retrieve a enum value corresponding to the generator based on a DSID    
     TL::kMeta getGenerator(const unsigned int dsid)    const;
-
     /// retrieve a enum value corresponding to the sample type based on a DSID
     TL::kMeta getSampleType(const unsigned int dsid)   const;
 
@@ -102,10 +97,8 @@ namespace TL {
 
     /// get the initial state name based on a dsid
     const std::string initialStateString(const unsigned int dsid) const;
-
     /// get the generator name based on a dsid
     const std::string generatorString(const unsigned int dsid)    const;
-
     /// get the sample type name based on a dsid
     const std::string sampleTypeString(const unsigned int dsid)   const;
 
@@ -148,7 +141,7 @@ inline TL::kMeta TL::SampleMetaSvc::getSampleType(const unsigned int dsid) const
 }
 
 inline const std::string TL::SampleMetaSvc::stringFromEnum(const TL::kMeta ienum) const {
-  e2sIter_t itr = m_e2s.find(ienum);
+  auto itr = m_e2s.find(ienum);
   if ( itr == m_e2s.end() ) {
     logger()->critical("can't find enum entry {}!",ienum);
   }
