@@ -12,6 +12,12 @@
 
 TL::StatusCode TL::Job::run() {
   TL_CHECK(m_analysis->init());
+  if ( not m_analysis->initCalled() ) {
+    logger()->critical("You didn't call TL::Algorithm::init()");
+    logger()->critical("in your algorithm's init() function");
+    logger()->critical("This is a required line!");
+    return TL::StatusCode::FAILURE;
+  }
   TL_CHECK(m_analysis->setupOutput());
   m_analysis->reader()->Restart();
   while ( m_analysis->reader()->Next() ) {

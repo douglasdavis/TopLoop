@@ -1,5 +1,9 @@
 /// Inline functions for TL::Algorithm
 
+inline bool TL::Algorithm::initCalled() const {
+  return m_initCalled;
+}
+
 inline void TL::Algorithm::setIsData() {
   m_isMC = false;
 }

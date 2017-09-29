@@ -28,6 +28,7 @@ namespace TL {
     std::string   m_datasetName;
     bool          m_isMC;
     bool          m_isNominal;
+    bool          m_initCalled;
 
     long m_totalEntries;
     long m_eventCounter;
@@ -62,43 +63,20 @@ namespace TL {
     /// delete assignment operator
     Algorithm& operator=(const Algorithm&) = delete;
 
+    /// for use in TL::Job to ensure main init() function is called.
+    bool initCalled() const;
+
     //! Set the file manager
-    /*! 
-      This is a requirement of all TopLoop algorithms
+    /*!
+      This is a requirement of all TopLoop algorithms Must be
+      called before feeding to the TL::Job object.
     */
     void setFileManager(std::shared_ptr<TL::FileManager> fm);
-
-    //! Count the sumWeights from all input trees
-    /*!
-      This can be called in the init() function if info about the
-      sum of weights is desired; s the nominal sum of weights
-    */
-    float countSumWeights();
-
-    //! Generator based changes in the sum of weights
-    /*!
-      Generator "on the fly" weight variations stored in a vector
-      The first entry (as of April 2017) is the same as nominal.
-    */
-    std::vector<float> generatorVariedSumWeights();
-
-    //! Get names of Generator based weights
-    /*!
-      Can be called to retrieve the list of strings corresponding
-      to the name of the generator based weights.
-    */
-    std::vector<std::string> generatorWeightNames();
-
-    //! Get the dataset id
-    /*!
-      This can be called in the init() function if
-      the dataset ID is desired
-    */
-    unsigned int get_dsid();
 
     //! Initialize the variables for the TTreeReader
     /*!
       This function sets the TTreeReader variables up.
+      Gets called in init()
     */
     TL::StatusCode init_core_vars();
 
@@ -147,19 +125,47 @@ namespace TL {
     */
     void setIsSystematic();
 
+    //! Count the sumWeights from all input trees
+    /*!
+      This can be called in the init() function if info about the
+      sum of weights is desired; s the nominal sum of weights
+    */
+    float countSumWeights();
+
+    //! Generator based changes in the sum of weights
+    /*!
+      Generator "on the fly" weight variations stored in a vector
+      The first entry (as of April 2017) is the same as nominal.
+    */
+    std::vector<float> generatorVariedSumWeights();
+
+    //! Get names of Generator based weights
+    /*!
+      Can be called to retrieve the list of strings corresponding
+      to the name of the generator based weights.
+    */
+    std::vector<std::string> generatorWeightNames();
+
+    //! Get the dataset id
+    /*!
+      This can be called in the init() function if
+      the dataset ID is desired
+    */
+    unsigned int get_dsid();
+
     /// get pointer to the file manager
-    std::shared_ptr<TL::FileManager> fileManager() const;
+    std::shared_ptr<TL::FileManager> fileManager()   const;
     /// get pointer to the main reader
-    std::shared_ptr<TTreeReader>     reader() const;
+    std::shared_ptr<TTreeReader>     reader()        const;
     /// get pointer to the weights reader
     std::shared_ptr<TTreeReader>     weightsReader() const;
 
     /// get if sample is MC
-    bool isMC() const;
+    bool isMC()         const;
     /// get if sample is data (for readability, opposite of isMC())
-    bool isData() const;
+    bool isData()       const;
     /// get is nominal
-    bool isNominal() const;
+    bool isNominal()    const;
     /// get is systematic (for readability, opposite of isNominal())
     bool isSystematic() const;
 

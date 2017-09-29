@@ -12,6 +12,7 @@
 #define TL_Job_h
 
 #include <TopLoop/Core/Utils.h>
+#include <TopLoop/Core/Loggable.h>
 
 namespace TL {
   class Algorithm;
@@ -19,7 +20,7 @@ namespace TL {
 
 namespace TL {
 
-  class Job {
+  class Job : public TL::Loggable {
 
   protected:
     TL::Algorithm* m_analysis;
@@ -27,10 +28,10 @@ namespace TL {
   public:
 
     /// default unusable constructor
-    Job() : m_analysis(nullptr) {}
+    Job() : TL::Loggable("TL::Job"), m_analysis(nullptr) {}
 
     /// constructor which is fed with algorithm pointer
-    Job(TL::Algorithm* ab) : m_analysis(ab) {}
+    Job(TL::Algorithm* ab) : TL::Loggable("TL::Job"), m_analysis(ab) {}
 
     /// detructor
     virtual ~Job() {}

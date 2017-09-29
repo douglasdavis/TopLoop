@@ -12,7 +12,8 @@ TL::Algorithm::Algorithm() :
   TL::Loggable("TL::Algorithm"),
   m_datasetName(),
   m_isMC(true),
-  m_isNominal(true)
+  m_isNominal(true),
+  m_initCalled(false)
 {
   SetName("TopLoop");
 }
@@ -21,6 +22,7 @@ TL::Algorithm::~Algorithm() {}
 
 TL::StatusCode TL::Algorithm::init() {
   TL_CHECK(init_core_vars());
+  m_initCalled   = true;
   m_eventCounter = 0;
   m_totalEntries = fileManager()->rootChain()->GetEntries();
 
