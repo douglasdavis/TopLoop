@@ -18,7 +18,7 @@ float TL::Algorithm::countSumWeights() {
     if ( m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid ) {
       logger()->critical("countSumWeights(): Tree reader does not return kEntryValid");
     }
-    sumWeights += *(*totalEventsWeighted);
+    sumWeights += totalEventsWeighted();
   }
   m_weightsReader->Restart();
   //todo: cross-check the value with Ami, warn if different?
@@ -31,7 +31,7 @@ std::vector<float> TL::Algorithm::generatorVariedSumWeights() {
   std::size_t vsize = 0;
   m_weightsReader->Restart();
   while ( m_weightsReader->Next() ) {
-    vsize = (*totalEventsWeighted_mc_generator_weights)->size();
+    vsize = totalEventsWeighted_mc_generator_weights().size();
     break;
   }
   std::vector<float> weights(vsize,0.0);
@@ -42,8 +42,8 @@ std::vector<float> TL::Algorithm::generatorVariedSumWeights() {
       logger()->critical("generatorVariedSumWeights(): Tree reader does not return kEntryValid");
     }
     // now get all the rest
-    for ( std::size_t j = 0; j < (*totalEventsWeighted_mc_generator_weights)->size(); ++j ) {
-      weights[j] += (*totalEventsWeighted_mc_generator_weights)->at(j);
+    for ( std::size_t j = 0; j < totalEventsWeighted_mc_generator_weights().size(); ++j ) {
+      weights[j] += totalEventsWeighted_mc_generator_weights().at(j);
     }
   }
   m_weightsReader->Restart();
@@ -56,7 +56,7 @@ std::vector<std::string> TL::Algorithm::generatorWeightNames() {
   m_weightsReader->Restart();
   std::vector<std::string> retvec;
   while ( m_weightsReader->Next() ) {
-    retvec = *(*names_mc_generator_weights);
+    retvec = names_mc_generator_weights();
     break;
   }
   m_weightsReader->Restart();
@@ -67,7 +67,7 @@ unsigned int TL::Algorithm::get_dsid() {
   unsigned int ret_dsid = 999999;
   m_weightsReader->Restart();
   while ( m_weightsReader->Next() ) {
-    ret_dsid = *(*dsid);
+    ret_dsid = dsid();
     break;
   }
   m_weightsReader->Restart();

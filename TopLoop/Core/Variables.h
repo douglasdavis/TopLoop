@@ -22,8 +22,14 @@
 #include <TTreeReader.h>
 #include <TTreeReaderValue.h>
 
-#define DECLARE_BRANCH(NAME,TYPE)        std::unique_ptr<TTreeReaderValue<TYPE>> NAME;
-#define CONNECT_BRANCH(NAME,TYPE,READER) NAME = setupBranch<TTreeReaderValue<TYPE>>(READER,#NAME)
+#define DECLARE_BRANCH(NAME,TYPE)                                \
+  protected:                                                     \
+  std::unique_ptr<TTreeReaderValue<TYPE>> _bv_##NAME;            \
+public:                                                          \
+ inline const TYPE& NAME() const { return *(*_bv_##NAME); }
+
+#define CONNECT_BRANCH(NAME,TYPE,READER)                                \
+  _bv_##NAME = setupBranch<TTreeReaderValue<TYPE>>((READER),#NAME);
 
 namespace TL {
 
