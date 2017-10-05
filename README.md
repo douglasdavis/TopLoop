@@ -37,8 +37,8 @@ An example code block:
 TL::StatusCode MyAlgorithm::execute() {
   //...
   auto averageMu = mu();
-  TL::EDM::Lepton aLepton;
   for ( std::size_t i = 0; i < el_pt().size(); ++i ) {
+    TL::EDM::Lepton aLepton;
     auto pt  = el_pt().at(i);
     auto eta = el_eta().at(i);
     auto phi = el_phi().at(i);
