@@ -1,4 +1,4 @@
-TopLoop Analysis Package      {#mainpage}
+TopLoop Analysis Package
 ========================
 
 TopLoop is a small library inspired by the ASG EventLoop
