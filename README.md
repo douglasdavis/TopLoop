@@ -20,8 +20,8 @@ structure:
 
 All tree variables (branches) are stored as smart pointers to
 `TTreeReaderValue<T>` objects. The pointer object names correspond to
-a built-in prefix (`_bv_`) plus the name of the branch
-(e.g. `_bv_el_pt` for the branch `el_pt`). The variables are updated
+a built-in prefix (`bv__`) plus the name of the branch
+(e.g. `bv__el_pt` for the branch `el_pt`). The variables are updated
 on each iteration behind the scenes (in the `TL::Job`
 implementation). The user does not need to worry about the variables
 updating! Two macros handle everything related to setting up variables
