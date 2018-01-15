@@ -16,6 +16,7 @@
 
 namespace TL {
   class Algorithm;
+  class FileManager;
 }
 
 namespace TL {
@@ -23,18 +24,22 @@ namespace TL {
   class Job : public TL::Loggable {
 
   protected:
-    TL::Algorithm* m_analysis;
+    TL::Algorithm* m_algorithm = nullptr;
+    std::unique_ptr<TL::FileManager> m_fm{nullptr};
 
   public:
 
     /// default unusable constructor
-    Job() : TL::Loggable("TL::Job"), m_analysis(nullptr) {}
-
-    /// constructor which is fed with algorithm pointer
-    Job(TL::Algorithm* ab) : TL::Loggable("TL::Job"), m_analysis(ab) {}
+    Job();
 
     /// detructor
-    virtual ~Job() {}
+    virtual ~Job();
+
+    /// function to set the algorithm the job will run
+    TL::StatusCode setAlgorithm(TL::Algorithm* alg);
+
+    /// function to set the file manager for the job
+    TL::StatusCode setFileManager(std::unique_ptr<TL::FileManager> fm);
 
     /// launches the TL::Algorithm and checks the steps.
     TL::StatusCode run();

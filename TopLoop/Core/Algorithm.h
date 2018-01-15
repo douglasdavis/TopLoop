@@ -22,18 +22,18 @@
 
 namespace TL {
 
-  class Algorithm : public TL::Loggable, public TL::Variables, public TNamed {
+  class Algorithm : public TL::Loggable, public TL::Variables {
 
   private:
-    std::string   m_datasetName;
-    bool          m_isMC;
-    bool          m_isNominal;
-    bool          m_initCalled;
+    std::string   m_datasetName{""};
+    bool          m_isMC{true};
+    bool          m_isNominal{true};
+    bool          m_initCalled{false};
 
     long m_totalEntries;
     long m_eventCounter;
 
-    std::shared_ptr<TL::FileManager> m_fm;
+    std::unique_ptr<TL::FileManager> m_fm;
     std::shared_ptr<TTreeReader>     m_reader;
     std::shared_ptr<TTreeReader>     m_weightsReader;
 
@@ -56,7 +56,7 @@ namespace TL {
     /// default constructor
     Algorithm();
     /// destructor
-    virtual ~Algorithm();
+    virtual ~Algorithm() = default;
 
     /// delete copy constructor
     Algorithm(const Algorithm&) = delete;
@@ -66,13 +66,15 @@ namespace TL {
     /// for use in TL::Job to ensure main init() function is called.
     bool initCalled() const;
 
+  private:
     //! Set the file manager
     /*!
       This is a requirement of all TopLoop algorithms Must be
       called before feeding to the TL::Job object.
     */
-    void setFileManager(std::shared_ptr<TL::FileManager> fm);
+    TL::StatusCode setFileManager(std::unique_ptr<TL::FileManager> fm);
 
+  public:
     //! Initialize the variables for the TTreeReader
     /*!
       This function sets the TTreeReader variables up.
@@ -154,7 +156,7 @@ namespace TL {
     unsigned int get_dsid();
 
     /// get pointer to the file manager
-    std::shared_ptr<TL::FileManager> fileManager()   const;
+    const TL::FileManager* fileManager()             const;
     /// get pointer to the main reader
     std::shared_ptr<TTreeReader>     reader()        const;
     /// get pointer to the weights reader
@@ -171,6 +173,8 @@ namespace TL {
 
   private:
     ClassDef(Algorithm, 1);
+
+    friend class Job;
 
   };
 

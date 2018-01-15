@@ -12,8 +12,8 @@ inline void TL::Algorithm::setIsSystematic() {
   m_isNominal = false;
 }
 
-inline std::shared_ptr<TL::FileManager> TL::Algorithm::fileManager() const {
-  return m_fm;
+inline const TL::FileManager* TL::Algorithm::fileManager() const {
+  return m_fm.get();
 }
 
 inline std::shared_ptr<TTreeReader> TL::Algorithm::reader() const {
@@ -24,9 +24,11 @@ inline std::shared_ptr<TTreeReader> TL::Algorithm::weightsReader() const {
   return m_weightsReader;
 }
 
-inline void TL::Algorithm::setFileManager(std::shared_ptr<TL::FileManager> fm) {
-  m_fm = fm;
+inline TL::StatusCode TL::Algorithm::setFileManager(std::unique_ptr<TL::FileManager> fm) {
+  if ( fm == nullptr ) return TL::StatusCode::FAILURE;
+  m_fm = std::move(fm);
   m_totalEntries = m_fm->rootChain()->GetEntries();
+  return TL::StatusCode::SUCCESS;
 }
 
 template<typename T>

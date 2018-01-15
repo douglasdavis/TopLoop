@@ -10,19 +10,38 @@
 #include <TopLoop/Core/Utils.h>
 #include <TopLoop/Core/FileManager.h>
 
+TL::Job::Job() : TL::Loggable("TL::Job") {}
+
+TL::Job::~Job() {
+  delete m_algorithm;
+}
+
+TL::StatusCode TL::Job::setAlgorithm(TL::Algorithm* alg) {
+  if ( alg == nullptr ) return TL::StatusCode::FAILURE;
+  m_algorithm = alg;
+  return TL::StatusCode::SUCCESS;
+}
+
+TL::StatusCode TL::Job::setFileManager(std::unique_ptr<TL::FileManager> fm) {
+  if ( fm == nullptr ) return TL::StatusCode::FAILURE;
+  m_fm = std::move(fm);
+  return TL::StatusCode::SUCCESS;
+}
+
 TL::StatusCode TL::Job::run() {
-  TL_CHECK(m_analysis->init());
-  if ( not m_analysis->initCalled() ) {
+  TL_CHECK(m_algorithm->setFileManager(std::move(m_fm)));
+  TL_CHECK(m_algorithm->init());
+  if ( not m_algorithm->initCalled() ) {
     logger()->critical("You didn't call TL::Algorithm::init()");
     logger()->critical("in your algorithm's init() function");
     logger()->critical("This is a required line!");
     return TL::StatusCode::FAILURE;
   }
-  TL_CHECK(m_analysis->setupOutput());
-  m_analysis->reader()->Restart();
-  while ( m_analysis->reader()->Next() ) {
-    TL_CHECK(m_analysis->execute());
+  TL_CHECK(m_algorithm->setupOutput());
+  m_algorithm->reader()->Restart();
+  while ( m_algorithm->reader()->Next() ) {
+    TL_CHECK(m_algorithm->execute());
   }
-  TL_CHECK(m_analysis->finish());
+  TL_CHECK(m_algorithm->finish());
   return TL::StatusCode::SUCCESS;
 }
