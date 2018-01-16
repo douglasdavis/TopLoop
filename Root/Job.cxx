@@ -12,13 +12,11 @@
 
 TL::Job::Job() : TL::Loggable("TL::Job") {}
 
-TL::Job::~Job() {
-  delete m_algorithm;
-}
+TL::Job::~Job() {}
 
-TL::StatusCode TL::Job::setAlgorithm(TL::Algorithm* alg) {
+TL::StatusCode TL::Job::setAlgorithm(std::unique_ptr<TL::Algorithm> alg) {
   if ( alg == nullptr ) return TL::StatusCode::FAILURE;
-  m_algorithm = alg;
+  m_algorithm = std::move(alg);
   return TL::StatusCode::SUCCESS;
 }
 

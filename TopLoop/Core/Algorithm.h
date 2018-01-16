@@ -58,6 +58,7 @@ namespace TL {
     /// destructor
     virtual ~Algorithm() = default;
 
+  private:
     /// delete copy constructor
     Algorithm(const Algorithm&) = delete;
     /// delete assignment operator
@@ -66,7 +67,6 @@ namespace TL {
     /// for use in TL::Job to ensure main init() function is called.
     bool initCalled() const;
 
-  private:
     //! Set the file manager
     /*!
       This is a requirement of all TopLoop algorithms Must be

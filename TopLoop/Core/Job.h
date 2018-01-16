@@ -24,7 +24,8 @@ namespace TL {
   class Job : public TL::Loggable {
 
   protected:
-    TL::Algorithm* m_algorithm = nullptr;
+    //TL::Algorithm* m_algorithm = nullptr;
+    std::unique_ptr<TL::Algorithm>   m_algorithm{nullptr};
     std::unique_ptr<TL::FileManager> m_fm{nullptr};
 
   public:
@@ -36,7 +37,7 @@ namespace TL {
     virtual ~Job();
 
     /// function to set the algorithm the job will run
-    TL::StatusCode setAlgorithm(TL::Algorithm* alg);
+    TL::StatusCode setAlgorithm(std::unique_ptr<TL::Algorithm> alg);
 
     /// function to set the file manager for the job
     TL::StatusCode setFileManager(std::unique_ptr<TL::FileManager> fm);
