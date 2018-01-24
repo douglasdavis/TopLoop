@@ -2,8 +2,13 @@ TopLoop Analysis Package
 ========================
 
 TopLoop is a small library inspired by the ASG EventLoop
-package. TopLoop is built specifically for analyzing Top group ntuples
-output by the TopAnalysis `top-xaod` program.
+package. TopLoop is built specifically for analyzing Single Top
+ntuples output by the TopAnalysis `top-xaod` program with the
+`SingleTopAnalysis` software loaded. Technically, this software can
+analyze _any_ ntuple, but the structure and API are tailored for
+ntuples output by `top-xaod`. Any user can implement the ability to
+access any branch - see the [Adding new
+variables](#adding-new-variables) section.
 
 TopLoop delivers a base algorithm class, a job runner, a file manager,
 and a small event data model. The algorithm has the following
@@ -61,31 +66,31 @@ algorithm's `init()` function, we use the latter and say which
 TTreeReader pointer to connect to.
 
 An example where the additional variable of interest is called
-`el_true_pt` exists:
+`el_foo` exists:
 
 ```cpp
-// in the header class definition (private or protected area).
-DECLARE_BRANCH(el_true_pt, std::vector<float>)
+// in the header class definition.
+DECLARE_BRANCH(el_foo, std::vector<float>)
+```
+
+```cpp
+// in your init() implementation
+CONNECT_BRANCH(el_foo, std::vector<float>, reader());
 ```
 
 
 ```cpp
-// in init() source
-CONNECT_BRANCH(el_true_pt, std::vector<float>, reader());
-```
-
-
-```cpp
-// in execute() source
-for ( const auto& truepT : el_true_pt() ) {
-  auto true_pt_squared = truepT*truepT;
+// in your execute() implementation
+for ( const auto& el_foo_itr : el_foo() ) {
+  auto el_foo_squared = el_foo_itr*el_foo_itr;
 }
 ```
 
-Under the hood, the macros create the
+Under the hood, the macros create a
 `std::unique_ptr<TTreeReaderValue<T>>` and a public function to access
-the value via a double derefencing. The function call structure is
-intuitive and fast due to inlining.
+the value via a double derefencing. If you imagine the top ntuple as a
+class itself (or perhaps a pandas.DataFrame) then the function call
+structure is intuitive.
 
 ## API Documentation
 
