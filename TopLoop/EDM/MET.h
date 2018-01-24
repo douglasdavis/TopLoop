@@ -20,8 +20,9 @@ namespace TL {
 
     class MET : public TL::EDM::PhysicsObject {
     private:
-
-      ClassDef(MET,1);
+      float m_px;
+      float m_py;
+      float m_sumet;
 
     public:
       MET() = default;
@@ -30,9 +31,35 @@ namespace TL {
       MET(const MET&) = default;
       MET& operator=(const MET&) = default;
 
+      /// @name setters
+      /// @{
+
+      void set_px(const float val);
+      void set_py(const float val);
+      void set_sumet(const float val);
+
+      /// @}
+
+      /// @name getters
+      /// @{
+
+      float px()    const;
+      float py()    const;
+      float sumet() const;
+
+      /// @}
+
     };
 
   }
 }
+
+inline void TL::EDM::MET::set_px(const float val)    { m_px    = val; }
+inline void TL::EDM::MET::set_py(const float val)    { m_py    = val; }
+inline void TL::EDM::MET::set_sumet(const float val) { m_sumet = val; }
+
+inline float TL::EDM::MET::px()    const { return m_px;    }
+inline float TL::EDM::MET::py()    const { return m_py;    }
+inline float TL::EDM::MET::sumet() const { return m_sumet; }
 
 #endif

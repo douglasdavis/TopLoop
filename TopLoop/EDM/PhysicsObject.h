@@ -19,11 +19,9 @@
 namespace TL {
   namespace EDM {
 
-    class PhysicsObject : public TObject {
+    class PhysicsObject {
     protected:
       TLorentzVector m_p;
-
-      ClassDef(PhysicsObject,1);
 
     public:
       /// default constructor
@@ -45,9 +43,9 @@ namespace TL {
       float eta() const;
       /// get the angle in the transerve plane
       float phi() const;
-      /// get the energy
+      /// get the energy *from the ROOT four vector*
       float E()   const;
-      /// get the mass *from the four vector*
+      /// get the mass *from the ROOT four vector*
       float m()   const;
       /// get the x-component of the momentum
       float px()  const;

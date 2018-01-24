@@ -4,7 +4,9 @@
  *  @brief A container for electron/muon information.
  *
  *  This class is part of the TopLoop event data model (EDM). It
- *  contains the properties of a lepton.
+ *  contains the properties of a lepton. Variables that are shared by
+ *  both electrons and muons are used here. Variables specific to each
+ *  respective flavor of lepton are in the dedicated class for each.
  *
  *  @author Douglas Davis < ddavis@cern.ch >
  */
@@ -20,22 +22,15 @@ namespace TL {
 
     class Lepton : public TL::EDM::PhysicsObject {
     private:
-      unsigned int   m_pdgId;
-      int            m_charge;
-      float          m_cl_eta;          //!< for electrons;
-      float          m_topoetcone20;
-      float          m_ptvarcone20;     //!< for electrons;
-      float          m_ptvarcone30;     //!< for muons;
-      float          m_d0sig;
-      float          m_delta_z0_sintheta;
-      char           m_el_trigMatch_HLT_e60_lhmedium;
-      char           m_el_trigMatch_HLT_e24_lhmedium_L1EM18VH;
-      char           m_el_trigMatch_HLT_e120_lhloose;
-      char           m_mu_trigMatch_HLT_mu50;
-      char           m_mu_trigMatch_HLT_mu20_iloose_L1MU15;
-      
-      ClassDef(Lepton,1);
-      
+      unsigned int m_pdgId;
+      float        m_charge;
+      float        m_topoetcone20;
+      float        m_d0sig;
+      float        m_delta_z0_sintheta;
+      int          m_true_type;
+      int          m_true_origin;
+      float        m_e_branch;
+
     public:
       Lepton() = default;
       virtual ~Lepton() = default;
@@ -43,88 +38,62 @@ namespace TL {
       Lepton& operator=(const Lepton&) = default;
       Lepton(const Lepton&) = default;
 
+      /// @name setters
+      /// @{
+
       void set_pdgId(const unsigned int val);
-      void set_charge(const int val);
-      void set_cl_eta(const float val);
+      void set_charge(const float val);
       void set_topoetcone20(const float val);
-      void set_ptvarcone20(const float val);
-      void set_ptvarcone30(const float val);
       void set_d0sig(const float val);
       void set_delta_z0_sintheta(const float val);
-      void set_el_trigMatch_HLT_e60_lhmedium(const char val);
-      void set_el_trigMatch_HLT_e24_lhmedium_L1EM18VH(const char val);
-      void set_el_trigMatch_HLT_e120_lhloose(const char val);
-      void set_mu_trigMatch_HLT_mu50(const char val);
-      void set_mu_trigMatch_HLT_mu20_iloose_L1MU15(const char val);
-      
+      void set_true_type(const int val);
+      void set_true_origin(const int val);
+
+      /// Value from the energy branch that AnalysisTop ntuples include
+      /**
+       *  a branch for the reconstructed energy. The energy in the
+       *  _four vector_ of this object will be calculated using the
+       *  (pT, eta, phi, m) information. the "e_branch" variable is
+       *  separate.
+       */
+      void set_e_branch(const float val);
+
+      /// @}
+
+      /// @name getters
+      /// @{
+
       unsigned int pdgId()             const;
-      int          charge()            const;
-      float        cl_eta()            const;
+      float        e_branch()          const;
+      float        charge()            const;
       float        topoetcone20()      const;
-      float        ptvarcone20()       const;
-      float        ptvarcone30()       const;
       float        d0sig()             const;
       float        delta_z0_sintheta() const;
+      int          true_type()         const;
+      int          true_origin()       const;
 
-      char el_trigMatch_HLT_e60_lhmedium()          const;
-      char el_trigMatch_HLT_e24_lhmedium_L1EM18VH() const;
-      char el_trigMatch_HLT_e120_lhloose()          const;
-      char mu_trigMatch_HLT_mu50()                  const;
-      char mu_trigMatch_HLT_mu20_iloose_L1MU15()    const;
-      
+      /// @}
+
     };
-
   }
 }
 
 inline void TL::EDM::Lepton::set_pdgId(const unsigned int val)      { m_pdgId             = val; }
-inline void TL::EDM::Lepton::set_charge(const int val)              { m_charge            = val; }
-inline void TL::EDM::Lepton::set_cl_eta(const float val)            { m_cl_eta            = val; }
+inline void TL::EDM::Lepton::set_e_branch(const float val)          { m_e_branch          = val; }
+inline void TL::EDM::Lepton::set_charge(const float val)            { m_charge            = val; }
 inline void TL::EDM::Lepton::set_topoetcone20(const float val)      { m_topoetcone20      = val; }
-inline void TL::EDM::Lepton::set_ptvarcone20(const float val)       { m_ptvarcone20       = val; }
-inline void TL::EDM::Lepton::set_ptvarcone30(const float val)       { m_ptvarcone30       = val; }
 inline void TL::EDM::Lepton::set_d0sig(const float val)             { m_d0sig             = val; }
 inline void TL::EDM::Lepton::set_delta_z0_sintheta(const float val) { m_delta_z0_sintheta = val; }
-
-inline void TL::EDM::Lepton::set_el_trigMatch_HLT_e60_lhmedium(const char val) {
-  m_el_trigMatch_HLT_e60_lhmedium = val;
-}
-inline void TL::EDM::Lepton::set_el_trigMatch_HLT_e24_lhmedium_L1EM18VH(const char val) {
-  m_el_trigMatch_HLT_e24_lhmedium_L1EM18VH = val;
-}
-inline void TL::EDM::Lepton::set_el_trigMatch_HLT_e120_lhloose(const char val) {
-  m_el_trigMatch_HLT_e120_lhloose = val;
-}
-inline void TL::EDM::Lepton::set_mu_trigMatch_HLT_mu50(const char val) {
-  m_mu_trigMatch_HLT_mu50 = val;
-}
-inline void TL::EDM::Lepton::set_mu_trigMatch_HLT_mu20_iloose_L1MU15(const char val) {
-  m_mu_trigMatch_HLT_mu20_iloose_L1MU15 = val;
-}
+inline void TL::EDM::Lepton::set_true_type(const int val)           { m_true_type         = val; }
+inline void TL::EDM::Lepton::set_true_origin(const int val)         { m_true_origin       = val; }
 
 inline unsigned int TL::EDM::Lepton::pdgId()             const { return m_pdgId;             }
-inline int          TL::EDM::Lepton::charge()            const { return m_charge;            }
-inline float        TL::EDM::Lepton::cl_eta()            const { return m_cl_eta;            }
+inline float        TL::EDM::Lepton::e_branch()          const { return m_e_branch;          }
+inline float        TL::EDM::Lepton::charge()            const { return m_charge;            }
 inline float        TL::EDM::Lepton::topoetcone20()      const { return m_topoetcone20;      }
-inline float        TL::EDM::Lepton::ptvarcone20()       const { return m_ptvarcone20;       }
-inline float        TL::EDM::Lepton::ptvarcone30()       const { return m_ptvarcone30;       }
 inline float        TL::EDM::Lepton::d0sig()             const { return m_d0sig;             }
 inline float        TL::EDM::Lepton::delta_z0_sintheta() const { return m_delta_z0_sintheta; }
-
-inline char TL::EDM::Lepton::el_trigMatch_HLT_e60_lhmedium()          const {
-  return m_el_trigMatch_HLT_e60_lhmedium;
-}
-inline char TL::EDM::Lepton::el_trigMatch_HLT_e24_lhmedium_L1EM18VH() const {
-  return m_el_trigMatch_HLT_e24_lhmedium_L1EM18VH;
-}
-inline char TL::EDM::Lepton::el_trigMatch_HLT_e120_lhloose()          const {
-  return m_el_trigMatch_HLT_e120_lhloose;
-}
-inline char TL::EDM::Lepton::mu_trigMatch_HLT_mu50()                  const {
-  return m_mu_trigMatch_HLT_mu50;
-}
-inline char TL::EDM::Lepton::mu_trigMatch_HLT_mu20_iloose_L1MU15()    const {
-  return m_mu_trigMatch_HLT_mu20_iloose_L1MU15;
-}
+inline int          TL::EDM::Lepton::true_type()         const { return m_true_type;         }
+inline int          TL::EDM::Lepton::true_origin()       const { return m_true_origin;       }
 
 #endif

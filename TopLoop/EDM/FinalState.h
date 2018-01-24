@@ -23,7 +23,7 @@
 namespace TL {
   namespace EDM {
 
-    class FinalState : public TObject {
+    class FinalState {
     private:
       std::vector<TL::EDM::Lepton>     m_leptons;
       std::vector<TL::EDM::Jet>        m_jets;
@@ -41,8 +41,6 @@ namespace TL {
       void setHasFakeMuon(const bool flag);
       void evaluateLepPairs();
 
-      ClassDef(FinalState,1);
-
     public:
 
       /// default constructor
@@ -54,12 +52,20 @@ namespace TL {
       FinalState(const FinalState&) = delete;
       FinalState& operator=(const FinalState&) = delete;
 
+      /// @name Functions to define the final state
+      /// @{
+
       /// add a lepton to the lepton container
       void addLepton(const TL::EDM::Lepton& lep);
       /// add a jet to the final state
       void addJet(const TL::EDM::Jet& jet);
       /// parse the leptons, jets, and MET to set some final state properties
       void evaluateSelf(bool sort_leptons = true);
+
+      /// @}
+
+      /// @name Functions to grab information about the final state
+      /// @{
 
       /// get the leptons
       const std::vector<TL::EDM::Lepton>&     leptons()     const;
@@ -76,18 +82,15 @@ namespace TL {
       float        M()                const;
       /// retrieve the sum of transverse energy of objects in the final state
       float        HT()               const;
-      std::size_t  nbjets_c20()       const;
-      std::size_t  nbjets_c10()       const;
-      /// retrieve the number of bjets using the 70% efficiency working point
-      std::size_t  nbjets_AT70()      const;
-      /// retrieve the number of bjets using the 77% efficiency working point
-      std::size_t  nbjets_AT77()      const;
-      /// retrieve the number of bjets using the 85% efficiency working point
-      std::size_t  nbjets_AT85()      const;
       /// true if the event has a fake electron (at least one electron that failed truth matching)
       bool         hasFakeElectron()  const;
       /// true if the event has a fake muon (at least one muon that failed truth matching)
       bool         hasFakeMuon()      const;
+
+      /// coun the number of jets in the container with MV2c10 at 77 percent eff
+      std::size_t nbjets_MV2c10_77() const;
+
+      /// @}
 
       /// clear the final state
       void clear();
@@ -125,32 +128,12 @@ inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs(
 inline float TL::EDM::FinalState::M()  const { return m_M;  }
 inline float TL::EDM::FinalState::HT() const { return m_HT; }
 
-inline std::size_t TL::EDM::FinalState::nbjets_c20() const {
-  return std::count_if(m_jets.begin(), m_jets.end(),
-                       [](const TL::EDM::Jet& a) { return a.isTagged_c20(); });
-}
-
-inline std::size_t TL::EDM::FinalState::nbjets_c10() const {
-  return std::count_if(m_jets.begin(), m_jets.end(),
-                       [](const TL::EDM::Jet& a) { return a.isTagged_c10(); });
-}
-
-inline std::size_t TL::EDM::FinalState::nbjets_AT70() const {
-  return std::count_if(m_jets.begin(), m_jets.end(),
-                       [](const TL::EDM::Jet& a) { return a.isbtagged_70(); });
-}
-
-inline std::size_t TL::EDM::FinalState::nbjets_AT77() const {
-  return std::count_if(m_jets.begin(), m_jets.end(),
-                       [](const TL::EDM::Jet& a) { return a.isbtagged_77(); });
-}
-
-inline std::size_t TL::EDM::FinalState::nbjets_AT85() const {
-  return std::count_if(m_jets.begin(), m_jets.end(),
-                       [](const TL::EDM::Jet& a) { return a.isbtagged_85(); });
-}
-
 inline bool TL::EDM::FinalState::hasFakeElectron()  const { return m_hasFakeElectron; }
 inline bool TL::EDM::FinalState::hasFakeMuon()      const { return m_hasFakeMuon;     }
+
+inline std::size_t TL::EDM::FinalState::nbjets_MV2c10_77() const {
+  return std::count_if(m_jets.begin(), m_jets.end(),
+                       [](const TL::EDM::Jet& a) { return a.isbtagged_MV2c10_77(); });
+}
 
 #endif

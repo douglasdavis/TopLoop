@@ -25,11 +25,11 @@
 // TopLoop
 #include <TopLoop/Core/Loggable.h>
 
-#define DECLARE_BRANCH(NAME,TYPE)                               \
-  protected:                                                    \
-  std::unique_ptr<TTreeReaderValue<TYPE>> bv__##NAME;           \
-public:                                                         \
- inline const TYPE& NAME() const { return *(*bv__##NAME); }
+#define DECLARE_BRANCH(NAME,TYPE)                                 \
+  protected:                                                      \
+    std::unique_ptr<TTreeReaderValue<TYPE>> bv__##NAME;           \
+  public:                                                         \
+    inline const TYPE& NAME() const { return *(*bv__##NAME); }
 
 #define CONNECT_BRANCH(NAME,TYPE,READER)                                \
   bv__##NAME = TL::Variables::setupBranch<TTreeReaderValue<TYPE>>((READER),#NAME);
@@ -363,29 +363,25 @@ template<typename T>
 inline std::unique_ptr<T>
 TL::Variables::setupBranch(std::shared_ptr<TTreeReader> reader,
                            const char* name) {
-  std::shared_ptr<spdlog::logger> logger{nullptr};
   if ( spdlog::get("TL::Variables") == nullptr ) {
-    logger = spdlog::stdout_color_mt("TL::Variables");
-  }
-  else {
-    logger = spdlog::get("TL::Variables");
+    spdlog::stdout_color_mt("TL::Variables");
   }
 
   if ( reader->GetTree() == nullptr ) {
-    logger->debug("{} branch trying to link to a null tree! "
-                  "TTreeReader name name: {}", name, reader->GetTree()->GetName());
+    spdlog::get("TL::Variables")->debug("{} branch trying to link to a null tree! "
+                                        "TTreeReader name name: {}",
+                                        name, reader->GetTree()->GetName());
     return nullptr;
   }
   if ( reader->GetTree()->GetListOfBranches()->FindObject(name) != nullptr ) {
     return std::make_unique<T>(*reader,name);
   }
   else {
-    logger->debug("{} branch not found in the tree \"{}\"! "
-                  "Using this branch will cause a painful death! ",
-                  name,reader->GetTree()->GetName());
+    spdlog::get("TL::Variables")->debug("{} branch not found in the tree \"{}\"! "
+                                        "Using this branch will cause a painful death! ",
+                                        name,reader->GetTree()->GetName());
   }
   return nullptr;
 }
-
 
 #endif

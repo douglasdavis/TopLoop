@@ -39,9 +39,13 @@
 #pragma link C++ class std::map<TL::EDM::Jet::WP_mv2cbm,float>+;
 #pragma link C++ class TL::EDM::Lepton+;
 #pragma link C++ class TL::EDM::LeptonPair+;
+#pragma link C++ class TL::EDM::Electron+;
+#pragma link C++ class TL::EDM::Muon+;
 #pragma link C++ class std::vector<TL::EDM::Jet>+;
 #pragma link C++ class std::vector<TL::EDM::Lepton>+;
 #pragma link C++ class std::vector<TL::EDM::LeptonPair>+;
+#pragma link C++ class std::vector<TL::EDM::Electron>+;
+#pragma link C++ class std::vector<TL::EDM::Muon>+;
 #pragma link C++ class TL::EDM::MET+;
 #pragma link C++ class TL::EDM::FinalState+;
 
