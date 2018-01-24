@@ -331,6 +331,24 @@
     "ttbar": [
         {
             "DSID_range": [
+                410470,
+                410470
+            ],
+            "Generator": "PowhegPythia8",
+            "InitialState": "ttbar",
+            "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [
+                410472,
+                410472
+            ],
+            "Generator": "PowhegPythia8_dil",
+            "InitialState": "ttbar",
+            "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [
                 410000,
                 410000
             ],

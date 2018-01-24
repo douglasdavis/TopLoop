@@ -16,7 +16,13 @@ TL::StatusCode TL::Algorithm::init_core_vars() {
   m_reader        = std::make_shared<TTreeReader>(fileManager()->rootChain());
   m_weightsReader = std::make_shared<TTreeReader>(fileManager()->rootWeightsChain());
 
-  //////////////// weights information ///////
+  TL_CHECK(connect_default_branches());
+
+  return TL::StatusCode::SUCCESS;
+}
+
+TL::StatusCode TL::Algorithm::connect_default_branches() {
+//////////////// weights information ///////
   CONNECT_BRANCH(dsid,Int_t,m_weightsReader);
   if ( isMC() ) {
     CONNECT_BRANCH(totalEventsWeighted,Float_t,m_weightsReader);

@@ -28,14 +28,14 @@
 
 namespace TL {
 
-  /*!
-    \enum kMeta
-
-    this enum is directly related to the samplemeta.json file. If a
-    new intial state, generator, or type is added to that file (that
-    doesn't already exist in it), this enum must be updated. The
-    setupMap() function must also be updated to be compatible with
-    the new entry(ies)!
+  /**
+   * @enum kMeta
+   *
+   *  this enum is directly related to the samplemeta.json file. If a
+   *  new intial state, generator, or type is added to that file (that
+   *  doesn't already exist in it), this enum must be updated. The
+   *  setupMap() function must also be updated to be compatible with
+   *  the new entry(ies)!
   */
 
   enum kMeta {
@@ -71,8 +71,9 @@ namespace TL {
     std::map<std::string,TL::kMeta> m_s2e;
     std::map<TL::kMeta,std::string> m_e2s;
 
-    std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>> m_table;
+    typedef std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>> Table_t;
     typedef std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>>::const_iterator TableIter_t;
+    Table_t m_table;
 
     void setupMap();
     const TableIter_t checkTable(const unsigned int dsid) const;
@@ -85,15 +86,20 @@ namespace TL {
     /// get the table of the form (DSID,(initial state, generator, sample type))
     const std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>>& table() const;
 
+    /// @name Enum identification getters
+    /// @{
+
     /// retrieve a enum value corresponding to the initial state based on a DSID
     TL::kMeta getInitialState(const unsigned int dsid) const;
-    /// retrieve a enum value corresponding to the generator based on a DSID    
+    /// retrieve a enum value corresponding to the generator based on a DSID
     TL::kMeta getGenerator(const unsigned int dsid)    const;
     /// retrieve a enum value corresponding to the sample type based on a DSID
     TL::kMeta getSampleType(const unsigned int dsid)   const;
 
-    /// retrieve a string based on the meta enum table
-    const std::string stringFromEnum(const TL::kMeta ienum) const;
+    /// @}
+
+    /// @name String identification getters
+    /// @{
 
     /// get the initial state name based on a dsid
     const std::string initialStateString(const unsigned int dsid) const;
@@ -101,6 +107,11 @@ namespace TL {
     const std::string generatorString(const unsigned int dsid)    const;
     /// get the sample type name based on a dsid
     const std::string sampleTypeString(const unsigned int dsid)   const;
+
+    /// retrieve a string based on the meta enum table
+    const std::string stringFromEnum(const TL::kMeta ienum) const;
+
+    /// @}
 
     /// have logger print out info based on dsid
     void printInfo(const int dsid) const;
@@ -113,11 +124,12 @@ inline TL::SampleMetaSvc& TL::SampleMetaSvc::get() {
   return inst;
 }
 
-inline const std::map<int,std::tuple<TL::kMeta,TL::kMeta,TL::kMeta>>& TL::SampleMetaSvc::table() const {
+inline const TL::SampleMetaSvc::Table_t& TL::SampleMetaSvc::table() const {
   return m_table;
 }
 
-inline const TL::SampleMetaSvc::TableIter_t TL::SampleMetaSvc::checkTable(const unsigned int dsid) const {
+inline const TL::SampleMetaSvc::TableIter_t
+TL::SampleMetaSvc::checkTable(const unsigned int dsid) const {
   const TableIter_t itr = m_table.find(dsid);
   if ( itr == m_table.end() ) {
     logger()->critical("can't find DSID! {} not in SampleMetaSvc table!",dsid);

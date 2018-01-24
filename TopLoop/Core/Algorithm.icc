@@ -31,25 +31,6 @@ inline TL::StatusCode TL::Algorithm::setFileManager(std::unique_ptr<TL::FileMana
   return TL::StatusCode::SUCCESS;
 }
 
-template<typename T>
-inline std::unique_ptr<T>
-TL::Algorithm::setupBranch(std::shared_ptr<TTreeReader> reader, const char* name, const char* tree_name) {
-  if ( !(ignoreList().empty()) && std::find(ignoreList().begin(),ignoreList().end(),name) != ignoreList().end() ) {
-    return nullptr;
-  }
-  if ( reader->GetTree() == nullptr ) {
-    logger()->debug("{} branch trying to link to a null tree! tree name: {}", name, tree_name);
-    return nullptr;
-  }
-  if ( reader->GetTree()->GetListOfBranches()->FindObject(name) != nullptr ) {
-    return std::make_unique<T>(*reader,name);
-  }
-  else {
-    logger()->debug("{} branch not found in the tree! use will crash!", name);
-    return nullptr;
-  }
-}
-
 inline bool TL::Algorithm::isMC() const {
   return m_isMC;
 }

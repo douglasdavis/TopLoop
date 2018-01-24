@@ -22,43 +22,44 @@
 #include <TTreeReader.h>
 #include <TTreeReaderValue.h>
 
-#define DECLARE_BRANCH(NAME,TYPE)                                      \
-  protected:                                                           \
-    std::unique_ptr<TTreeReaderValue<TYPE>> bv__##NAME;                \
-  public:                                                              \
+// TopLoop
+#include <TopLoop/Core/Loggable.h>
+
+#define DECLARE_BRANCH(NAME,TYPE)                                       \
+  protected:                                                            \
+    std::unique_ptr<TTreeReaderValue<TYPE>> bv__##NAME;                 \
+  public:                                                               \
     inline const TYPE& NAME() const { return *(*bv__##NAME); }
 
-#define CONNECT_BRANCH(NAME,TYPE,READER)                               \
-  bv__##NAME = setupBranch<TTreeReaderValue<TYPE>>((READER),#NAME);
+#define CONNECT_BRANCH(NAME,TYPE,READER)                                \
+  bv__##NAME = TL::Variables::setupBranch<TTreeReaderValue<TYPE>>((READER),#NAME);
 
 namespace TL {
 
   class Variables {
-  protected:
-    std::vector<std::string> m_ignoreList;
+  private:
 
   public:
     /// default constructor
-    Variables();
+    Variables() = default;
     /// destructor
-    virtual ~Variables();
+    virtual ~Variables() = default;
 
     /// disable copy constructor
     Variables(const Variables&) = delete;
     /// disable assignment operator
     Variables& operator=(const Variables&) = delete;
 
-    //! Create a list of branches to ignore from a plain text file
-    /*!
-      The list of strings in the txt file given will be ignores
-      when setting up the TTreeReader variables.  WARNING: If you try
-      to access a file in the ignore list you will get a glorious
-      crash.
-    */
-    void ignoreListFile(const std::string& filename);
-
-    /// Return the ignore list.
-    const std::vector<std::string>& ignoreList() const { return m_ignoreList; }
+    /// Set up a variable as a TTreeReaderValue pointer
+    /**
+     *  This one liner checks to make sure that the variable is on the
+     *  tree. If its not - you get a warning. If the variable isn't
+     *  there your program will still work as long as you don't try to
+     *  dereference the pointer.
+     */
+    template<typename T>
+    inline static std::unique_ptr<T>
+    setupBranch(std::shared_ptr<TTreeReader> reader, const char* name);
 
   protected:
 
@@ -234,5 +235,34 @@ namespace TL {
   };
 
 }
+
+template<typename T>
+inline std::unique_ptr<T>
+TL::Variables::setupBranch(std::shared_ptr<TTreeReader> reader,
+                           const char* name) {
+  std::shared_ptr<spdlog::logger> logger{nullptr};
+  if ( spdlog::get("TL::Variables") == nullptr ) {
+    logger = spdlog::stdout_color_mt("TL::Variables");
+  }
+  else {
+    logger = spdlog::get("TL::Variables");
+  }
+
+  if ( reader->GetTree() == nullptr ) {
+    logger->debug("{} branch trying to link to a null tree! "
+                  "TTreeReader name name: {}", name, reader->GetTree()->GetName());
+    return nullptr;
+  }
+  if ( reader->GetTree()->GetListOfBranches()->FindObject(name) != nullptr ) {
+    return std::make_unique<T>(*reader,name);
+  }
+  else {
+    logger->debug("{} branch not found in the tree \"{}\"! "
+                  "Using this branch will cause a painful death! ",
+                  name,reader->GetTree()->GetName());
+  }
+  return nullptr;
+}
+
 
 #endif
