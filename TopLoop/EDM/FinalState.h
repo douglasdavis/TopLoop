@@ -16,6 +16,8 @@
 #include <TopLoop/EDM/LeptonPair.h>
 #include <TopLoop/EDM/Jet.h>
 #include <TopLoop/EDM/MET.h>
+#include <TopLoop/EDM/Electron.h>
+#include <TopLoop/EDM/Muon.h>
 
 // C++
 #include <algorithm>
@@ -29,13 +31,16 @@ namespace TL {
       std::vector<TL::EDM::Jet>        m_jets;
       TL::EDM::MET                     m_MET;
       std::vector<TL::EDM::LeptonPair> m_leptonPairs;
+      std::vector<TL::EDM::Electron>   m_electrons;
+      std::vector<TL::EDM::Muon>       m_muons;
 
-      float       m_M;
-      float       m_HT;
+      float m_M;
+      float m_HT;
 
       bool m_hasFakeElectron;
       bool m_hasFakeMuon;
 
+      void addLepton(const TL::EDM::Lepton& lep);
       void addLeptonPair(const TL::EDM::LeptonPair& lp);
       void setHasFakeElectron(const bool flag);
       void setHasFakeMuon(const bool flag);
@@ -55,10 +60,12 @@ namespace TL {
       /// @name Functions to define the final state
       /// @{
 
-      /// add a lepton to the lepton container
-      void addLepton(const TL::EDM::Lepton& lep);
       /// add a jet to the final state
       void addJet(const TL::EDM::Jet& jet);
+      /// add an electron to electron container
+      void addElectron(const TL::EDM::Electron& el);
+      /// add a muon to the muon container
+      void addMuon(const TL::EDM::Muon& mu);
       /// parse the leptons, jets, and MET to set some final state properties
       void evaluateSelf(bool sort_leptons = true);
 
@@ -100,6 +107,8 @@ namespace TL {
 }
 
 inline void TL::EDM::FinalState::addLepton(const TL::EDM::Lepton& lep)        { m_leptons.emplace_back(lep);    }
+inline void TL::EDM::FinalState::addElectron(const TL::EDM::Electron& el)     { m_electrons.emplace_back(el);   }
+inline void TL::EDM::FinalState::addMuon(const TL::EDM::Muon& mu)             { m_muons.emplace_back(mu);       }
 inline void TL::EDM::FinalState::addJet(const TL::EDM::Jet& jet)              { m_jets.emplace_back(jet);       }
 inline void TL::EDM::FinalState::addLeptonPair(const TL::EDM::LeptonPair& lp) { m_leptonPairs.emplace_back(lp); }
 
@@ -107,6 +116,8 @@ inline void TL::EDM::FinalState::clear() {
   m_leptons.clear();
   m_jets.clear();
   m_leptonPairs.clear();
+  m_electrons.clear();
+  m_muons.clear();
   m_M = 0;
   m_HT = 0;
   m_hasFakeElectron = false;

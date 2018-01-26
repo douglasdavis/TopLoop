@@ -46,3 +46,7 @@ inline bool TL::Algorithm::isNominal() const {
 inline bool TL::Algorithm::isSystematic() const {
   return !m_isNominal;
 }
+
+inline long TL::Algorithm::eventCount() const {
+  return m_eventCounter;
+}

@@ -7,6 +7,12 @@
 
 // TL
 #include <TopLoop/Core/Algorithm.h>
+#include <TopLoop/EDM/FinalState.h>
+#include <TopLoop/EDM/Electron.h>
+#include <TopLoop/EDM/Muon.h>
+
+// C++
+#include <cmath>
 
 float TL::Algorithm::countSumWeights() {
   // sum up the weighted number of events in the metadata tree.  This
@@ -83,4 +89,57 @@ void TL::Algorithm::printProgress(int n_prints) const {
     }
   }
   return;
+}
+
+TL::StatusCode TL::Algorithm::addElectronsToFS(TL::EDM::FinalState& fs) const {
+  for ( std::size_t i = 0; i < el_pt().size(); ++i ) {
+    TL::EDM::Electron lep;
+    float pt  = el_pt().at(i);
+    float eta = el_eta().at(i);
+    float phi = el_phi().at(i);
+    lep.p().SetPtEtaPhiM(pt,eta,phi,0.510999);
+    lep.set_charge(el_charge().at(i));
+    lep.set_e_branch(el_e().at(i));
+    fs.addElectron(lep);
+  }
+  return TL::StatusCode::SUCCESS;
+}
+
+TL::StatusCode TL::Algorithm::addMuonsToFS(TL::EDM::FinalState& fs) const {
+  for ( std::size_t i = 0; i < mu_pt().size(); ++i ) {
+    TL::EDM::Muon lep;
+    float pt  = mu_pt().at(i);
+    float eta = mu_eta().at(i);
+    float phi = mu_phi().at(i);
+    lep.p().SetPtEtaPhiM(pt,eta,phi,105.658);
+    lep.set_charge(mu_charge().at(i));
+    lep.set_e_branch(mu_e().at(i));
+    fs.addMuon(lep);
+  }
+  return TL::StatusCode::SUCCESS;
+}
+
+TL::StatusCode TL::Algorithm::addJetsToFS(TL::EDM::FinalState& fs,
+                                          const float ptcut,
+                                          const float etacut) const {
+  for ( std::size_t i = 0; i < jet_pt().size(); ++i ) {
+    TL::EDM::Jet jet;
+    float pt  = jet_pt().at(i);
+    float eta = jet_eta().at(i);
+    if ( (pt < ptcut) || (std::abs(eta) > etacut) ) continue;
+    float phi = jet_phi().at(i);
+    float ene = jet_e().at(i);
+    jet.p().SetPtEtaPhiE(pt,eta,phi,ene);
+    jet.set_isbtagged_MV2c10_77(jet_isbtagged_MV2c10_77().at(i));
+    fs.addJet(jet);
+  }
+  return TL::StatusCode::SUCCESS;
+}
+
+TL::StatusCode TL::Algorithm::addMETtoFS(TL::EDM::FinalState& fs) const {
+  fs.MET().p().SetPtEtaPhiM(met_met(),0.0,met_phi(),0.0);
+  fs.MET().set_px(met_px());
+  fs.MET().set_py(met_py());
+  fs.MET().set_sumet(met_sumet());
+  return TL::StatusCode::SUCCESS;
 }

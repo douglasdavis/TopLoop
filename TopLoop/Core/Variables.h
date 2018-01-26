@@ -5,7 +5,8 @@
  *         analysis algorithms
  *
  *  A clean place to declare all TTreeReaderValues without saturating
- *  the main Algorithm class header with the TTreeReaderValues.
+ *  the main Algorithm class header with the TTreeReaderValues. This
+ *  class also implements branch access features.
  *
  *  @author Douglas Davis < ddavis@cern.ch >
  */
@@ -25,13 +26,17 @@
 // TopLoop
 #include <TopLoop/Core/Loggable.h>
 
-#define DECLARE_BRANCH(NAME,TYPE)                                 \
-  protected:                                                      \
-    std::unique_ptr<TTreeReaderValue<TYPE>> bv__##NAME;           \
-  public:                                                         \
-    inline const TYPE& NAME() const { return *(*bv__##NAME); }
+#define DECLARE_BRANCH(NAME,TYPE)                                          \
+  protected:                                                               \
+    std::unique_ptr<TTreeReaderValue<TYPE>> bv__##NAME;                    \
+  public:                                                                  \
+    inline const TYPE& NAME() const {                                      \
+      if ( bv__##NAME != nullptr ) return *(*bv__##NAME);                  \
+      spdlog::get("TL::Variables")->critical("No {} branch!",#NAME);       \
+      std::exit(EXIT_FAILURE);                                             \
+    }
 
-#define CONNECT_BRANCH(NAME,TYPE,READER)                                \
+#define CONNECT_BRANCH(NAME,TYPE,READER)                                   \
   bv__##NAME = TL::Variables::setupBranch<TTreeReaderValue<TYPE>>((READER),#NAME);
 
 namespace TL {

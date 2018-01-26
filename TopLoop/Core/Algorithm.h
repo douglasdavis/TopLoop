@@ -21,6 +21,12 @@
 #include <TopLoop/Core/Loggable.h>
 
 namespace TL {
+  namespace EDM {
+    class FinalState;
+  }
+}
+
+namespace TL {
 
   class Algorithm : public TL::Loggable, public TL::Variables {
 
@@ -178,6 +184,57 @@ namespace TL {
     /// @}
 
   protected:
+
+    /// @name TL::EDM::FinalState filling helpers
+    /// @{
+
+    /// Use SgTop electron branches to fill "default" variables
+    /**
+     *  SgTop ntuples have a set of included variables which the EDM
+     *  is designed to be able to contain. This function fills those
+     *  variables.
+     *
+     *  @param fs the final state object to append to
+     */
+    TL::StatusCode addElectronsToFS(TL::EDM::FinalState& fs) const;
+
+    /// Use SgTop muon branches to fill "default" variables
+    /**
+     *  SgTop ntuples have a set of included variables which the EDM
+     *  is designed to be able to contain. This function fills those
+     *  variables.
+     *
+     *  @param fs the final state object to append to
+     */
+    TL::StatusCode addMuonsToFS(TL::EDM::FinalState& fs) const;
+
+    /// Use SgTop jet branches to fill "default" variables
+    /**
+     *  SgTop ntuples have a set of included variables which the EDM
+     *  is designed to be able to contain. This function fills those
+     *  variables.
+     *
+     *  @param fs the final state object to append to
+     *  @param ptcut option pT requirement
+     *  @param etacut optional |eta| requirement
+     */
+    TL::StatusCode addJetsToFS(TL::EDM::FinalState& fs,
+                               const float ptcut  = 1.0e10,
+                               const float etacut = 1.0e10) const;
+
+    /// Use SgTop met branches to fill "default" variables
+    /**
+     *  SgTop ntuples have a set of included variables which the EDM
+     *  is designed to be able to contain. This function fills those
+     *  variables.
+     *
+     *  @param fs the final state object to append to
+     */
+    TL::StatusCode addMETtoFS(TL::EDM::FinalState& fs) const;
+
+    /// @}
+
+  protected:
     /// @name Sample pointer getters
     /// @{
 
@@ -191,7 +248,7 @@ namespace TL {
     /// @}
 
   protected:
-    /// @name Simple sample type helpers
+    /// @name Misc helpers
     /// @{
 
     /// get if sample is MC
@@ -202,6 +259,8 @@ namespace TL {
     bool isNominal()    const;
     /// get is systematic (for readability, opposite of isNominal())
     bool isSystematic() const;
+    /// get the current event counter (not eventNumber!)
+    long eventCount()   const;
 
     /// @}
 

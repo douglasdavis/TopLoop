@@ -49,8 +49,8 @@ namespace TL {
   }
 }
 
-void TL::EDM::Muon::set_ptvarcone30(const float val) { m_ptvarcone30 = val; }
+inline void TL::EDM::Muon::set_ptvarcone30(const float val) { m_ptvarcone30 = val; }
 
-float TL::EDM::Muon::ptvarcone30() const { return m_ptvarcone30; }
+inline float TL::EDM::Muon::ptvarcone30() const { return m_ptvarcone30; }
 
 #endif

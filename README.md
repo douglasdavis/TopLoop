@@ -41,13 +41,15 @@ An example code block:
 ```cpp
 TL::StatusCode MyAlgorithm::execute() {
   //...
+  TL::EDM::FinalState finalState;
   auto averageMu = mu();
   for ( std::size_t i = 0; i < el_pt().size(); ++i ) {
-    TL::EDM::Lepton aLepton;
+    TL::EDM::Electron elec;
     auto pt  = el_pt().at(i);
     auto eta = el_eta().at(i);
     auto phi = el_phi().at(i);
-    aLepton.p().SetPtEtaPhiM(pt,eta,phi,0.511)
+    elec.p().SetPtEtaPhiM(pt,eta,phi,0.511)
+    finalState.addLepton(elec);
   }
   // ...
 }
