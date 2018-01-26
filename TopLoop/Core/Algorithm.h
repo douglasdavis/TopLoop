@@ -217,6 +217,7 @@ namespace TL {
      *  @param fs the final state object to append to
      *  @param ptcut option pT requirement
      *  @param etacut optional |eta| requirement
+     *  @param do_all_ftagging assign _all_ ftagging member variables
      */
     TL::StatusCode addJetsToFS(TL::EDM::FinalState* fs,
                                const float ptcut  = 1.0e10,
