@@ -196,7 +196,7 @@ namespace TL {
      *
      *  @param fs the final state object to append to
      */
-    TL::StatusCode addElectronsToFS(TL::EDM::FinalState& fs) const;
+    TL::StatusCode addElectronsToFS(TL::EDM::FinalState* fs) const;
 
     /// Use SgTop muon branches to fill "default" variables
     /**
@@ -206,7 +206,7 @@ namespace TL {
      *
      *  @param fs the final state object to append to
      */
-    TL::StatusCode addMuonsToFS(TL::EDM::FinalState& fs) const;
+    TL::StatusCode addMuonsToFS(TL::EDM::FinalState* fs) const;
 
     /// Use SgTop jet branches to fill "default" variables
     /**
@@ -218,9 +218,10 @@ namespace TL {
      *  @param ptcut option pT requirement
      *  @param etacut optional |eta| requirement
      */
-    TL::StatusCode addJetsToFS(TL::EDM::FinalState& fs,
+    TL::StatusCode addJetsToFS(TL::EDM::FinalState* fs,
                                const float ptcut  = 1.0e10,
-                               const float etacut = 1.0e10) const;
+                               const float etacut = 1.0e10,
+                               const bool  do_all_ftagging = false) const;
 
     /// Use SgTop met branches to fill "default" variables
     /**
@@ -230,7 +231,7 @@ namespace TL {
      *
      *  @param fs the final state object to append to
      */
-    TL::StatusCode addMETtoFS(TL::EDM::FinalState& fs) const;
+    TL::StatusCode addMETtoFS(TL::EDM::FinalState* fs) const;
 
     /// @}
 
@@ -265,7 +266,6 @@ namespace TL {
     /// @}
 
   private:
-    ClassDef(Algorithm, 1);
 
     friend class Job;
 

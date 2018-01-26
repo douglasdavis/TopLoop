@@ -14,14 +14,14 @@ TopLoop delivers a base algorithm class, a job runner, a file manager,
 and a small event data model. The algorithm has the following
 structure:
 
-## Components
+## Components of an Algorithm
 
 - `init()`: run at the beginning of the job
 - `setupOutput()`: run immediately following init()
 - `execute()`: run on each iteration of the event set
 - `finish()`: run after the completion of all execute() calls
 
-## TopLoop Variables.
+## TopLoop Variable Access
 
 All tree variables (branches) are stored as smart pointers to
 `TTreeReaderValue<T>` objects. The pointer object names correspond to
@@ -49,13 +49,13 @@ TL::StatusCode MyAlgorithm::execute() {
     auto eta = el_eta().at(i);
     auto phi = el_phi().at(i);
     elec.p().SetPtEtaPhiM(pt,eta,phi,0.511)
-    finalState.addLepton(elec);
+    finalState.addElectron(elec);
   }
-  // ...
+  // ... use the final state
 }
 ```
 
-### Adding new variables
+### Adding "custom" variable access
 
 It's very easy to add additional variable access in a TopLoop based
 algorithm. If your analysis adds more output on top of the standard

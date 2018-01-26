@@ -91,55 +91,109 @@ void TL::Algorithm::printProgress(int n_prints) const {
   return;
 }
 
-TL::StatusCode TL::Algorithm::addElectronsToFS(TL::EDM::FinalState& fs) const {
+TL::StatusCode TL::Algorithm::addElectronsToFS(TL::EDM::FinalState* fs) const {
   for ( std::size_t i = 0; i < el_pt().size(); ++i ) {
     TL::EDM::Electron lep;
-    float pt  = el_pt().at(i);
-    float eta = el_eta().at(i);
-    float phi = el_phi().at(i);
-    lep.p().SetPtEtaPhiM(pt,eta,phi,0.510999);
+    // four vector
+    lep.p().SetPtEtaPhiM(el_pt().at(i),el_eta().at(i),el_phi().at(i),0.510999);
+
+    // shared lepton info
     lep.set_charge(el_charge().at(i));
+    lep.set_topoetcone20(el_topoetcone20().at(i));
+    lep.set_d0sig(el_d0sig().at(i));
+    lep.set_delta_z0_sintheta(el_delta_z0_sintheta().at(i));
+    if ( isMC() ) {
+      lep.set_true_type(el_true_type().at(i));
+      lep.set_true_origin(el_true_origin().at(i));
+    }
     lep.set_e_branch(el_e().at(i));
-    fs.addElectron(lep);
+
+    // electron only info
+    lep.set_ptvarcone20(el_ptvarcone20().at(i));
+    lep.set_CF(el_CF().at(i));
+    lep.set_true_originbkg(el_true_originbkg().at(i));
+    lep.set_true_typebkg(el_true_typebkg().at(i));
+
+
+
+    fs->addElectron(lep);
   }
   return TL::StatusCode::SUCCESS;
 }
 
-TL::StatusCode TL::Algorithm::addMuonsToFS(TL::EDM::FinalState& fs) const {
+TL::StatusCode TL::Algorithm::addMuonsToFS(TL::EDM::FinalState* fs) const {
   for ( std::size_t i = 0; i < mu_pt().size(); ++i ) {
     TL::EDM::Muon lep;
-    float pt  = mu_pt().at(i);
-    float eta = mu_eta().at(i);
-    float phi = mu_phi().at(i);
-    lep.p().SetPtEtaPhiM(pt,eta,phi,105.658);
+    // four vector
+    lep.p().SetPtEtaPhiM(mu_pt().at(i),mu_eta().at(i),mu_phi().at(i),0.510999);
+
+    // shared lepton info
     lep.set_charge(mu_charge().at(i));
+    lep.set_topoetcone20(mu_topoetcone20().at(i));
+    lep.set_d0sig(mu_d0sig().at(i));
+    lep.set_delta_z0_sintheta(mu_delta_z0_sintheta().at(i));
+    if ( isMC() ) {
+      lep.set_true_type(mu_true_type().at(i));
+      lep.set_true_origin(mu_true_origin().at(i));
+    }
     lep.set_e_branch(mu_e().at(i));
-    fs.addMuon(lep);
+
+    // muon only info
+    lep.set_ptvarcone30(mu_ptvarcone30().at(i));
+
+    fs->addMuon(lep);
   }
   return TL::StatusCode::SUCCESS;
 }
 
-TL::StatusCode TL::Algorithm::addJetsToFS(TL::EDM::FinalState& fs,
+TL::StatusCode TL::Algorithm::addJetsToFS(TL::EDM::FinalState* fs,
                                           const float ptcut,
-                                          const float etacut) const {
+                                          const float etacut,
+                                          const bool  do_all_ftagging) const {
+  float pt, eta;
   for ( std::size_t i = 0; i < jet_pt().size(); ++i ) {
     TL::EDM::Jet jet;
-    float pt  = jet_pt().at(i);
-    float eta = jet_eta().at(i);
+    pt  = jet_pt().at(i);
+    eta = jet_eta().at(i);
     if ( (pt < ptcut) || (std::abs(eta) > etacut) ) continue;
-    float phi = jet_phi().at(i);
-    float ene = jet_e().at(i);
-    jet.p().SetPtEtaPhiE(pt,eta,phi,ene);
+    jet.p().SetPtEtaPhiE(pt,eta,jet_phi().at(i),jet_e().at(i));
+
+    jet.set_mv2c00(jet_mv2c00().at(i));
+    jet.set_mv2c10(jet_mv2c10().at(i));
+    jet.set_mv2c20(jet_mv2c20().at(i));
+    jet.set_passfjvt(jet_passfjvt().at(i));
+    jet.set_isbtagged_MV2c10_70(jet_isbtagged_MV2c10_70().at(i));
     jet.set_isbtagged_MV2c10_77(jet_isbtagged_MV2c10_77().at(i));
-    fs.addJet(jet);
+    jet.set_isbtagged_MV2c10_85(jet_isbtagged_MV2c10_85().at(i));
+
+    if ( do_all_ftagging ) {
+      jet.set_MV2c10mu(jet_MV2c10mu().at(i));
+      jet.set_MV2c10rnn(jet_MV2c10rnn().at(i));
+      jet.set_DL1(jet_DL1().at(i));
+      jet.set_DL1mu(jet_DL1mu().at(i));
+      jet.set_DL1rnn(jet_DL1rnn().at(i));
+      jet.set_MV2cl100(jet_MV2cl100().at(i));
+      jet.set_MV2c100(jet_MV2c100().at(i));
+      jet.set_DL1_pu(jet_DL1_pu().at(i));
+      jet.set_DL1_pc(jet_DL1_pc().at(i));
+      jet.set_DL1_pb(jet_DL1_pb().at(i));
+      jet.set_DL1mu_pu(jet_DL1mu_pu().at(i));
+      jet.set_DL1mu_pc(jet_DL1mu_pc().at(i));
+      jet.set_DL1mu_pb(jet_DL1mu_pb().at(i));
+      jet.set_DL1rnn_pu(jet_DL1rnn_pu().at(i));
+      jet.set_DL1rnn_pc(jet_DL1rnn_pc().at(i));
+      jet.set_DL1rnn_pb(jet_DL1rnn_pb().at(i));
+    }
+
+    fs->addJet(jet);
   }
   return TL::StatusCode::SUCCESS;
 }
 
-TL::StatusCode TL::Algorithm::addMETtoFS(TL::EDM::FinalState& fs) const {
-  fs.MET().p().SetPtEtaPhiM(met_met(),0.0,met_phi(),0.0);
-  fs.MET().set_px(met_px());
-  fs.MET().set_py(met_py());
-  fs.MET().set_sumet(met_sumet());
+TL::StatusCode TL::Algorithm::addMETtoFS(TL::EDM::FinalState* fs) const {
+  fs->MET().p().SetPtEtaPhiM(met_met(),0.0,met_phi(),0.0);
+  fs->MET().set_px(met_px());
+  fs->MET().set_py(met_py());
+  fs->MET().set_sumet(met_sumet());
   return TL::StatusCode::SUCCESS;
 }

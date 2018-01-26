@@ -35,9 +35,8 @@ namespace TL {
       bool   m_mumu;
       bool   m_elmu;
 
-      std::pair<size_t,size_t> m_idxp;
-
-      ClassDef(LeptonPair,1);
+      std::size_t m_fIdx;
+      std::size_t m_sIdx;
 
     public:
 
@@ -91,22 +90,20 @@ namespace TL {
       /// return true if electron-muon lepton pair (same as OF())
       bool elmu() const;
 
-      /// get the pair of indices see firstIdx() and secondIdx()
-      const std::pair<size_t,size_t>& indexPair() const;
       /// get the index of the first lepton in the pair
       /**
        *  because we store leptons in a vector in the
        *  TL::EDM::FinalState class, it may be useful to have the
        *  index in that vector, that's what this is for.
        */
-      size_t firstIdx()  const;
+      std::size_t firstIdx()  const;
       /// get the index of the second lepton in the pair
       /**
        *  because we store leptons in a vector in the
        *  TL::EDM::FinalState class, it may be useful to have the
        *  index in that vector, that's what this is for.
        */
-      size_t secondIdx() const;
+      std::size_t secondIdx() const;
 
     };
 
@@ -125,8 +122,7 @@ inline bool TL::EDM::LeptonPair::elmu() const { return  m_elmu; }
 inline bool TL::EDM::LeptonPair::OF()   const { return  m_elmu; }
 inline bool TL::EDM::LeptonPair::SF()   const { return !m_elmu; }
 
-inline const std::pair<size_t,size_t>& TL::EDM::LeptonPair::indexPair() const { return m_idxp; }
-inline size_t TL::EDM::LeptonPair::firstIdx()  const { return m_idxp.first;  }
-inline size_t TL::EDM::LeptonPair::secondIdx() const { return m_idxp.second; }
+inline std::size_t TL::EDM::LeptonPair::firstIdx()  const { return m_fIdx; }
+inline std::size_t TL::EDM::LeptonPair::secondIdx() const { return m_sIdx; }
 
 #endif
