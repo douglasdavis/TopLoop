@@ -18,10 +18,7 @@ TL::StatusCode TL::Algorithm::init() {
   std::string treename(fileManager()->rootChain()->GetName());
 
   std::string mode = "nominal";
-  if ( treename != "nominal" ) {
-    setIsSystematic();
-    mode = "systematic";
-  }
+  if ( isSystematic() ) mode = "systematic";
 
   logger()->info("Processing tree {} in mode {}",treename,mode);
 

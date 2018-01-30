@@ -8,10 +8,6 @@ inline void TL::Algorithm::setIsData() {
   m_isMC = false;
 }
 
-inline void TL::Algorithm::setIsSystematic() {
-  m_isNominal = false;
-}
-
 inline const TL::FileManager* TL::Algorithm::fileManager() const {
   return m_fm.get();
 }
@@ -27,7 +23,8 @@ inline std::shared_ptr<TTreeReader> TL::Algorithm::weightsReader() const {
 inline TL::StatusCode TL::Algorithm::setFileManager(std::unique_ptr<TL::FileManager> fm) {
   if ( fm == nullptr ) return TL::StatusCode::FAILURE;
   m_fm = std::move(fm);
-  m_totalEntries = m_fm->rootChain()->GetEntries();
+  m_totalEntries =  m_fm->rootChain()->GetEntries();
+  m_isNominal    = (m_fm->treeName() == "nominal");
   return TL::StatusCode::SUCCESS;
 }
 

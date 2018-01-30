@@ -121,8 +121,6 @@ namespace TL {
     const std::string as_string(const TL::kGenerator ienum) const;
     /// retrieve a string based on the SampleType enum
     const std::string as_string(const TL::kSampleType ienum) const;
-    /// retrieve a string based on the Campain enum
-    const std::string as_string(const TL::kCampaign ienum) const;
 
     /// @}
 
@@ -131,6 +129,9 @@ namespace TL {
 
     /// Given a sample name, get the MC campaign identifier
     TL::kCampaign getCampaign(const std::string& sample_name) const;
+
+    /// retrieve a string based on the Campain enum
+    const std::string as_string(const TL::kCampaign ienum) const;
 
     /// @}
 

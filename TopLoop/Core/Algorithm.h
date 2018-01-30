@@ -127,7 +127,7 @@ namespace TL {
 
   public:
 
-    /// @name Sample type utilities
+    /// @name Sample property setting utilities
     /// @{
 
     /// Function to tell algorithm it's analyzing data
@@ -138,13 +138,22 @@ namespace TL {
      */
     void setIsData();
 
-    /// Function to tell algorithm it's analyzing a systematic variation
-    /**
-     *  Some variables in the nominal tree do not exist in the
-     *  systematic trees; so we need to avoid setting them up for
-     *  systematic runs.
-     */
-    void setIsSystematic();
+    /// @}
+
+  protected:
+    /// @name Sample property utilities
+    /// @{
+
+    /// get if sample is MC
+    bool isMC()         const;
+    /// get if sample is data (for readability, opposite of isMC())
+    bool isData()       const;
+    /// get is nominal
+    bool isNominal()    const;
+    /// get is systematic (for readability, opposite of isNominal())
+    bool isSystematic() const;
+    /// get the current event counter (not eventNumber!)
+    long eventCount()   const;
 
     /// @}
 
@@ -246,23 +255,6 @@ namespace TL {
     std::shared_ptr<TTreeReader> reader()        const;
     /// get pointer to the weights reader
     std::shared_ptr<TTreeReader> weightsReader() const;
-
-    /// @}
-
-  protected:
-    /// @name Misc helpers
-    /// @{
-
-    /// get if sample is MC
-    bool isMC()         const;
-    /// get if sample is data (for readability, opposite of isMC())
-    bool isData()       const;
-    /// get is nominal
-    bool isNominal()    const;
-    /// get is systematic (for readability, opposite of isNominal())
-    bool isSystematic() const;
-    /// get the current event counter (not eventNumber!)
-    long eventCount()   const;
 
     /// @}
 
