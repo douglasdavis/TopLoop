@@ -17,6 +17,9 @@
 // TL
 #include <TopLoop/EDM/PhysicsObject.h>
 
+// ATLAS
+#include "MCTruthClassifier/MCTruthClassifierDefs.h"
+
 namespace TL {
   namespace EDM {
 

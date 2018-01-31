@@ -6,8 +6,10 @@
 atlas_subdir( TopLoop None )
 
 # This package depends on other packages:
-atlas_depends_on_subdirs( PUBLIC
+atlas_depends_on_subdirs(
+  PUBLIC
   Tools/PathResolver
+  PhysicsAnalysis/MCTruthClassifier
   )
 
 # This package uses ROOT:
@@ -24,7 +26,7 @@ atlas_add_root_dictionary( TopLoop _cintDictSource
 # Build a library that other components can link against:
 atlas_add_library( TopLoop Root/*.cxx Root/*.h Root/*.icc
   TopLoop/*.h TopLoop/*.icc TopLoop/*/*.h
-  TopLoop/*/*.icc ${_cintDictSource} 
+  TopLoop/*/*.icc ${_cintDictSource}
   PUBLIC_HEADERS TopLoop
   LINK_LIBRARIES
   ${ROOT_LIBRARIES}

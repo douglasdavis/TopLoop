@@ -42,6 +42,8 @@ namespace TL {
 
       float ptvarcone30() const;
 
+      bool isMCfake() const;
+
       /// @}
 
     };
@@ -52,5 +54,9 @@ namespace TL {
 inline void TL::EDM::Muon::set_ptvarcone30(const float val) { m_ptvarcone30 = val; }
 
 inline float TL::EDM::Muon::ptvarcone30() const { return m_ptvarcone30; }
+
+inline bool TL::EDM::Muon::isMCfake() const {
+  return (true_type() != MCTruthPartClassifier::ParticleType::IsoMuon);
+}
 
 #endif

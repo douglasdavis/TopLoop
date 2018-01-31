@@ -19,9 +19,11 @@ void TL::EDM::FinalState::evaluateLepPairs() {
 void TL::EDM::FinalState::evaluateSelf(bool sort_leptons) {
   for ( const auto& el : m_electrons ) {
     addLepton(el);
+    if ( el.isMCfake() ) setHasFakeElectronMC(true);
   }
   for ( const auto& mu : m_muons ) {
     addLepton(mu);
+    if ( mu.isMCfake() ) setHasFakeMuonMC(true);
   }
   if ( sort_leptons ) {
     std::sort(m_leptons.begin(),m_leptons.end(),

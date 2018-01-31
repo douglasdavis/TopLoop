@@ -54,6 +54,8 @@ namespace TL {
       int   true_originbkg() const;
       int   true_typebkg()   const;
 
+      bool isMCfake() const;
+
       /// @}
 
     };
@@ -72,5 +74,15 @@ inline char  TL::EDM::Electron::CF()             const { return m_CF;           
 inline float TL::EDM::Electron::cl_eta()         const { return m_cl_eta;         }
 inline int   TL::EDM::Electron::true_originbkg() const { return m_true_originbkg; }
 inline int   TL::EDM::Electron::true_typebkg()   const { return m_true_typebkg;   }
+
+inline bool TL::EDM::Electron::isMCfake() const {
+  if ( true_type() == MCTruthPartClassifier::ParticleType::IsoElectron ) return false;
+  if ( true_type() == MCTruthPartClassifier::ParticleType::BkgElectron &&
+       true_origin() == MCTruthPartClassifier::ParticleOrigin::PhotonConv &&
+       ( true_originbkg() == MCTruthPartClassifier::ParticleOrigin::TauLep ||
+         true_originbkg() == MCTruthPartClassifier::ParticleOrigin::ZBoson ||
+         true_originbkg() == MCTruthPartClassifier::ParticleOrigin::WBoson ) ) return false;
+  return true;
+}
 
 #endif

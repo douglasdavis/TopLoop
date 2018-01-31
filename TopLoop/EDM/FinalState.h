@@ -37,13 +37,13 @@ namespace TL {
       float m_M;
       float m_HT;
 
-      bool m_hasFakeElectron;
-      bool m_hasFakeMuon;
+      bool m_hasFakeElectronMC;
+      bool m_hasFakeMuonMC;
 
       void addLepton(const TL::EDM::Lepton& lep);
       void addLeptonPair(const TL::EDM::LeptonPair& lp);
-      void setHasFakeElectron(const bool flag);
-      void setHasFakeMuon(const bool flag);
+      void setHasFakeElectronMC(const bool flag);
+      void setHasFakeMuonMC(const bool flag);
       void evaluateLepPairs();
 
     public:
@@ -86,13 +86,15 @@ namespace TL {
       TL::EDM::MET&                           MET();
 
       /// retrieve the invariant mass of all objects in the event
-      float        M()                const;
+      float        M()                 const;
       /// retrieve the sum of transverse energy of objects in the final state
-      float        HT()               const;
+      float        HT()                const;
       /// true if the event has a fake electron (at least one electron that failed truth matching)
-      bool         hasFakeElectron()  const;
+      bool         hasFakeElectronMC() const;
       /// true if the event has a fake muon (at least one muon that failed truth matching)
-      bool         hasFakeMuon()      const;
+      bool         hasFakeMuonMC()     const;
+      /// true if fake electron or fake muon
+      bool         hasFakeLeptonMC()   const;
 
       /// coun the number of jets in the container with MV2c10 at 77 percent eff
       std::size_t nbjets_MV2c10_77() const;
@@ -106,11 +108,11 @@ namespace TL {
   }
 }
 
-inline void TL::EDM::FinalState::addLepton(const TL::EDM::Lepton& lep)        { m_leptons.emplace_back(lep);    }
-inline void TL::EDM::FinalState::addElectron(const TL::EDM::Electron& el)     { m_electrons.emplace_back(el);   }
-inline void TL::EDM::FinalState::addMuon(const TL::EDM::Muon& mu)             { m_muons.emplace_back(mu);       }
-inline void TL::EDM::FinalState::addJet(const TL::EDM::Jet& jet)              { m_jets.emplace_back(jet);       }
-inline void TL::EDM::FinalState::addLeptonPair(const TL::EDM::LeptonPair& lp) { m_leptonPairs.emplace_back(lp); }
+inline void TL::EDM::FinalState::addLepton(const TL::EDM::Lepton& lep)        { m_leptons.push_back(lep);    }
+inline void TL::EDM::FinalState::addElectron(const TL::EDM::Electron& el)     { m_electrons.push_back(el);   }
+inline void TL::EDM::FinalState::addMuon(const TL::EDM::Muon& mu)             { m_muons.push_back(mu);       }
+inline void TL::EDM::FinalState::addJet(const TL::EDM::Jet& jet)              { m_jets.push_back(jet);       }
+inline void TL::EDM::FinalState::addLeptonPair(const TL::EDM::LeptonPair& lp) { m_leptonPairs.push_back(lp); }
 
 inline void TL::EDM::FinalState::clear() {
   m_leptons.clear();
@@ -120,12 +122,12 @@ inline void TL::EDM::FinalState::clear() {
   m_muons.clear();
   m_M = 0;
   m_HT = 0;
-  m_hasFakeElectron = false;
-  m_hasFakeMuon = false;
+  m_hasFakeElectronMC = false;
+  m_hasFakeMuonMC = false;
 }
 
-inline void TL::EDM::FinalState::setHasFakeElectron(const bool flag) { m_hasFakeElectron = flag; }
-inline void TL::EDM::FinalState::setHasFakeMuon(const bool flag)     { m_hasFakeMuon     = flag; }
+inline void TL::EDM::FinalState::setHasFakeElectronMC(const bool flag) { m_hasFakeElectronMC = flag; }
+inline void TL::EDM::FinalState::setHasFakeMuonMC(const bool flag)     { m_hasFakeMuonMC     = flag; }
 
 inline const std::vector<TL::EDM::Lepton>& TL::EDM::FinalState::leptons() const { return m_leptons; }
 inline const std::vector<TL::EDM::Jet>&    TL::EDM::FinalState::jets()    const { return m_jets;    }
@@ -139,8 +141,11 @@ inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs(
 inline float TL::EDM::FinalState::M()  const { return m_M;  }
 inline float TL::EDM::FinalState::HT() const { return m_HT; }
 
-inline bool TL::EDM::FinalState::hasFakeElectron()  const { return m_hasFakeElectron; }
-inline bool TL::EDM::FinalState::hasFakeMuon()      const { return m_hasFakeMuon;     }
+inline bool TL::EDM::FinalState::hasFakeElectronMC()  const { return m_hasFakeElectronMC; }
+inline bool TL::EDM::FinalState::hasFakeMuonMC()      const { return m_hasFakeMuonMC;     }
+inline bool TL::EDM::FinalState::hasFakeLeptonMC()    const {
+  return (m_hasFakeElectronMC || m_hasFakeMuonMC);
+}
 
 inline std::size_t TL::EDM::FinalState::nbjets_MV2c10_77() const {
   return std::count_if(m_jets.begin(), m_jets.end(),
