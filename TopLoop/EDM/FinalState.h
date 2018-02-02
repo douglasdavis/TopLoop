@@ -27,12 +27,12 @@ namespace TL {
 
     class FinalState {
     private:
-      std::vector<TL::EDM::Lepton>     m_leptons;
-      std::vector<TL::EDM::Jet>        m_jets;
-      TL::EDM::MET                     m_MET;
-      std::vector<TL::EDM::LeptonPair> m_leptonPairs;
       std::vector<TL::EDM::Electron>   m_electrons;
       std::vector<TL::EDM::Muon>       m_muons;
+      std::vector<TL::EDM::Jet>        m_jets;
+      std::vector<TL::EDM::Lepton>     m_leptons;
+      std::vector<TL::EDM::LeptonPair> m_leptonPairs;
+      TL::EDM::MET                     m_MET;
 
       float m_M;
       float m_HT;
@@ -108,10 +108,11 @@ namespace TL {
   }
 }
 
-inline void TL::EDM::FinalState::addLepton(const TL::EDM::Lepton& lep)        { m_leptons.push_back(lep);    }
 inline void TL::EDM::FinalState::addElectron(const TL::EDM::Electron& el)     { m_electrons.push_back(el);   }
 inline void TL::EDM::FinalState::addMuon(const TL::EDM::Muon& mu)             { m_muons.push_back(mu);       }
 inline void TL::EDM::FinalState::addJet(const TL::EDM::Jet& jet)              { m_jets.push_back(jet);       }
+
+inline void TL::EDM::FinalState::addLepton(const TL::EDM::Lepton& lep)        { m_leptons.push_back(lep);    }
 inline void TL::EDM::FinalState::addLeptonPair(const TL::EDM::LeptonPair& lp) { m_leptonPairs.push_back(lp); }
 
 inline void TL::EDM::FinalState::clear() {
@@ -120,10 +121,10 @@ inline void TL::EDM::FinalState::clear() {
   m_leptonPairs.clear();
   m_electrons.clear();
   m_muons.clear();
-  m_M = 0;
+  m_M  = 0;
   m_HT = 0;
   m_hasFakeElectronMC = false;
-  m_hasFakeMuonMC = false;
+  m_hasFakeMuonMC     = false;
 }
 
 inline void TL::EDM::FinalState::setHasFakeElectronMC(const bool flag) { m_hasFakeElectronMC = flag; }

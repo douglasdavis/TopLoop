@@ -3,8 +3,8 @@
  *  @class TL::FileManager
  *  @brief Handles ROOT files.
  *
- *  This class does the necessary file handling for TL::AnaBase
- *  algorithms.
+ *  This class does the necessary file handling for a TopLoop
+ *  Algorithim.
  *
  *  @author Douglas Davis < ddavis@cern.ch >
  */
@@ -29,11 +29,11 @@
 namespace TL {
   class FileManager : public TL::Loggable {
   private:
-    std::vector<std::string> m_fileNames{};
-    std::string              m_treeName{"nominal"};
-    std::string              m_weightsTreeName{"sumWeights"};
-    std::unique_ptr<TChain>  m_rootChain{nullptr};
-    std::unique_ptr<TChain>  m_rootWeightsChain{nullptr};
+    std::vector<std::string> m_fileNames        {};
+    std::string              m_treeName         {"nominal"};
+    std::string              m_weightsTreeName  {"sumWeights"};
+    std::unique_ptr<TChain>  m_rootChain        {nullptr};
+    std::unique_ptr<TChain>  m_rootWeightsChain {nullptr};
 
     /// initialize the ROOT TChain pointers
     TL::StatusCode initChain();
