@@ -21,7 +21,7 @@ namespace TL {
 
     class PhysicsObject {
     protected:
-      TLorentzVector m_p;
+      TLorentzVector m_p{0,0,0,0};
 
     public:
       /// default constructor
@@ -33,9 +33,9 @@ namespace TL {
       PhysicsObject& operator=(const PhysicsObject&) = default;
 
       /// retrieve the four vector
-      TLorentzVector& p();
+      TLorentzVector& p4();
       /// retrieve the const four vector
-      const TLorentzVector& p() const;
+      const TLorentzVector& p4() const;
 
       /// get the transverse momentum
       float pT()  const;
@@ -59,8 +59,8 @@ namespace TL {
   }
 }
 
-inline const TLorentzVector& TL::EDM::PhysicsObject::p() const { return m_p; }
-inline       TLorentzVector& TL::EDM::PhysicsObject::p()       { return m_p; }
+inline const TLorentzVector& TL::EDM::PhysicsObject::p4() const { return m_p; }
+inline       TLorentzVector& TL::EDM::PhysicsObject::p4()       { return m_p; }
 
 inline float TL::EDM::PhysicsObject::pT()  const { return m_p.Pt();  }
 inline float TL::EDM::PhysicsObject::eta() const { return m_p.Eta(); }

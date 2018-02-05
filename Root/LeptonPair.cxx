@@ -14,10 +14,10 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
   TL::EDM::PhysicsObject() {
   m_fIdx = idxf;
   m_sIdx = idxs;
-  m_p = lep1.p() + lep2.p();
-  m_deltaR   = lep1.p().DeltaR(lep2.p());
-  m_deltaEta = lep1.p().Eta() - lep2.p().Eta();
-  m_deltaPhi = lep1.p().DeltaPhi(lep2.p());
+  m_p = lep1.p4() + lep2.p4();
+  m_deltaR   = lep1.p4().DeltaR(lep2.p4());
+  m_deltaEta = lep1.p4().Eta() - lep2.p4().Eta();
+  m_deltaPhi = lep1.p4().DeltaPhi(lep2.p4());
 
   auto pdgsum    = lep1.pdgId() + lep2.pdgId();
   auto chargesum = std::abs(lep1.charge() + lep2.charge());

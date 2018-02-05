@@ -95,7 +95,7 @@ TL::StatusCode TL::Algorithm::addElectronsToFS(TL::EDM::FinalState* fs) const {
   for ( std::size_t i = 0; i < el_pt().size(); ++i ) {
     TL::EDM::Electron lep;
     // four vector
-    lep.p().SetPtEtaPhiM(el_pt().at(i),el_eta().at(i),el_phi().at(i),0.510999);
+    lep.p4().SetPtEtaPhiM(el_pt().at(i),el_eta().at(i),el_phi().at(i),0.510999);
 
     // shared lepton info
     lep.set_charge(el_charge().at(i));
@@ -123,7 +123,7 @@ TL::StatusCode TL::Algorithm::addMuonsToFS(TL::EDM::FinalState* fs) const {
   for ( std::size_t i = 0; i < mu_pt().size(); ++i ) {
     TL::EDM::Muon lep;
     // four vector
-    lep.p().SetPtEtaPhiM(mu_pt().at(i),mu_eta().at(i),mu_phi().at(i),0.510999);
+    lep.p4().SetPtEtaPhiM(mu_pt().at(i),mu_eta().at(i),mu_phi().at(i),0.510999);
 
     // shared lepton info
     lep.set_charge(mu_charge().at(i));
@@ -154,7 +154,7 @@ TL::StatusCode TL::Algorithm::addJetsToFS(TL::EDM::FinalState* fs,
     pt  = jet_pt().at(i);
     eta = jet_eta().at(i);
     if ( (pt < ptcut) || (std::abs(eta) > etacut) ) continue;
-    jet.p().SetPtEtaPhiE(pt,eta,jet_phi().at(i),jet_e().at(i));
+    jet.p4().SetPtEtaPhiE(pt,eta,jet_phi().at(i),jet_e().at(i));
 
     jet.set_mv2c00(jet_mv2c00().at(i));
     jet.set_mv2c10(jet_mv2c10().at(i));
@@ -189,7 +189,7 @@ TL::StatusCode TL::Algorithm::addJetsToFS(TL::EDM::FinalState* fs,
 }
 
 TL::StatusCode TL::Algorithm::addMETtoFS(TL::EDM::FinalState* fs) const {
-  fs->MET().p().SetPtEtaPhiM(met_met(),0.0,met_phi(),0.0);
+  fs->MET().p4().SetPtEtaPhiM(met_met(),0.0,met_phi(),0.0);
   fs->MET().set_px(met_px());
   fs->MET().set_py(met_py());
   fs->MET().set_sumet(met_sumet());

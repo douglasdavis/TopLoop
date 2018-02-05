@@ -34,13 +34,13 @@ void TL::EDM::FinalState::evaluateSelf(bool sort_leptons) {
   TLorentzVector eventFourVector;
   eventFourVector.SetPxPyPzE(0,0,0,0);
   for ( const auto& lep : m_leptons ) {
-    eventFourVector += lep.p();
+    eventFourVector += lep.p4();
     m_HT += lep.pT();
   }
   for ( const auto& jet : m_jets ) {
-    eventFourVector += jet.p();
+    eventFourVector += jet.p4();
     m_HT += jet.pT();
   }
-  eventFourVector += m_MET.p();
+  eventFourVector += m_MET.p4();
   m_M = eventFourVector.M();
 }
