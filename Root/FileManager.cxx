@@ -14,6 +14,7 @@
 
 // boost
 #include <boost/filesystem.hpp>
+namespace fs = boost::filesystem;
 
 // C++
 #include <iostream>
@@ -51,27 +52,31 @@ TL::StatusCode TL::FileManager::initChain() {
 
 void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
   TL_CHECK(initChain());
-  logger()->info("Feeding {}", dirpath);
-  boost::filesystem::path p(dirpath);
-  auto i = boost::filesystem::directory_iterator(p);
-  for ( ; i != boost::filesystem::directory_iterator(); ++i ) {
-    if ( !boost::filesystem::is_directory(i->path()) ) {
-      auto split_version = TL::string_split(i->path().filename().string(),'.');
+  logger()->info("Feeding from {}", dirpath);
+  fs::path p(dirpath);
+  for ( const auto& i : fs::directory_iterator(p) ) {
+    if ( !fs::is_directory(i.path()) ) {
+      auto split_version = TL::string_split(i.path().filename().string(),'.');
       if ( split_version.back() != "root" && !take_all ) {
         continue;
       }
       else {
-        std::string final_path = i->path().filename().string();
-        logger()->info("Adding file: {}",final_path);
-        m_fileNames.emplace_back(dirpath+(final_path));
-        m_rootChain->Add((dirpath+"/"+final_path).c_str());
-        m_rootWeightsChain->Add((dirpath+"/"+final_path).c_str());
+        auto whole_path = i.path();
+        logger()->info("Adding file: {}",whole_path.filename().string());
+        auto final_path = whole_path.string().c_str();
+        m_fileNames.emplace_back(final_path);
+        m_rootChain->Add(final_path);
+        m_rootWeightsChain->Add(final_path);
       }
     }
     else {
       continue;
     }
   }
+  if ( m_fileNames.empty() ) {
+    logger()->critical("Directory {} doesn't contain any files!", dirpath);
+  }
+  return;
 }
 
 void TL::FileManager::feedTxt(const std::string& txtfilename) {
