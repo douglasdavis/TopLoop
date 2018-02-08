@@ -23,11 +23,13 @@ double TL::EDM::HTsys(const ObjList_t& objects) {
 }
 
 double TL::EDM::centrality(const ObjList_t& objects) {
-  TLorentzVector v;
+  double pT_sum = 0.0;
+  double p_sum  = 0.0;
   for ( const auto& obj : objects ) {
-    v += obj.p4();
+    pT_sum += obj.pT();
+    p_sum  += obj.p4().P();
   }
-  return (v.Pt() / v.P());
+  return (pT_sum/p_sum);
 }
 
 double TL::EDM::deltaR(const ObjList_t& s1, const ObjList_t& s2) {
