@@ -36,12 +36,12 @@ namespace TL {
     bool          m_isNominal{true};
     bool          m_initCalled{false};
 
-    long m_totalEntries;
-    long m_eventCounter;
+    long m_totalEntries{0};
+    long m_eventCounter{0};
 
-    std::unique_ptr<TL::FileManager> m_fm;
-    std::shared_ptr<TTreeReader>     m_reader;
-    std::shared_ptr<TTreeReader>     m_weightsReader;
+    std::unique_ptr<TL::FileManager> m_fm{nullptr};
+    std::shared_ptr<TTreeReader>     m_reader{nullptr};
+    std::shared_ptr<TTreeReader>     m_weightsReader{nullptr};
 
   protected:
     /// Print the progess of the event loop (percent done)
@@ -52,6 +52,11 @@ namespace TL {
     Algorithm();
     /// destructor
     virtual ~Algorithm() = default;
+
+    /// default move constructor
+    Algorithm(Algorithm&&) = default;
+    /// default move assignemnt
+    Algorithm& operator=(Algorithm&&) = default;
 
   private:
     /// delete copy constructor

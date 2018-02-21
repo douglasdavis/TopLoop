@@ -18,13 +18,13 @@ namespace TL {
   class Loggable {
   protected:
 
-     /// pointer to the spdlog logger object
-    std::shared_ptr<spdlog::logger> m_logger;
+    /// pointer to the spdlog logger object
+    std::shared_ptr<spdlog::logger> m_logger{nullptr};
 
   public:
 
     /// default unusable constructor
-    Loggable() {}
+    Loggable() = default;
 
     /// only usable constructor, gives name to the logger
     Loggable(const std::string& name) {
@@ -33,9 +33,13 @@ namespace TL {
 
     /// delete copy
     Loggable(const Loggable&) = delete;
+    /// default move
+    Loggable(Loggable&&) = default;
 
     /// delete assignment
     Loggable& operator=(const Loggable&) = delete;
+    /// default move assignment
+    Loggable& operator=(Loggable&&) = default;
 
     /// virtual destructor
     virtual ~Loggable() {}

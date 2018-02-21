@@ -24,17 +24,24 @@ namespace TL {
   class Job : public TL::Loggable {
 
   protected:
-    //TL::Algorithm* m_algorithm = nullptr;
     std::unique_ptr<TL::Algorithm>   m_algorithm{nullptr};
     std::unique_ptr<TL::FileManager> m_fm{nullptr};
 
   public:
 
-    /// default unusable constructor
+    /// default constructor
     Job();
-
     /// detructor
     virtual ~Job();
+
+    /// delete copy constructor
+    Job(const Job&) = delete;
+    /// delete move constructor
+    Job(Job&&) = delete;
+    /// delete assignemnt operator
+    Job& operator=(const Job&) = delete;
+    /// delete move assignment operator
+    Job& operator=(Job&&) = delete;
 
     /// function to set the algorithm the job will run
     TL::StatusCode setAlgorithm(std::unique_ptr<TL::Algorithm> alg);
