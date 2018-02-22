@@ -1,4 +1,5 @@
 #include <TopLoop/EDM/Helpers.h>
+#include <cmath>
 
 double TL::EDM::pTsys(const ObjList_t& objects) {
   TLorentzVector retVec{0,0,0,0};
@@ -54,4 +55,17 @@ double TL::EDM::deltapT(const ObjList_t& s1, const ObjList_t& s2) {
     v2 += obj.p4();
   }
   return (v1.Pt() - v2.Pt());
+}
+
+double TL::EDM::transverseMass(const TL::EDM::PhysicsObject& o1, const TL::EDM::PhysicsObject& o2) {
+  return std::sqrt(2*o1.pT()*o2.pT()*(1-std::cos(o1.p4().DeltaPhi(o2.p4()))));
+}
+
+double TL::EDM::energyMassRatio(const ObjList_t& objects) {
+  TLorentzVector combinedVec{0,0,0,0};
+  for ( const auto& obj : objects ) {
+    combinedVec += obj.p4();
+  }
+  return (combinedVec.E() / combinedVec.M());
+  return 0;
 }
