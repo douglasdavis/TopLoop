@@ -9,12 +9,14 @@
 
 #include <TopLoop/EDM/PhysicsObject.h>
 
-using ObjList_t = std::initializer_list<TL::EDM::PhysicsObject>;
+using PhysicsObjects = std::initializer_list<TL::EDM::PhysicsObject>;
 
 namespace TL {
   namespace EDM {
 
-    /// @name EDM Helper functions
+    /// @addtogroup EDM EDM Helper functions
+    /// @brief Helper functions for making calculations using EDM
+    /// classes.
     /// @{
 
     /// calculate the \f$p_{\mathrm{T}}\f$ of the system of objects
@@ -22,7 +24,7 @@ namespace TL {
      *  @param objects the list of objects inheriting from
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
-    double pTsys(const ObjList_t& objects);
+    double pTsys(const PhysicsObjects& objects);
 
     /// calculate the \f$\sigma_{p_{\mathrm{T}}}\f$ system of objects
     /**
@@ -30,35 +32,35 @@ namespace TL {
      *  TL::EDM::PhysicsObject to use in the calculation.
      *  @param sumet the \f$\sum E_{\mathrm{T}}\f$ of the event.
      */
-    double sigma_pTsys(const ObjList_t& objects, const float sumet);
+    double sigma_pTsys(const PhysicsObjects& objects, const float sumet);
 
     /// Calculate the \f$H_{\mathrm{T}}\f$ of the system of objects
     /**
      *  @param objects the list of objects inhjeriting from
      *  TL::EDM::PhysicsObject to use in the calculation
      */
-    double HTsys(const ObjList_t& objects);
+    double HTsys(const PhysicsObjects& objects);
 
     /// Calculate the centrality of the system of objects
     /**
      *  @param objects the list of objects inhjeriting from
      *  TL::EDM::PhysicsObject to use in the calculation
      */
-    double centrality(const ObjList_t& objects);
+    double centrality(const PhysicsObjects& objects);
 
     /// Calculate \f$\Delta R\f$ between systems of objects
     /**
      *  @param s1 list of objects in system 1
      *  @param s2 list of objects in system 2
      */
-    double deltaR(const ObjList_t& s1, const ObjList_t& s2);
+    double deltaR(const PhysicsObjects& s1, const PhysicsObjects& s2);
 
     /// Calculate \f$\Delta p_{\mathrm{T}}\f$ between systems of objects
     /**
      *  @param s1 list of objects in system 1
      *  @param s2 list of objects in system 2
      */
-    double deltapT(const ObjList_t& s1, const ObjList_t& s2);
+    double deltapT(const PhysicsObjects& s1, const PhysicsObjects& s2);
 
     /// Calculate the transverse mass (\f$m_{\mathrm{T}}\f$) of two object system
     /**
@@ -75,7 +77,7 @@ namespace TL {
      *  @param objects the list of objects inhjeriting from
      *  TL::EDM::PhysicsObject to use in the calculation
      */
-    double energyMassRatio(const ObjList_t& objects);
+    double energyMassRatio(const PhysicsObjects& objects);
 
     /// @}
 

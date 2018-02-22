@@ -7,8 +7,8 @@
  *  This class is a skeleton for the steps needed
  *  to run a TopLoop algorithm.
  *
- *  @author Douglas Davis < ddavis@cern.ch >
- *  @author Kevin Finelli < kevin.finelli@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
+ *  @author Kevin Finelli, <kevin.finelli@cern.ch>
  */
 
 #ifndef TL_Algorithm_h
@@ -42,10 +42,6 @@ namespace TL {
     std::unique_ptr<TL::FileManager> m_fm{nullptr};
     std::shared_ptr<TTreeReader>     m_reader{nullptr};
     std::shared_ptr<TTreeReader>     m_weightsReader{nullptr};
-
-  protected:
-    /// Print the progess of the event loop (percent done)
-    void printProgress(int n_prints = 10) const;
 
   public:
     /// default constructor
@@ -229,8 +225,8 @@ namespace TL {
      *  variables.
      *
      *  @param fs the final state object to append to
-     *  @param ptcut option pT requirement
-     *  @param etacut optional |eta| requirement
+     *  @param ptcut optional \f$p_\mathrm{T}\f$ requirement (in default MeV).
+     *  @param etacut optional \f$|\eta|\f$ requirement
      *  @param do_all_ftagging assign _all_ ftagging member variables
      */
     TL::StatusCode addJetsToFS(TL::EDM::FinalState* fs,
@@ -262,6 +258,9 @@ namespace TL {
     std::shared_ptr<TTreeReader> weightsReader() const;
 
     /// @}
+
+    /// Print the progess of the event loop (percent done)
+    void printProgress(int n_prints = 10) const;
 
   private:
 
