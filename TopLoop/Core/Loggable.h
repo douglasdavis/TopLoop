@@ -6,7 +6,7 @@
  *  If you need a class to have logging capabilities from the spdlog
  *  framework, inherit from this base class.
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 #ifndef TL_Loggable_h
@@ -20,6 +20,7 @@ namespace TL {
 
     /// pointer to the spdlog logger object
     std::shared_ptr<spdlog::logger> m_logger{nullptr};
+    std::string m_name{};
 
   public:
 
@@ -29,6 +30,7 @@ namespace TL {
     /// only usable constructor, gives name to the logger
     Loggable(const std::string& name) {
       m_logger = spdlog::stdout_color_mt(name);
+      m_name = name;
     }
 
     /// delete copy
@@ -42,7 +44,9 @@ namespace TL {
     Loggable& operator=(Loggable&&) = default;
 
     /// virtual destructor
-    virtual ~Loggable() {}
+    virtual ~Loggable() {
+      spdlog::drop(m_name);
+    }
 
     /// set the level of the logger (see spdlog documentation for levels)
     void setLogLevel(spdlog::level::level_enum lvl) { m_logger->set_level(lvl); }

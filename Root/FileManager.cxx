@@ -1,8 +1,8 @@
 /** @file FileManager.cxx
  *  @brief TL::FileManager class implementation
  *
- *  @author Douglas Davis < ddavis@cern.ch >
- *  @author Kevin Finelli < kevin.finelli@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
+ *  @author Kevin Finelli, <kevin.finelli@cern.ch>
  */
 
 // TL
@@ -56,12 +56,11 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
   fs::path p(dirpath);
   for ( const auto& i : fs::directory_iterator(p) ) {
     if ( !fs::is_directory(i.path()) ) {
-      auto split_version = TL::string_split(i.path().filename().string(),'.');
-      if ( split_version.back() != "root" && !take_all ) {
+      auto whole_path = i.path();
+      if ( whole_path.filename().string().find(".root") == std::string::npos && !take_all ) {
         continue;
       }
       else {
-        auto whole_path = i.path();
         logger()->info("Adding file: {}",whole_path.filename().string());
         auto final_path = whole_path.string().c_str();
         m_fileNames.emplace_back(final_path);
