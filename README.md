@@ -8,7 +8,7 @@ ntuples output by the TopAnalysis `top-xaod` program with the
 analyze _any_ ntuple, but the structure and API are tailored for
 ntuples output by `top-xaod`. Any user can implement the ability to
 access any branch - see the [Adding new
-variables](#adding-new-variables) section.
+variables](#adding-custom-variable-access) section.
 
 TopLoop delivers a base algorithm class, a job runner, a file manager,
 and a small event data model. The algorithm has the following
@@ -34,7 +34,7 @@ and access to them. The user just "calls" the variable like one calls
 a function (more details below).
 
 A list of available variables are found in
-[TopLoop/Core/Variables.h](https://gitlab.cern.ch/atlasphys-top/singletop/tW_13TeV_Rel21/TopLoop/blob/master/TopLoop/Core/Variables.h)
+[TopLoop/Core/Variables.h](TopLoop/Core/Variables.h)
 
 An example code block:
 
@@ -48,14 +48,14 @@ TL::StatusCode MyAlgorithm::execute() {
     auto pt  = el_pt().at(i);
     auto eta = el_eta().at(i);
     auto phi = el_phi().at(i);
-    elec.p().SetPtEtaPhiM(pt,eta,phi,0.511)
+    elec.p4().SetPtEtaPhiM(pt,eta,phi,0.511)
     finalState.addElectron(elec);
   }
   // ... use the final state
 }
 ```
 
-### Adding "custom" variable access
+### Adding custom variable access
 
 It's very easy to add additional variable access in a TopLoop based
 algorithm. If your analysis adds more output on top of the standard
