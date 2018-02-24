@@ -6,7 +6,7 @@
  *  This class is part of the TopLoop event data model (EDM). It
  *  contains the properties of a pair of leptons.
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 #ifndef TL_EDM_LeptonPair_h
@@ -51,7 +51,8 @@ namespace TL {
        *  it can be useful to have the indices of the leptons in that
        *  container. That is why we also feed them in here. If you
        *  don't need them.. just put bogus values. The reason we don't
-       *  supply a default value is to make the user think about it.
+       *  supply a default value is to make the user have to think
+       *  about it.
        *
        *  @param lep1 The first lepton ingrediant
        *  @param lep2 The second lepton ingrediant
@@ -68,26 +69,37 @@ namespace TL {
       LeptonPair& operator=(const LeptonPair&) = default;
       LeptonPair(const LeptonPair&) = default;
 
-      /// get the atlas coordinate system delta R between the two leptons
+      /// get the ATLAS coordinate system \f$\Delta R\f$ between the two leptons.
+      /**
+       *  ATLAS coordinate system definition (separation of objects in
+       *  \f$\eta\text{-}\phi\f$ space):
+       *
+       *  \f[
+       *     \Delta R \equiv \sqrt{(\Delta\eta)^2 + (\Delta\phi)^2}.
+       *  \f]
+       *
+       *  This function uses the ROOT function
+       *  `TLorentzVector::DeltaR`.
+       */
       float deltaR()   const;
-      /// get the delta phi between the two leptons
+      /// get the \f$\Delta\phi\f$ between the two leptons.
       float deltaPhi() const;
-      /// get the delta eta between the two leptons
+      /// get the \f$\Delta\eta\f$ between the two leptons.
       float deltaEta() const;
 
-      /// return true for same sign lepton pair
+      /// return true for same sign lepton pair.
       bool SS()   const;
-      /// return true for opposite sign lepton pair
+      /// return true for opposite sign lepton pair.
       bool OS()   const;
-      /// return true for same flavor lepton pair
+      /// return true for same flavor lepton pair.
       bool SF()   const;
-      /// return true for opposite flavor lepton pair (same as elmu())
+      /// return true for opposite flavor lepton pair (same as elmu()).
       bool OF()   const;
-      /// return true if dimuon lepton pair
+      /// return true if \f$\mu\mu\f$ lepton pair.
       bool mumu() const;
-      /// return true if dielectron lepton pair
+      /// return true if \f$ee\f$ lepton pair.
       bool elel() const;
-      /// return true if electron-muon lepton pair (same as OF())
+      /// return true if \f$e\mu\f$ lepton pair (same as OF()).
       bool elmu() const;
 
       /// get the index of the first lepton in the pair
