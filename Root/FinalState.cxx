@@ -1,7 +1,7 @@
 /** @file FinalState.cxx
  *  @brief TL::EDM::FinalState class implementation
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 // TL
@@ -41,6 +41,6 @@ void TL::EDM::FinalState::evaluateSelf(bool sort_leptons) {
     eventFourVector += jet.p4();
     m_HT += jet.pT();
   }
-  eventFourVector += m_MET.p4();
+  eventFourVector += m_missingET.p4();
   m_M = eventFourVector.M();
 }

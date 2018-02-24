@@ -1,12 +1,12 @@
 /** @file  Muon.h
  *  @brief TL::EDM::Muon class header
  *  @class TL::EDM::Muon
- *  @brief A container for muon information
+ *  @brief A class for muon information
  *
  *  This class is part of the TopLoop event data model (EDM). It
  *  contains the properties of a muon
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 #ifndef TL_EDM_Muon_h

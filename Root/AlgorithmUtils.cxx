@@ -1,8 +1,8 @@
 /** @file AlgorithmUtils.cxx
  *  @brief TL::Algorithm class utility function implementations
  *
- *  @author Douglas Davis < ddavis@cern.ch >
- *  @author Kevin Finelli < kevin.finelli@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
+ *  @author Kevin Finelli, <kevin.finelli@cern.ch>
  */
 
 // TL
@@ -188,10 +188,10 @@ TL::StatusCode TL::Algorithm::addJetsToFS(TL::EDM::FinalState* fs,
   return TL::StatusCode::SUCCESS;
 }
 
-TL::StatusCode TL::Algorithm::addMETtoFS(TL::EDM::FinalState* fs) const {
-  fs->MET().p4().SetPtEtaPhiM(met_met(),0.0,met_phi(),0.0);
-  fs->MET().set_px(met_px());
-  fs->MET().set_py(met_py());
-  fs->MET().set_sumet(met_sumet());
+TL::StatusCode TL::Algorithm::addMissingETtoFS(TL::EDM::FinalState* fs) const {
+  fs->MissingET().p4().SetPtEtaPhiM(met_met(),0.0,met_phi(),0.0);
+  fs->MissingET().set_px(met_px());
+  fs->MissingET().set_py(met_py());
+  fs->MissingET().set_sumet(met_sumet());
   return TL::StatusCode::SUCCESS;
 }

@@ -1,5 +1,5 @@
 ## CMakeLists.txt for TopLoop package to be built within ATLAS
-## Analysis Relase 21.2X series.
+## Analysis Relase 21.2.X series.
 ## Author: Doug Davis <ddavis@cern.ch>
 
 # Declare the name of this package:

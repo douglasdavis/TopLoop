@@ -1,12 +1,12 @@
 /** @file  Electron.h
  *  @brief TL::EDM::Electron class header
  *  @class TL::EDM::Electron
- *  @brief A container for electron information
+ *  @brief A class for electron information
  *
  *  This class is part of the TopLoop event data model (EDM). It
  *  contains the properties of a electron
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 #ifndef TL_EDM_Electron_h

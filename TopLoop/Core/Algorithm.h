@@ -242,7 +242,7 @@ namespace TL {
      *
      *  @param fs the final state object to append to
      */
-    TL::StatusCode addMETtoFS(TL::EDM::FinalState* fs) const;
+    TL::StatusCode addMissingETtoFS(TL::EDM::FinalState* fs) const;
 
     /// @}
 

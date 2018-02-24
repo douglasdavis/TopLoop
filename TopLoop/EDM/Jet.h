@@ -1,12 +1,12 @@
 /** @file  Jet.h
  *  @brief TL::EDM::Jet class header
  *  @class TL::EDM::Jet
- *  @brief A container for jet information
+ *  @brief A class for jet information
  *
  *  This class is part of the TopLoop event data model (EDM). It
  *  contains the properties of a jet.
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 #ifndef TL_EDM_Jet_h

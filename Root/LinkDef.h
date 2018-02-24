@@ -1,7 +1,7 @@
 /** @file LinkDef.h
  *  @brief ROOT Dictionary LinkDef
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 #include <TopLoop/Core/Variables.h>
@@ -13,7 +13,7 @@
 #include <TopLoop/EDM/Lepton.h>
 #include <TopLoop/EDM/LeptonPair.h>
 #include <TopLoop/EDM/Jet.h>
-#include <TopLoop/EDM/MET.h>
+#include <TopLoop/EDM/MissingET.h>
 #include <TopLoop/EDM/FinalState.h>
 
 #ifdef __CINT__
@@ -41,7 +41,7 @@
 #pragma link C++ class std::vector<TL::EDM::LeptonPair>+;
 #pragma link C++ class std::vector<TL::EDM::Electron>+;
 #pragma link C++ class std::vector<TL::EDM::Muon>+;
-#pragma link C++ class TL::EDM::MET+;
+#pragma link C++ class TL::EDM::MissingET+;
 #pragma link C++ class TL::EDM::FinalState+;
 
 #endif
