@@ -5,10 +5,10 @@
 
 #pragma once
 
-#include "TopLoop/spdlog/details/log_msg.h"
-#include "TopLoop/spdlog/details/null_mutex.h"
-#include "TopLoop/spdlog/sinks/base_sink.h"
-#include "TopLoop/spdlog/sinks/sink.h"
+#include "../details/log_msg.h"
+#include "../details/null_mutex.h"
+#include "base_sink.h"
+#include "sink.h"
 
 #include <algorithm>
 #include <mutex>
@@ -46,7 +46,6 @@ protected:
 
     void _flush() override
     {
-        std::lock_guard<Mutex> lock(base_sink<Mutex>::_mutex);
         for (auto &sink : _sinks)
             sink->flush();
     }

@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include "TopLoop/spdlog/details/null_mutex.h"
-#include "TopLoop/spdlog/sinks/base_sink.h"
+#include "../details/null_mutex.h"
+#include "base_sink.h"
 
 #include <cstdio>
 #include <memory>

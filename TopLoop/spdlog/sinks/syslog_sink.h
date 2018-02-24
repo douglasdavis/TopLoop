@@ -5,12 +5,12 @@
 
 #pragma once
 
-#include "TopLoop/spdlog/common.h"
+#include "../common.h"
 
 #ifdef SPDLOG_ENABLE_SYSLOG
 
-#include "TopLoop/spdlog/sinks/sink.h"
-#include "TopLoop/spdlog/details/log_msg.h"
+#include "sink.h"
+#include "../details/log_msg.h"
 
 #include <array>
 #include <string>

@@ -10,10 +10,10 @@
 // all locking is taken care of here so no locking needed by the implementers..
 //
 
-#include "TopLoop/spdlog/sinks/sink.h"
-#include "TopLoop/spdlog/formatter.h"
-#include "TopLoop/spdlog/common.h"
-#include "TopLoop/spdlog/details/log_msg.h"
+#include "sink.h"
+#include "../formatter.h"
+#include "../common.h"
+#include "../details/log_msg.h"
 
 #include <mutex>
 
@@ -38,6 +38,7 @@ public:
     }
     void flush() SPDLOG_FINAL override
     {
+        std::lock_guard<Mutex> lock(_mutex);
         _flush();
     }
 

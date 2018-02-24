@@ -20,32 +20,42 @@ namespace TL {
 
     /// pointer to the spdlog logger object
     std::shared_ptr<spdlog::logger> m_logger{nullptr};
-    std::string m_name{};
 
   public:
 
-    /// default unusable constructor
-    Loggable() = default;
-
-    /// only usable constructor, gives name to the logger
+    /// Only usable constructor, gives name to the logger
+    /**
+     *  Should be used with a daughter class like so:
+     *
+     *  @code{.cpp}
+     *
+     *  MyClass::MyClass() : TL::Logger("Loggername") {
+     *    // ...
+     *  }
+     *
+     *  @endcode
+     *
+     *  because we require the logger to be named.
+     */
     Loggable(const std::string& name) {
       m_logger = spdlog::stdout_color_mt(name);
-      m_name = name;
     }
 
+    /// default constructor deleted
+    Loggable() = delete;
     /// delete copy
     Loggable(const Loggable&) = delete;
     /// default move
-    Loggable(Loggable&&) = default;
+    Loggable(Loggable&&) = delete;
 
     /// delete assignment
     Loggable& operator=(const Loggable&) = delete;
     /// default move assignment
-    Loggable& operator=(Loggable&&) = default;
+    Loggable& operator=(Loggable&&) = delete;
 
     /// virtual destructor
     virtual ~Loggable() {
-      spdlog::drop(m_name);
+      spdlog::drop(m_logger->name());
     }
 
     /// set the level of the logger (see spdlog documentation for levels)
