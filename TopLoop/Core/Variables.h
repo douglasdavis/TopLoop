@@ -8,7 +8,7 @@
  *  the main Algorithm class header with the TTreeReaderValues. This
  *  class also implements branch access features.
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 #ifndef TL_Variables_h

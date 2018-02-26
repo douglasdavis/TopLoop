@@ -7,8 +7,8 @@
  *
  *  Utility functions for TopLoop
  *
- *  @author Douglas Davis < ddavis@cern.ch >
- *  @author Kevin Finelli < kevin.finelli@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
+ *  @author Kevin Finelli, <kevin.finelli@cern.ch>
  */
 
 #ifndef TL_Utils_h

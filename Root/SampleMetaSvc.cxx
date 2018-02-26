@@ -1,7 +1,7 @@
 /** @file SampleMetaSvc.cxx
  *  @brief TL::SampleMetaSvc class implementation
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 // TopLoop

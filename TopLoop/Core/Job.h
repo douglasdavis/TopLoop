@@ -5,7 +5,7 @@
  *
  *  This class handles the running of the TL::Algorithm algorithm.
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 #ifndef TL_Job_h

@@ -1,7 +1,7 @@
 /** @file LeptonPair.cxx
  *  @brief TL::EDM::LeptonPair class implementation
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 // TL

@@ -6,7 +6,7 @@
  *  This class does the necessary file handling for a TopLoop
  *  Algorithim.
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 #ifndef TL_FileManager_h

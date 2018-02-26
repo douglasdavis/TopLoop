@@ -1,7 +1,7 @@
 /** @file AlgorithmVars.cxx
  *  @brief TL::Algorithm class TTreeReader variables implementation
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 #include <TopLoop/Core/Algorithm.h>

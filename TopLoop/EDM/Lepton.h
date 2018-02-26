@@ -8,7 +8,7 @@
  *  both electrons and muons are used here. Variables specific to each
  *  respective flavor of lepton are in the dedicated class for each.
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 #ifndef TL_EDM_Lepton_h

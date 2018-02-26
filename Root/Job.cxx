@@ -1,7 +1,7 @@
 /** @file Job.cxx
  *  @brief TL::Job class implementation
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 // TL

@@ -7,7 +7,7 @@
  *  initial state, the generator, and the type (nominal or
  *  systematic).
  *
- *  @author Douglas Davis < ddavis@cern.ch >
+ *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
 #ifndef TL_SampleMetaSvc_h
