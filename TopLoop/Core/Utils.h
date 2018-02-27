@@ -14,45 +14,9 @@
 #ifndef TL_Utils_h
 #define TL_Utils_h
 
-// C++
-#include <iostream>
-#include <utility>
-#include <vector>
-#include <map>
-#include <cmath>
-#include <memory>
-#include <string>
-#include <sstream>
-#include <cstdlib>
-
-#include <TopLoop/spdlog/spdlog.h>
-
 #define TeV   1000000.0
 #define GeV   1000.0
 #define toGeV 0.001
-
-namespace TL {
-  /// split string recursive
-  auto& string_split(const std::string &s, char delim, std::vector<std::string> &elems);
-
-  /// return a vector of strings based on a char (similar to python list split)
-  auto string_split(const std::string &s, char delim);
-}
-
-inline auto& TL::string_split(const std::string &s, char delim, std::vector<std::string> &elems) {
-  std::stringstream ss(s);
-  std::string item;
-  while (std::getline(ss, item, delim)) {
-    elems.emplace_back(item);
-  }
-  return elems;
-}
-
-inline auto TL::string_split(const std::string &s, char delim) {
-  std::vector<std::string> elems;
-  string_split(s, delim, elems);
-  return elems;
-}
 
 namespace TL {
   class StatusCode {
@@ -105,10 +69,10 @@ namespace TL {
   };
 }
 
-/*!
-  \def TL_CHECK
-  Checks the return code for SUCCESS or FAILURE
-*/
+/**
+ *  @def TL_CHECK
+ *  Checks the return code for SUCCESS or FAILURE
+ */
 #define TL_CHECK(EXP)                                           \
   { const auto sc__ = EXP;                                      \
     if ( sc__.isFailure() ) {                                   \

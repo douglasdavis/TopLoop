@@ -4,7 +4,11 @@
  *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
+// TopLoop
 #include <TopLoop/Core/Utils.h>
+
+// C++
+#include <iostream>
 
 namespace {
 
@@ -25,12 +29,12 @@ namespace {
       std::cerr << "Warning in <TL::StatusCode>: "
                 << "Unchecked status codes encountered during the job"
                 << std::endl;
-      if( m_uncheckedSuccess ) {
+      if ( m_uncheckedSuccess != 0 ) {
         std::cerr << "Warning in <TL::StatusCode>: "
                   << "Number of unchecked successes: "
                   << m_uncheckedSuccess << std::endl;
       }
-      if( m_uncheckedFailure ) {
+      if ( m_uncheckedFailure != 0 ) {
         std::cerr << "Error in   <TL::StatusCode>: "
                   << "Number of unchecked failures: "
                   << m_uncheckedFailure << std::endl;
@@ -135,10 +139,8 @@ TL::StatusCode::operator unsigned long() const {
 
 void TL::StatusCode::enableFailure() {
   s_failure = true;
-  return;
 }
 
 void TL::StatusCode::disableFailure() {
   s_failure = false;
-  return;
 }

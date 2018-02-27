@@ -16,7 +16,6 @@
 
 // C++
 #include <vector>
-#include <string>
 #include <memory>
 
 // ROOT

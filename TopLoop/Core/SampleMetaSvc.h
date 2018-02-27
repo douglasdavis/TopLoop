@@ -14,13 +14,11 @@
 #define TL_SampleMetaSvc_h
 
 // C++
-#include <sstream>
 #include <fstream>
 #include <map>
 #include <tuple>
 
 // TL
-#include <TopLoop/Core/Utils.h>
 #include <TopLoop/Core/Loggable.h>
 
 namespace TL {

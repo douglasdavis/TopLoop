@@ -9,21 +9,16 @@
 #include <TopLoop/Core/FileManager.h>
 #include <TopLoop/Core/Utils.h>
 
-// ATLAS
-//
+// ROOT
+#include <TChain.h>
 
 // boost
-#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
 namespace fs = boost::filesystem;
 
 // C++
-#include <iostream>
-#include <cstddef>
 #include <fstream>
-#include <sstream>
-
-// ROOT
-#include <TROOT.h>
 
 TL::FileManager::FileManager() : TL::Loggable("TL::FileManager") {}
 
@@ -60,13 +55,11 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
       if ( whole_path.filename().string().find(".root") == std::string::npos && !take_all ) {
         continue;
       }
-      else {
-        logger()->info("Adding file: {}",whole_path.filename().string());
-        auto final_path = whole_path.string().c_str();
-        m_fileNames.emplace_back(final_path);
-        m_rootChain->Add(final_path);
-        m_rootWeightsChain->Add(final_path);
-      }
+      logger()->info("Adding file: {}",whole_path.filename().string());
+      auto final_path = whole_path.string().c_str();
+      m_fileNames.emplace_back(final_path);
+      m_rootChain->Add(final_path);
+      m_rootWeightsChain->Add(final_path);
     }
     else {
       continue;
@@ -75,7 +68,6 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
   if ( m_fileNames.empty() ) {
     logger()->critical("Directory {} doesn't contain any files!", dirpath);
   }
-  return;
 }
 
 void TL::FileManager::feedTxt(const std::string& txtfilename) {

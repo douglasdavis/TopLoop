@@ -20,6 +20,9 @@
 #include <TopLoop/Core/FileManager.h>
 #include <TopLoop/Core/Loggable.h>
 
+// ROOT
+#include <TChain.h>
+
 namespace TL {
   namespace EDM {
     class FinalState;
@@ -270,6 +273,12 @@ namespace TL {
 
 }
 
-#include "Algorithm.icc"
+inline void TL::Algorithm::setIsData()          { m_isMC = false;        }
+inline bool TL::Algorithm::initCalled()   const { return m_initCalled;   }
+inline bool TL::Algorithm::isMC()         const { return m_isMC;         }
+inline bool TL::Algorithm::isData()       const { return !m_isMC;        }
+inline bool TL::Algorithm::isNominal()    const { return m_isNominal;    }
+inline bool TL::Algorithm::isSystematic() const { return !m_isNominal;   }
+inline long TL::Algorithm::eventCount()   const { return m_eventCounter; }
 
 #endif

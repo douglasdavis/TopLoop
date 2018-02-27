@@ -15,13 +15,17 @@ TL::Job::Job() : TL::Loggable("TL::Job") {}
 TL::Job::~Job() {}
 
 TL::StatusCode TL::Job::setAlgorithm(std::unique_ptr<TL::Algorithm> alg) {
-  if ( alg == nullptr ) return TL::StatusCode::FAILURE;
+  if ( alg == nullptr ) {
+    return TL::StatusCode::FAILURE;
+  }
   m_algorithm = std::move(alg);
   return TL::StatusCode::SUCCESS;
 }
 
 TL::StatusCode TL::Job::setFileManager(std::unique_ptr<TL::FileManager> fm) {
-  if ( fm == nullptr ) return TL::StatusCode::FAILURE;
+  if ( fm == nullptr ) {
+    return TL::StatusCode::FAILURE;
+  }
   m_fm = std::move(fm);
   return TL::StatusCode::SUCCESS;
 }

@@ -88,7 +88,6 @@ void TL::Algorithm::printProgress(int n_prints) const {
       logger()->info("-- [{:3.0f}%] Event: {}",progress,m_eventCounter);
     }
   }
-  return;
 }
 
 TL::StatusCode TL::Algorithm::addElectronsToFS(TL::EDM::FinalState* fs) const {
@@ -155,7 +154,9 @@ TL::StatusCode TL::Algorithm::addJetsToFS(TL::EDM::FinalState* fs,
     TL::EDM::Jet jet;
     pt  = jet_pt().at(i);
     eta = jet_eta().at(i);
-    if ( (pt < ptcut) || (std::abs(eta) > etacut) ) continue;
+    if ( (pt < ptcut) || (std::abs(eta) > etacut) ) {
+      continue;
+    }
     jet.p4().SetPtEtaPhiE(pt,eta,jet_phi().at(i),jet_e().at(i));
 
     jet.set_mv2c00(jet_mv2c00().at(i));

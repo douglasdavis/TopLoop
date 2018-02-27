@@ -10,11 +10,10 @@
 
 TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
                                 const TL::EDM::Lepton& lep2,
-                                const size_t idxf, const size_t idxs) :
-  TL::EDM::PhysicsObject() {
-  m_fIdx = idxf;
-  m_sIdx = idxs;
-  m_p = lep1.p4() + lep2.p4();
+                                const size_t idxf, const size_t idxs) {
+  m_fIdx     = idxf;
+  m_sIdx     = idxs;
+  m_p        = lep1.p4() + lep2.p4();
   m_deltaR   = lep1.p4().DeltaR(lep2.p4());
   m_deltaEta = lep1.p4().Eta() - lep2.p4().Eta();
   m_deltaPhi = lep1.p4().DeltaPhi(lep2.p4());

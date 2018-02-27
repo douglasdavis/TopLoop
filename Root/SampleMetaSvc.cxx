@@ -149,5 +149,4 @@ void TL::SampleMetaSvc::printInfo(const int dsid) const {
   logger()->info("Sample Process:   {}",getInitialStateStr(dsid));
   logger()->info("Sample Generator: {}",getGeneratorStr(dsid));
   logger()->info("Sample Type:      {}",getSampleTypeStr(dsid));
-  return;
 }

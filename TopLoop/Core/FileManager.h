@@ -17,14 +17,7 @@
 #include <TopLoop/Core/Utils.h>
 
 // ROOT
-#include <TFile.h>
-#include <TChain.h>
-#include <TTree.h>
-
-// C++
-#include <vector>
-#include <string>
-#include <memory>
+class TChain;
 
 namespace TL {
   class FileManager : public TL::Loggable {

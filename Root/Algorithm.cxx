@@ -18,7 +18,9 @@ TL::StatusCode TL::Algorithm::init() {
   std::string treename(fileManager()->rootChain()->GetName());
 
   std::string mode = "nominal";
-  if ( isSystematic() ) mode = "systematic";
+  if ( isSystematic() ) {
+    mode = "systematic";
+  }
 
   logger()->info("Processing tree {} in mode {}",treename,mode);
 
@@ -35,5 +37,28 @@ TL::StatusCode TL::Algorithm::execute() {
 }
 
 TL::StatusCode TL::Algorithm::finish() {
+  return TL::StatusCode::SUCCESS;
+}
+
+const TL::FileManager* TL::Algorithm::fileManager() const {
+  return m_fm.get();
+}
+
+std::shared_ptr<TTreeReader> TL::Algorithm::reader() const {
+  return m_reader;
+}
+
+std::shared_ptr<TTreeReader> TL::Algorithm::weightsReader() const {
+  return m_weightsReader;
+}
+
+TL::StatusCode TL::Algorithm::setFileManager(std::unique_ptr<TL::FileManager> fm) {
+  if ( fm == nullptr ) {
+    logger()->critical("TL::EDM::FileManager is nullptr");
+    return TL::StatusCode::FAILURE;
+  }
+  m_fm = std::move(fm);
+  m_totalEntries =  m_fm->rootChain()->GetEntries();
+  m_isNominal    = (m_fm->treeName() == "nominal");
   return TL::StatusCode::SUCCESS;
 }
