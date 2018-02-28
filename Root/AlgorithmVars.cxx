@@ -13,6 +13,11 @@ TL::StatusCode TL::Algorithm::init_core_vars() {
     logger()->critical("Your algorithm has a null FileManager");
   }
 
+  // this TChain::LoadTree()) call suppresses a warning from
+  // TTreeReader about the entries being changed by multiple
+  // controllers
+  fileManager()->rootChain()->LoadTree(0);
+  fileManager()->rootWeightsChain()->LoadTree(0);
   m_reader        = std::make_shared<TTreeReader>(fileManager()->rootChain());
   m_weightsReader = std::make_shared<TTreeReader>(fileManager()->rootWeightsChain());
 

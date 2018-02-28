@@ -20,9 +20,9 @@ namespace TL {
 
     class MissingET : public TL::EDM::PhysicsObject {
     private:
-      float m_px;
-      float m_py;
-      float m_sumet;
+      float m_px{0};
+      float m_py{0};
+      float m_sumet{0};
 
     public:
       MissingET() = default;
@@ -49,6 +49,13 @@ namespace TL {
 
       /// @}
 
+      /// @name utilities
+      /// @{
+
+      void reset();
+
+      /// @}
+
     };
 
   }
@@ -61,5 +68,12 @@ inline void TL::EDM::MissingET::set_sumet(const float val) { m_sumet = val; }
 inline float TL::EDM::MissingET::px()    const { return m_px;    }
 inline float TL::EDM::MissingET::py()    const { return m_py;    }
 inline float TL::EDM::MissingET::sumet() const { return m_sumet; }
+
+inline void TL::EDM::MissingET::reset() {
+  m_px = 0;
+  m_py = 0;
+  m_sumet = 0;
+  p4().SetPtEtaPhiM(0,0,0,0);
+}
 
 #endif

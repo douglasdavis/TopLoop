@@ -115,10 +115,10 @@ namespace TL {
 
 inline const std::vector<std::string>& TL::FileManager::fileNames() const { return m_fileNames; }
 
-inline const std::string&   TL::FileManager::weightsTreeName() const { return m_weightsTreeName; }
-inline const std::string&   TL::FileManager::treeName()        const { return m_treeName;        }
+inline const std::string& TL::FileManager::weightsTreeName() const { return m_weightsTreeName; }
+inline const std::string& TL::FileManager::treeName()        const { return m_treeName;        }
 
-inline       TChain*   TL::FileManager::rootChain()        const { return m_rootChain.get();        }
-inline       TChain*   TL::FileManager::rootWeightsChain() const { return m_rootWeightsChain.get(); }
+inline       TChain* TL::FileManager::rootChain()        const { return m_rootChain.get();        }
+inline       TChain* TL::FileManager::rootWeightsChain() const { return m_rootWeightsChain.get(); }
 
 #endif

@@ -35,8 +35,7 @@ void TL::EDM::FinalState::evaluateSelf(bool sort_leptons) {
   }
   evaluateLepPairs();
   m_HT = 0.0;
-  TLorentzVector eventFourVector;
-  eventFourVector.SetPxPyPzE(0,0,0,0);
+  TLorentzVector eventFourVector{0,0,0,0};
   for ( const auto& lep : m_leptons ) {
     eventFourVector += lep.p4();
     m_HT += lep.pT();

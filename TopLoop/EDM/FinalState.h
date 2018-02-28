@@ -101,8 +101,8 @@ namespace TL {
 
       /// @}
 
-      /// clear the final state
-      void clear();
+      /// reset the final state
+      void reset();
     };
 
   }
@@ -115,12 +115,13 @@ inline void TL::EDM::FinalState::addJet(const TL::EDM::Jet& jet)              { 
 inline void TL::EDM::FinalState::addLepton(const TL::EDM::Lepton& lep)        { m_leptons.push_back(lep);    }
 inline void TL::EDM::FinalState::addLeptonPair(const TL::EDM::LeptonPair& lp) { m_leptonPairs.push_back(lp); }
 
-inline void TL::EDM::FinalState::clear() {
+inline void TL::EDM::FinalState::reset() {
   m_leptons.clear();
   m_jets.clear();
   m_leptonPairs.clear();
   m_electrons.clear();
   m_muons.clear();
+  m_missingET.reset();
   m_M  = 0;
   m_HT = 0;
   m_hasFakeElectronMC = false;
