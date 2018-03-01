@@ -18,6 +18,7 @@
 #include <TopLoop/EDM/MissingET.h>
 #include <TopLoop/EDM/Electron.h>
 #include <TopLoop/EDM/Muon.h>
+#include <TopLoop/Core/Loggable.h>
 
 // C++
 #include <algorithm>
@@ -25,7 +26,7 @@
 namespace TL {
   namespace EDM {
 
-    class FinalState {
+    class FinalState : TL::Loggable {
     private:
       std::vector<TL::EDM::Electron>   m_electrons;
       std::vector<TL::EDM::Muon>       m_muons;
@@ -34,28 +35,25 @@ namespace TL {
       std::vector<TL::EDM::LeptonPair> m_leptonPairs;
       TL::EDM::MissingET               m_missingET;
 
-      float m_M;
-      float m_HT;
-
       bool m_hasFakeElectronMC;
       bool m_hasFakeMuonMC;
 
       void addLepton(const TL::EDM::Lepton& lep);
       void addLeptonPair(const TL::EDM::LeptonPair& lp);
-      void setHasFakeElectronMC(const bool flag);
-      void setHasFakeMuonMC(const bool flag);
-      void evaluateLepPairs();
+      void makeLeptonPairs();
 
     public:
 
       /// default constructor
-      FinalState() = default;
+      FinalState();
 
       /// destructor
       virtual ~FinalState() = default;
 
       FinalState(const FinalState&) = delete;
       FinalState& operator=(const FinalState&) = delete;
+      FinalState(FinalState&&) = delete;
+      FinalState& operator=(FinalState&&) = delete;
 
       /// @name Functions to define the final state
       /// @{
@@ -67,6 +65,10 @@ namespace TL {
       /// add a muon to the muon container
       void addMuon(const TL::EDM::Muon& mu);
       /// process the physics objects to set some final state properties.
+      /**
+       *  @param sort_leptons flag to apply std::sort to the lepton
+       *  container
+       */
       void evaluateSelf(bool sort_leptons = true);
 
       /// @}
@@ -85,24 +87,20 @@ namespace TL {
       /// get the MissingET object (non const)
       TL::EDM::MissingET&                     MissingET();
 
-      /// retrieve the invariant mass of all objects in the event
-      float        M()                 const;
-      /// retrieve the sum of transverse energy of objects in the final state
-      float        HT()                const;
       /// true if the event has a fake electron (at least one electron that failed truth matching)
-      bool         hasFakeElectronMC() const;
+      bool        hasFakeElectronMC() const;
       /// true if the event has a fake muon (at least one muon that failed truth matching)
-      bool         hasFakeMuonMC()     const;
+      bool        hasFakeMuonMC()     const;
       /// true if fake electron or fake muon
-      bool         hasFakeLeptonMC()   const;
-
+      bool        hasFakeLeptonMC()   const;
       /// count the number of jets in the container with MV2c10 at 77 percent eff
       std::size_t nbjets_MV2c10_77() const;
 
       /// @}
 
-      /// reset the final state
+      /// clear all final state containers
       void reset();
+
     };
 
   }
@@ -111,25 +109,8 @@ namespace TL {
 inline void TL::EDM::FinalState::addElectron(const TL::EDM::Electron& el)     { m_electrons.push_back(el);   }
 inline void TL::EDM::FinalState::addMuon(const TL::EDM::Muon& mu)             { m_muons.push_back(mu);       }
 inline void TL::EDM::FinalState::addJet(const TL::EDM::Jet& jet)              { m_jets.push_back(jet);       }
-
 inline void TL::EDM::FinalState::addLepton(const TL::EDM::Lepton& lep)        { m_leptons.push_back(lep);    }
 inline void TL::EDM::FinalState::addLeptonPair(const TL::EDM::LeptonPair& lp) { m_leptonPairs.push_back(lp); }
-
-inline void TL::EDM::FinalState::reset() {
-  m_leptons.clear();
-  m_jets.clear();
-  m_leptonPairs.clear();
-  m_electrons.clear();
-  m_muons.clear();
-  m_missingET.reset();
-  m_M  = 0;
-  m_HT = 0;
-  m_hasFakeElectronMC = false;
-  m_hasFakeMuonMC     = false;
-}
-
-inline void TL::EDM::FinalState::setHasFakeElectronMC(const bool flag) { m_hasFakeElectronMC = flag; }
-inline void TL::EDM::FinalState::setHasFakeMuonMC(const bool flag)     { m_hasFakeMuonMC     = flag; }
 
 inline const std::vector<TL::EDM::Lepton>& TL::EDM::FinalState::leptons()   const { return m_leptons;   }
 inline const std::vector<TL::EDM::Jet>&    TL::EDM::FinalState::jets()      const { return m_jets;      }
@@ -139,9 +120,6 @@ inline       TL::EDM::MissingET&           TL::EDM::FinalState::MissingET()     
 inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs() const {
   return m_leptonPairs;
 }
-
-inline float TL::EDM::FinalState::M()  const { return m_M;  }
-inline float TL::EDM::FinalState::HT() const { return m_HT; }
 
 inline bool TL::EDM::FinalState::hasFakeElectronMC()  const { return m_hasFakeElectronMC; }
 inline bool TL::EDM::FinalState::hasFakeMuonMC()      const { return m_hasFakeMuonMC;     }

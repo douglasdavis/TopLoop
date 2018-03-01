@@ -7,7 +7,9 @@
 // TL
 #include <TopLoop/EDM/FinalState.h>
 
-void TL::EDM::FinalState::evaluateLepPairs() {
+TL::EDM::FinalState::FinalState() : TL::Loggable("TL::EDM::FinalState") {}
+
+void TL::EDM::FinalState::makeLeptonPairs() {
   for ( std::size_t i = 0; i < m_leptons.size(); ++i ) {
     for ( std::size_t j = (i+1); j < m_leptons.size(); ++j ) {
       TL::EDM::LeptonPair lp(m_leptons.at(i),m_leptons.at(j),i,j);
@@ -17,33 +19,38 @@ void TL::EDM::FinalState::evaluateLepPairs() {
 }
 
 void TL::EDM::FinalState::evaluateSelf(bool sort_leptons) {
-  for ( const auto& el : m_electrons ) {
+  m_hasFakeElectronMC = false;
+  m_hasFakeMuonMC     = false;
+  for ( const TL::EDM::Electron& el : m_electrons ) {
     addLepton(el);
     if ( el.isMCfake() ) {
-      setHasFakeElectronMC(true);
+      m_hasFakeElectronMC = true;
     }
   }
-  for ( const auto& mu : m_muons ) {
+  for ( const TL::EDM::Muon& mu : m_muons ) {
     addLepton(mu);
     if ( mu.isMCfake() ) {
-      setHasFakeMuonMC(true);
+      m_hasFakeMuonMC = true;
     }
   }
   if ( sort_leptons ) {
     std::sort(m_leptons.begin(),m_leptons.end(),
-              [](const auto& lep1, const auto& lep2) { return (lep1.pT() > lep2.pT()); });
+              [](const TL::EDM::Lepton& lep1, const TL::EDM::Lepton& lep2) {
+                return (lep1.pT() > lep2.pT());
+              });
   }
-  evaluateLepPairs();
-  m_HT = 0.0;
-  TLorentzVector eventFourVector{0,0,0,0};
-  for ( const auto& lep : m_leptons ) {
-    eventFourVector += lep.p4();
-    m_HT += lep.pT();
+  makeLeptonPairs();
+  if ( m_leptons.size() > 10 ) {
+    logger()->warn("Lepton container size has grown to over 10! "
+                   "You probably forgot to call TL::EDM::FinalState::reset()");
   }
-  for ( const auto& jet : m_jets ) {
-    eventFourVector += jet.p4();
-    m_HT += jet.pT();
-  }
-  eventFourVector += m_missingET.p4();
-  m_M = eventFourVector.M();
+}
+
+void TL::EDM::FinalState::reset() {
+  m_leptons.clear();
+  m_jets.clear();
+  m_leptonPairs.clear();
+  m_electrons.clear();
+  m_muons.clear();
+  m_missingET.reset();
 }
