@@ -279,6 +279,24 @@
             "Generator": "aMCatNLOHerwigpp",
             "InitialState": "Wt",
             "SampleType": "Systematic"
+        },
+        {
+            "DSID_range": [
+                410646,
+                410647
+            ],
+            "Generator": "PowhegPythia8",
+            "InitialState": "Wt",
+            "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [
+                410654,
+                410655
+            ],
+            "Generator": "PowhegPythia8",
+            "InitialState": "Wt",
+            "SampleType": "Systematic"
         }
     ],
     "Zjets": [

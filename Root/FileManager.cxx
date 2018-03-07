@@ -22,7 +22,13 @@ namespace fs = boost::filesystem;
 
 TL::FileManager::FileManager() : TL::Loggable("TL::FileManager") {}
 
-TL::FileManager::~FileManager() {}
+TL::FileManager::~FileManager() {
+  // rename the renamed files back to original names
+  for ( const auto& entry : m_renames ) {
+    logger()->debug("Renaming {} back to {}",entry.second,entry.first);
+    fs::rename(entry.second,entry.first);
+  }
+}
 
 void TL::FileManager::setTreeName(const std::string& tn) {
   m_treeName = tn;
@@ -56,10 +62,19 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
         continue;
       }
       logger()->info("Adding file: {}",whole_path.filename().string());
-      auto final_path = whole_path.string().c_str();
+      std::string final_path = whole_path.string();
+      // if the file doesn't end in .root, make it end in .root
+      // because ROOT is insane.
+      if ( final_path.back() != 't' ) {
+        m_renames.emplace(final_path,final_path+".root");
+        logger()->debug("Temporarily enaming {} to {} because ROOT is insane",
+                        final_path,final_path+".root");
+        fs::rename(final_path,final_path+".root");
+        final_path = final_path+".root";
+      }
       m_fileNames.emplace_back(final_path);
-      m_rootChain->Add(final_path);
-      m_rootWeightsChain->Add(final_path);
+      m_rootChain->AddFile(final_path.c_str());
+      m_rootWeightsChain->AddFile(final_path.c_str());
     }
     else {
       continue;
