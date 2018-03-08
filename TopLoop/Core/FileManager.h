@@ -28,6 +28,9 @@ namespace TL {
     std::unique_ptr<TChain>  m_rootChain        {nullptr};
     std::unique_ptr<TChain>  m_rootWeightsChain {nullptr};
 
+    /// make files ending in ".root.N" their old name again
+    std::map<std::string,std::string> m_renames{};
+
     /// initialize the ROOT TChain pointers
     TL::StatusCode initChain();
 
