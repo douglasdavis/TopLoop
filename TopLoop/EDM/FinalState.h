@@ -28,15 +28,15 @@ namespace TL {
 
     class FinalState : TL::Loggable {
     private:
-      std::vector<TL::EDM::Electron>   m_electrons;
-      std::vector<TL::EDM::Muon>       m_muons;
-      std::vector<TL::EDM::Jet>        m_jets;
-      std::vector<TL::EDM::Lepton>     m_leptons;
-      std::vector<TL::EDM::LeptonPair> m_leptonPairs;
-      TL::EDM::MissingET               m_missingET;
+      std::vector<TL::EDM::Electron>   m_electrons{};
+      std::vector<TL::EDM::Muon>       m_muons{};
+      std::vector<TL::EDM::Jet>        m_jets{};
+      std::vector<TL::EDM::Lepton>     m_leptons{};
+      std::vector<TL::EDM::LeptonPair> m_leptonPairs{};
+      TL::EDM::MissingET               m_missingET{};
 
-      bool m_hasFakeElectronMC;
-      bool m_hasFakeMuonMC;
+      bool m_hasFakeElectronMC{false};
+      bool m_hasFakeMuonMC{false};
 
       void addLepton(const TL::EDM::Lepton& lep);
       void addLeptonPair(const TL::EDM::LeptonPair& lp);
@@ -94,7 +94,10 @@ namespace TL {
       /// true if fake electron or fake muon
       bool        hasFakeLeptonMC()   const;
       /// count the number of jets in the container with MV2c10 at 77 percent eff
-      std::size_t nbjets_MV2c10_77() const;
+      std::size_t nbjets_MV2c10_77()  const;
+
+      /// grab the index of most forward jet (largest \f$|\eta|\f$).
+      const std::size_t mostForwardJetIdx() const;
 
       /// @}
 

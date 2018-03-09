@@ -46,6 +46,25 @@ void TL::EDM::FinalState::evaluateSelf(bool sort_leptons) {
   }
 }
 
+const std::size_t TL::EDM::FinalState::mostForwardJetIdx() const {
+  if ( jets().empty() ) {
+    logger()->warn("Asking for forward jet index but no jets! return 0");
+    return 0;
+  }
+  if ( jets().size() == 1 ) {
+    return 0;
+  }
+  auto eta_compare = [](const TL::EDM::Jet& j1, const TL::EDM::Jet& j2) {
+    return (j1.aeta() < j2.aeta());
+  };
+  auto res = std::max_element(jets().begin(),jets().end(),eta_compare);
+  auto idx = std::distance(jets().begin(),res);
+  if ( idx < 0 ) {
+    logger()->warn("mostForwardJetIdx yielding negative index: {}",idx);
+  }
+  return idx;
+}
+
 void TL::EDM::FinalState::reset() {
   m_leptons.clear();
   m_jets.clear();
