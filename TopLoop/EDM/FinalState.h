@@ -97,7 +97,7 @@ namespace TL {
       std::size_t nbjets_MV2c10_77()  const;
 
       /// grab the index of most forward jet (largest \f$|\eta|\f$).
-      const std::size_t mostForwardJetIdx() const;
+      std::size_t mostForwardJetIdx() const;
 
       /// @}
 

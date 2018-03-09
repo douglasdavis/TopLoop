@@ -46,7 +46,7 @@ void TL::EDM::FinalState::evaluateSelf(bool sort_leptons) {
   }
 }
 
-const std::size_t TL::EDM::FinalState::mostForwardJetIdx() const {
+std::size_t TL::EDM::FinalState::mostForwardJetIdx() const {
   if ( jets().empty() ) {
     logger()->warn("Asking for forward jet index but no jets! return 0");
     return 0;
