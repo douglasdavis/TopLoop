@@ -21,6 +21,8 @@
 namespace TL {
   namespace EDM {
 
+    enum class BTagWP { mv2c10_70, mv2c10_77, mv2c10_85 };
+
     class Jet : public TL::EDM::PhysicsObject {
     private:
       float m_mv2c00;

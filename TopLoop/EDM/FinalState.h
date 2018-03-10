@@ -93,8 +93,13 @@ namespace TL {
       bool        hasFakeMuonMC()     const;
       /// true if fake electron or fake muon
       bool        hasFakeLeptonMC()   const;
-      /// count the number of jets in the container with MV2c10 at 77 percent eff
-      std::size_t nbjets_MV2c10_77()  const;
+      /// count the number of jets in the container (default is MV2c10 at 77 percent eff)
+      /**
+       *  Uses the TL::EDM::BTagWP enum to ask for a specific working point.
+       *
+       *  @param wp the Working point enum value (default BTagWP::mv2c10_77).
+       */
+      std::size_t nbjets(const TL::EDM::BTagWP wp = TL::EDM::BTagWP::mv2c10_77) const;
 
       /// grab the index of most forward jet (largest \f$|\eta|\f$).
       std::size_t mostForwardJetIdx() const;
@@ -128,11 +133,6 @@ inline bool TL::EDM::FinalState::hasFakeElectronMC()  const { return m_hasFakeEl
 inline bool TL::EDM::FinalState::hasFakeMuonMC()      const { return m_hasFakeMuonMC;     }
 inline bool TL::EDM::FinalState::hasFakeLeptonMC()    const {
   return (m_hasFakeElectronMC || m_hasFakeMuonMC);
-}
-
-inline std::size_t TL::EDM::FinalState::nbjets_MV2c10_77() const {
-  return std::count_if(m_jets.begin(), m_jets.end(),
-                       [](const TL::EDM::Jet& a) { return a.isbtagged_MV2c10_77(); });
 }
 
 #endif
