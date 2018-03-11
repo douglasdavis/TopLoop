@@ -114,11 +114,11 @@ namespace TL {
   }
 }
 
-inline void TL::EDM::FinalState::addElectron(const TL::EDM::Electron& el)     { m_electrons.push_back(el);   }
-inline void TL::EDM::FinalState::addMuon(const TL::EDM::Muon& mu)             { m_muons.push_back(mu);       }
-inline void TL::EDM::FinalState::addJet(const TL::EDM::Jet& jet)              { m_jets.push_back(jet);       }
-inline void TL::EDM::FinalState::addLepton(const TL::EDM::Lepton& lep)        { m_leptons.push_back(lep);    }
-inline void TL::EDM::FinalState::addLeptonPair(const TL::EDM::LeptonPair& lp) { m_leptonPairs.push_back(lp); }
+inline void TL::EDM::FinalState::addElectron(const TL::EDM::Electron& el)     { m_electrons.emplace_back(el);   }
+inline void TL::EDM::FinalState::addMuon(const TL::EDM::Muon& mu)             { m_muons.emplace_back(mu);       }
+inline void TL::EDM::FinalState::addJet(const TL::EDM::Jet& jet)              { m_jets.emplace_back(jet);       }
+inline void TL::EDM::FinalState::addLepton(const TL::EDM::Lepton& lep)        { m_leptons.emplace_back(lep);    }
+inline void TL::EDM::FinalState::addLeptonPair(const TL::EDM::LeptonPair& lp) { m_leptonPairs.emplace_back(lp); }
 
 inline const std::vector<TL::EDM::Lepton>& TL::EDM::FinalState::leptons()   const { return m_leptons;   }
 inline const std::vector<TL::EDM::Jet>&    TL::EDM::FinalState::jets()      const { return m_jets;      }

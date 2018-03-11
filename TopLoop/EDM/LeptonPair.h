@@ -66,8 +66,14 @@ namespace TL {
       /// default destructor
       virtual ~LeptonPair() = default;
 
-      LeptonPair& operator=(const LeptonPair&) = default;
+      /// default copy constructor
       LeptonPair(const LeptonPair&) = default;
+      /// default assignment operator
+      LeptonPair& operator=(const LeptonPair&) = default;
+      /// default move copy constructor
+      LeptonPair(LeptonPair&&) = default;
+      /// default move assignment operator
+      LeptonPair& operator=(LeptonPair&&) = default;
 
       /// get the ATLAS coordinate system \f$\Delta R\f$ between the two leptons.
       /**

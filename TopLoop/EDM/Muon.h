@@ -22,13 +22,18 @@ namespace TL {
       float m_ptvarcone30;
 
     public:
-      Muon() : TL::EDM::Lepton() {
-        set_pdgId(13);
-      }
+      /// default constructor
+      Muon() : TL::EDM::Lepton(13) {}
+      /// default destructor
       virtual ~Muon() = default;
-
-      Muon& operator=(const Muon&) = default;
+      /// default copy constructor
       Muon(const Muon&) = default;
+      /// default assignement operator
+      Muon& operator=(const Muon&) = default;
+      /// default move copy constructor
+      Muon(Muon&&) = default;
+      /// default move assignment operator
+      Muon& operator=(Muon&&) = default;
 
       /// @name setters
       /// @{
