@@ -35,11 +35,27 @@ namespace TL {
       float        m_e_branch;
 
     public:
+      /// default constructor
       Lepton() = default;
+      /// default destructor
       virtual ~Lepton() = default;
-
-      Lepton& operator=(const Lepton&) = default;
+      /// default copy constructor
       Lepton(const Lepton&) = default;
+      /// default assignment operator
+      Lepton& operator=(const Lepton&) = default;
+      /// default move copy constructor
+      Lepton(Lepton&&) = default;
+      /// default move assignment operator
+      Lepton& operator=(Lepton&&) = default;
+
+      /// constructor defining pdgId
+      /**
+       *  This is mainly for the Electron and Muon classes which
+       *  inherit from Lepton
+       *
+       *  @param pdgId the PDG code
+       */
+      Lepton(const unsigned int pdgId) : m_pdgId(pdgId) {}
 
       /// @name setters
       /// @{

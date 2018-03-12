@@ -26,13 +26,18 @@ namespace TL {
       int   m_true_typebkg;
 
     public:
-      Electron() : TL::EDM::Lepton() {
-        set_pdgId(11);
-      }
+      /// default constructor
+      Electron() : TL::EDM::Lepton(11) {}
+      /// default destructor
       virtual ~Electron() = default;
-
-      Electron& operator=(const Electron&) = default;
+      /// default copy constructor
       Electron(const Electron&) = default;
+      /// default assignment operator
+      Electron& operator=(const Electron&) = default;
+      /// default move constructor
+      Electron(Electron&&) = default;
+      /// default move assignment operator
+      Electron& operator=(Electron&&) = default;
 
       /// @name setters
       /// @{

@@ -115,7 +115,7 @@ TL::StatusCode TL::Algorithm::addElectronsToFS(TL::EDM::FinalState* fs) const {
       lep.set_true_typebkg(el_true_typebkg().at(i));
     }
 
-    fs->addElectron(lep);
+    fs->addElectron(std::move(lep));
   }
   return TL::StatusCode::SUCCESS;
 }
@@ -140,7 +140,7 @@ TL::StatusCode TL::Algorithm::addMuonsToFS(TL::EDM::FinalState* fs) const {
     // muon only info
     lep.set_ptvarcone30(mu_ptvarcone30().at(i));
 
-    fs->addMuon(lep);
+    fs->addMuon(std::move(lep));
   }
   return TL::StatusCode::SUCCESS;
 }
@@ -186,7 +186,7 @@ TL::StatusCode TL::Algorithm::addJetsToFS(TL::EDM::FinalState* fs,
       jet.set_DL1rnn_pb(jet_DL1rnn_pb().at(i));
     }
 
-    fs->addJet(jet);
+    fs->addJet(std::move(jet));
   }
   return TL::StatusCode::SUCCESS;
 }

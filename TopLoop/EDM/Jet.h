@@ -21,6 +21,7 @@
 namespace TL {
   namespace EDM {
 
+    /// b-tagging working point identifiers
     enum class BTagWP { mv2c10_70, mv2c10_77, mv2c10_85 };
 
     class Jet : public TL::EDM::PhysicsObject {
@@ -50,11 +51,18 @@ namespace TL {
       float m_DL1rnn_pb;
 
     public:
+      /// default constructor
       Jet() = default;
+      /// default destructor
       virtual ~Jet() = default;
-
-      Jet& operator=(const Jet&) = default;
+      /// default copy constructor
       Jet(const Jet&) = default;
+      /// default assignment operator
+      Jet& operator=(const Jet&) = default;
+      /// default move copy constructor
+      Jet(Jet&&) = default;
+      /// default move assignment constructor
+      Jet& operator=(Jet&&) = default;
 
       /// @name setters
       /// @{
