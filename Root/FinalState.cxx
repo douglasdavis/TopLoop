@@ -47,17 +47,17 @@ void TL::EDM::FinalState::evaluateSelf(bool sort_leptons) {
 }
 
 std::size_t TL::EDM::FinalState::nbjets(const TL::EDM::BTagWP wp) const {
-  char (Jet::*isbtagged_ptr)() const;
-  if      ( wp == BTagWP::mv2c10_70 ) { isbtagged_ptr = &Jet::isbtagged_MV2c10_70; }
-  else if ( wp == BTagWP::mv2c10_77 ) { isbtagged_ptr = &Jet::isbtagged_MV2c10_77; }
-  else if ( wp == BTagWP::mv2c10_85 ) { isbtagged_ptr = &Jet::isbtagged_MV2c10_85; }
+  std::function<char(const Jet&)> isbtagged;
+  if      ( wp == BTagWP::mv2c10_70 ) { isbtagged = &Jet::isbtagged_MV2c10_70; }
+  else if ( wp == BTagWP::mv2c10_77 ) { isbtagged = &Jet::isbtagged_MV2c10_77; }
+  else if ( wp == BTagWP::mv2c10_85 ) { isbtagged = &Jet::isbtagged_MV2c10_85; }
   else {
     logger()->warn("BTagWP supplied to nbjets() doesn't exist! Returning 0");
     return 0;
   }
   return std::count_if(m_jets.begin(), m_jets.end(),
                        [&](const TL::EDM::Jet& a) {
-                         return (a.*isbtagged_ptr)();
+                         return isbtagged(a);
                        });
 }
 
