@@ -39,7 +39,7 @@ namespace TL {
     PowhegHerwig      , PowhegHerwigpp    , Sherpa21          , Sherpa22          ,
     Sherpa221         , MadgraphPythia    , MadgraphPythia8   , aMCatNLOPythia8   ,
     aMCatNLOHerwig    , aMCatNLOHerwigpp  , PowhegPythia8_dil , PowhegPythia6_dil ,
-    PowhegHerwig7
+    PowhegHerwig7     , Sherpa222
   };
 
   enum class kSampleType {
@@ -135,6 +135,9 @@ namespace TL {
 
     /// have logger print out info based on dsid
     void printInfo(const int dsid) const;
+
+    /// print all entries
+    void dump();
 
   };
 }
