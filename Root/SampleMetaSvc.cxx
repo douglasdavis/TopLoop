@@ -88,6 +88,7 @@ void TL::SampleMetaSvc::setupMap() {
     { "Sherpa21"             , TL::kGenerator::Sherpa21          } ,
     { "Sherpa22"             , TL::kGenerator::Sherpa22          } ,
     { "Sherpa221"            , TL::kGenerator::Sherpa221         } ,
+    { "Sherpa222"            , TL::kGenerator::Sherpa222         } ,
     { "MadgraphPythia"       , TL::kGenerator::MadgraphPythia    } ,
     { "MadgraphPythia8"      , TL::kGenerator::MadgraphPythia8   } ,
     { "aMCatNLOPythia8"      , TL::kGenerator::aMCatNLOPythia8   } ,
@@ -149,4 +150,14 @@ void TL::SampleMetaSvc::printInfo(const int dsid) const {
   logger()->info("Sample Process:   {}",getInitialStateStr(dsid));
   logger()->info("Sample Generator: {}",getGeneratorStr(dsid));
   logger()->info("Sample Type:      {}",getSampleTypeStr(dsid));
+}
+
+void TL::SampleMetaSvc::dump() {
+  for ( const auto& entry : m_sampleTable ) {
+    logger()->info("* {:>7} * {:>9} * {:>18} * {:>10} *",
+                   entry.first,
+                   as_string(std::get<0>(entry.second)),
+                   as_string(std::get<1>(entry.second)),
+                   as_string(std::get<2>(entry.second)));
+  }
 }

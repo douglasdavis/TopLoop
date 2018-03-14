@@ -165,6 +165,24 @@
             "Generator": "Sherpa221",
             "InitialState": "ZZ",
             "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [
+                364250,
+                364250
+            ],
+            "Generator": "Sherpa222",
+            "InitialState": "Diboson",
+            "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [
+                364253,
+                364255
+            ],
+            "Generator": "Sherpa222",
+            "InitialState": "Diboson",
+            "SampleType": "Nominal"
         }
     ],
     "Wjets": [
