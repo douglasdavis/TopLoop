@@ -113,23 +113,25 @@ namespace TL {
     /// get the sample type name based on a dsid
     const std::string getSampleTypeStr(const unsigned int dsid)   const;
 
-    /// retrieve a string based on the InitialState enum
-    const std::string as_string(const TL::kInitialState ienum) const;
-    /// retrieve a string based on the Generator enum
-    const std::string as_string(const TL::kGenerator ienum) const;
-    /// retrieve a string based on the SampleType enum
-    const std::string as_string(const TL::kSampleType ienum) const;
-
     /// @}
 
-    /// @name Campaign helper runctions
+  public:
+    /// @name Campaign helper functions
     /// @{
 
     /// Given a sample name, get the MC campaign identifier
     TL::kCampaign getCampaign(const std::string& sample_name) const;
-
+    /// Given a sample name, get the MC campaign string identifier
+    const std::string getCampaignStr(const std::string& sample_name, bool log_it = true) const;
     /// retrieve a string based on the Campain enum
-    const std::string as_string(const TL::kCampaign ienum) const;
+
+    /// @}
+
+    /// @name Simulation type hlper functions
+    /// @{
+
+    /// given a sample name, return if the sample was simulated with AFII
+    bool isAFII(const std::string& sample_name, bool log_it = true) const;
 
     /// @}
 
@@ -138,6 +140,12 @@ namespace TL {
 
     /// print all entries
     void dump();
+
+  private:
+    const std::string as_string(const TL::kInitialState ienum) const;
+    const std::string as_string(const TL::kGenerator ienum) const;
+    const std::string as_string(const TL::kSampleType ienum) const;
+    const std::string as_string(const TL::kCampaign ienum) const;
 
   };
 }
@@ -174,7 +182,7 @@ inline TL::kSampleType TL::SampleMetaSvc::getSampleType(const unsigned int dsid)
 inline const std::string TL::SampleMetaSvc::as_string(const TL::kInitialState ienum) const {
   auto itr = m_e2s_IS.find(ienum);
   if ( itr == m_e2s_IS.end() ) {
-    logger()->critical("can't find enum entry {}!",as_string(ienum));
+    logger()->critical("can't find initial state enum entry");
   }
   return itr->second;
 }
@@ -182,7 +190,7 @@ inline const std::string TL::SampleMetaSvc::as_string(const TL::kInitialState ie
 inline const std::string TL::SampleMetaSvc::as_string(const TL::kGenerator ienum) const {
   auto itr = m_e2s_G.find(ienum);
   if ( itr == m_e2s_G.end() ) {
-    logger()->critical("can't find enum entry {}!",as_string(ienum));
+    logger()->critical("can't find generator enum entry");
   }
   return itr->second;
 }
@@ -190,7 +198,15 @@ inline const std::string TL::SampleMetaSvc::as_string(const TL::kGenerator ienum
 inline const std::string TL::SampleMetaSvc::as_string(const TL::kSampleType ienum) const {
   auto itr = m_e2s_ST.find(ienum);
   if ( itr == m_e2s_ST.end() ) {
-    logger()->critical("can't find enum entry {}!",as_string(ienum));
+    logger()->critical("can't find sample type enum entry");
+  }
+  return itr->second;
+}
+
+inline const std::string TL::SampleMetaSvc::as_string(const TL::kCampaign ienum) const {
+  auto itr = m_e2s_C.find(ienum);
+  if ( itr == m_e2s_C.end() ) {
+    logger()->critical("Can't find campaign enum entry");
   }
   return itr->second;
 }
@@ -205,6 +221,14 @@ inline const std::string TL::SampleMetaSvc::getGeneratorStr(const unsigned int d
 
 inline const std::string TL::SampleMetaSvc::getSampleTypeStr(const unsigned int dsid) const {
   return as_string(getSampleType(dsid));
+}
+
+inline const std::string TL::SampleMetaSvc::getCampaignStr(const std::string& sample_name, bool log_it) const {
+  auto retval = as_string(getCampaign(sample_name));
+  if  ( log_it ) {
+    logger()->info("This appears to be campaign: {}",retval);
+  }
+  return retval;
 }
 
 #endif

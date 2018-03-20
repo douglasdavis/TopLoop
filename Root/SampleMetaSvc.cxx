@@ -130,8 +130,8 @@ void TL::SampleMetaSvc::setupMap() {
 
 TL::kCampaign TL::SampleMetaSvc::getCampaign(const std::string& sample_name) const {
   if ( sample_name.find("physics_Main") != std::string::npos ) {
-    logger()->warn("You asked for the MC campaign related to a data sample!"
-                   "Returning TL::kCampaign::Data");
+    logger()->debug("You asked for the MC campaign related to a data sample!"
+                    "Returning TL::kCampaign::Data");
     return TL::kCampaign::Data;
   }
   for ( const auto& entry : m_rTags ) {
@@ -143,6 +143,19 @@ TL::kCampaign TL::SampleMetaSvc::getCampaign(const std::string& sample_name) con
   logger()->warn("Returning  TL::kCampaign::Unknown");
   logger()->debug("Available identifiers (r9364, r9781, r10201)");
   return TL::kCampaign::Unknown;
+}
+
+bool TL::SampleMetaSvc::isAFII(const std::string& sample_name, bool log_it) const {
+  bool isaf2 = sample_name.find("_a") != std::string::npos;
+  if ( log_it ) {
+    if ( isaf2  ) {
+      logger()->info("This appears to be simulation type: AFII");
+    }
+    else {
+      logger()->info("This appears to be simulation type: Full Sim");
+    }
+  }
+  return isaf2;
 }
 
 void TL::SampleMetaSvc::printInfo(const int dsid) const {

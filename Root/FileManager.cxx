@@ -55,6 +55,7 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
   TL_CHECK(initChain());
   logger()->info("Feeding from {}", dirpath);
   fs::path p(dirpath);
+  m_rucioDirName = p.filename().string();
   for ( const auto& i : fs::directory_iterator(p) ) {
     if ( !fs::is_directory(i.path()) ) {
       auto whole_path = i.path();
