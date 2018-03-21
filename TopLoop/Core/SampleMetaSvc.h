@@ -89,9 +89,16 @@ namespace TL {
   public:
 
     /// get the instance of the singleton class
+    /**
+     *  The instance can be used using:
+     *  @code{.cpp}
+     *  TL::kInitialState initstate = TL::SampleMetaSvc::get().getInitialState(410015);
+     *  std::string initstatestr    = TL::SampleMetaSvc::get().getInitialStateStr(410015);
+     *  @endcode
+     */
     static SampleMetaSvc& get();
 
-    /// @name Enum identification getters
+    /// @name Enum and string identification getters taking DSID
     /// @{
 
     /// retrieve a enum value corresponding to the initial state based on a DSID
@@ -100,11 +107,6 @@ namespace TL {
     TL::kGenerator    getGenerator(const unsigned int dsid)    const;
     /// retrieve a enum value corresponding to the sample type based on a DSID
     TL::kSampleType   getSampleType(const unsigned int dsid)   const;
-
-    /// @}
-
-    /// @name Sample string identification getters
-    /// @{
 
     /// get the initial state name based on a dsid
     const std::string getInitialStateStr(const unsigned int dsid) const;
@@ -122,8 +124,13 @@ namespace TL {
     /// Given a sample name, get the MC campaign identifier
     TL::kCampaign getCampaign(const std::string& sample_name) const;
     /// Given a sample name, get the MC campaign string identifier
+    /**
+     *  @param sample_name string which should be the rucio sample
+     *  name.
+     *  @param log_it flag (default true) to print result at "info"
+     *  level.
+     */
     const std::string getCampaignStr(const std::string& sample_name, bool log_it = true) const;
-    /// retrieve a string based on the Campain enum
 
     /// @}
 
@@ -131,15 +138,25 @@ namespace TL {
     /// @{
 
     /// given a sample name, return if the sample was simulated with AFII
+    /**
+     *  @param sample_name string which should be the rucio sample
+     *  name.
+     *  @param log_it flag (default true) to print result at "info"
+     *  level.
+     */
     bool isAFII(const std::string& sample_name, bool log_it = true) const;
 
     /// @}
 
-    /// have logger print out info based on dsid
-    void printInfo(const int dsid) const;
+    /// @name Printing utilties
+    /// @{
 
-    /// print all entries
+    /// have the logger print out info based on dsid
+    void printInfo(const int dsid) const;
+    /// print all available sample metadata
     void dump();
+
+    /// @}
 
   private:
     const std::string as_string(const TL::kInitialState ienum) const;
