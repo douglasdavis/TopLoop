@@ -11,6 +11,9 @@
 // PathResolver
 #include <PathResolver/PathResolver.h>
 
+// C++
+#include <regex>
+
 TL::SampleMetaSvc::SampleMetaSvc() : TL::Loggable("TL::SampleMetaSvc") {
   setupMap();
   std::string filepath = PathResolverFindCalibFile("TopLoop/samplemeta.json");
@@ -61,7 +64,7 @@ void TL::SampleMetaSvc::setupMap() {
     { "Unknown"              , TL::kInitialState::Unknown        } ,
     { "Data"                 , TL::kInitialState::Data           } ,
     { "ttbar"                , TL::kInitialState::ttbar          } ,
-    { "Wt"                   , TL::kInitialState::Wt             } ,
+    { "tW"                   , TL::kInitialState::tW             } ,
     { "Zjets"                , TL::kInitialState::Zjets          } ,
     { "Wjets"                , TL::kInitialState::Wjets          } ,
     { "WW"                   , TL::kInitialState::WW             } ,
@@ -130,7 +133,7 @@ void TL::SampleMetaSvc::setupMap() {
 
 TL::kCampaign TL::SampleMetaSvc::getCampaign(const std::string& sample_name) const {
   if ( sample_name.find("physics_Main") != std::string::npos ) {
-    logger()->debug("You asked for the MC campaign related to a data sample!"
+    logger()->debug("You asked for the MC campaign related to a data sample! "
                     "Returning TL::kCampaign::Data");
     return TL::kCampaign::Data;
   }
@@ -146,7 +149,15 @@ TL::kCampaign TL::SampleMetaSvc::getCampaign(const std::string& sample_name) con
 }
 
 bool TL::SampleMetaSvc::isAFII(const std::string& sample_name, bool log_it) const {
-  bool isaf2 = sample_name.find("_a") != std::string::npos;
+  bool isdata = sample_name.find("physics_Main") != std::string::npos;
+  if ( isdata ) {
+    if ( log_it ) {
+      logger()->info("This appears to be data");
+    }
+    return false;
+  }
+  std::regex af2regex("(_a[0-9]{3})");
+  bool isaf2 = std::regex_search(sample_name,af2regex);
   if ( log_it ) {
     if ( isaf2  ) {
       logger()->info("This appears to be simulation type: AFII");
