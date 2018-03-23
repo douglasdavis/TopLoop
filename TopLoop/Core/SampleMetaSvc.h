@@ -28,7 +28,7 @@ namespace TL {
   };
 
   enum class kInitialState {
-    Unknown  , Data     , ttbar   , Wt      ,
+    Unknown  , Data     , ttbar   , tW      ,
     Zjets    , Wjets    , WW      , WZ      ,
     ZZ       , Diboson  , ttbarZ  , ttbarW  ,
     ttbarll  , ttbarphi , tchan   , schan
