@@ -73,8 +73,9 @@ namespace TL {
     std::map<TL::kCampaign,std::string>     m_e2s_C;
 
     std::map<std::string,TL::kCampaign>     m_rTags;
+    std::map<TL::kCampaign,float>           m_campaignLumis;
 
-    void setupMap();
+    void setupMaps();
 
     typedef std::map<int,std::tuple<TL::kInitialState,TL::kGenerator,TL::kSampleType>> SampleTable_t;
     SampleTable_t m_sampleTable;
@@ -131,6 +132,25 @@ namespace TL {
      *  level.
      */
     const std::string getCampaignStr(const std::string& sample_name, bool log_it = true) const;
+
+    /// given  the campaign enum entry get the string
+    const std::string getCampaignStr(const TL::kCampaign campaign) const;
+
+    /// Given a list of campaigns, get the total data luminosity associated with them
+    /**
+     *  During runtime we can retrieve the luminosities defined in the
+     *  file `TopLoop/data/campaigns.json`.
+     *
+     *  Example usage:
+     *  @code{.cpp}
+     *  float a_lumi   = TL::SampleMetaSvc::get().getCampaignLumi({TL::kCampaign::MC16a});
+     *  float a_c_lumi = TL::SampleMetaSvc::get().getCampaignLumi({TL::kCampaign::MC16a,TL::kCampaign::MC16c});
+     *  @endcode
+     *
+     *  @param camps list of campaigns.
+     *
+     */
+    float getLumi(const std::vector<TL::kCampaign>& campaigns) const;
 
     /// @}
 
@@ -246,6 +266,14 @@ inline const std::string TL::SampleMetaSvc::getCampaignStr(const std::string& sa
     logger()->info("This appears to be campaign: {}",retval);
   }
   return retval;
+}
+
+inline const std::string TL::SampleMetaSvc::getCampaignStr(const TL::kCampaign campaign) const {
+  auto itr = m_e2s_C.find(campaign);
+  if ( itr == m_e2s_C.end() ) {
+    logger()->critical("can't find campaign enum entry");
+  }
+  return itr->second;
 }
 
 #endif
