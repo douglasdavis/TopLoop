@@ -147,7 +147,7 @@ namespace TL {
      *  float a_c_lumi = TL::SampleMetaSvc::get().getCampaignLumi({TL::kCampaign::MC16a,TL::kCampaign::MC16c});
      *  @endcode
      *
-     *  @param camps list of campaigns.
+     *  @param campaigns list of campaigns.
      *
      */
     float getLumi(const std::vector<TL::kCampaign>& campaigns) const;
