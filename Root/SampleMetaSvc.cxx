@@ -13,12 +13,13 @@
 
 // C++
 #include <regex>
+#include <vector>
 
 TL::SampleMetaSvc::SampleMetaSvc() : TL::Loggable("TL::SampleMetaSvc") {
-  setupMap();
+  setupMaps();
   std::string filepath = PathResolverFindCalibFile("TopLoop/samplemeta.json");
   std::ifstream in(filepath.c_str());
-  if ( !in ) {
+  if ( in.bad() ) {
     logger()->critical("cannot fill meta service from file. {} cannot be found", filepath);
   }
   auto j_top = nlohmann::json::parse(in);
@@ -50,6 +51,22 @@ TL::SampleMetaSvc::SampleMetaSvc() : TL::Loggable("TL::SampleMetaSvc") {
       }
     }
   }
+
+  /// campaign luminosities
+  std::string camp_filepath = PathResolverFindCalibFile("TopLoop/campaigns.json");
+  std::ifstream camp_in(camp_filepath.c_str());
+  if ( camp_in.bad() ) {
+    logger()->critical("cannot fill campaign metadata from file. {} cannot be found", camp_filepath);
+  }
+  auto j_camp = nlohmann::json::parse(camp_in);
+  m_campaignLumis = {
+    { TL::kCampaign::MC16a, j_camp.at("MC16a").get<float>() } ,
+    { TL::kCampaign::MC16c, j_camp.at("MC16c").get<float>() } ,
+    { TL::kCampaign::MC16d, j_camp.at("MC16d").get<float>() } ,
+    { TL::kCampaign::MC16e, j_camp.at("MC16e").get<float>() } ,
+    { TL::kCampaign::MC16f, j_camp.at("MC16f").get<float>() }
+  };
+
 }
 
 //___________________________________________________________________
@@ -59,7 +76,7 @@ TL::SampleMetaSvc::~SampleMetaSvc() {}
 // The structure of these maps is directly related to entries in
 // samplemeta.json file. If a new initial state, generator, or type is
 // added to that file, this function must be updated.
-void TL::SampleMetaSvc::setupMap() {
+void TL::SampleMetaSvc::setupMaps() {
   m_s2e_IS = {
     { "Unknown"              , TL::kInitialState::Unknown        } ,
     { "Data"                 , TL::kInitialState::Data           } ,
@@ -148,6 +165,27 @@ TL::kCampaign TL::SampleMetaSvc::getCampaign(const std::string& sample_name) con
   return TL::kCampaign::Unknown;
 }
 
+float TL::SampleMetaSvc::getLumi(const TL::kCampaign campaign) const {
+  return m_campaignLumis.at(campaign);
+}
+
+float TL::SampleMetaSvc::getLumi(const std::vector<TL::kCampaign>& campaigns) const {
+  auto accumulator = [this](float val, const auto& icamp) {
+    return (val + this->getLumi(icamp));
+  };
+  return std::accumulate(std::begin(campaigns),std::end(campaigns),0.0f,accumulator);
+}
+
+float TL::SampleMetaSvc::getCampaignWeight(const TL::kCampaign campaign,
+                                           const std::vector<TL::kCampaign>& campaigns) const {
+  return getLumi(campaign)/getLumi(campaigns);
+}
+
+float TL::SampleMetaSvc::getCampaignWeight(const std::string& rucioDir,
+                                           const std::vector<TL::kCampaign>& campaigns) const {
+  return getCampaignWeight(getCampaign(rucioDir),campaigns);
+}
+
 bool TL::SampleMetaSvc::isAFII(const std::string& sample_name, bool log_it) const {
   bool isdata = sample_name.find("physics_Main") != std::string::npos;
   if ( isdata ) {
@@ -183,5 +221,9 @@ void TL::SampleMetaSvc::dump() {
                    as_string(std::get<0>(entry.second)),
                    as_string(std::get<1>(entry.second)),
                    as_string(std::get<2>(entry.second)));
+  }
+  for ( auto const& camp : m_campaignLumis ) {
+    logger()->info("Campaign : {} has associated luminosity: {} /fb",
+                   as_string(camp.first),camp.second);
   }
 }

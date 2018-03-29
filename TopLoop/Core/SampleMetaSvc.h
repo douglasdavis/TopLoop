@@ -73,8 +73,9 @@ namespace TL {
     std::map<TL::kCampaign,std::string>     m_e2s_C;
 
     std::map<std::string,TL::kCampaign>     m_rTags;
+    std::map<TL::kCampaign,float>           m_campaignLumis;
 
-    void setupMap();
+    void setupMaps();
 
     typedef std::map<int,std::tuple<TL::kInitialState,TL::kGenerator,TL::kSampleType>> SampleTable_t;
     SampleTable_t m_sampleTable;
@@ -131,6 +132,67 @@ namespace TL {
      *  level.
      */
     const std::string getCampaignStr(const std::string& sample_name, bool log_it = true) const;
+
+    /// given  the campaign enum entry get the string
+    const std::string getCampaignStr(const TL::kCampaign campaign) const;
+
+    /// get the luminosity of a particular campaign
+    /**
+     *  Lumi values associated with campaigns are defined in
+     *  `TopLoop/data/campaigns.json`
+     *
+     *  @param campaign the campaign of interest.
+     */
+    float getLumi(const TL::kCampaign campaign) const;
+
+    /// Given a list of campaigns, get the total data luminosity associated with them
+    /**
+     *  During runtime we can retrieve the luminosities defined in the
+     *  file `TopLoop/data/campaigns.json`.
+     *
+     *  Example usage:
+     *  @code{.cpp}
+     *  float a_c_lumi = TL::SampleMetaSvc::get().getCampaignLumi({TL::kCampaign::MC16a,TL::kCampaign::MC16c});
+     *  @endcode
+     *
+     *  @param campaigns list of campaigns.
+     *
+     */
+    float getLumi(const std::vector<TL::kCampaign>& campaigns) const;
+
+    /// generate a campaign weight based on the campaign enum entry
+    /**
+     *  If you are using multiple campaigns to create an expectation
+     *  from MC, you'll need to handle the luminosities
+     *  carefully. This function lets you generate a weight such that
+     *  in the future you can scale all samples to the same total
+     *  luminosity. These weights must be used with samples that you
+     *  feed to the second argument of this function.
+     *
+     *  @param campaign the campaign to generate the weight for
+     *  @param campaigns the list to use in generating the weight
+     */
+    float getCampaignWeight(const TL::kCampaign campaign,
+                            const std::vector<TL::kCampaign>& campaigns) const;
+
+    /// generate a campaign weight based on the rucio dataset name
+    /**
+     *  Use the rucio dataset name to generate a weight based on the
+     *  given list of campaigns. See the other version of
+     *  getCampaignWeight for more details.
+     *
+     *  Example usage for MC16c weight based for use in combination with MC16a:
+     *  @code{.cpp}
+     *  std::string datasetname = "some string which contains 'r9781'"
+     *  float campWeight = TL::SampleMetaSvc::get().getCampaignWeight(datansetname,
+     *                                                                {TL::kCampaign::MC16a,
+     *                                                                 TL::kCampaign::MC16c});
+     *
+     *  @param rucioDir the string for the dataset name
+     *  @param campaigns list of campaigns to use in generating the weight
+     */
+    float getCampaignWeight(const std::string& rucioDir,
+                            const std::vector<TL::kCampaign>& campaigns) const;
 
     /// @}
 
@@ -246,6 +308,14 @@ inline const std::string TL::SampleMetaSvc::getCampaignStr(const std::string& sa
     logger()->info("This appears to be campaign: {}",retval);
   }
   return retval;
+}
+
+inline const std::string TL::SampleMetaSvc::getCampaignStr(const TL::kCampaign campaign) const {
+  auto itr = m_e2s_C.find(campaign);
+  if ( itr == m_e2s_C.end() ) {
+    logger()->critical("can't find campaign enum entry");
+  }
+  return itr->second;
 }
 
 #endif
