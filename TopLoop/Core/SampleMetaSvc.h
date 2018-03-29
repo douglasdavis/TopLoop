@@ -187,7 +187,7 @@ namespace TL {
      *  float campWeight = TL::SampleMetaSvc::get().getCampaignWeight(datansetname,
      *                                                                {TL::kCampaign::MC16a,
      *                                                                 TL::kCampaign::MC16c});
-     *
+     *  @endcode
      *  @param rucioDir the string for the dataset name
      *  @param campaigns list of campaigns to use in generating the weight
      */
