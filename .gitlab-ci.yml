@@ -11,7 +11,7 @@ build:
     - pwd
     - set +e
     - cd ../build
-    - cmake ../source
+    - cmake ../source/TopLoop
     - make
     - cd ..
     - source build/*/setup.sh
