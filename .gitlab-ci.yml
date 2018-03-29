@@ -11,6 +11,7 @@ build:
     - ls
     - pwd
     - set +e
+    - source /home/atlas/release_setup.sh
     - cd ../build
     - cmake ../source
     - make
