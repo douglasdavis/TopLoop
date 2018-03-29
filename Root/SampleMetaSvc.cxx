@@ -165,12 +165,25 @@ TL::kCampaign TL::SampleMetaSvc::getCampaign(const std::string& sample_name) con
   return TL::kCampaign::Unknown;
 }
 
+float TL::SampleMetaSvc::getLumi(const TL::kCampaign campaign) const {
+  return m_campaignLumis.at(campaign);
+}
+
 float TL::SampleMetaSvc::getLumi(const std::vector<TL::kCampaign>& campaigns) const {
   auto accumulator = [this](float val, const auto& icamp) {
-    float iclumi = m_campaignLumis.at(icamp);
-    return val + iclumi;
+    return (val + getLumi(icamp));
   };
   return std::accumulate(std::begin(campaigns),std::end(campaigns),0.0f,accumulator);
+}
+
+float TL::SampleMetaSvc::getCampaignWeight(const TL::kCampaign campaign,
+                                           const std::vector<TL::kCampaign>& campaigns) const {
+  return getLumi(campaign)/getLumi(campaigns);
+}
+
+float TL::SampleMetaSvc::getCampaignWeight(const std::string& rucioDir,
+                                           const std::vector<TL::kCampaign>& campaigns) const {
+  return getCampaignWeight(getCampaign(rucioDir),campaigns);
 }
 
 bool TL::SampleMetaSvc::isAFII(const std::string& sample_name, bool log_it) const {
