@@ -171,7 +171,7 @@ float TL::SampleMetaSvc::getLumi(const TL::kCampaign campaign) const {
 
 float TL::SampleMetaSvc::getLumi(const std::vector<TL::kCampaign>& campaigns) const {
   auto accumulator = [this](float val, const auto& icamp) {
-    return (val + getLumi(icamp));
+    return (val + this->getLumi(icamp));
   };
   return std::accumulate(std::begin(campaigns),std::end(campaigns),0.0f,accumulator);
 }
