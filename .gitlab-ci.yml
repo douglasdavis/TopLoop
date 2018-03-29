@@ -3,6 +3,7 @@ image: atlas/analysistop:latest
 before_script:
   - mkdir -p ../ci/build ../ci/run ../ci/source/TopLoop
   - cp -r `pwd`/* ../ci/source/TopLoop/.
+  - cp `pwd`/.gitlab-ci.cmake ../ci/source/CMakeLists.txt
   - cd ../ci/source
 
 build:
@@ -11,7 +12,7 @@ build:
     - pwd
     - set +e
     - cd ../build
-    - cmake ../source/TopLoop
+    - cmake ../source
     - make
     - cd ..
     - source build/*/setup.sh
