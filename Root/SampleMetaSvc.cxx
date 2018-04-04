@@ -82,6 +82,8 @@ void TL::SampleMetaSvc::setupMaps() {
     { "Data"                 , TL::kInitialState::Data           } ,
     { "ttbar"                , TL::kInitialState::ttbar          } ,
     { "tW"                   , TL::kInitialState::tW             } ,
+    { "tW_DR"                , TL::kInitialState::tW_DR          } ,
+    { "tW_DS"                , TL::kInitialState::tW_DS          } ,
     { "Zjets"                , TL::kInitialState::Zjets          } ,
     { "Wjets"                , TL::kInitialState::Wjets          } ,
     { "WW"                   , TL::kInitialState::WW             } ,
@@ -205,6 +207,18 @@ bool TL::SampleMetaSvc::isAFII(const std::string& sample_name, bool log_it) cons
     }
   }
   return isaf2;
+}
+
+unsigned int TL::SampleMetaSvc::getYear(const unsigned int runNum) const {
+  if ( runNum <= 276262 ) {
+    logger()->warn("Cannot determine year from num number: {}. Returned 0.",runNum);
+    return 0;
+  }
+  if ( runNum <= 284484 ) { return 15; }
+  if ( runNum <= 311481 ) { return 16; }
+  if ( runNum <= 340453 ) { return 17; }
+  logger()->warn("Cannot determine year from run number: {}. Returned 0.",runNum);
+  return 0;
 }
 
 void TL::SampleMetaSvc::printInfo(const int dsid) const {

@@ -169,24 +169,36 @@
         {
             "DSID_range": [410013,410014],
             "Generator": "PowhegPythia6",
-            "InitialState": "tW",
+            "InitialState": "tW_DR",
             "SampleType": "Nominal"
         },
         {
             "DSID_range": [410015,410016],
             "Generator": "PowhegPythia6_dil",
-            "InitialState": "tW",
+            "InitialState": "tW_DR",
             "SampleType": "Nominal"
         },
         {
-            "DSID_range": [410062,410065],
+            "DSID_range": [410062,410063],
+            "Generator": "PowhegPythia6",
+            "InitialState": "tW_DS",
+            "SampleType": "Systematic"
+        },
+        {
+            "DSID_range": [410064,410065],
+            "Generator": "PowhegPythia6_dil",
+            "InitialState": "tW_DS",
+            "SampleType": "Systematic"
+        },
+        {
+            "DSID_range": [410099,410102],
             "Generator": "PowhegPythia6",
             "InitialState": "tW",
             "SampleType": "Systematic"
         },
         {
-            "DSID_range": [410099,410106],
-            "Generator": "PowhegPythia6",
+            "DSID_range": [410103,410106],
+            "Generator": "PowhegPythia6_dil",
             "InitialState": "tW",
             "SampleType": "Systematic"
         },
@@ -205,13 +217,13 @@
         {
             "DSID_range": [410646,410647],
             "Generator": "PowhegPythia8",
-            "InitialState": "tW",
+            "InitialState": "tW_DR",
             "SampleType": "Nominal"
         },
         {
             "DSID_range": [410654,410655],
             "Generator": "PowhegPythia8",
-            "InitialState": "tW",
+            "InitialState": "tW_DS",
             "SampleType": "Systematic"
         }
     ],
