@@ -221,8 +221,20 @@
             "SampleType": "Nominal"
         },
         {
+            "DSID_range": [410648,410649],
+            "Generator": "PowhegPythia8_dil",
+            "InitialState": "tW_DR",
+            "SampleType": "Nominal"
+        },
+        {
             "DSID_range": [410654,410655],
             "Generator": "PowhegPythia8",
+            "InitialState": "tW_DS",
+            "SampleType": "Systematic"
+        },
+        {
+            "DSID_range": [410656,410657],
+            "Generator": "PowhegPythia8_dil",
             "InitialState": "tW_DS",
             "SampleType": "Systematic"
         }
