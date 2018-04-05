@@ -29,6 +29,7 @@ namespace TL {
 
   enum class kInitialState {
     Unknown  , Data     , ttbar   , tW      ,
+    tW_DR    , tW_DS    ,
     Zjets    , Wjets    , WW      , WZ      ,
     ZZ       , Diboson  , ttbarZ  , ttbarW  ,
     ttbarll  , ttbarphi , tchan   , schan
@@ -193,6 +194,16 @@ namespace TL {
      */
     float getCampaignWeight(const std::string& rucioDir,
                             const std::vector<TL::kCampaign>& campaigns) const;
+
+    /// get the year associated with a run number in data
+    /**
+     *  As defined from the ATLAS DQ GRLs.
+     *  GRL info retrieved from links on this AtlasProtected TWiki:
+     *  TopDerivationMC16aList
+     *
+     *  @param runNum the run number
+     */
+    unsigned int getYear(const unsigned int runNum) const;
 
     /// @}
 
