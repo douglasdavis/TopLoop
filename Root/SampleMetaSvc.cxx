@@ -210,7 +210,7 @@ bool TL::SampleMetaSvc::isAFII(const std::string& sample_name, bool log_it) cons
 }
 
 unsigned int TL::SampleMetaSvc::getYear(const unsigned int runNum) const {
-  if ( runNum <= 276262 ) {
+  if ( runNum < 276262 ) {
     logger()->warn("Cannot determine year from run number: {}. Returned 0.",runNum);
     return 0;
   }
