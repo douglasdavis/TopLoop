@@ -110,10 +110,6 @@ TL::StatusCode TL::Algorithm::addElectronsToFS(TL::EDM::FinalState* fs) const {
     // electron only info
     lep.set_ptvarcone20(el_ptvarcone20().at(i));
     lep.set_CF(el_CF().at(i));
-    if ( isMC() ) {
-      lep.set_true_originbkg(el_true_originbkg().at(i));
-      lep.set_true_typebkg(el_true_typebkg().at(i));
-    }
 
     fs->addElectron(std::move(lep));
   }
