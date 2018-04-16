@@ -45,8 +45,6 @@ namespace TL {
       void set_ptvarcone20(const float val);
       void set_CF(const char val);
       void set_cl_eta(const float val);
-      void set_true_originbkg(const int val);
-      void set_true_typebkg(const int val);
 
       /// @}
 
@@ -56,8 +54,6 @@ namespace TL {
       float ptvarcone20()    const;
       char  CF()             const;
       float cl_eta()         const;
-      int   true_originbkg() const;
-      int   true_typebkg()   const;
 
       bool isMCfake() const;
 
@@ -71,23 +67,13 @@ namespace TL {
 inline void TL::EDM::Electron::set_ptvarcone20(const float val)  { m_ptvarcone20    = val; }
 inline void TL::EDM::Electron::set_CF(const char val)            { m_CF             = val; }
 inline void TL::EDM::Electron::set_cl_eta(const float val)       { m_cl_eta         = val; }
-inline void TL::EDM::Electron::set_true_originbkg(const int val) { m_true_originbkg = val; }
-inline void TL::EDM::Electron::set_true_typebkg(const int val)   { m_true_typebkg   = val; }
 
 inline float TL::EDM::Electron::ptvarcone20()    const { return m_ptvarcone20;    }
 inline char  TL::EDM::Electron::CF()             const { return m_CF;             }
 inline float TL::EDM::Electron::cl_eta()         const { return m_cl_eta;         }
-inline int   TL::EDM::Electron::true_originbkg() const { return m_true_originbkg; }
-inline int   TL::EDM::Electron::true_typebkg()   const { return m_true_typebkg;   }
 
 inline bool TL::EDM::Electron::isMCfake() const {
-  if ( true_type() == MCTruthPartClassifier::ParticleType::IsoElectron ) return false;
-  if ( true_type() == MCTruthPartClassifier::ParticleType::BkgElectron &&
-       true_origin() == MCTruthPartClassifier::ParticleOrigin::PhotonConv &&
-       ( true_originbkg() == MCTruthPartClassifier::ParticleOrigin::TauLep ||
-         true_originbkg() == MCTruthPartClassifier::ParticleOrigin::ZBoson ||
-         true_originbkg() == MCTruthPartClassifier::ParticleOrigin::WBoson ) ) return false;
-  return true;
+  return (true_type() != MCTruthPartClassifier::ParticleType::IsoElectron);
 }
 
 #endif
