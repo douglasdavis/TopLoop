@@ -197,59 +197,6 @@ namespace TL {
     /// @}
 
   protected:
-
-    /// @name TL::EDM::FinalState filling helpers
-    /// @{
-
-    /// Use SgTop electron branches to fill "default" variables
-    /**
-     *  SgTop ntuples have a set of included variables which the EDM
-     *  is designed to be able to contain. This function fills those
-     *  variables.
-     *
-     *  @param fs the final state object to append to
-     */
-    TL::StatusCode addElectronsToFS(TL::EDM::FinalState* fs) const;
-
-    /// Use SgTop muon branches to fill "default" variables
-    /**
-     *  SgTop ntuples have a set of included variables which the EDM
-     *  is designed to be able to contain. This function fills those
-     *  variables.
-     *
-     *  @param fs the final state object to append to
-     */
-    TL::StatusCode addMuonsToFS(TL::EDM::FinalState* fs) const;
-
-    /// Use SgTop jet branches to fill "default" variables
-    /**
-     *  SgTop ntuples have a set of included variables which the EDM
-     *  is designed to be able to contain. This function fills those
-     *  variables.
-     *
-     *  @param fs the final state object to append to
-     *  @param ptcut optional \f$p_\mathrm{T}\f$ requirement (in default MeV).
-     *  @param etacut optional \f$|\eta|\f$ requirement
-     *  @param do_all_ftagging assign _all_ ftagging member variables
-     */
-    TL::StatusCode addJetsToFS(TL::EDM::FinalState* fs,
-                               const float ptcut  = 1.0e10,
-                               const float etacut = 1.0e10,
-                               const bool  do_all_ftagging = false) const;
-
-    /// Use SgTop met branches to fill "default" variables
-    /**
-     *  SgTop ntuples have a set of included variables which the EDM
-     *  is designed to be able to contain. This function fills those
-     *  variables.
-     *
-     *  @param fs the final state object to append to
-     */
-    TL::StatusCode addMissingETtoFS(TL::EDM::FinalState* fs) const;
-
-    /// @}
-
-  protected:
     /// @name Sample pointer getters
     /// @{
 

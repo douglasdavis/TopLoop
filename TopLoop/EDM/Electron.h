@@ -55,7 +55,8 @@ namespace TL {
       char  CF()             const;
       float cl_eta()         const;
 
-      bool isMCfake() const;
+      /// if the electron is matched to an IsoElectron in MC
+      bool isTruthPrompt() const;
 
       /// @}
 
@@ -72,8 +73,8 @@ inline float TL::EDM::Electron::ptvarcone20()    const { return m_ptvarcone20;  
 inline char  TL::EDM::Electron::CF()             const { return m_CF;             }
 inline float TL::EDM::Electron::cl_eta()         const { return m_cl_eta;         }
 
-inline bool TL::EDM::Electron::isMCfake() const {
-  return (true_type() != MCTruthPartClassifier::ParticleType::IsoElectron);
+inline bool TL::EDM::Electron::isTruthPrompt() const {
+  return (true_type() == MCTruthPartClassifier::ParticleType::IsoElectron);
 }
 
 #endif
