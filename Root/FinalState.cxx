@@ -23,13 +23,13 @@ void TL::EDM::FinalState::evaluateSelf(bool sort_leptons) {
   m_hasFakeMuonMC     = false;
   for ( const TL::EDM::Electron& el : m_electrons ) {
     addLepton(el);
-    if ( el.isMCfake() ) {
+    if ( not el.isTruthPrompt() ) {
       m_hasFakeElectronMC = true;
     }
   }
   for ( const TL::EDM::Muon& mu : m_muons ) {
     addLepton(mu);
-    if ( mu.isMCfake() ) {
+    if ( not mu.isTruthPrompt() ) {
       m_hasFakeMuonMC = true;
     }
   }

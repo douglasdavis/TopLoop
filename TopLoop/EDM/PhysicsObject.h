@@ -29,8 +29,14 @@ namespace TL {
       /// default destructor
       virtual ~PhysicsObject() = default;
 
+      /// copy constructor
       PhysicsObject(const PhysicsObject&) = default;
+      /// assignment operator
       PhysicsObject& operator=(const PhysicsObject&) = default;
+      /// move constructor
+      PhysicsObject(PhysicsObject&&) = default;
+      /// move assignment
+      PhysicsObject& operator=(PhysicsObject&&) = default;
 
       /// retrieve the four vector
       TLorentzVector& p4();
