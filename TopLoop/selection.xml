@@ -1,0 +1,23 @@
+<lcgdict>
+
+  <class name="TL::Variables" />
+  <class name="TL::FileManager" />
+  <class name="TL::Algorithm" />
+  <class name="TL::Job" />
+  <class name="TL::SampleMetaSvc" />
+  <class name="std::pair<size_t,size_t>" />
+  <class name="TL::EDM::PhysicsObject" />
+  <class name="TL::EDM::Jet" />
+  <class name="TL::EDM::Lepton" />
+  <class name="TL::EDM::LeptonPair" />
+  <class name="TL::EDM::Electron" />
+  <class name="TL::EDM::Muon" />
+  <class name="std::vector<TL::EDM::Jet>" />
+  <class name="std::vector<TL::EDM::Lepton>" />
+  <class name="std::vector<TL::EDM::LeptonPair>" />
+  <class name="std::vector<TL::EDM::Electron>" />
+  <class name="std::vector<TL::EDM::Muon>" />
+  <class name="TL::EDM::MissingET" />
+  <class name="TL::EDM::FinalState" />
+
+</lcgdict>
