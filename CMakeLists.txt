@@ -13,26 +13,24 @@ atlas_depends_on_subdirs(
   )
 
 # This package uses ROOT:
-find_package( ROOT REQUIRED COMPONENTS Physics Core Gpad Tree Hist RIO MathCore Graf TreePlayer )
+find_package( ROOT REQUIRED COMPONENTS Physics Core Tree RIO TreePlayer )
 find_package( Boost COMPONENTS filesystem system )
-# Custom definitions needed for this package:
-add_definitions( -g -std=c++14 )
-
-# Generate a CINT dictionary source file:
-atlas_add_root_dictionary( TopLoop _cintDictSource
-  ROOT_HEADERS Root/LinkDef.h
-  EXTERNAL_PACKAGES ROOT )
 
 # Build a library that other components can link against:
-atlas_add_library( TopLoop Root/*.cxx Root/*.h Root/*.icc
-  TopLoop/*.h TopLoop/*.icc TopLoop/*/*.h
-  TopLoop/*/*.icc ${_cintDictSource}
+atlas_add_library( TopLoop
+  TopLoop/Core/*.h TopLoop/EDM/*.h Root/*.cxx
   PUBLIC_HEADERS TopLoop
   LINK_LIBRARIES
   ${ROOT_LIBRARIES}
   ${Boost_LIBRARIES}
   PathResolver
   INCLUDE_DIRS ${ROOT_INCLUDE_DIRS} )
+
+atlas_add_dictionary( TopLoopDict
+  TopLoop/TopLoopDict.h TopLoop/selection.xml
+  LINK_LIBRARIES TopLoop )
+
+target_compile_features( TopLoop PUBLIC cxx_std_14 )
 
 # Install data files from the package:
 atlas_install_data( data/* )
