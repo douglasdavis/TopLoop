@@ -30,6 +30,9 @@ namespace TL {
       float m_mv2c10;
       float m_mv2c20;
       float m_passfjvt;
+      int   m_truthflav;
+      int   m_truthPartonLabel;
+      char  m_isTrueHS;
       char  m_isbtagged_MV2c10_70;
       char  m_isbtagged_MV2c10_77;
       char  m_isbtagged_MV2c10_85;
@@ -71,6 +74,9 @@ namespace TL {
       void set_mv2c10(const float val);
       void set_mv2c20(const float val);
       void set_passfjvt(const float val);
+      void set_truthflav(const int val);
+      void set_truthPartonLabel(const int val);
+      void set_isTrueHS(const char val);
       void set_isbtagged_MV2c10_70(const char val);
       void set_isbtagged_MV2c10_77(const char val);
       void set_isbtagged_MV2c10_85(const char val);
@@ -91,6 +97,7 @@ namespace TL {
       void set_DL1rnn_pc(const float val);
       void set_DL1rnn_pb(const float val);
 
+
       /// @}
 
       /// @name getters
@@ -100,6 +107,9 @@ namespace TL {
       float mv2c10()              const;
       float mv2c20()              const;
       float passfjvt()            const;
+      int   truthflav()           const;
+      int   truthPartonLabel()    const;
+      char  isTrueHS()            const;
       char  isbtagged_MV2c10_70() const;
       char  isbtagged_MV2c10_77() const;
       char  isbtagged_MV2c10_85() const;
@@ -120,6 +130,8 @@ namespace TL {
       float DL1rnn_pc()           const;
       float DL1rnn_pb()           const;
 
+
+
       /// @}
 
     };
@@ -131,6 +143,9 @@ inline void TL::EDM::Jet::set_mv2c00(const float val)             { m_mv2c00    
 inline void TL::EDM::Jet::set_mv2c10(const float val)             { m_mv2c10              = val; }
 inline void TL::EDM::Jet::set_mv2c20(const float val)             { m_mv2c20              = val; }
 inline void TL::EDM::Jet::set_passfjvt(const float val)           { m_passfjvt            = val; }
+inline void TL::EDM::Jet::set_truthflav(const int val)            { m_truthflav           = val; }
+inline void TL::EDM::Jet::set_truthPartonLabel(const int val)     { m_truthPartonLabel    = val; }
+inline void TL::EDM::Jet::set_isTrueHS(const char val)            { m_isTrueHS            = val; }
 inline void TL::EDM::Jet::set_isbtagged_MV2c10_70(const char val) { m_isbtagged_MV2c10_70 = val; }
 inline void TL::EDM::Jet::set_isbtagged_MV2c10_77(const char val) { m_isbtagged_MV2c10_77 = val; }
 inline void TL::EDM::Jet::set_isbtagged_MV2c10_85(const char val) { m_isbtagged_MV2c10_85 = val; }
@@ -156,6 +171,9 @@ inline float TL::EDM::Jet::mv2c00()              const { return m_mv2c00;       
 inline float TL::EDM::Jet::mv2c10()              const { return m_mv2c10;              }
 inline float TL::EDM::Jet::mv2c20()              const { return m_mv2c20;              }
 inline float TL::EDM::Jet::passfjvt()            const { return m_passfjvt;            }
+inline int   TL::EDM::Jet::truthflav()           const { return m_truthflav;           }
+inline int   TL::EDM::Jet::truthPartonLabel()    const { return m_truthPartonLabel;    }
+inline char  TL::EDM::Jet::isTrueHS()            const { return m_isTrueHS;            }
 inline char  TL::EDM::Jet::isbtagged_MV2c10_70() const { return m_isbtagged_MV2c10_70; }
 inline char  TL::EDM::Jet::isbtagged_MV2c10_77() const { return m_isbtagged_MV2c10_77; }
 inline char  TL::EDM::Jet::isbtagged_MV2c10_85() const { return m_isbtagged_MV2c10_85; }
