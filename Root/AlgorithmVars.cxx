@@ -43,6 +43,7 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(PDFinfo_Q,std::vector<float>,m_reader);
   CONNECT_BRANCH(PDFinfo_XF1,std::vector<float>,m_reader);
   CONNECT_BRANCH(PDFinfo_XF2,std::vector<float>,m_reader);
+  CONNECT_BRANCH(weights_mc,std::vector<float>,m_reader);
   CONNECT_BRANCH(weight_mc,Float_t,m_reader);
   CONNECT_BRANCH(weight_pileup,Float_t,m_reader);
   CONNECT_BRANCH(weight_leptonSF,Float_t,m_reader);
@@ -210,7 +211,6 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(mu_trigMatch_HLT_mu26_ivarmedium,std::vector<char>,m_reader);
   CONNECT_BRANCH(mu_trigMatch_HLT_mu50,std::vector<char>,m_reader);
   CONNECT_BRANCH(mu_trigMatch_HLT_mu20_iloose_L1MU15,std::vector<char>,m_reader);
-  CONNECT_BRANCH(weights_mc,std::vector<float>,m_reader);
   CONNECT_BRANCH(lbn,UInt_t,m_reader);
   CONNECT_BRANCH(Vtxz,Float_t,m_reader);
   CONNECT_BRANCH(npVtx,UInt_t,m_reader);

@@ -80,6 +80,7 @@ namespace TL {
     DECLARE_BRANCH(PDFinfo_Q                                             , std::vector<float> );
     DECLARE_BRANCH(PDFinfo_XF1                                           , std::vector<float> );
     DECLARE_BRANCH(PDFinfo_XF2                                           , std::vector<float> );
+    DECLARE_BRANCH(weights_mc                                            , std::vector<float> );
     DECLARE_BRANCH(weight_mc                                             , Float_t            );
     DECLARE_BRANCH(weight_pileup                                         , Float_t            );
     DECLARE_BRANCH(weight_leptonSF                                       , Float_t            );
@@ -247,7 +248,6 @@ namespace TL {
     DECLARE_BRANCH(mu_trigMatch_HLT_mu26_ivarmedium                      , std::vector<char>  );
     DECLARE_BRANCH(mu_trigMatch_HLT_mu50                                 , std::vector<char>  );
     DECLARE_BRANCH(mu_trigMatch_HLT_mu20_iloose_L1MU15                   , std::vector<char>  );
-    DECLARE_BRANCH(weights_mc                                            , std::vector<float> );
     DECLARE_BRANCH(lbn                                                   , UInt_t             );
     DECLARE_BRANCH(Vtxz                                                  , Float_t            );
     DECLARE_BRANCH(npVtx                                                 , UInt_t             );
