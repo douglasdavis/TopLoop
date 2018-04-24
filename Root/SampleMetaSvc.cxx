@@ -162,13 +162,18 @@ TL::kCampaign TL::SampleMetaSvc::getCampaign(const std::string& sample_name) con
     }
   }
   logger()->warn("Cannot determine campain from rtag in sample {}", sample_name);
-  logger()->warn("Returning  TL::kCampaign::Unknown");
+  logger()->warn("Returning TL::kCampaign::Unknown");
   logger()->debug("Available identifiers (r9364, r9781, r10201)");
   return TL::kCampaign::Unknown;
 }
 
 float TL::SampleMetaSvc::getLumi(const TL::kCampaign campaign) const {
-  return m_campaignLumis.at(campaign);
+  auto itr = m_campaignLumis.find(campaign);
+  if ( itr == std::end(m_campaignLumis) ) {
+    logger()->critical("Campaign {} doesn't have a luminosity",getCampaignStr(campaign));
+    return 0;
+  }
+  return itr->second;
 }
 
 float TL::SampleMetaSvc::getLumi(const std::vector<TL::kCampaign>& campaigns) const {
