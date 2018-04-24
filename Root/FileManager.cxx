@@ -13,6 +13,7 @@
 #include <TChain.h>
 
 // boost
+#include <boost/algorithm/string.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 namespace fs = boost::filesystem;
@@ -53,22 +54,30 @@ TL::StatusCode TL::FileManager::initChain() {
 
 void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
   TL_CHECK(initChain());
-  logger()->info("Feeding from {}", dirpath);
-  fs::path p(dirpath);
-  m_rucioDirName = p.filename().string();
+  std::string dp{dirpath};
+  if ( boost::algorithm::ends_with(dp,"/") ) {
+    dp.pop_back();
+  }
+  logger()->info("Feeding from {}", dp);
+  fs::path p(dp);
+
+  std::vector<std::string> splits;
+  boost::algorithm::split(splits,dp,boost::is_any_of("/"));
+  m_rucioDirName = splits.back();
+
   for ( const auto& i : fs::directory_iterator(p) ) {
     if ( !fs::is_directory(i.path()) ) {
       auto whole_path = i.path();
       if ( whole_path.filename().string().find(".root") == std::string::npos && !take_all ) {
         continue;
       }
-      logger()->info("Adding file: {}",whole_path.filename().string());
+      logger()->info("Adding file: {}",whole_path.string());
       std::string final_path = whole_path.string();
       // if the file doesn't end in .root, make it end in .root
       // because ROOT is insane.
-      if ( final_path.back() != 't' ) {
+      if ( not boost::algorithm::ends_with(final_path,"root") ) {
         m_renames.emplace(final_path,final_path+".root");
-        logger()->debug("Temporarily enaming {} to {} because ROOT is insane",
+        logger()->debug("Temporarily renaming {} to {} because ROOT is insane",
                         final_path,final_path+".root");
         fs::rename(final_path,final_path+".root");
         final_path = final_path+".root";
@@ -82,7 +91,7 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
     }
   }
   if ( m_fileNames.empty() ) {
-    logger()->critical("Directory {} doesn't contain any files!", dirpath);
+    logger()->critical("Directory {} doesn't contain any files!", dp);
   }
 }
 
