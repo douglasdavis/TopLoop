@@ -173,7 +173,7 @@ float TL::SampleMetaSvc::getLumi(const TL::kCampaign campaign) const {
     logger()->critical("Campaign {} doesn't have a luminosity",getCampaignStr(campaign));
     return 0;
   }
-  return m_campaignLumis.at(campaign);
+  return itr->second;
 }
 
 float TL::SampleMetaSvc::getLumi(const std::vector<TL::kCampaign>& campaigns) const {
