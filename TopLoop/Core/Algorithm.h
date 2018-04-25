@@ -37,6 +37,7 @@ namespace TL {
     std::string   m_datasetName{""};
     bool          m_isMC{true};
     bool          m_isNominal{true};
+    bool          m_isNominal_Loose{false};
     bool          m_initCalled{false};
 
     long m_totalEntries{0};
@@ -149,15 +150,17 @@ namespace TL {
     /// @{
 
     /// get if sample is MC
-    bool isMC()         const;
+    bool isMC()            const;
     /// get if sample is data (for readability, opposite of isMC())
-    bool isData()       const;
+    bool isData()          const;
     /// get is nominal
-    bool isNominal()    const;
-    /// get is systematic (for readability, opposite of isNominal())
-    bool isSystematic() const;
+    bool isNominal()       const;
+    /// get is nominal loose
+    bool isNominal_Loose() const;
+    /// get is systematic (for readability, true if not nominal or nominal_Loose)
+    bool isSystematic()    const;
     /// get the current event counter (not eventNumber!)
-    long eventCount()   const;
+    long eventCount()      const;
 
     /// @}
 
@@ -220,12 +223,13 @@ namespace TL {
 
 }
 
-inline void TL::Algorithm::setIsData()          { m_isMC = false;        }
-inline bool TL::Algorithm::initCalled()   const { return m_initCalled;   }
-inline bool TL::Algorithm::isMC()         const { return m_isMC;         }
-inline bool TL::Algorithm::isData()       const { return !m_isMC;        }
-inline bool TL::Algorithm::isNominal()    const { return m_isNominal;    }
-inline bool TL::Algorithm::isSystematic() const { return !m_isNominal;   }
-inline long TL::Algorithm::eventCount()   const { return m_eventCounter; }
+inline void TL::Algorithm::setIsData()             { m_isMC = false;                             }
+inline bool TL::Algorithm::initCalled()      const { return m_initCalled;                        }
+inline bool TL::Algorithm::isMC()            const { return m_isMC;                              }
+inline bool TL::Algorithm::isData()          const { return !m_isMC;                             }
+inline bool TL::Algorithm::isNominal()       const { return m_isNominal;                         }
+inline bool TL::Algorithm::isNominal_Loose() const { return m_isNominal_Loose;                   }
+inline bool TL::Algorithm::isSystematic()    const { return !(m_isNominal || m_isNominal_Loose); }
+inline long TL::Algorithm::eventCount()      const { return m_eventCounter;                      }
 
 #endif

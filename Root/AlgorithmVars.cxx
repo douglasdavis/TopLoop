@@ -128,6 +128,7 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(el_charge,std::vector<float>,m_reader);
   CONNECT_BRANCH(el_topoetcone20,std::vector<float>,m_reader);
   CONNECT_BRANCH(el_ptvarcone20,std::vector<float>,m_reader);
+  CONNECT_BRANCH(el_isTight,std::vector<char>,m_reader);
   CONNECT_BRANCH(el_CF,std::vector<char>,m_reader);
   CONNECT_BRANCH(el_d0sig,std::vector<float>,m_reader);
   CONNECT_BRANCH(el_delta_z0_sintheta,std::vector<float>,m_reader);
@@ -140,6 +141,7 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(mu_charge,std::vector<float>,m_reader);
   CONNECT_BRANCH(mu_topoetcone20,std::vector<float>,m_reader);
   CONNECT_BRANCH(mu_ptvarcone30,std::vector<float>,m_reader);
+  CONNECT_BRANCH(mu_isTight,std::vector<char>,m_reader);
   CONNECT_BRANCH(mu_d0sig,std::vector<float>,m_reader);
   CONNECT_BRANCH(mu_delta_z0_sintheta,std::vector<float>,m_reader);
   CONNECT_BRANCH(mu_true_type,std::vector<int>,m_reader);
