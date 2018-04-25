@@ -249,7 +249,7 @@ inline const TL::SampleMetaSvc::SampleTable_t::const_iterator
 TL::SampleMetaSvc::checkTable(const unsigned int dsid) const {
   const SampleTable_t::const_iterator itr = m_sampleTable.find(dsid);
   if ( itr == m_sampleTable.end() ) {
-    logger()->critical("can't find DSID! {} not in SampleMetaSvc table!",dsid);
+    logger()->error("can't find DSID! {} not in SampleMetaSvc table!",dsid);
   }
   return itr;
 }
@@ -272,7 +272,7 @@ inline TL::kSampleType TL::SampleMetaSvc::getSampleType(const unsigned int dsid)
 inline const std::string TL::SampleMetaSvc::as_string(const TL::kInitialState ienum) const {
   auto itr = m_e2s_IS.find(ienum);
   if ( itr == m_e2s_IS.end() ) {
-    logger()->critical("can't find initial state enum entry");
+    logger()->error("can't find initial state enum entry");
   }
   return itr->second;
 }
@@ -280,7 +280,7 @@ inline const std::string TL::SampleMetaSvc::as_string(const TL::kInitialState ie
 inline const std::string TL::SampleMetaSvc::as_string(const TL::kGenerator ienum) const {
   auto itr = m_e2s_G.find(ienum);
   if ( itr == m_e2s_G.end() ) {
-    logger()->critical("can't find generator enum entry");
+    logger()->error("can't find generator enum entry");
   }
   return itr->second;
 }
@@ -288,7 +288,7 @@ inline const std::string TL::SampleMetaSvc::as_string(const TL::kGenerator ienum
 inline const std::string TL::SampleMetaSvc::as_string(const TL::kSampleType ienum) const {
   auto itr = m_e2s_ST.find(ienum);
   if ( itr == m_e2s_ST.end() ) {
-    logger()->critical("can't find sample type enum entry");
+    logger()->error("can't find sample type enum entry");
   }
   return itr->second;
 }
@@ -296,7 +296,7 @@ inline const std::string TL::SampleMetaSvc::as_string(const TL::kSampleType ienu
 inline const std::string TL::SampleMetaSvc::as_string(const TL::kCampaign ienum) const {
   auto itr = m_e2s_C.find(ienum);
   if ( itr == m_e2s_C.end() ) {
-    logger()->critical("Can't find campaign enum entry");
+    logger()->error("Can't find campaign enum entry");
   }
   return itr->second;
 }
@@ -324,7 +324,7 @@ inline const std::string TL::SampleMetaSvc::getCampaignStr(const std::string& sa
 inline const std::string TL::SampleMetaSvc::getCampaignStr(const TL::kCampaign campaign) const {
   auto itr = m_e2s_C.find(campaign);
   if ( itr == m_e2s_C.end() ) {
-    logger()->critical("can't find campaign enum entry");
+    logger()->error("can't find campaign enum entry");
   }
   return itr->second;
 }

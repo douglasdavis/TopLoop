@@ -34,9 +34,9 @@ TL::StatusCode TL::Job::run() {
   TL_CHECK(m_algorithm->setFileManager(std::move(m_fm)));
   TL_CHECK(m_algorithm->init());
   if ( not m_algorithm->initCalled() ) {
-    logger()->critical("You didn't call TL::Algorithm::init()");
-    logger()->critical("in your algorithm's init() function");
-    logger()->critical("This is a required line!");
+    logger()->error("You didn't call TL::Algorithm::init()");
+    logger()->error("in your algorithm's init() function");
+    logger()->error("This is a required line!");
     return TL::StatusCode::FAILURE;
   }
   TL_CHECK(m_algorithm->setupOutput());
