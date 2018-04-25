@@ -165,6 +165,7 @@ namespace TL {
     DECLARE_BRANCH(el_charge                                             , std::vector<float> );
     DECLARE_BRANCH(el_topoetcone20                                       , std::vector<float> );
     DECLARE_BRANCH(el_ptvarcone20                                        , std::vector<float> );
+    DECLARE_BRANCH(el_isTight                                            , std::vector<char>  );
     DECLARE_BRANCH(el_CF                                                 , std::vector<char>  );
     DECLARE_BRANCH(el_d0sig                                              , std::vector<float> );
     DECLARE_BRANCH(el_delta_z0_sintheta                                  , std::vector<float> );
@@ -177,6 +178,7 @@ namespace TL {
     DECLARE_BRANCH(mu_charge                                             , std::vector<float> );
     DECLARE_BRANCH(mu_topoetcone20                                       , std::vector<float> );
     DECLARE_BRANCH(mu_ptvarcone30                                        , std::vector<float> );
+    DECLARE_BRANCH(mu_isTight                                            , std::vector<char>  );
     DECLARE_BRANCH(mu_d0sig                                              , std::vector<float> );
     DECLARE_BRANCH(mu_delta_z0_sintheta                                  , std::vector<float> );
     DECLARE_BRANCH(mu_true_type                                          , std::vector<int>   );

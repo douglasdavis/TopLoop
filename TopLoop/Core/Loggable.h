@@ -42,7 +42,7 @@ namespace TL {
     }
 
     /// default constructor deleted
-    Loggable() = delete;
+    Loggable() = default;
     /// delete copy
     Loggable(const Loggable&) = delete;
     /// default move

@@ -33,6 +33,7 @@ namespace TL {
       int          m_true_type;
       int          m_true_origin;
       float        m_e_branch;
+      char         m_isTight;
 
     public:
       /// default constructor
@@ -67,6 +68,7 @@ namespace TL {
       void set_delta_z0_sintheta(const float val);
       void set_true_type(const int val);
       void set_true_origin(const int val);
+      void set_isTight(const char val);
 
       /// Value from the energy branch that AnalysisTop ntuples include
       /**
@@ -90,6 +92,7 @@ namespace TL {
       float        delta_z0_sintheta() const;
       int          true_type()         const;
       int          true_origin()       const;
+      char         isTight()           const;
 
       /// @}
 
@@ -105,6 +108,7 @@ inline void TL::EDM::Lepton::set_d0sig(const float val)             { m_d0sig   
 inline void TL::EDM::Lepton::set_delta_z0_sintheta(const float val) { m_delta_z0_sintheta = val; }
 inline void TL::EDM::Lepton::set_true_type(const int val)           { m_true_type         = val; }
 inline void TL::EDM::Lepton::set_true_origin(const int val)         { m_true_origin       = val; }
+inline void TL::EDM::Lepton::set_isTight(const char val)            { m_isTight           = val; }
 
 inline unsigned int TL::EDM::Lepton::pdgId()             const { return m_pdgId;             }
 inline float        TL::EDM::Lepton::e_branch()          const { return m_e_branch;          }
@@ -114,5 +118,6 @@ inline float        TL::EDM::Lepton::d0sig()             const { return m_d0sig;
 inline float        TL::EDM::Lepton::delta_z0_sintheta() const { return m_delta_z0_sintheta; }
 inline int          TL::EDM::Lepton::true_type()         const { return m_true_type;         }
 inline int          TL::EDM::Lepton::true_origin()       const { return m_true_origin;       }
+inline char         TL::EDM::Lepton::isTight()           const { return m_isTight;           }
 
 #endif
