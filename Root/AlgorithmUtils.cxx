@@ -22,7 +22,7 @@ float TL::Algorithm::countSumWeights() {
   m_weightsReader->Restart();
   while ( m_weightsReader->Next() ) {
     if ( m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid ) {
-      logger()->critical("countSumWeights(): Tree reader does not return kEntryValid");
+      logger()->error("countSumWeights(): Tree reader does not return kEntryValid");
     }
     sumWeights += totalEventsWeighted();
   }
@@ -45,7 +45,7 @@ std::vector<float> TL::Algorithm::generatorVariedSumWeights() {
 
   while ( m_weightsReader->Next() ) {
     if ( m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid ) {
-      logger()->critical("generatorVariedSumWeights(): Tree reader does not return kEntryValid");
+      logger()->error("generatorVariedSumWeights(): Tree reader does not return kEntryValid");
     }
     // now get all the rest
     for ( std::size_t j = 0; j < totalEventsWeighted_mc_generator_weights().size(); ++j ) {

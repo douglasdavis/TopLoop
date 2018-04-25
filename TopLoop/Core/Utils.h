@@ -80,7 +80,7 @@ namespace TL {
         spdlog::stdout_color_mt("TL::StatusCode");              \
       }                                                         \
       spdlog::get("TL::StatusCode")                             \
-        ->critical("TL::StatusCode::FAILURE found in {}!",      \
+        ->error("TL::StatusCode::FAILURE found in {}!",         \
                    __PRETTY_FUNCTION__);                        \
       std::exit(EXIT_FAILURE);                                  \
     } }

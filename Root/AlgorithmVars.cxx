@@ -10,7 +10,8 @@
 TL::StatusCode TL::Algorithm::init_core_vars() {
 
   if ( fileManager() == nullptr ) {
-    logger()->critical("Your algorithm has a null FileManager");
+    logger()->error("Your algorithm has a null FileManager");
+    return TL::StatusCode::FAILURE;
   }
 
   // this TChain::LoadTree()) call suppresses a warning from

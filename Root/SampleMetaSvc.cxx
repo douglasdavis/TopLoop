@@ -20,7 +20,7 @@ TL::SampleMetaSvc::SampleMetaSvc() : TL::Loggable("TL::SampleMetaSvc") {
   std::string filepath = PathResolverFindCalibFile("TopLoop/samplemeta.json");
   std::ifstream in(filepath.c_str());
   if ( in.bad() ) {
-    logger()->critical("cannot fill meta service from file. {} cannot be found", filepath);
+    logger()->error("cannot fill meta service from file. {} cannot be found", filepath);
   }
   auto j_top = nlohmann::json::parse(in);
 
@@ -29,7 +29,7 @@ TL::SampleMetaSvc::SampleMetaSvc() : TL::Loggable("TL::SampleMetaSvc") {
   // follows.
   auto assigner = [this](const auto& s2eMap, const auto str, auto& applyto) {
     if ( s2eMap.find(str) == s2eMap.end() ) {
-      logger()->critical("{} is not setup in our software metadata!");
+      logger()->error("{} is not setup in our software metadata!");
     }
     else {
       applyto = s2eMap.at(str);
@@ -56,7 +56,7 @@ TL::SampleMetaSvc::SampleMetaSvc() : TL::Loggable("TL::SampleMetaSvc") {
   std::string camp_filepath = PathResolverFindCalibFile("TopLoop/campaigns.json");
   std::ifstream camp_in(camp_filepath.c_str());
   if ( camp_in.bad() ) {
-    logger()->critical("cannot fill campaign metadata from file. {} cannot be found", camp_filepath);
+    logger()->error("cannot fill campaign metadata from file. {} cannot be found", camp_filepath);
   }
   auto j_camp = nlohmann::json::parse(camp_in);
   m_campaignLumis = {
@@ -170,7 +170,7 @@ TL::kCampaign TL::SampleMetaSvc::getCampaign(const std::string& sample_name) con
 float TL::SampleMetaSvc::getLumi(const TL::kCampaign campaign) const {
   auto itr = m_campaignLumis.find(campaign);
   if ( itr == std::end(m_campaignLumis) ) {
-    logger()->critical("Campaign {} doesn't have a luminosity",getCampaignStr(campaign));
+    logger()->error("Campaign {} doesn't have a luminosity",getCampaignStr(campaign));
     return 0;
   }
   return itr->second;
