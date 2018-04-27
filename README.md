@@ -1,6 +1,8 @@
 TopLoop Analysis Package
 ========================
 
+[![pipeline status](https://gitlab.cern.ch/atlasphys-top/singletop/tW_13TeV_Rel21/TopLoop/badges/master/pipeline.svg)](https://gitlab.cern.ch/atlasphys-top/singletop/tW_13TeV_Rel21/TopLoop/commits/master)
+
 TopLoop is a small library inspired by the ASG EventLoop
 package. TopLoop is built specifically for analyzing Single Top
 ntuples output by the TopAnalysis `top-xaod` program with the
