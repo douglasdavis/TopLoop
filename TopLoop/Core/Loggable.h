@@ -62,10 +62,10 @@ namespace TL {
     void setLogLevel(spdlog::level::level_enum lvl) { m_logger->set_level(lvl); }
 
     /// retrieve a const logger pointer
-    const std::shared_ptr<spdlog::logger> logger() const { return m_logger; }
+    const std::shared_ptr<spdlog::logger>& logger() const { return m_logger; }
 
     /// retrieve the logger pointer
-    std::shared_ptr<spdlog::logger> logger() { return m_logger; }
+    std::shared_ptr<spdlog::logger>& logger() { return m_logger; }
 
   };
 }
