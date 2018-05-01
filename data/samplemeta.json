@@ -123,6 +123,12 @@
             "Generator": "Sherpa222",
             "InitialState": "Diboson",
             "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [364288,364290],
+            "Generator": "Sherpa222",
+            "InitialState": "Diboson",
+            "SampleType": "Nominal"
         }
     ],
     "Wjets": [
