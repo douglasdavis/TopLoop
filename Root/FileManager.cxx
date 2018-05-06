@@ -91,7 +91,7 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
     }
   }
   if ( m_fileNames.empty() ) {
-    logger()->critical("Directory {} doesn't contain any files!", dp);
+    logger()->error("Directory {} doesn't contain any files!", dp);
   }
 }
 
