@@ -14,6 +14,9 @@
 // C++
 #include <cmath>
 
+// Boost
+#include <boost/range/adaptor/indexed.hpp>
+
 float TL::Algorithm::countSumWeights() {
   // sum up the weighted number of events in the metadata tree.  This
   // works for MC (to get the MC lumi) and data (perhaps as a
@@ -40,7 +43,8 @@ std::vector<float> TL::Algorithm::generatorVariedSumWeights() {
     vsize = totalEventsWeighted_mc_generator_weights().size();
     break;
   }
-  std::vector<float> weights(vsize,0.0);
+  std::vector<float> variedSumWeights;
+  variedSumWeights.reserve(vsize);
   m_weightsReader->Restart();
 
   while ( m_weightsReader->Next() ) {
@@ -49,24 +53,28 @@ std::vector<float> TL::Algorithm::generatorVariedSumWeights() {
     }
     // now get all the rest
     for ( std::size_t j = 0; j < totalEventsWeighted_mc_generator_weights().size(); ++j ) {
-      weights[j] += totalEventsWeighted_mc_generator_weights().at(j);
+      variedSumWeights[j] += totalEventsWeighted_mc_generator_weights().at(j);
     }
   }
   m_weightsReader->Restart();
 
   //todo: cross-check the value with Ami, warn if different?
-  return weights;
+  return variedSumWeights;
 }
 
-std::vector<std::string> TL::Algorithm::generatorWeightNames() {
+//std::vector<std::string> TL::Algorithm::generatorWeightNames() {
+std::map<std::string,std::size_t> TL::Algorithm::generatorVariedWeightNames() {
   m_weightsReader->Restart();
-  std::vector<std::string> retvec;
+  std::map<std::string,std::size_t> retmap;
   while ( m_weightsReader->Next() ) {
-    retvec = names_mc_generator_weights();
+    for ( const auto& nameitr : names_mc_generator_weights() | boost::adaptors::indexed() ) {
+      logger()->info("{}\t{}",nameitr.index(),nameitr.value());
+      retmap.emplace(nameitr.value(),nameitr.index());
+    }
     break;
   }
   m_weightsReader->Restart();
-  return retvec;
+  return retmap;
 }
 
 unsigned int TL::Algorithm::get_dsid() {
@@ -78,6 +86,17 @@ unsigned int TL::Algorithm::get_dsid() {
   }
   m_weightsReader->Restart();
   return ret_dsid;
+}
+
+bool TL::Algorithm::sampleIsAFII() {
+  int branch_value = 0;
+  m_weightsReader->Restart();
+  while ( m_weightsReader->Next() ) {
+    branch_value = isAFII();
+    break;
+  }
+  m_weightsReader->Restart();
+  return (branch_value > 0);
 }
 
 void TL::Algorithm::printProgress(int n_prints) const {

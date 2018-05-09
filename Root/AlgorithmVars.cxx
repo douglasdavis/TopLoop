@@ -44,7 +44,6 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(PDFinfo_Q,std::vector<float>,m_reader);
   CONNECT_BRANCH(PDFinfo_XF1,std::vector<float>,m_reader);
   CONNECT_BRANCH(PDFinfo_XF2,std::vector<float>,m_reader);
-  CONNECT_BRANCH(weights_mc,std::vector<float>,m_reader);
   CONNECT_BRANCH(weight_mc,Float_t,m_reader);
   CONNECT_BRANCH(weight_pileup,Float_t,m_reader);
   CONNECT_BRANCH(weight_leptonSF,Float_t,m_reader);
@@ -135,6 +134,9 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(el_delta_z0_sintheta,std::vector<float>,m_reader);
   CONNECT_BRANCH(el_true_type,std::vector<int>,m_reader);
   CONNECT_BRANCH(el_true_origin,std::vector<int>,m_reader);
+  CONNECT_BRANCH(el_true_firstEgMotherTruthType,std::vector<int>,m_reader);
+  CONNECT_BRANCH(el_true_firstEgMotherTruthOrigin,std::vector<int>,m_reader);
+  CONNECT_BRANCH(el_true_isPrompt,std::vector<char>,m_reader);
   CONNECT_BRANCH(mu_pt,std::vector<float>,m_reader);
   CONNECT_BRANCH(mu_eta,std::vector<float>,m_reader);
   CONNECT_BRANCH(mu_phi,std::vector<float>,m_reader);
@@ -147,6 +149,7 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(mu_delta_z0_sintheta,std::vector<float>,m_reader);
   CONNECT_BRANCH(mu_true_type,std::vector<int>,m_reader);
   CONNECT_BRANCH(mu_true_origin,std::vector<int>,m_reader);
+  CONNECT_BRANCH(mu_true_isPrompt,std::vector<char>,m_reader);
   CONNECT_BRANCH(jet_pt,std::vector<float>,m_reader);
   CONNECT_BRANCH(jet_eta,std::vector<float>,m_reader);
   CONNECT_BRANCH(jet_phi,std::vector<float>,m_reader);

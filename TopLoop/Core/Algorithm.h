@@ -188,7 +188,7 @@ namespace TL {
      *  Can be called to retrieve the list of strings corresponding to
      *  the name of the generator based weights.
      */
-    std::vector<std::string> generatorWeightNames();
+    std::map<std::string,std::size_t> generatorVariedWeightNames();
 
     /// Get the dataset id
     /**
@@ -196,6 +196,9 @@ namespace TL {
      *  desired
      */
     unsigned int get_dsid();
+
+    /// get if the sample is AFII (determined from the sumWeights tree)
+    bool sampleIsAFII();
 
     /// @}
 

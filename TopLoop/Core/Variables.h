@@ -68,6 +68,7 @@ namespace TL {
   protected:
 
     DECLARE_BRANCH(dsid                                     , Int_t                    );
+    DECLARE_BRANCH(isAFII                                   , Int_t                    );
     DECLARE_BRANCH(totalEventsWeighted                      , Float_t                  );
     DECLARE_BRANCH(totalEvents                              , ULong64_t                );
     DECLARE_BRANCH(totalEventsWeighted_mc_generator_weights , std::vector<float>       );
@@ -80,7 +81,7 @@ namespace TL {
     DECLARE_BRANCH(PDFinfo_Q                                             , std::vector<float> );
     DECLARE_BRANCH(PDFinfo_XF1                                           , std::vector<float> );
     DECLARE_BRANCH(PDFinfo_XF2                                           , std::vector<float> );
-    DECLARE_BRANCH(weights_mc                                            , std::vector<float> );
+    DECLARE_BRANCH(mc_generator_weights                                  , std::vector<float> );
     DECLARE_BRANCH(weight_mc                                             , Float_t            );
     DECLARE_BRANCH(weight_pileup                                         , Float_t            );
     DECLARE_BRANCH(weight_leptonSF                                       , Float_t            );
@@ -171,6 +172,9 @@ namespace TL {
     DECLARE_BRANCH(el_delta_z0_sintheta                                  , std::vector<float> );
     DECLARE_BRANCH(el_true_type                                          , std::vector<int>   );
     DECLARE_BRANCH(el_true_origin                                        , std::vector<int>   );
+    DECLARE_BRANCH(el_true_firstEgMotherTruthType                        , std::vector<int>   );
+    DECLARE_BRANCH(el_true_firstEgMotherTruthOrigin                      , std::vector<int>   );
+    DECLARE_BRANCH(el_true_isPrompt                                      , std::vector<char>  );
     DECLARE_BRANCH(mu_pt                                                 , std::vector<float> );
     DECLARE_BRANCH(mu_eta                                                , std::vector<float> );
     DECLARE_BRANCH(mu_phi                                                , std::vector<float> );
@@ -183,6 +187,7 @@ namespace TL {
     DECLARE_BRANCH(mu_delta_z0_sintheta                                  , std::vector<float> );
     DECLARE_BRANCH(mu_true_type                                          , std::vector<int>   );
     DECLARE_BRANCH(mu_true_origin                                        , std::vector<int>   );
+    DECLARE_BRANCH(mu_true_isPrompt                                      , std::vector<char>  );
     DECLARE_BRANCH(jet_pt                                                , std::vector<float> );
     DECLARE_BRANCH(jet_eta                                               , std::vector<float> );
     DECLARE_BRANCH(jet_phi                                               , std::vector<float> );
