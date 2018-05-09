@@ -1,17 +1,21 @@
-image: atlas/analysistop:latest
-
 before_script:
   - mkdir -p ../ci/build ../ci/run ../ci/source/TopLoop
   - cp -r `pwd`/* ../ci/source/TopLoop/.
   - cp `pwd`/.gitlab-ci.cmake ../ci/source/CMakeLists.txt
   - cd ../ci/source
-
-build:
+TopLoop:
+  image: gitlab-registry.cern.ch/ci-tools/ci-worker:slc6
+  stage: build
+  tags:
+    - cvmfs
+  variables:
+    ATLAS_LOCAL_ROOT_BASE: /cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
   script:
     - ls
     - pwd
     - set +e
-    - source /home/atlas/release_setup.sh
+    - source /cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase/user/atlasLocalSetup.sh
+    - asetup 21.2,AnalysisTop,latest,here
     - cd ../build
     - cmake ../source
     - make
