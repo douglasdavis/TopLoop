@@ -17,34 +17,35 @@
 // Boost
 #include <boost/range/adaptor/indexed.hpp>
 
-float TL::Algorithm::countSumWeights() {
-  // sum up the weighted number of events in the metadata tree.  This
-  // works for MC (to get the MC lumi) and data (perhaps as a
-  // cross-check)
-  float sumWeights = 0;
+float TL::Algorithm::generatorSumWeights() {
+  if ( std::get<0>(m_weightCache) > 0 ) {
+    return std::get<0>(m_weightCache);
+  }
+  std::get<0>(m_weightCache) = 0;
   m_weightsReader->Restart();
   while ( m_weightsReader->Next() ) {
     if ( m_weightsReader->GetEntryStatus() != TTreeReader::kEntryValid ) {
       logger()->error("countSumWeights(): Tree reader does not return kEntryValid");
     }
-    sumWeights += totalEventsWeighted();
+    std::get<0>(m_weightCache) += totalEventsWeighted();
   }
   m_weightsReader->Restart();
-  //todo: cross-check the value with Ami, warn if different?
 
-  logger()->debug("Value of countSumWeights(): {}",sumWeights);
-  return sumWeights;
+  logger()->debug("Value of countSumWeights(): {}", std::get<0>(m_weightCache));
+  return std::get<0>(m_weightCache);
 }
 
-std::vector<float> TL::Algorithm::generatorVariedSumWeights() {
+const std::vector<float>& TL::Algorithm::generatorVariedSumWeights() {
+  if ( not std::get<1>(m_weightCache).empty() ) {
+    return std::get<1>(m_weightCache);
+  }
   std::size_t vsize = 0;
   m_weightsReader->Restart();
   while ( m_weightsReader->Next() ) {
     vsize = totalEventsWeighted_mc_generator_weights().size();
     break;
   }
-  std::vector<float> variedSumWeights;
-  variedSumWeights.reserve(vsize);
+  std::get<1>(m_weightCache).reserve(vsize);
   m_weightsReader->Restart();
 
   while ( m_weightsReader->Next() ) {
@@ -53,28 +54,30 @@ std::vector<float> TL::Algorithm::generatorVariedSumWeights() {
     }
     // now get all the rest
     for ( std::size_t j = 0; j < totalEventsWeighted_mc_generator_weights().size(); ++j ) {
-      variedSumWeights[j] += totalEventsWeighted_mc_generator_weights().at(j);
+      std::get<1>(m_weightCache)[j] += totalEventsWeighted_mc_generator_weights().at(j);
     }
   }
   m_weightsReader->Restart();
 
   //todo: cross-check the value with Ami, warn if different?
-  return variedSumWeights;
+  return std::get<1>(m_weightCache);
 }
 
 //std::vector<std::string> TL::Algorithm::generatorWeightNames() {
-std::map<std::string,std::size_t> TL::Algorithm::generatorVariedWeightNames() {
+const std::map<std::string,std::size_t>& TL::Algorithm::generatorVariedWeightsNames() {
+  if ( not std::get<2>(m_weightCache).empty() ) {
+    return std::get<2>(m_weightCache);
+  }
   m_weightsReader->Restart();
-  std::map<std::string,std::size_t> retmap;
   while ( m_weightsReader->Next() ) {
     for ( const auto& nameitr : names_mc_generator_weights() | boost::adaptors::indexed() ) {
       logger()->info("{}\t{}",nameitr.index(),nameitr.value());
-      retmap.emplace(nameitr.value(),nameitr.index());
+      std::get<2>(m_weightCache).emplace(nameitr.value(),nameitr.index());
     }
     break;
   }
   m_weightsReader->Restart();
-  return retmap;
+  return std::get<2>(m_weightCache);
 }
 
 unsigned int TL::Algorithm::get_dsid() {
