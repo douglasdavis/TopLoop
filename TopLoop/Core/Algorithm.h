@@ -180,7 +180,7 @@ namespace TL {
      */
     float generatorSumWeights();
 
-    [[deprecated("countSumWeights() has been replaced by generatorSumWeights() for consistency")]]
+    [[deprecated("use generatorSumWeights() for consistency")]]
     float countSumWeights() { return generatorSumWeights(); }
 
     /// Generator based changes in the sum of weights
