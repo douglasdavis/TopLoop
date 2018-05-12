@@ -238,7 +238,6 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(mu_true_pdg,std::vector<int>,m_reader);
   CONNECT_BRANCH(mu_true_pt,std::vector<float>,m_reader);
   CONNECT_BRANCH(mu_true_eta,std::vector<float>,m_reader);
-  CONNECT_BRANCH(jet_n,UInt_t,m_reader);
   CONNECT_BRANCH(jet_m,std::vector<float>,m_reader);
   CONNECT_BRANCH(met_px,Float_t,m_reader);
   CONNECT_BRANCH(met_py,Float_t,m_reader);

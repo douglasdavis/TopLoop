@@ -245,11 +245,11 @@ namespace TL {
     /// @{
 
     /// get the raw pointer to the file manager
-    const TL::FileManager*       fileManager()   const;
+    const TL::FileManager*              fileManager()   const;
     /// get pointer to the main reader
-    std::shared_ptr<TTreeReader> reader()        const;
+    const std::shared_ptr<TTreeReader>& reader()        const;
     /// get pointer to the weights reader
-    std::shared_ptr<TTreeReader> weightsReader() const;
+    const std::shared_ptr<TTreeReader>& weightsReader() const;
 
     /// @}
 

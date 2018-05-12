@@ -25,14 +25,15 @@
 // TopLoop
 #include <TopLoop/Core/Loggable.h>
 
-#define DECLARE_BRANCH(NAME,TYPE)                                          \
-  protected:                                                               \
-    std::unique_ptr<TTreeReaderValue<TYPE>> bv__##NAME;                    \
-  public:                                                                  \
-    inline const TYPE& NAME() const {                                      \
-      if ( bv__##NAME != nullptr ) return *(*bv__##NAME);                  \
-      spdlog::get("TL::Variables")->critical("No {} branch!",#NAME);       \
-      std::exit(EXIT_FAILURE);                                             \
+#define DECLARE_BRANCH(NAME,TYPE)                                                     \
+  protected:                                                                          \
+    std::unique_ptr<TTreeReaderValue<TYPE>> bv__##NAME;                               \
+  public:                                                                             \
+    inline const TYPE& NAME() const {                                                 \
+      if ( bv__##NAME != nullptr ) return *(*bv__##NAME);                             \
+      spdlog::get("TopLoop non-existent branch")->critical("No {} branch!",#NAME);    \
+      spdlog::get("TopLoop non-existent Branch")->flush();                            \
+      std::exit(EXIT_FAILURE);                                                        \
     }
 
 #define CONNECT_BRANCH(NAME,TYPE,READER)                                   \
@@ -276,7 +277,6 @@ namespace TL {
     DECLARE_BRANCH(mu_true_pdg                                           , std::vector<int>   );
     DECLARE_BRANCH(mu_true_pt                                            , std::vector<float> );
     DECLARE_BRANCH(mu_true_eta                                           , std::vector<float> );
-    DECLARE_BRANCH(jet_n                                                 , UInt_t             );
     DECLARE_BRANCH(jet_m                                                 , std::vector<float> );
     DECLARE_BRANCH(met_px                                                , Float_t            );
     DECLARE_BRANCH(met_py                                                , Float_t            );
@@ -366,23 +366,23 @@ template<typename T>
 inline std::unique_ptr<T>
 TL::Variables::setupBranch(std::shared_ptr<TTreeReader> reader,
                            const char* name) {
-  if ( spdlog::get("TL::Variables") == nullptr ) {
-    spdlog::stdout_color_mt("TL::Variables");
+  if ( spdlog::get("TopLoop non-existent branch") == nullptr ) {
+    spdlog::stdout_color_mt("TopLoop non-existent branch");
   }
 
   if ( reader->GetTree() == nullptr ) {
-    spdlog::get("TL::Variables")->debug("{} branch trying to link to a null tree! "
-                                        "TTreeReader name name: {}",
-                                        name, reader->GetTree()->GetName());
+    spdlog::get("TopLoop non-existent branch")->debug("{} branch trying to link to a null tree! "
+                                                      "TTreeReader name name: {}",
+                                                      name, reader->GetTree()->GetName());
     return nullptr;
   }
   if ( reader->GetTree()->GetListOfBranches()->FindObject(name) != nullptr ) {
     return std::make_unique<T>(*reader,name);
   }
   else {
-    spdlog::get("TL::Variables")->debug("{} branch not found in the tree \"{}\"! "
-                                        "Using this branch will cause a painful death! ",
-                                        name,reader->GetTree()->GetName());
+    spdlog::get("TopLoop non-existent branch")->debug("{} branch not found in the tree \"{}\"! "
+                                                      "Using this branch will cause a painful death! ",
+                                                      name,reader->GetTree()->GetName());
   }
   return nullptr;
 }
