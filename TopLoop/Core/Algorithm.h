@@ -101,7 +101,7 @@ namespace TL {
     /// The function which is called after init(), for output.
     /**
      *  This function is meant for declaring files, histograms, trees,
-     *  etc.  to be output by the histogram. Anything a use puts in
+     *  etc.  to be output by the algorithm. Anything a user puts in
      *  this function can technically just be included in the init()
      *  function - but for organizational purposes this function is
      *  included.
@@ -113,7 +113,7 @@ namespace TL {
      *  This function is meant to be where the actual analysis
      *  happens.  All variables which are initialized for the
      *  TTreeReader are updated at the beginning of execute and all of
-     *  the event information is available.
+     *  the event's information is available.
      */
     virtual TL::StatusCode execute();
 
@@ -129,7 +129,7 @@ namespace TL {
   private:
     /// Initialize the variables for the TTreeReader
     /**
-     *  This function sets the TTreeReader variables up.  Gets called
+     *  This function sets the TTreeReader variables up. Gets called
      *  in init()
      */
     TL::StatusCode init_core_vars();
