@@ -225,8 +225,44 @@ namespace TL {
      *
      *  @endcode
      *
+     *  See also the convenience functions `sumOfVariation()` and
+     *  `currentWeightOfVariation()`.
+     *
      */
     const std::map<std::string,std::size_t>& generatorVariedWeightsNames();
+
+    /// Get the sum of weights required to normalize the given variation
+    /**
+     *  Convienence function to grab the sum of weights required to
+     *  given variation. See `currentWeightOfVariation()` for more.
+     *
+     *  @param variation_name the name of the generator variation
+     */
+    float sumOfVariation(const std::string& variation_name);
+
+    /// Get the weight of the generator variation for the event (use in execute())
+    /**
+     *  This function is for convenience. It may not be the most
+     *  performant way to calculate the generator varied weights!  See
+     *  `generatorVariedWeightsNames()` and
+     *  `generatorVariedSumWeights()` to think about designing a more
+     *  performant access method. Which doesn't require searching a
+     *  map on each event...
+     *
+     *  Example:
+     *
+     *  @code{.cpp}
+     *  TL::StatusCode MyAlgorithm::execute() {
+     *    // ...
+     *    auto nom_weight = xsec * (weight_mc() / generatorSumWeight()) * other_weights;
+     *    auto foo_weight = xsec * (currentWeightOfVariation("foo") / sumOfVariation("foo")) * other_weights;
+     *    // ...
+     *  }
+     *  @endcode
+     *
+     *  @param variation_name the name of the generator variation
+     */
+    float currentWeightOfVariation(const std::string& variation_name);
 
     /// Get the dataset id
     /**

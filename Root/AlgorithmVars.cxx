@@ -45,6 +45,7 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(PDFinfo_XF1,std::vector<float>,m_reader);
   CONNECT_BRANCH(PDFinfo_XF2,std::vector<float>,m_reader);
   CONNECT_BRANCH(weight_mc,Float_t,m_reader);
+  CONNECT_BRANCH(mc_generator_weights,std::vector<float>,m_reader);
   CONNECT_BRANCH(weight_pileup,Float_t,m_reader);
   CONNECT_BRANCH(weight_leptonSF,Float_t,m_reader);
   CONNECT_BRANCH(weight_bTagSF_MV2c10_70,Float_t,m_reader);
