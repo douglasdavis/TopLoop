@@ -22,7 +22,8 @@ atlas_add_library( TopLoop
   PUBLIC_HEADERS TopLoop
   LINK_LIBRARIES
   ${ROOT_LIBRARIES}
-  ${Boost_LIBRARIES}
+  Boost::filesystem
+  Boost::system
   PathResolver
   INCLUDE_DIRS ${ROOT_INCLUDE_DIRS} )
 

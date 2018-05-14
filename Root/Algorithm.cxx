@@ -44,11 +44,11 @@ const TL::FileManager* TL::Algorithm::fileManager() const {
   return m_fm.get();
 }
 
-std::shared_ptr<TTreeReader> TL::Algorithm::reader() const {
+const std::shared_ptr<TTreeReader>& TL::Algorithm::reader() const {
   return m_reader;
 }
 
-std::shared_ptr<TTreeReader> TL::Algorithm::weightsReader() const {
+const std::shared_ptr<TTreeReader>& TL::Algorithm::weightsReader() const {
   return m_weightsReader;
 }
 
