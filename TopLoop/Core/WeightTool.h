@@ -44,7 +44,7 @@ namespace TL {
     /// Generator based changes in the sum of weights
     /**
      *  Generator "on the fly" weight variations stored in a vector
-     *  The first entry (as of April 2017) is the same as nominal.
+     *  The first entry (as of May 2018) is the same as nominal.
      *
      *  This vector of sums of weights is required for properly
      *  normalizing events when using alternative weights from the
@@ -61,25 +61,29 @@ namespace TL {
      *  the index in `mc_generator_weights` vector branch as well as
      *  the vector returned by `generatorVariedSumWeights()`. These
      *  can be used to find the normalization associated with a
-     *  specific generator's varied weight... example usage:
+     *  specific generator's varied weight... example usage in a
+     *  TL::Algorithm based class:
      *
      *  @code{.cpp}
-     *  auto genWeightNames = generatorVariedSumWeightNames();
+     *  auto genWeightNames = weightTool().generatorVariedSumWeightNames();
      *  std::size_t foo_idx = genWeightNames.at("foo");
      *
      *  //.....
      *
      *  float weight_foo     = mc_generator_weights().at(foo_idx);
-     *  float sumWeights_foo = generatorVariedSumWeights().at(foo_idx);
+     *  float sumWeights_foo = weightTool().generatorVariedSumWeights().at(foo_idx);
      *
      *  // To get the event weight for "foo".. if you haven't
      *  // already multiplied by the nominal sum of weights...
-     *  float event_weight_foo = (xsec / sumWeights_foo) * weight_foo * other_weights;
+     *  float event_weight_foo = (xsec / sumWeights_foo) *
+     *    weight_foo * other_weights;
      *
      *  // or if you already have a "nominal" luminosity weight which
      *  // took into account the nominal sum weights, just multiply it
      *  // out...
-     *  float event_weight_foo = lumiWeight * sumWeights_nominal / sumWeights_foo * weight_foo * other_weights;
+     *  float event_weight_foo = lumiWeight *
+     *    (sumWeights_nominal / sumWeights_foo) *
+     *    weight_foo * other_weights;
      *
      *  @endcode
      *
@@ -112,8 +116,12 @@ namespace TL {
      *  @code{.cpp}
      *  TL::StatusCode MyAlgorithm::execute() {
      *    // ...
-     *    auto nom_weight = xsec * (weight_mc() / generatorSumWeight()) * other_weights;
-     *    auto foo_weight = xsec * (currentWeightOfVariation("foo") / sumOfVariation("foo")) * other_weights;
+     *    auto nom_weight = xsec *
+     *      (weight_mc() / weightTool().generatorSumWeight()) *
+     *      (other_weights;
+     *    auto foo_weight = xsec *
+     *      (weightTool().currentWeightOfVariation("foo") / weightTool().sumOfVariation("foo")) *
+     *      other_weights;
      *    // ...
      *  }
      *  @endcode

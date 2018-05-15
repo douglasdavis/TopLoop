@@ -172,29 +172,25 @@ namespace TL {
     /// @name Generator and weight utilities
     /// @{
 
+    /// Access the TL::WeightTool object
     TL::WeightTool& weightTool() { return m_weightTool; }
 
     [[deprecated("use weightTool().generatorSumWeights()")]]
     float countSumWeights() { return weightTool().generatorSumWeights(); }
-
     [[deprecated("use weightTool().generatorSumWeights()")]]
     float generatorSumWeights() { return weightTool().generatorSumWeights(); }
-
     [[deprecated("use weightTool().generatorVariedSumWeights()")]]
     const std::vector<float>& generatorVariedSumWeights() {
       return weightTool().generatorVariedSumWeights();
     }
-
     [[deprecated("use weightTool().generatorVariedWeightsNames()")]]
     const std::map<std::string,std::size_t>& generatorVariedWeightsNames() {
       return weightTool().generatorVariedWeightsNames();
     }
-
     [[deprecated("use weightTool().sumOfVariation()")]]
     float sumOfVariation(const std::string& variation_name) {
       return weightTool().sumOfVariation(variation_name);
     }
-
     [[deprecated("use weightTool().currentWeightOfVariation()")]]
     float currentWeightOfVariation(const std::string& variation_name) {
       return weightTool().currentWeightOfVariation(variation_name);
