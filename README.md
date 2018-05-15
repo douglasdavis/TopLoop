@@ -102,5 +102,5 @@ Doxygen documentation can be found here: http://ddavis.web.cern.ch/ddavis/TopLoo
 
 ## Example Algorithm
 
-We're starting to ramp up an algorithm for the Wt dilepton analysis:
+We have a mature TopLoop based algorithm for the tW dilepton analysis:
 [WtLoop](http://gitlab.cern.ch/atlasphys-top/singletop/tW_13TeV_Rel21/WtLoop)
