@@ -52,6 +52,10 @@ const std::shared_ptr<TTreeReader>& TL::Algorithm::weightsReader() const {
   return m_weightsReader;
 }
 
+std::shared_ptr<TTreeReader>& TL::Algorithm::weightsReader() {
+  return m_weightsReader;
+}
+
 TL::StatusCode TL::Algorithm::setFileManager(std::unique_ptr<TL::FileManager> fm) {
   if ( fm == nullptr ) {
     logger()->error("TL::EDM::FileManager is nullptr");
