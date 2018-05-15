@@ -177,24 +177,6 @@ namespace TL {
 
     [[deprecated("use weightTool().generatorSumWeights()")]]
     float countSumWeights() { return weightTool().generatorSumWeights(); }
-    [[deprecated("use weightTool().generatorSumWeights()")]]
-    float generatorSumWeights() { return weightTool().generatorSumWeights(); }
-    [[deprecated("use weightTool().generatorVariedSumWeights()")]]
-    const std::vector<float>& generatorVariedSumWeights() {
-      return weightTool().generatorVariedSumWeights();
-    }
-    [[deprecated("use weightTool().generatorVariedWeightsNames()")]]
-    const std::map<std::string,std::size_t>& generatorVariedWeightsNames() {
-      return weightTool().generatorVariedWeightsNames();
-    }
-    [[deprecated("use weightTool().sumOfVariation()")]]
-    float sumOfVariation(const std::string& variation_name) {
-      return weightTool().sumOfVariation(variation_name);
-    }
-    [[deprecated("use weightTool().currentWeightOfVariation()")]]
-    float currentWeightOfVariation(const std::string& variation_name) {
-      return weightTool().currentWeightOfVariation(variation_name);
-    }
 
     /// Get the dataset id
     /**
@@ -218,11 +200,14 @@ namespace TL {
     const std::shared_ptr<TTreeReader>& reader()        const;
     /// get pointer to the weights reader
     const std::shared_ptr<TTreeReader>& weightsReader() const;
-    /// get non const pointer to weights reader
-    std::shared_ptr<TTreeReader>& weightsReader();
 
     /// @}
 
+  private:
+    /// get non const pointer to weights reader (used by WeightTool)
+    std::shared_ptr<TTreeReader>& weightsReader();
+
+  protected:
     /// Print the progess of the event loop (percent done)
     void printProgress(int n_prints = 10) const;
 
