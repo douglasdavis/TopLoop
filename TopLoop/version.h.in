@@ -1,0 +1,10 @@
+// This file is a template for generating a header which defines the
+// git branch and hash associated with TopLoop
+
+#ifndef TOPLOOP_VERSION_H
+#define TOPLOOP_VERSION_H
+
+#define TOPLOOP_GIT_BRANCH "@TOPLOOP_GIT_BRANCH@"
+#define TOPLOOP_GIT_COMMIT_HASH "@TOPLOOP_GIT_COMMIT_HASH@"
+
+#endif
