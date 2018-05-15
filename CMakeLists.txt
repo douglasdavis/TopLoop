@@ -5,6 +5,28 @@
 # Declare the name of this package:
 atlas_subdir( TopLoop None )
 
+# Get the current working branch
+execute_process(
+  COMMAND git rev-parse --abbrev-ref HEAD
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  OUTPUT_VARIABLE TOPLOOP_GIT_BRANCH
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+
+# Get the latest abbreviated commit hash of the working branch
+execute_process(
+  COMMAND git log -1 --format=%h
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  OUTPUT_VARIABLE TOPLOOP_GIT_COMMIT_HASH
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+configure_file(
+  ${CMAKE_SOURCE_DIR}/TopLoop/TopLoop/version.h.in
+  ${CMAKE_BINARY_DIR}/generated/TopLoop_version.h
+  @ONLY
+)
+
 # This package depends on other packages:
 atlas_depends_on_subdirs(
   PUBLIC
