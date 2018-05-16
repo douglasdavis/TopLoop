@@ -27,7 +27,8 @@ namespace TL {
     std::string              m_weightsTreeName  {"sumWeights"};
     std::unique_ptr<TChain>  m_rootChain        {nullptr};
     std::unique_ptr<TChain>  m_rootWeightsChain {nullptr};
-    std::string              m_rucioDirName     {};
+    std::string              m_rucioDirName     {"none"};
+    unsigned int             m_dsid             {0};
 
     /// make files ending in ".root.N" their old name again
     std::map<std::string,std::string> m_renames{};
@@ -103,6 +104,8 @@ namespace TL {
     const std::string&              weightsTreeName() const;
     /// the name of the rucio dataset fed to feedDir
     const std::string&              rucioDir()        const;
+    /// the dsid as determined from a regex search on the rucio dir
+    unsigned int                    dsid()            const;
 
     /// @}
 
@@ -124,6 +127,7 @@ inline const std::vector<std::string>& TL::FileManager::fileNames() const { retu
 inline const std::string& TL::FileManager::weightsTreeName() const { return m_weightsTreeName; }
 inline const std::string& TL::FileManager::treeName()        const { return m_treeName;        }
 inline const std::string& TL::FileManager::rucioDir()        const { return m_rucioDirName;    }
+inline       unsigned int TL::FileManager::dsid()            const { return m_dsid;            }
 
 inline       TChain* TL::FileManager::rootChain()        const { return m_rootChain.get();        }
 inline       TChain* TL::FileManager::rootWeightsChain() const { return m_rootWeightsChain.get(); }
