@@ -20,6 +20,8 @@ namespace fs = boost::filesystem;
 
 // C++
 #include <fstream>
+#include <regex>
+#include <string>
 
 TL::FileManager::FileManager() : TL::Loggable("TL::FileManager") {}
 
@@ -64,6 +66,15 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
   std::vector<std::string> splits;
   boost::algorithm::split(splits,dp,boost::is_any_of("/"));
   m_rucioDirName = splits.back();
+
+  std::regex rgx("(.[0-9]{6}.)");
+  std::smatch match;
+  if (std::regex_search(m_rucioDirName, match, rgx)) {
+    std::string matchstr = match[1].str();
+    matchstr = matchstr.substr(1, matchstr.size() - 2);
+    m_dsid = std::stoi(matchstr);
+    logger()->info("Determined DSID: {}", m_dsid);
+  }
 
   for ( const auto& i : fs::directory_iterator(p) ) {
     if ( !fs::is_directory(i.path()) ) {
