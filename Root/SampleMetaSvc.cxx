@@ -215,15 +215,14 @@ bool TL::SampleMetaSvc::isAFII(const std::string& sample_name, bool log_it) cons
 }
 
 unsigned int TL::SampleMetaSvc::getYear(const unsigned int runNum) const {
-  if ( runNum < 276262 ) {
-    logger()->warn("Cannot determine year from run number: {}. Returned 0.",runNum);
-    return 0;
-  }
-  if ( runNum <= 284484 ) { return 15; }
-  if ( runNum <= 311481 ) { return 16; }
-  if ( runNum <= 340453 ) { return 17; }
-  logger()->warn("Cannot determine year from run number: {}. Returned 0.",runNum);
-  return 0;
+  /////////////////////////////////////////////////////////////////////
+  // These numbers were grabbed from SUSYTools:
+  // athena/PhysicsAnalysis/SUSYPhys/SUSYTools/Root/SUSYObjDef_xAOD.cxx
+  /////////////////////////////////////////////////////////////////////
+  if      ( runNum < 290000 ) { return 15; }
+  else if ( runNum < 320000 ) { return 16; }
+  else if ( runNum < 350000 ) { return 17; }
+  return 18;
 }
 
 void TL::SampleMetaSvc::printInfo(const int dsid) const {
