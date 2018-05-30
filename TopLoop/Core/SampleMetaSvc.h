@@ -28,11 +28,11 @@ namespace TL {
   };
 
   enum class kInitialState {
-    Unknown  , Data     , ttbar   , tW      ,
-    tW_DR    , tW_DS    ,
-    Zjets    , Wjets    , WW      , WZ      ,
-    ZZ       , Diboson  , ttbarZ  , ttbarW  ,
-    ttbarll  , ttbarphi , tchan   , schan
+    Unknown  , Data     , ttbar   , tW       ,
+    tW_DR    , tW_DS    , ttt     , tttt     ,
+    Zjets    , Wjets    , WW      , WZ       ,
+    ZZ       , Diboson  , ttbarZ  , ttbarW   ,
+    ttbarll  , ttH      , tchan   , schan
   };
 
   enum class kGenerator {
