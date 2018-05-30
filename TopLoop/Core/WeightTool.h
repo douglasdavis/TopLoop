@@ -130,6 +130,23 @@ namespace TL {
      */
     float currentWeightOfVariation(const std::string& variation_name);
 
+    /// generate "sum in quadrature" of the PDF4LHC variations (use in execute()).
+    /**
+     *  This function will return the following calculation:
+     *
+     *  \f[
+     *     w_{\mathrm{PDF4LHC}} =
+     *       \sqrt{ \sum_{i=0}^{30} \left(w_c - w_i\right)^2}
+     *  \f]
+     *
+     *  where \f$w_c\f$ is the central value for PDF4LHC treatment
+     *  ("PDFset=90900") and \f$\{w_i\}\f$ are the 30 variations
+     *  ("PDFset=909{01-30}"). This function also takes into account
+     *  the "sum of weights" associated with each variation such that
+     *  the normalization is treated correctly.
+     */
+    float currentPDF4LHCsumQuadVariations();
+
   };
 }
 
