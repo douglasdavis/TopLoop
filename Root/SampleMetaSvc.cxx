@@ -93,7 +93,9 @@ void TL::SampleMetaSvc::setupMaps() {
     { "ttbarW"               , TL::kInitialState::ttbarW         } ,
     { "ttbarZ"               , TL::kInitialState::ttbarZ         } ,
     { "ttbarll"              , TL::kInitialState::ttbarll        } ,
-    { "ttbarphi"             , TL::kInitialState::ttbarphi       } ,
+    { "ttH"                  , TL::kInitialState::ttH            } ,
+    { "ttt"                  , TL::kInitialState::ttt            } ,
+    { "tttt"                 , TL::kInitialState::tttt           } ,
     { "tchan"                , TL::kInitialState::tchan          } ,
     { "schan"                , TL::kInitialState::schan          }
   };
