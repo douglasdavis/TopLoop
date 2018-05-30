@@ -358,6 +358,10 @@ namespace TL {
     DECLARE_BRANCH(mu_weight_isolSF_tight_MU_SF_Isol_SYST_UP             , std::vector<float> );
     DECLARE_BRANCH(mu_weight_isolSF_tight_MU_SF_Isol_SYST_DOWN           , std::vector<float> );
 
+    // Needed for Fakes
+    DECLARE_BRANCH(weight_mm_ejets                                       , Float_t            );
+    DECLARE_BRANCH(weight_mm_mujets                                      , Float_t            );
+
   };
 
 }
