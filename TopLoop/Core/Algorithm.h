@@ -226,7 +226,7 @@ namespace TL {
 }
 
 inline void TL::Algorithm::setIsData()             { m_isMC = false;                             }
-inline void TL::Algorithm::setIsFake()             { m_isMC = false; m_isFake = true             }
+inline void TL::Algorithm::setIsFake()             { m_isMC = false; m_isFake = true;            }
 inline bool TL::Algorithm::initCalled()      const { return m_initCalled;                        }
 inline bool TL::Algorithm::isMC()            const { return m_isMC;                              }
 inline bool TL::Algorithm::isData()          const { return !m_isMC;                             }
