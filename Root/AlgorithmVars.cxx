@@ -320,5 +320,10 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(mu_weight_isolSF_tight_MU_SF_Isol_SYST_UP,std::vector<float>,m_reader);
   CONNECT_BRANCH(mu_weight_isolSF_tight_MU_SF_Isol_SYST_DOWN,std::vector<float>,m_reader);
 
+  // required for fakes
+  CONNECT_BRANCH(weight_mm_ejets,Float_t,m_reader);
+  CONNECT_BRANCH(weight_mm_mujets,Float_t,m_reader);
+
+
   return TL::StatusCode::SUCCESS;
 }

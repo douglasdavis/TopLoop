@@ -37,6 +37,7 @@ namespace TL {
   private:
     std::string   m_datasetName{""};
     bool          m_isMC{true};
+    bool          m_isFake{false};
     bool          m_isNominal{true};
     bool          m_isNominal_Loose{false};
     bool          m_initCalled{false};
@@ -146,6 +147,8 @@ namespace TL {
      */
     void setIsData();
 
+    void setIsFake();
+
     /// @}
 
   protected:
@@ -156,6 +159,8 @@ namespace TL {
     bool isMC()            const;
     /// get if sample is data (for readability, opposite of isMC())
     bool isData()          const;
+    /// get if sample is fake (for readability, opposite of isMC())
+    bool isFake()          const;
     /// get is nominal
     bool isNominal()       const;
     /// get is nominal loose
@@ -221,9 +226,11 @@ namespace TL {
 }
 
 inline void TL::Algorithm::setIsData()             { m_isMC = false;                             }
+inline void TL::Algorithm::setIsFake()             { m_isFake = true;                            }
 inline bool TL::Algorithm::initCalled()      const { return m_initCalled;                        }
 inline bool TL::Algorithm::isMC()            const { return m_isMC;                              }
 inline bool TL::Algorithm::isData()          const { return !m_isMC;                             }
+inline bool TL::Algorithm::isFake()          const { return m_isFake;                            }
 inline bool TL::Algorithm::isNominal()       const { return m_isNominal;                         }
 inline bool TL::Algorithm::isNominal_Loose() const { return m_isNominal_Loose;                   }
 inline bool TL::Algorithm::isSystematic()    const { return !(m_isNominal || m_isNominal_Loose); }
