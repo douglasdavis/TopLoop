@@ -13,6 +13,8 @@
 #include <memory>
 #include <TopLoop/Core/Loggable.h>
 
+class SampleXsection;
+
 namespace TL {
   class Algorithm;
 }
@@ -26,7 +28,10 @@ namespace TL {
                std::map<std::string,std::size_t>>
     m_weightCache{-1,{},{}};
 
-    inline TL::Algorithm* alg() { return m_algorithm; }
+    const SampleXsection* m_xsec;
+
+    inline TL::Algorithm* alg()       { return m_algorithm; }
+    inline TL::Algorithm* alg() const { return m_algorithm; }
 
   public:
     WeightTool() = default;
@@ -147,6 +152,12 @@ namespace TL {
      */
     float currentPDF4LHCsumQuadVariations();
 
+    /// get the cross section of the sample the algorithm is processing
+    /**
+     *  This function uses the TopDataPreparation SampleXsection class
+     *  to retrieve the cross section for the DSID.
+     */
+    float getXsec() const;
   };
 }
 

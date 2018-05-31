@@ -14,10 +14,18 @@
 // Boost
 #include <boost/range/adaptor/indexed.hpp>
 
+// ATLAS
+#include <TopDataPreparation/SampleXsectionSvc.h>
+#include <PathResolver/PathResolver.h>
+
 TL::WeightTool::WeightTool(TL::Algorithm* algorithm) :
   TL::Loggable("TL::WeightTool"),
   m_algorithm(algorithm)
-{}
+{
+  std::string XsecFile = PathResolverFindCalibFile
+    ("dev/AnalysisTop/TopDataPreparation/XSection-MC15-13TeV.data");
+  m_xsec = SampleXsectionSvc::svc(XsecFile)->sampleXsection();
+}
 
 float TL::WeightTool::generatorSumWeights() {
   if (std::get<0>(m_weightCache) > 0) {
@@ -117,4 +125,12 @@ float TL::WeightTool::currentPDF4LHCsumQuadVariations() {
     sumSq += term*term;
   }
   return (1.0/n_c)*std::sqrt(sumSq);
+}
+
+float TL::WeightTool::getXsec() const {
+  auto dsid = alg()->get_dsid();
+  auto xsec = m_xsec->getXsection(dsid);
+  logger()->debug("Retreiving cross section for sample {}: {} pb",
+                  dsid,xsec);
+  return xsec;
 }
