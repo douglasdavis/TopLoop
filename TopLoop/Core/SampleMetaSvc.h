@@ -207,7 +207,7 @@ namespace TL {
 
     /// @}
 
-    /// @name Simulation type hlper functions
+    /// @name Misc helper functions
     /// @{
 
     /// given a sample name, return if the sample was simulated with AFII
@@ -218,6 +218,14 @@ namespace TL {
      *  level.
      */
     bool isAFII(const std::string& sample_name, bool log_it = true) const;
+
+    /// Determine if the DSID is PowPy8 ttbar or Wt
+    /**
+     *  Cleans up some user code
+     *
+     *  @param d the DSID
+     */
+    bool tWorTtbarPowPy8(const unsigned int d) const;
 
     /// @}
 
