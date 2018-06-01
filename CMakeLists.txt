@@ -32,6 +32,7 @@ atlas_depends_on_subdirs(
   PUBLIC
   Tools/PathResolver
   PhysicsAnalysis/MCTruthClassifier
+  PRIVATE
   PhysicsAnalysis/TopPhys/TopPhysUtils/TopDataPreparation
   )
 
