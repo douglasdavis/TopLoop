@@ -167,11 +167,22 @@ namespace TL {
      *  from MC, you'll need to handle the luminosities
      *  carefully. This function lets you generate a weight such that
      *  in the future you can scale all samples to the same total
-     *  luminosity. These weights must be used with samples that you
-     *  feed to the second argument of this function.
+     *  luminosity. This weight will be valid in combination with the
+     *  samples that you feed to the second argument of this function.
+     *
+     *  The weight that is returned is calculated as:
+     *
+     *  \f[
+     *     w_c = \frac{\mathcal{L}_c}
+                      {\sum_i \mathcal{L}_i}
+     *  \f]
+     *
+     *  where \f$\mathcal{L}_c\f$ is the luminosity associated with
+     *  the campaign you are generating a weight for and
+     *  \f$\{\mathcal{L}_i\}\f$ is the set of campaign luminosities.
      *
      *  @param campaign the campaign to generate the weight for
-     *  @param campaigns the list to use in generating the weight
+     *  @param campaigns the list of campaigns you want to be compatible with
      */
     float getCampaignWeight(const TL::kCampaign campaign,
                             const std::vector<TL::kCampaign>& campaigns) const;
@@ -180,17 +191,17 @@ namespace TL {
     /**
      *  Use the rucio dataset name to generate a weight based on the
      *  given list of campaigns. See the other version of
-     *  getCampaignWeight for more details.
+     *  getCampaignWeight() for more details.
      *
      *  Example usage for MC16c weight based for use in combination with MC16a:
      *  @code{.cpp}
      *  std::string datasetname = "some string which contains 'r9781'"
-     *  float campWeight = TL::SampleMetaSvc::get().getCampaignWeight(datansetname,
+     *  float campWeight = TL::SampleMetaSvc::get().getCampaignWeight(datasetname,
      *                                                                {TL::kCampaign::MC16a,
      *                                                                 TL::kCampaign::MC16c});
      *  @endcode
      *  @param rucioDir the string for the dataset name
-     *  @param campaigns list of campaigns to use in generating the weight
+     *  @param campaigns the list of campaigns you want to be compatible with
      */
     float getCampaignWeight(const std::string& rucioDir,
                             const std::vector<TL::kCampaign>& campaigns) const;

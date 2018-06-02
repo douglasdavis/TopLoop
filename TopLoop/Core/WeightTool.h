@@ -183,7 +183,9 @@ namespace TL {
      *  where \f$\sigma\f$ is the cross section in picobarns,
      *  \f$\mathcal{L} = \f$ your input (default 1000.0 pb), \f$N_w\f$
      *  is the total number of weights before cuts, and \f$w_c\f$ is
-     *  the campaign weight determined from the campaigns argument.
+     *  the campaign weight determined from the campaigns
+     *  argument. See the TL::SampleMetaSvc::getCampaignWeight()
+     *  documentation for more information about the campaign weight.
      *
      *  @param campaigns the list of campaigns the output is meant to
      *  be used with.
