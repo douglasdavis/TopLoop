@@ -229,6 +229,7 @@ unsigned int TL::SampleMetaSvc::getYear(const unsigned int runNum) const {
 
 bool TL::SampleMetaSvc::tWorTtbarPowPy8(const unsigned int d) const {
   auto initstate = getInitialState(d);
+  auto gen       = getGenerator(d);
   std::vector<TL::kInitialState> tops = {
     kInitialState::ttbar,
     kInitialState::tW,
@@ -236,7 +237,7 @@ bool TL::SampleMetaSvc::tWorTtbarPowPy8(const unsigned int d) const {
     kInitialState::tW_DS
   };
   bool is_top = std::find(std::begin(tops),std::end(tops),initstate) != tops.end();
-  bool is_pp8 = getGenerator(d) == kGenerator::PowhegPythia8;
+  bool is_pp8 = (gen == kGenerator::PowhegPythia8 || gen == kGenerator::PowhegPythia8_dil);
   return (is_top && is_pp8);
 }
 
