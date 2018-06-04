@@ -81,7 +81,7 @@ namespace TL {
       }                                                         \
       spdlog::get("TL::StatusCode")                             \
         ->error("TL::StatusCode::FAILURE found in {}!",         \
-                   __PRETTY_FUNCTION__);                        \
+                __PRETTY_FUNCTION__);                           \
       std::exit(EXIT_FAILURE);                                  \
     } }
 

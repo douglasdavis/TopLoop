@@ -227,6 +227,20 @@ unsigned int TL::SampleMetaSvc::getYear(const unsigned int runNum) const {
   return 18;
 }
 
+bool TL::SampleMetaSvc::tWorTtbarPowPy8(const unsigned int d) const {
+  auto initstate = getInitialState(d);
+  auto gen       = getGenerator(d);
+  std::vector<TL::kInitialState> tops = {
+    kInitialState::ttbar,
+    kInitialState::tW,
+    kInitialState::tW_DR,
+    kInitialState::tW_DS
+  };
+  bool is_top = std::find(std::begin(tops),std::end(tops),initstate) != tops.end();
+  bool is_pp8 = (gen == kGenerator::PowhegPythia8 || gen == kGenerator::PowhegPythia8_dil);
+  return (is_top && is_pp8);
+}
+
 void TL::SampleMetaSvc::printInfo(const int dsid) const {
   logger()->info("Sample DSID:      {}",dsid);
   logger()->info("Sample Process:   {}",getInitialStateStr(dsid));

@@ -32,6 +32,8 @@ atlas_depends_on_subdirs(
   PUBLIC
   Tools/PathResolver
   PhysicsAnalysis/MCTruthClassifier
+  PRIVATE
+  PhysicsAnalysis/TopPhys/TopPhysUtils/TopDataPreparation
   )
 
 # This package uses ROOT:
@@ -47,6 +49,7 @@ atlas_add_library( TopLoop
   Boost::filesystem
   Boost::system
   PathResolver
+  TopDataPreparation
   INCLUDE_DIRS ${ROOT_INCLUDE_DIRS} )
 
 atlas_add_dictionary( TopLoopDict

@@ -3,6 +3,10 @@
  *  @class TL::WeightTool
  *  @brief A class to handle weight access
  *
+ *  This class is intimately connected to the TL::Algorithm class and
+ *  uses its features to provide a somewhat isolated object to cache
+ *  and retrieve sample information for calculating various weights.
+ *
  *  @author Douglas Davis, <ddavis@cern.ch>
  */
 
@@ -11,27 +15,38 @@
 #define TL_WeightTool_h
 
 #include <memory>
+#include <vector>
 #include <TopLoop/Core/Loggable.h>
+
+class SampleXsection;
 
 namespace TL {
   class Algorithm;
+  enum class kCampaign;
 }
 
 namespace TL {
   class WeightTool : public TL::Loggable {
   private:
-    TL::Algorithm* m_algorithm;
+    TL::Algorithm* m_alg;
 
-    std::tuple<float,std::vector<float>,
+    std::tuple<float,
+               std::vector<float>,
                std::map<std::string,std::size_t>>
     m_weightCache{-1,{},{}};
 
-    inline TL::Algorithm* alg() { return m_algorithm; }
+    const SampleXsection* m_xsec;
 
   public:
-    WeightTool() = default;
+    WeightTool() = delete;//fault;
     virtual ~WeightTool() = default;
 
+    WeightTool(const WeightTool&) = delete;
+    WeightTool(WeightTool&&) = delete;
+    WeightTool& operator=(const WeightTool&) = delete;
+    WeightTool& operator=(WeightTool&&) = delete;
+
+    /// Only constructor - must include algorithm pointer
     WeightTool(TL::Algorithm* algorithm);
 
     /// Count the sumWeights from all input trees
@@ -146,6 +161,39 @@ namespace TL {
      *  the normalization is treated correctly.
      */
     float currentPDF4LHCsumQuadVariations();
+
+    /// get the cross section of the sample the algorithm is processing
+    /**
+     *  This function uses the TopDataPreparation SampleXsection class
+     *  to retrieve the cross section for the DSID.
+     */
+    float sampleCrossSection() const;
+
+    /// get a luminosity weight associated with the sample
+    /**
+     *  This function uses the cross section and sum of weights to
+     *  calculate nominal luminosity weight. We scale such that the
+     *  integrated luminosity of the dataset will be in inverse
+     *  femtobarns.
+     *
+     *  \f[
+     *     w_{\mathcal{L}} = \frac{\sigma\mathcal{L}}{N_w}\times w_c
+     *  \f]
+     *
+     *  where \f$\sigma\f$ is the cross section in picobarns,
+     *  \f$\mathcal{L} = \f$ your input (default 1000.0 pb), \f$N_w\f$
+     *  is the total number of weights before cuts, and \f$w_c\f$ is
+     *  the campaign weight determined from the campaigns
+     *  argument. See the TL::SampleMetaSvc::getCampaignWeight()
+     *  documentation for more information about the campaign weight.
+     *
+     *  @param campaigns the list of campaigns the output is meant to
+     *  be used with.
+     *  @param lumi the integrated luminosity (in pb) to generate the
+     *  weight.
+     */
+    float luminosityWeight(const std::vector<TL::kCampaign>& campaigns,
+                           const float lumi = 1000.0);
 
   };
 }
