@@ -169,6 +169,12 @@ namespace TL {
      */
     float sampleCrossSection() const;
 
+    /// Raw cross section from TopDataPreparation
+    float sampleRawCrossSection() const;
+
+    /// k-factor from TopDataPreparation
+    float sampleKfactor() const;
+
     /// get a luminosity weight associated with the sample
     /**
      *  This function uses the cross section and sum of weights to
