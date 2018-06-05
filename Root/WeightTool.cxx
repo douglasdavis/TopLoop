@@ -135,6 +135,20 @@ float TL::WeightTool::sampleCrossSection() const {
   return xsec;
 }
 
+float TL::WeightTool::sampleRawCrossSection() const {
+  auto dsid  = m_alg->get_dsid();
+  auto rxsec = m_xsec->getRawXsection(dsid);
+  logger()->debug("Retrieving raw cross section for sample {}: {} pb",dsid,rxsec);
+  return rxsec;
+}
+
+float TL::WeightTool::sampleKfactor() const {
+  auto dsid = m_alg->get_dsid();
+  auto kf   = m_xsec->getKfactor(dsid);
+  logger()->debug("Retrieving k-factor for sample {}: {}",dsid,kf);
+  return kf;
+}
+
 float TL::WeightTool::luminosityWeight(const std::vector<TL::kCampaign>& campaigns,
                                        const float lumi) {
   auto xs    = sampleCrossSection();
