@@ -190,6 +190,10 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(ee_2016,Int_t,m_reader);
   CONNECT_BRANCH(mumu_2015,Int_t,m_reader);
   CONNECT_BRANCH(mumu_2016,Int_t,m_reader);
+  CONNECT_BRANCH(ejets_2015,Int_t,m_reader);
+  CONNECT_BRANCH(ejets_2016,Int_t,m_reader);
+  CONNECT_BRANCH(mujets_2015,Int_t,m_reader);
+  CONNECT_BRANCH(mujets_2016,Int_t,m_reader);
   CONNECT_BRANCH(emu_2015,Int_t,m_reader);
   CONNECT_BRANCH(emu_2016,Int_t,m_reader);
   CONNECT_BRANCH(eee_2015,Int_t,m_reader);
@@ -206,17 +210,21 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(HLT_e140_lhloose_nod0,Char_t,m_reader);
   CONNECT_BRANCH(HLT_e120_lhloose,Char_t,m_reader);
   CONNECT_BRANCH(HLT_e24_lhmedium_L1EM20VH,Char_t,m_reader);
+  CONNECT_BRANCH(HLT_e24_lhmedium_nod0_L1EM18VH,Char_t,m_reader);
   CONNECT_BRANCH(HLT_mu50,Char_t,m_reader);
+  CONNECT_BRANCH(HLT_mu24,Char_t,m_reader);
   CONNECT_BRANCH(HLT_e60_lhmedium,Char_t,m_reader);
   CONNECT_BRANCH(HLT_mu20_iloose_L1MU15,Char_t,m_reader);
   CONNECT_BRANCH(el_trigMatch_HLT_e60_lhmedium_nod0,std::vector<char>,m_reader);
   CONNECT_BRANCH(el_trigMatch_HLT_e120_lhloose,std::vector<char>,m_reader);
   CONNECT_BRANCH(el_trigMatch_HLT_e24_lhmedium_L1EM20VH,std::vector<char>,m_reader);
+  CONNECT_BRANCH(el_trigMatch_HLT_e24_lhmedium_nod0_L1EM18VH,std::vector<char>,m_reader);
   CONNECT_BRANCH(el_trigMatch_HLT_e60_lhmedium,std::vector<char>,m_reader);
   CONNECT_BRANCH(el_trigMatch_HLT_e26_lhtight_nod0_ivarloose,std::vector<char>,m_reader);
   CONNECT_BRANCH(el_trigMatch_HLT_e140_lhloose_nod0,std::vector<char>,m_reader);
   CONNECT_BRANCH(mu_trigMatch_HLT_mu26_ivarmedium,std::vector<char>,m_reader);
   CONNECT_BRANCH(mu_trigMatch_HLT_mu50,std::vector<char>,m_reader);
+  CONNECT_BRANCH(mu_trigMatch_HLT_mu24,std::vector<char>,m_reader);
   CONNECT_BRANCH(mu_trigMatch_HLT_mu20_iloose_L1MU15,std::vector<char>,m_reader);
   CONNECT_BRANCH(lbn,UInt_t,m_reader);
   CONNECT_BRANCH(Vtxz,Float_t,m_reader);
@@ -321,8 +329,8 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(mu_weight_isolSF_tight_MU_SF_Isol_SYST_DOWN,std::vector<float>,m_reader);
 
   // required for fakes
-  CONNECT_BRANCH(weight_mm_ejets,Float_t,m_reader);
-  CONNECT_BRANCH(weight_mm_mujets,Float_t,m_reader);
+//  CONNECT_BRANCH(weight_mm_ejets,Float_t,m_reader);
+//  CONNECT_BRANCH(weight_mm_mujets,Float_t,m_reader);
 
 
   return TL::StatusCode::SUCCESS;
