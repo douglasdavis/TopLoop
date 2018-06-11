@@ -66,7 +66,7 @@ TL::SampleMetaSvc::SampleMetaSvc() : TL::Loggable("TL::SampleMetaSvc") {
     { TL::kCampaign::MC16e, j_camp.at("MC16e").get<float>() } ,
     { TL::kCampaign::MC16f, j_camp.at("MC16f").get<float>() }
   };
-
+  m_campaignLumis.emplace(TL::kCampaign::Data,0.0);
 }
 
 //___________________________________________________________________

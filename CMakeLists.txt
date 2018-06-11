@@ -27,6 +27,8 @@ configure_file(
   @ONLY
 )
 
+option(SgTopNtuple_v22 "Compile for use with v22 or earlier SgTop Ntuples" OFF)
+
 # This package depends on other packages:
 atlas_depends_on_subdirs(
   PUBLIC
@@ -57,6 +59,10 @@ atlas_add_dictionary( TopLoopDict
   LINK_LIBRARIES TopLoop )
 
 target_compile_features( TopLoop PUBLIC cxx_std_14 )
+
+if(SgTopNtuple_v22)
+  target_compile_definitions(TopLoop PUBLIC -DSGTOPNTUPLE_V22=1)
+endif()
 
 # Install data files from the package:
 atlas_install_data( data/* )
