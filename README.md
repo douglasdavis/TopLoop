@@ -98,7 +98,7 @@ structure is intuitive.
 
 ## API Documentation
 
-Doxygen documentation can be found here: http://ddavis.web.cern.ch/ddavis/TopLoopDoc/
+Doxygen documentation can be found here: http://twrun2.web.cern.ch/TopLoopDocs/
 
 ## Example Algorithm
 
