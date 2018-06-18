@@ -243,6 +243,18 @@
             "Generator": "PowhegPythia8_dil",
             "InitialState": "tW_DS",
             "SampleType": "Systematic"
+        },
+        {
+            "DSID_range": [411034,411037],
+            "Generator": "PowhegHerwig7",
+            "InitialState": "tW_DR",
+            "SampleType": "Systematic"
+        },
+        {
+            "DSID_range": [411038,411039],
+            "Generator": "PowhegHerwig7_dil",
+            "InitialState": "tW_DR",
+            "SampleType": "Systematic"
         }
     ],
     "Zjets": [
