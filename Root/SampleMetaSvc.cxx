@@ -109,6 +109,7 @@ void TL::SampleMetaSvc::setupMaps() {
     { "PowhegHerwig"         , TL::kGenerator::PowhegHerwig      } ,
     { "PowhegHerwigpp"       , TL::kGenerator::PowhegHerwigpp    } ,
     { "PowhegHerwig7"        , TL::kGenerator::PowhegHerwig7     } ,
+    { "PowhegHerwig7_dil"    , TL::kGenerator::PowhegHerwig7_dil } ,
     { "Sherpa21"             , TL::kGenerator::Sherpa21          } ,
     { "Sherpa22"             , TL::kGenerator::Sherpa22          } ,
     { "Sherpa221"            , TL::kGenerator::Sherpa221         } ,

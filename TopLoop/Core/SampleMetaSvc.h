@@ -40,7 +40,7 @@ namespace TL {
     PowhegHerwig      , PowhegHerwigpp    , Sherpa21          , Sherpa22          ,
     Sherpa221         , MadgraphPythia    , MadgraphPythia8   , aMCatNLOPythia8   ,
     aMCatNLOHerwig    , aMCatNLOHerwigpp  , PowhegPythia8_dil , PowhegPythia6_dil ,
-    PowhegHerwig7     , Sherpa222
+    PowhegHerwig7     , PowhegHerwig7_dil , Sherpa222
   };
 
   enum class kSampleType {
