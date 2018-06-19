@@ -66,6 +66,19 @@ double TL::EDM::deltapT(const TL::EDM::PhysObjList& system1,
   return (v1.Pt() - v2.Pt());
 }
 
+double TL::EDM::deltaphi(const TL::EDM::PhysObjList& system1,
+                         const TL::EDM::PhysObjList& system2) {
+  TLorentzVector v1{0,0,0,0};
+  TLorentzVector v2{0,0,0,0};
+  for ( const auto& obj : system1 ) {
+    v1 += obj.p4();
+  }
+  for ( const auto& obj : system2 ) {
+    v2 += obj.p4();
+  }
+  return v1.DeltaPhi(v2);
+}
+
 double TL::EDM::transverseMass(const TL::EDM::PhysicsObject& obj1,
                                const TL::EDM::PhysicsObject& obj2) {
   return std::sqrt(2*obj1.pT()*obj2.pT()*

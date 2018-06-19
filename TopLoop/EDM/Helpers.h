@@ -117,6 +117,15 @@ namespace TL {
      */
     double deltapT(const PhysObjList& system1, const PhysObjList& system2);
 
+    /// Calculate \f$\Delta \phi\f$ between systems of objects.
+    /**
+     *  The result is wrapped to the interval \f$[-\pi, \pi)\f$.
+     *
+     *  @param system1 list of objects (inheriting from TL::EDM::PhysicsObject) in system 1.
+     *  @param system2 list of objects (inheriting from TL::EDM::PhysicsObject) in system 2.
+     */
+    double deltaphi(const PhysObjList& system1, const PhysObjList& system2);
+
     /// Calculate the transverse mass (\f$m_{\mathrm{T}}\f$) of two object system.
     /**
      *  The transverse mass is defined as
