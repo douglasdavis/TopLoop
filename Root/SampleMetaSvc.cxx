@@ -100,25 +100,26 @@ void TL::SampleMetaSvc::setupMaps() {
     { "schan"                , TL::kInitialState::schan          }
   };
   m_s2e_G = {
-    { "Unknown"              , TL::kGenerator::Unknown           } ,
-    { "Data"                 , TL::kGenerator::Data              } ,
-    { "PowhegPythia6"        , TL::kGenerator::PowhegPythia6     } ,
-    { "PowhegPythia6_dil"    , TL::kGenerator::PowhegPythia6_dil } ,
-    { "PowhegPythia8"        , TL::kGenerator::PowhegPythia8     } ,
-    { "PowhegPythia8_dil"    , TL::kGenerator::PowhegPythia8_dil } ,
-    { "PowhegHerwig"         , TL::kGenerator::PowhegHerwig      } ,
-    { "PowhegHerwigpp"       , TL::kGenerator::PowhegHerwigpp    } ,
-    { "PowhegHerwig7"        , TL::kGenerator::PowhegHerwig7     } ,
-    { "PowhegHerwig7_dil"    , TL::kGenerator::PowhegHerwig7_dil } ,
-    { "Sherpa21"             , TL::kGenerator::Sherpa21          } ,
-    { "Sherpa22"             , TL::kGenerator::Sherpa22          } ,
-    { "Sherpa221"            , TL::kGenerator::Sherpa221         } ,
-    { "Sherpa222"            , TL::kGenerator::Sherpa222         } ,
-    { "MadgraphPythia"       , TL::kGenerator::MadgraphPythia    } ,
-    { "MadgraphPythia8"      , TL::kGenerator::MadgraphPythia8   } ,
-    { "aMCatNLOPythia8"      , TL::kGenerator::aMCatNLOPythia8   } ,
-    { "aMCatNLOHerwig"       , TL::kGenerator::aMCatNLOHerwig    } ,
-    { "aMCatNLOHerwigpp"     , TL::kGenerator::aMCatNLOHerwigpp  }
+    { "Unknown"              , TL::kGenerator::Unknown             } ,
+    { "Data"                 , TL::kGenerator::Data                } ,
+    { "PowhegPythia6"        , TL::kGenerator::PowhegPythia6       } ,
+    { "PowhegPythia6_dil"    , TL::kGenerator::PowhegPythia6_dil   } ,
+    { "PowhegPythia8"        , TL::kGenerator::PowhegPythia8       } ,
+    { "PowhegPythia8_dil"    , TL::kGenerator::PowhegPythia8_dil   } ,
+    { "PowhegHerwig"         , TL::kGenerator::PowhegHerwig        } ,
+    { "PowhegHerwigpp"       , TL::kGenerator::PowhegHerwigpp      } ,
+    { "PowhegHerwig7"        , TL::kGenerator::PowhegHerwig7       } ,
+    { "PowhegHerwig7_dil"    , TL::kGenerator::PowhegHerwig7_dil   } ,
+    { "Sherpa21"             , TL::kGenerator::Sherpa21            } ,
+    { "Sherpa22"             , TL::kGenerator::Sherpa22            } ,
+    { "Sherpa221"            , TL::kGenerator::Sherpa221           } ,
+    { "Sherpa222"            , TL::kGenerator::Sherpa222           } ,
+    { "MadgraphPythia"       , TL::kGenerator::MadgraphPythia      } ,
+    { "MadgraphPythia8"      , TL::kGenerator::MadgraphPythia8     } ,
+    { "aMCatNLOPythia8"      , TL::kGenerator::aMCatNLOPythia8     } ,
+    { "aMCatNLOPythia8_dil"  , TL::kGenerator::aMCatNLOPythia8_dil } ,
+    { "aMCatNLOHerwig"       , TL::kGenerator::aMCatNLOHerwig      } ,
+    { "aMCatNLOHerwigpp"     , TL::kGenerator::aMCatNLOHerwigpp    }
   };
   m_s2e_ST = {
     { "Unknown"              , TL::kSampleType::Unknown          } ,
@@ -251,7 +252,7 @@ void TL::SampleMetaSvc::printInfo(const int dsid) const {
 
 void TL::SampleMetaSvc::dump() {
   for ( const auto& entry : m_sampleTable ) {
-    logger()->info("* {:>7} * {:>9} * {:>18} * {:>10} *",
+    logger()->info("* {:>7} * {:>9} * {:>20} * {:>10} *",
                    entry.first,
                    as_string(std::get<0>(entry.second)),
                    as_string(std::get<1>(entry.second)),
