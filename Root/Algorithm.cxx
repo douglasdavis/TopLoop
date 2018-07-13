@@ -75,13 +75,13 @@ TL::StatusCode TL::Algorithm::setFileManager(std::unique_ptr<TL::FileManager> fm
 
 void TL::Algorithm::checkRelease() {
   /*** Figuring out if we're using release 20.7 sample ***/
-  auto rucioDirStr         = fileManager()->rucioDir();
-  bool data15couldBeRel207 = boost::algorithm::contains(rucioDirStr,"p2950");
-  auto camp                = TL::SampleMetaSvc::get().getCampaign(rucioDirStr);
+  auto rucioDirStr       = fileManager()->rucioDir();
+  bool dataCouldBeRel207 = boost::algorithm::contains(rucioDirStr,"p2950");
+  auto camp              = TL::SampleMetaSvc::get().getCampaign(rucioDirStr);
   if ( isMC() && (camp == TL::kCampaign::MC15c) ) {
     m_isRel207 = true;
   }
-  else if ( isData() && data15couldBeRel207 ) {
+  else if ( isData() && dataCouldBeRel207 ) {
     m_isRel207 = true;
   }
   else {
