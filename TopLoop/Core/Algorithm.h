@@ -41,6 +41,7 @@ namespace TL {
     bool          m_isNominal{true};
     bool          m_isNominal_Loose{false};
     bool          m_initCalled{false};
+    bool          m_isRel207{false};
 
     long m_totalEntries{0};
     long m_eventCounter{0};
@@ -77,6 +78,9 @@ namespace TL {
      *  before feeding to the TL::Job object.
      */
     TL::StatusCode setFileManager(std::unique_ptr<TL::FileManager> fm);
+
+    /// uses the FileManager and SampleMetaSvc to check the release
+    void checkRelease();
 
   private:
     /// connect all of the default branches
@@ -167,6 +171,8 @@ namespace TL {
     bool isNominal_Loose() const;
     /// get is systematic (for readability, true if not nominal or nominal_Loose)
     bool isSystematic()    const;
+    /// get if the sample is release 20.7
+    bool isRel207()        const;
     /// get the current event counter (not eventNumber!)
     long eventCount()      const;
 
@@ -234,6 +240,7 @@ inline bool TL::Algorithm::isFake()          const { return m_isFake;           
 inline bool TL::Algorithm::isNominal()       const { return m_isNominal;                         }
 inline bool TL::Algorithm::isNominal_Loose() const { return m_isNominal_Loose;                   }
 inline bool TL::Algorithm::isSystematic()    const { return !(m_isNominal || m_isNominal_Loose); }
+inline bool TL::Algorithm::isRel207()        const { return m_isRel207;                          }
 inline long TL::Algorithm::eventCount()      const { return m_eventCounter;                      }
 
 #endif

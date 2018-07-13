@@ -21,6 +21,8 @@ namespace TL {
     private:
       float m_ptvarcone30;
 
+      bool m_isManualTruthPrompt{false};
+
     public:
       /// default constructor
       Muon() : TL::EDM::Lepton(13) {}
@@ -40,6 +42,8 @@ namespace TL {
 
       void set_ptvarcone30(const float val);
 
+      void set_isManualTruthPrompt(const bool val);
+
       /// @}
 
       /// @name getters
@@ -50,6 +54,9 @@ namespace TL {
       /// if the muon is matched to an IsoMuon in MC
       bool isTruthPrompt() const;
 
+      /// if the manual promptness is flag
+      bool isManualTruthPrompt() const;
+
       /// @}
 
     };
@@ -59,10 +66,18 @@ namespace TL {
 
 inline void TL::EDM::Muon::set_ptvarcone30(const float val) { m_ptvarcone30 = val; }
 
+inline void TL::EDM::Muon::set_isManualTruthPrompt(const bool val) {
+  m_isManualTruthPrompt = val;
+}
+
 inline float TL::EDM::Muon::ptvarcone30() const { return m_ptvarcone30; }
 
 inline bool TL::EDM::Muon::isTruthPrompt() const {
   return (true_type() == MCTruthPartClassifier::ParticleType::IsoMuon);
+}
+
+inline bool TL::EDM::Muon::isManualTruthPrompt() const {
+  return m_isManualTruthPrompt;
 }
 
 #endif

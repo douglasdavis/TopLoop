@@ -44,6 +44,8 @@ namespace TL {
       const TLorentzVector& p4() const;
 
       /// get the \f$p_\mathrm{T}\f$.
+      float pt()   const;
+      /// get the \f$p_\mathrm{T}\f$.
       float pT()   const;
       /// get the pseudorapidity, \f$\eta\f$.
       float eta()  const;
@@ -70,6 +72,7 @@ namespace TL {
 inline const TLorentzVector& TL::EDM::PhysicsObject::p4() const { return m_p; }
 inline       TLorentzVector& TL::EDM::PhysicsObject::p4()       { return m_p; }
 
+inline float TL::EDM::PhysicsObject::pt()   const { return m_p.Pt();            }
 inline float TL::EDM::PhysicsObject::pT()   const { return m_p.Pt();            }
 inline float TL::EDM::PhysicsObject::eta()  const { return m_p.Eta();           }
 inline float TL::EDM::PhysicsObject::aeta() const { return std::abs(m_p.Eta()); }

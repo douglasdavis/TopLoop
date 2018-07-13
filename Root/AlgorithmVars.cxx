@@ -135,6 +135,8 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(el_delta_z0_sintheta,std::vector<float>,m_reader);
   CONNECT_BRANCH(el_true_type,std::vector<int>,m_reader);
   CONNECT_BRANCH(el_true_origin,std::vector<int>,m_reader);
+  CONNECT_BRANCH(el_true_originbkg,std::vector<int>,m_reader);
+  CONNECT_BRANCH(el_true_typebkg,std::vector<int>,m_reader);
   CONNECT_BRANCH(el_true_firstEgMotherTruthType,std::vector<int>,m_reader);
   CONNECT_BRANCH(el_true_firstEgMotherTruthOrigin,std::vector<int>,m_reader);
   CONNECT_BRANCH(el_true_isPrompt,std::vector<char>,m_reader);

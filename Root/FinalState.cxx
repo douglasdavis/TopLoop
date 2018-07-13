@@ -18,32 +18,26 @@ void TL::EDM::FinalState::makeLeptonPairs() {
   }
 }
 
-void TL::EDM::FinalState::evaluateSelf(bool sort_leptons) {
+void TL::EDM::FinalState::evaluateSelf(bool sort_leptons, bool manual_promptness) {
   m_hasFakeElectronMC = false;
   m_hasFakeMuonMC     = false;
   for ( const TL::EDM::Electron& el : m_electrons ) {
     addLepton(el);
-#ifdef SGTOPNTUPLE_V22
-    if ( not el.isTruthPrompt() ) {
-      m_hasFakeElectronMC = true;
+    if ( manual_promptness ) {
+      if ( not el.isManualTruthPrompt() ) m_hasFakeElectronMC = true;
     }
-#else
-    if ( not el.true_isPrompt() ) {
-      m_hasFakeElectronMC = true;
+    else {
+      if ( not el.true_isPrompt() ) m_hasFakeElectronMC = true;
     }
-#endif
   }
   for ( const TL::EDM::Muon& mu : m_muons ) {
     addLepton(mu);
-#ifdef SGTOPNTUPLE_V22
-    if ( not mu.isTruthPrompt() ) {
-      m_hasFakeMuonMC = true;
+    if ( manual_promptness ) {
+      if ( not mu.isManualTruthPrompt() ) m_hasFakeMuonMC = true;
     }
-#else
-    if ( not mu.true_isPrompt() ) {
-      m_hasFakeMuonMC = true;
+    else {
+      if ( not mu.true_isPrompt() ) m_hasFakeMuonMC = true;
     }
-#endif
   }
   if ( sort_leptons ) {
     std::sort(m_leptons.begin(),m_leptons.end(),

@@ -173,6 +173,8 @@ namespace TL {
     DECLARE_BRANCH(el_delta_z0_sintheta                                  , std::vector<float> );
     DECLARE_BRANCH(el_true_type                                          , std::vector<int>   );
     DECLARE_BRANCH(el_true_origin                                        , std::vector<int>   );
+    DECLARE_BRANCH(el_true_originbkg                                     , std::vector<int>   );
+    DECLARE_BRANCH(el_true_typebkg                                       , std::vector<int>   );
     DECLARE_BRANCH(el_true_firstEgMotherTruthType                        , std::vector<int>   );
     DECLARE_BRANCH(el_true_firstEgMotherTruthOrigin                      , std::vector<int>   );
     DECLARE_BRANCH(el_true_isPrompt                                      , std::vector<char>  );

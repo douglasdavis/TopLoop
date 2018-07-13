@@ -23,29 +23,23 @@
 
 namespace TL {
 
-  enum class kCampaign {
-    Unknown, Data, MC16a, MC16c, MC16d, MC16e, MC16f
+  enum class kCampaign { Unknown, Data, MC15c, MC16a, MC16c, MC16d, MC16e, MC16f };
+
+  enum class kInitialState { Unknown  , Data     , ttbar   , tW       ,
+                             tW_DR    , tW_DS    , ttt     , tttt     ,
+                             Zjets    , Wjets    , WW      , WZ       ,
+                             ZZ       , Diboson  , ttbarZ  , ttbarW   ,
+                             ttbarll  , ttH      , tchan   , schan
   };
 
-  enum class kInitialState {
-    Unknown  , Data     , ttbar   , tW       ,
-    tW_DR    , tW_DS    , ttt     , tttt     ,
-    Zjets    , Wjets    , WW      , WZ       ,
-    ZZ       , Diboson  , ttbarZ  , ttbarW   ,
-    ttbarll  , ttH      , tchan   , schan
+  enum class kGenerator { Unknown           , Data              , PowhegPythia6     , PowhegPythia8       ,
+                          PowhegHerwig      , PowhegHerwigpp    , Sherpa21          , Sherpa22            ,
+                          Sherpa221         , MadgraphPythia    , MadgraphPythia8   , aMCatNLOPythia8     ,
+                          aMCatNLOHerwig    , aMCatNLOHerwigpp  , PowhegPythia8_dil , PowhegPythia6_dil   ,
+                          PowhegHerwig7     , PowhegHerwig7_dil , Sherpa222         , aMCatNLOPythia8_dil
   };
 
-  enum class kGenerator {
-    Unknown           , Data              , PowhegPythia6     , PowhegPythia8       ,
-    PowhegHerwig      , PowhegHerwigpp    , Sherpa21          , Sherpa22            ,
-    Sherpa221         , MadgraphPythia    , MadgraphPythia8   , aMCatNLOPythia8     ,
-    aMCatNLOHerwig    , aMCatNLOHerwigpp  , PowhegPythia8_dil , PowhegPythia6_dil   ,
-    PowhegHerwig7     , PowhegHerwig7_dil , Sherpa222         , aMCatNLOPythia8_dil
-  };
-
-  enum class kSampleType {
-    Unknown, Data, Nominal, Systematic
-  };
+  enum class kSampleType { Unknown, Data, Nominal, Systematic };
 
 }
 
