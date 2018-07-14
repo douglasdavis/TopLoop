@@ -9,6 +9,7 @@
 #include <TopLoop/Core/Algorithm.h>
 #include <TopLoop/Core/Utils.h>
 #include <TopLoop/Core/FileManager.h>
+#include <TopLoop/tqdm/tqdm.h>
 
 TL::Job::Job() : TL::Loggable("TL::Job") {}
 
@@ -41,7 +42,10 @@ TL::StatusCode TL::Job::run() {
   }
   TL_CHECK(m_algorithm->setupOutput());
   m_algorithm->reader()->Restart();
+  tqdm bar;
+  bar.set_theme_braille_spin();
   while ( m_algorithm->reader()->Next() ) {
+    bar.progress(m_algorithm->m_eventCounter,m_algorithm->m_totalEntries);
     TL_CHECK(m_algorithm->execute());
   }
   TL_CHECK(m_algorithm->finish());

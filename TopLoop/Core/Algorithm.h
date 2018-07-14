@@ -43,8 +43,8 @@ namespace TL {
     bool          m_initCalled{false};
     bool          m_isRel207{false};
 
-    long m_totalEntries{0};
-    long m_eventCounter{0};
+    std::size_t m_totalEntries{0};
+    std::size_t m_eventCounter{0};
 
     std::unique_ptr<TL::FileManager> m_fm{nullptr};
     std::shared_ptr<TTreeReader>     m_reader{nullptr};

@@ -91,7 +91,7 @@ void TL::Algorithm::checkRelease() {
     logger()->warn("*********************************************************************************");
     logger()->warn("* TopLoop was designed with release 21 as a first class citizen, not 20.7!      *");
     logger()->warn("* It _looks_ like you're using release 20.7, I hope you know what you're doing! *");
-    logger()->warn("* I'm not 100% sure you're using, it's an educated guess.. see the code!        *");
+    logger()->warn("* I'm not 100% sure you're using 20.7, it's an educated guess.. see the code!   *");
     logger()->warn("*********************************************************************************");
   }
 }
