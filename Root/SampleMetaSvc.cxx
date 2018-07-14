@@ -60,11 +60,12 @@ TL::SampleMetaSvc::SampleMetaSvc() : TL::Loggable("TL::SampleMetaSvc") {
   }
   auto j_camp = nlohmann::json::parse(camp_in);
   m_campaignLumis = {
-    { TL::kCampaign::MC16a, j_camp.at("MC16a").get<float>() } ,
-    { TL::kCampaign::MC16c, j_camp.at("MC16c").get<float>() } ,
-    { TL::kCampaign::MC16d, j_camp.at("MC16d").get<float>() } ,
-    { TL::kCampaign::MC16e, j_camp.at("MC16e").get<float>() } ,
-    { TL::kCampaign::MC16f, j_camp.at("MC16f").get<float>() }
+                     { TL::kCampaign::MC15c, j_camp.at("MC15c").get<float>() } ,
+                     { TL::kCampaign::MC16a, j_camp.at("MC16a").get<float>() } ,
+                     { TL::kCampaign::MC16c, j_camp.at("MC16c").get<float>() } ,
+                     { TL::kCampaign::MC16d, j_camp.at("MC16d").get<float>() } ,
+                     { TL::kCampaign::MC16e, j_camp.at("MC16e").get<float>() } ,
+                     { TL::kCampaign::MC16f, j_camp.at("MC16f").get<float>() }
   };
   m_campaignLumis.emplace(TL::kCampaign::Data,0.0);
 }
@@ -134,7 +135,8 @@ void TL::SampleMetaSvc::setupMaps() {
     { "MC16c"                , TL::kCampaign::MC16c              } ,
     { "MC16d"                , TL::kCampaign::MC16d              } ,
     { "MC16e"                , TL::kCampaign::MC16e              } ,
-    { "MC16f"                , TL::kCampaign::MC16f              }
+    { "MC16f"                , TL::kCampaign::MC16f              } ,
+    { "MC15c"                , TL::kCampaign::MC15c              }
   };
   auto flipMap = [](const auto& templateMap, auto& newMap) {
     for ( auto const& templatePair : templateMap ) {
@@ -147,9 +149,10 @@ void TL::SampleMetaSvc::setupMaps() {
   flipMap(m_s2e_C,  m_e2s_C);
 
   m_rTags = {
-    { "r9364"  , TL::kCampaign::MC16a } ,
-    { "r9781"  , TL::kCampaign::MC16c } ,
-    { "r10201" , TL::kCampaign::MC16d } ,
+             {"r7676"   , TL::kCampaign::MC15c } ,
+             { "r9364"  , TL::kCampaign::MC16a } ,
+             { "r9781"  , TL::kCampaign::MC16c } ,
+             { "r10201" , TL::kCampaign::MC16d } ,
   };
 
 }

@@ -67,9 +67,11 @@ namespace TL {
       /// process the physics objects to set some final state properties.
       /**
        *  @param sort_leptons flag to apply std::sort to the lepton
-       *  container
+       *  container.
+       *  @param manual_promptness flag to use the isManualPrompt for
+       *  electron promptness determination.
        */
-      void evaluateSelf(bool sort_leptons = true);
+      void evaluateSelf(bool sort_leptons = true, bool manual_promptness = false);
 
       /// @}
 
