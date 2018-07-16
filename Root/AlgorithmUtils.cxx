@@ -33,7 +33,7 @@ bool TL::Algorithm::sampleIsAFII() {
   return (branch_value > 0);
 }
 
-void TL::Algorithm::printProgress(int n_prints) const {
+void TL::Algorithm::printProgress(const unsigned int n_prints) const {
   if (m_totalEntries > n_prints) {
     int gap = m_totalEntries / n_prints;
     if (m_eventCounter % gap == 0) {

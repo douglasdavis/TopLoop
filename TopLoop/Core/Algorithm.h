@@ -220,7 +220,7 @@ namespace TL {
 
   protected:
     /// Print the progess of the event loop (percent done)
-    void printProgress(int n_prints = 10) const;
+    void printProgress(const unsigned int n_prints = 10) const;
 
   private:
 
