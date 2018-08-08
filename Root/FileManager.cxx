@@ -76,6 +76,8 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
     logger()->info("Determined DSID: {}", m_dsid);
   }
 
+  std::vector<std::string> checkForDupes;
+
   for ( const auto& i : fs::directory_iterator(p) ) {
     if ( !fs::is_directory(i.path()) ) {
       auto whole_path = i.path();
@@ -83,6 +85,11 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
         continue;
       }
       logger()->info("Adding file: {}",whole_path.string());
+
+      std::vector<std::string> dupeSplits;
+      boost::algorithm::split(dupeSplits,i.path().filename().string(),boost::is_any_of("."));
+      checkForDupes.emplace_back(dupeSplits.at(2)+dupeSplits.at(3));
+
       std::string final_path = whole_path.string();
       // if the file doesn't end in .root, make it end in .root
       // because ROOT is insane.
@@ -104,6 +111,21 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
   if ( m_fileNames.empty() ) {
     logger()->error("Directory {} doesn't contain any files!", dp);
   }
+
+  // check for duplicate {[job number].[file number]} combos
+  std::sort(std::begin(checkForDupes),std::end(checkForDupes));
+  auto uniq = std::unique(std::begin(checkForDupes),std::end(checkForDupes));
+  if ( uniq != std::end(checkForDupes) ) {
+    logger()->error("You have duplicate files in your dataset!");
+    return;
+  }
+
+  // check for exact ducplicate filenames
+  if ( std::unique(std::begin(m_fileNames),std::end(m_fileNames)) != std::end(m_fileNames) ) {
+    logger()->error("You have duplicate files in your dataset!");
+    return;
+  }
+
 }
 
 void TL::FileManager::feedTxt(const std::string& txtfilename) {
