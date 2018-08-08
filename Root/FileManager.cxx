@@ -112,11 +112,20 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
     logger()->error("Directory {} doesn't contain any files!", dp);
   }
 
+  // check for duplicate {[job number].[file number]} combos
   std::sort(std::begin(checkForDupes),std::end(checkForDupes));
   auto uniq = std::unique(std::begin(checkForDupes),std::end(checkForDupes));
   if ( uniq != std::end(checkForDupes) ) {
     logger()->error("You have duplicate files in your dataset!");
+    return;
   }
+
+  // check for exact ducplicate filenames
+  if ( std::unique(std::begin(m_fileNames),std::end(m_fileNames)) != std::end(m_fileNames) ) {
+    logger()->error("You have duplicate files in your dataset!");
+    return;
+  }
+
 }
 
 void TL::FileManager::feedTxt(const std::string& txtfilename) {
