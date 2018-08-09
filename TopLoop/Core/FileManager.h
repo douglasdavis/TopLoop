@@ -83,7 +83,7 @@ namespace TL {
      *  process
      *  @param take_all take all files no matter what the extension is
      */
-    void feedDir(const std::string& dirpath, const bool take_all=false);
+    void feedDir(const std::string& dirpath, const unsigned int max_files = 10000);
 
     /// Feed the chains with files listed in a text file.
     void feedTxt(const std::string& txtfilename);

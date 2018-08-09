@@ -54,7 +54,7 @@ TL::StatusCode TL::FileManager::initChain() {
   return TL::StatusCode::SUCCESS;
 }
 
-void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
+void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max_files) {
   TL_CHECK(initChain());
   std::string dp{dirpath};
   if ( boost::algorithm::ends_with(dp,"/") ) {
@@ -79,9 +79,13 @@ void TL::FileManager::feedDir(const std::string& dirpath, const bool take_all) {
   std::vector<std::string> checkForDupes;
 
   for ( const auto& i : fs::directory_iterator(p) ) {
+    if ( m_fileNames.size() >= max_files ) {
+      logger()->warn("Breaking file feeding loop at {} files",max_files);
+      break;
+    }
     if ( !fs::is_directory(i.path()) ) {
       auto whole_path = i.path();
-      if ( whole_path.filename().string().find(".root") == std::string::npos && !take_all ) {
+      if ( whole_path.filename().string().find(".root") == std::string::npos ) {
         continue;
       }
       logger()->info("Adding file: {}",whole_path.string());
