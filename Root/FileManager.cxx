@@ -25,14 +25,6 @@ namespace fs = boost::filesystem;
 
 TL::FileManager::FileManager() : TL::Loggable("TL::FileManager") {}
 
-TL::FileManager::~FileManager() {
-  // rename the renamed files back to original names
-  for ( const auto& entry : m_renames ) {
-    logger()->debug("Renaming {} back to {}",entry.second,entry.first);
-    fs::rename(entry.second,entry.first);
-  }
-}
-
 void TL::FileManager::setTreeName(const std::string& tn) {
   m_treeName = tn;
 }
@@ -60,7 +52,6 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
   if ( boost::algorithm::ends_with(dp,"/") ) {
     dp.pop_back();
   }
-  logger()->info("Feeding from {}", dp);
   fs::path p(dp);
 
   std::vector<std::string> splits;
@@ -76,9 +67,27 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
     logger()->info("Determined DSID: {}", m_dsid);
   }
 
+  fs::path loop_over = p;
+  if ( boost::algorithm::ends_with(p.string(),"root") ) {
+    fs::path full_rdd     = fs::absolute(p);
+    fs::path full_parent  = full_rdd.parent_path();
+    std::string lose_root = m_rucioDirName;
+    boost::replace_all(lose_root,".root","");
+    std::string symlink_name = full_parent.string() + "/" + lose_root;
+    if ( !fs::exists(symlink_name) ) {
+      logger()->info("Creating symlink {} to avoid TChain::Add bug",symlink_name);
+      fs::create_symlink(full_rdd,symlink_name);
+    }
+    else {
+      logger()->info("Using existing symlink {} to avoid TChain::Add bug",symlink_name);
+    }
+    loop_over = fs::path(symlink_name);
+  }
+  logger()->info("Feeding from {}", loop_over.string());
+
   std::vector<std::string> checkForDupes;
 
-  for ( const auto& i : fs::directory_iterator(p) ) {
+  for ( const auto& i : fs::directory_iterator(loop_over) ) {
     if ( m_fileNames.size() >= max_files ) {
       logger()->warn("Breaking file feeding loop at {} files",max_files);
       break;
@@ -88,22 +97,13 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
       if ( whole_path.filename().string().find(".root") == std::string::npos ) {
         continue;
       }
-      logger()->info("Adding file: {}",whole_path.string());
+      logger()->info("Adding file: {}",whole_path.filename().string());
 
       std::vector<std::string> dupeSplits;
       boost::algorithm::split(dupeSplits,i.path().filename().string(),boost::is_any_of("."));
       checkForDupes.emplace_back(dupeSplits.at(2)+dupeSplits.at(3));
 
       std::string final_path = whole_path.string();
-      // if the file doesn't end in .root, make it end in .root
-      // because ROOT is insane.
-      if ( not boost::algorithm::ends_with(final_path,"root") ) {
-        m_renames.emplace(final_path,final_path+".root");
-        logger()->debug("Temporarily renaming {} to {} because ROOT is insane",
-                        final_path,final_path+".root");
-        fs::rename(final_path,final_path+".root");
-        final_path = final_path+".root";
-      }
       m_fileNames.emplace_back(final_path);
       m_rootChain->AddFile(final_path.c_str());
       m_rootWeightsChain->AddFile(final_path.c_str());
