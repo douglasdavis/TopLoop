@@ -68,12 +68,26 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
   }
 
   fs::path loop_over = p;
-  if ( boost::algorithm::ends_with(p.string(),"root") ) {
+
+  bool need_symlink = false;
+  for ( const auto& i : fs::directory_iterator(p) ) {
+    if ( fs::is_directory(i.path()) ) continue;
+    auto ipathname = i.path().string();
+    if ( not boost::algorithm::ends_with(ipathname,"root") ) {
+      need_symlink = true;
+      break;
+    }
+  }
+
+  if ( boost::algorithm::ends_with(p.string(),"root") && need_symlink ) {
     fs::path full_rdd     = fs::absolute(p);
     fs::path full_parent  = full_rdd.parent_path();
     std::string lose_root = m_rucioDirName;
     boost::replace_all(lose_root,".root","");
-    std::string symlink_name = full_parent.string() + "/" + lose_root;
+    std::string symlink_name = fs::current_path().string() + "/.TL_FileManager_symlinks/" + lose_root;
+    if ( !fs::exists(fs::current_path().string() + "/.TL_FileManager_symlinks") ) {
+      fs::create_directory(fs::current_path().string() + "/.TL_FileManager_symlinks");
+    }
     if ( !fs::exists(symlink_name) ) {
       logger()->info("Creating symlink {} to avoid TChain::Add bug",symlink_name);
       fs::create_symlink(full_rdd,symlink_name);
