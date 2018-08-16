@@ -19,13 +19,13 @@
 #include <TopDataPreparation/SampleXsectionSvc.h>
 #include <PathResolver/PathResolver.h>
 
-TL::WeightTool::WeightTool(TL::Algorithm* algorithm) :
-  TL::Loggable("TL::WeightTool"),
-  m_alg(algorithm)
-{
-  std::string XsecFile = PathResolverFindCalibFile
+TL::WeightTool::WeightTool(TL::Algorithm* algorithm)
+  : TL::Loggable("TL::WeightTool"), m_alg(algorithm) {
+  PathResolverSetOutputLevel(5);
+  std::string xsFile = PathResolverFindCalibFile
     ("dev/AnalysisTop/TopDataPreparation/XSection-MC15-13TeV.data");
-  m_xsec = SampleXsectionSvc::svc(XsecFile)->sampleXsection();
+  m_xsec = SampleXsectionSvc::svc(xsFile)->sampleXsection();
+  logger()->info("Cross section file: {}", xsFile);
 }
 
 float TL::WeightTool::generatorSumWeights() {
@@ -47,7 +47,7 @@ float TL::WeightTool::generatorSumWeights() {
   return std::get<0>(m_weightCache);
 }
 
-const std::vector<float> &TL::WeightTool::generatorVariedSumWeights() {
+const std::vector<float>& TL::WeightTool::generatorVariedSumWeights() {
   if (not std::get<1>(m_weightCache).empty()) {
     return std::get<1>(m_weightCache);
   }
@@ -77,7 +77,7 @@ const std::vector<float> &TL::WeightTool::generatorVariedSumWeights() {
   return std::get<1>(m_weightCache);
 }
 
-const std::map<std::string, std::size_t> &
+const std::map<std::string, std::size_t>&
 TL::WeightTool::generatorVariedWeightsNames() {
   if (not std::get<2>(m_weightCache).empty()) {
     return std::get<2>(m_weightCache);
@@ -94,7 +94,7 @@ TL::WeightTool::generatorVariedWeightsNames() {
   return std::get<2>(m_weightCache);
 }
 
-float TL::WeightTool::sumOfVariation(const std::string &variation_name) {
+float TL::WeightTool::sumOfVariation(const std::string& variation_name) {
   auto itr = generatorVariedWeightsNames().find(variation_name);
   if (itr == std::end(generatorVariedWeightsNames())) {
     logger()->error("Cannot find variation named {}, returning nominal!",
@@ -104,7 +104,7 @@ float TL::WeightTool::sumOfVariation(const std::string &variation_name) {
   return generatorVariedSumWeights().at(itr->second);
 }
 
-float TL::WeightTool::currentWeightOfVariation(const std::string &variation_name) {
+float TL::WeightTool::currentWeightOfVariation(const std::string& variation_name) {
   auto itr = generatorVariedWeightsNames().find(variation_name);
   if (itr == std::end(generatorVariedWeightsNames())) {
     logger()->error("Cannot find variation named {}, returning 0!",

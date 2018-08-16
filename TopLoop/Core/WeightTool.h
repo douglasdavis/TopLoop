@@ -38,7 +38,7 @@ namespace TL {
     const SampleXsection* m_xsec;
 
   public:
-    WeightTool() = delete;//fault;
+    WeightTool() = delete;
     virtual ~WeightTool() = default;
 
     WeightTool(const WeightTool&) = delete;
