@@ -54,10 +54,13 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
   }
   fs::path p(dp);
 
+  // the "rucio directory name" or "rucio dataset name" is assumed to
+  // be the path fed to this function.
   std::vector<std::string> splits;
   boost::algorithm::split(splits,dp,boost::is_any_of("/"));
   m_rucioDirName = splits.back();
 
+  // try to determine dsid from rucio directory name
   std::regex rgx("(.[0-9]{6}.)");
   std::smatch match;
   if (std::regex_search(m_rucioDirName, match, rgx)) {
@@ -67,8 +70,13 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
     logger()->info("Determined DSID: {}", m_dsid);
   }
 
+  // were going to loop over the files in a rucio download
+  // directory... nominally just the directory path given to this
+  // function... which we've defined as a path object p above
   fs::path loop_over = p;
 
+  // loop over the dataset files to determine if we need a symbolic link
+  // we need one if a file doesn't end in exactly ".root"
   bool need_symlink = false;
   for ( const auto& i : fs::directory_iterator(p) ) {
     if ( fs::is_directory(i.path()) ) continue;
@@ -79,28 +87,38 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
     }
   }
 
+  // if the dataset name ends in ".root" and a file inside
+  // doesn't... we hit the TChain::Add bug. Our workaround is to
+  // create symbolic link to the rucio dataset but remove the ".root"
+  // at the end of the dataset name.
   if ( boost::algorithm::ends_with(p.string(),"root") && need_symlink ) {
-    fs::path full_rdd     = fs::absolute(p);
-    fs::path full_parent  = full_rdd.parent_path();
+    fs::path abs_dsd     = fs::absolute(p);
+    fs::path abs_parent  = abs_dsd.parent_path();
     std::string lose_root = m_rucioDirName;
     boost::replace_all(lose_root,".root","");
-    std::string symlink_name = fs::current_path().string() + "/.TL_FileManager_symlinks/" + lose_root;
-    if ( !fs::exists(fs::current_path().string() + "/.TL_FileManager_symlinks") ) {
-      fs::create_directory(fs::current_path().string() + "/.TL_FileManager_symlinks");
+    std::string symlink_name = abs_parent.string() + "/.TL_FileManager_symlinks/" + lose_root;
+    // if hidden symlink holder doesn't exist.. make it
+    if ( !fs::exists(abs_parent.string() + "/.TL_FileManager_symlinks") ) {
+      fs::create_directory(abs_parent.string() + "/.TL_FileManager_symlinks");
     }
+    // if the required symlink doesn't already exist.. make it
     if ( !fs::exists(symlink_name) ) {
       logger()->info("Creating symlink {} to avoid TChain::Add bug",symlink_name);
-      fs::create_symlink(full_rdd,symlink_name);
+      fs::create_symlink(abs_dsd,symlink_name);
     }
     else {
       logger()->info("Using existing symlink {} to avoid TChain::Add bug",symlink_name);
     }
+    // if we ended up in this if block, we want to loop over the
+    // symlink directory.. not the original one.
     loop_over = fs::path(symlink_name);
   }
   logger()->info("Feeding from {}", loop_over.string());
 
   std::vector<std::string> checkForDupes;
 
+  // loop_over is the symobolic link if necessary. nominally it's
+  // just the standard rucio dataset directory
   for ( const auto& i : fs::directory_iterator(loop_over) ) {
     if ( m_fileNames.size() >= max_files ) {
       logger()->warn("Breaking file feeding loop at {} files",max_files);
