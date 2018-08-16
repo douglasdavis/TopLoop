@@ -30,9 +30,6 @@ namespace TL {
     std::string              m_rucioDirName     {"none"};
     unsigned int             m_dsid             {0};
 
-    /// make files ending in ".root.N" their old name again
-    std::map<std::string,std::string> m_renames{};
-
     /// initialize the ROOT TChain pointers
     TL::StatusCode initChain();
 
@@ -42,7 +39,7 @@ namespace TL {
     FileManager();
 
     /// destructor
-    virtual ~FileManager();
+    virtual ~FileManager() = default;
 
     /// @name Sample tree naming setup functions
     /**

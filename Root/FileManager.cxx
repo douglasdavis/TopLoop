@@ -25,14 +25,6 @@ namespace fs = boost::filesystem;
 
 TL::FileManager::FileManager() : TL::Loggable("TL::FileManager") {}
 
-TL::FileManager::~FileManager() {
-  // rename the renamed files back to original names
-  for ( const auto& entry : m_renames ) {
-    logger()->debug("Renaming {} back to {}",entry.second,entry.first);
-    fs::rename(entry.second,entry.first);
-  }
-}
-
 void TL::FileManager::setTreeName(const std::string& tn) {
   m_treeName = tn;
 }
@@ -60,13 +52,15 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
   if ( boost::algorithm::ends_with(dp,"/") ) {
     dp.pop_back();
   }
-  logger()->info("Feeding from {}", dp);
   fs::path p(dp);
 
+  // the "rucio directory name" or "rucio dataset name" is assumed to
+  // be the path fed to this function.
   std::vector<std::string> splits;
   boost::algorithm::split(splits,dp,boost::is_any_of("/"));
   m_rucioDirName = splits.back();
 
+  // try to determine dsid from rucio directory name
   std::regex rgx("(.[0-9]{6}.)");
   std::smatch match;
   if (std::regex_search(m_rucioDirName, match, rgx)) {
@@ -76,9 +70,56 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
     logger()->info("Determined DSID: {}", m_dsid);
   }
 
+  // were going to loop over the files in a rucio download
+  // directory... nominally just the directory path given to this
+  // function... which we've defined as a path object p above
+  fs::path loop_over = p;
+
+  // loop over the dataset files to determine if we need a symbolic link
+  // we need one if a file doesn't end in exactly ".root"
+  bool need_symlink = false;
+  for ( const auto& i : fs::directory_iterator(p) ) {
+    if ( fs::is_directory(i.path()) ) continue;
+    auto ipathname = i.path().string();
+    if ( not boost::algorithm::ends_with(ipathname,"root") ) {
+      need_symlink = true;
+      break;
+    }
+  }
+
+  // if the dataset name ends in ".root" and a file inside
+  // doesn't... we hit the TChain::Add bug. Our workaround is to
+  // create symbolic link to the rucio dataset but remove the ".root"
+  // at the end of the dataset name.
+  if ( boost::algorithm::ends_with(p.string(),"root") && need_symlink ) {
+    fs::path abs_dsd     = fs::absolute(p);
+    fs::path abs_parent  = abs_dsd.parent_path();
+    std::string lose_root = m_rucioDirName;
+    boost::replace_all(lose_root,".root","");
+    std::string symlink_name = abs_parent.string() + "/.TL_FileManager_symlinks/" + lose_root;
+    // if hidden symlink holder doesn't exist.. make it
+    if ( !fs::exists(abs_parent.string() + "/.TL_FileManager_symlinks") ) {
+      fs::create_directory(abs_parent.string() + "/.TL_FileManager_symlinks");
+    }
+    // if the required symlink doesn't already exist.. make it
+    if ( !fs::exists(symlink_name) ) {
+      logger()->info("Creating symlink {} to avoid TChain::Add bug",symlink_name);
+      fs::create_symlink(abs_dsd,symlink_name);
+    }
+    else {
+      logger()->info("Using existing symlink {} to avoid TChain::Add bug",symlink_name);
+    }
+    // if we ended up in this if block, we want to loop over the
+    // symlink directory.. not the original one.
+    loop_over = fs::path(symlink_name);
+  }
+  logger()->info("Feeding from {}", loop_over.string());
+
   std::vector<std::string> checkForDupes;
 
-  for ( const auto& i : fs::directory_iterator(p) ) {
+  // loop_over is the symobolic link if necessary. nominally it's
+  // just the standard rucio dataset directory
+  for ( const auto& i : fs::directory_iterator(loop_over) ) {
     if ( m_fileNames.size() >= max_files ) {
       logger()->warn("Breaking file feeding loop at {} files",max_files);
       break;
@@ -88,22 +129,13 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
       if ( whole_path.filename().string().find(".root") == std::string::npos ) {
         continue;
       }
-      logger()->info("Adding file: {}",whole_path.string());
+      logger()->info("Adding file: {}",whole_path.filename().string());
 
       std::vector<std::string> dupeSplits;
       boost::algorithm::split(dupeSplits,i.path().filename().string(),boost::is_any_of("."));
       checkForDupes.emplace_back(dupeSplits.at(2)+dupeSplits.at(3));
 
       std::string final_path = whole_path.string();
-      // if the file doesn't end in .root, make it end in .root
-      // because ROOT is insane.
-      if ( not boost::algorithm::ends_with(final_path,"root") ) {
-        m_renames.emplace(final_path,final_path+".root");
-        logger()->debug("Temporarily renaming {} to {} because ROOT is insane",
-                        final_path,final_path+".root");
-        fs::rename(final_path,final_path+".root");
-        final_path = final_path+".root";
-      }
       m_fileNames.emplace_back(final_path);
       m_rootChain->AddFile(final_path.c_str());
       m_rootWeightsChain->AddFile(final_path.c_str());
