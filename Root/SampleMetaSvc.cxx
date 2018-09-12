@@ -153,6 +153,7 @@ void TL::SampleMetaSvc::setupMaps() {
              { "r9364"  , TL::kCampaign::MC16a } ,
              { "r9781"  , TL::kCampaign::MC16c } ,
              { "r10201" , TL::kCampaign::MC16d } ,
+             { "r10724" , TL::kCampaign::MC16e }
   };
 
 }
