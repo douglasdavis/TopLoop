@@ -1,8 +1,9 @@
 before_script:
-  - mkdir -p ../ci/build ../ci/run ../ci/source/TopLoop
-  - cp -r `pwd`/* ../ci/source/TopLoop/.
-  - cp `pwd`/.gitlab-ci.cmake ../ci/source/CMakeLists.txt
+  - mkdir -p ../ci/build ../ci/run ../ci/source
+  - cp -r $(pwd) ../ci/source/.
+  - cp $(pwd)/.gitlab-ci.cmake ../ci/source/CMakeLists.txt
   - cd ../ci/source
+
 TopLoop:
   image: gitlab-registry.cern.ch/ci-tools/ci-worker:slc6
   stage: build
@@ -15,7 +16,7 @@ TopLoop:
     - pwd
     - set +e
     - source /cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase/user/atlasLocalSetup.sh
-    - asetup 21.2,AnalysisTop,latest,here
+    - asetup 21.2,AnalysisTop,latest
     - cd ../build
     - cmake ../source
     - make
