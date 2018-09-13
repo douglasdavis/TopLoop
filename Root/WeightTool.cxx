@@ -126,7 +126,7 @@ std::pair<float,float> TL::WeightTool::currentPDF4LHCsumQuadVariations() {
     sumSq += term*term;
   }
   float final_val = (1.0/n_c)*std::sqrt(sumSq);
-  float percent   = final_val / w_c * 100.0;
+  float percent   = final_val / w_c * n_c * 100.0;
   return std::make_pair(final_val, percent);
 }
 
