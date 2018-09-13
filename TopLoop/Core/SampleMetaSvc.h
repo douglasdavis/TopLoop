@@ -36,7 +36,8 @@ namespace TL {
                           PowhegHerwig      , PowhegHerwigpp    , Sherpa21          , Sherpa22            ,
                           Sherpa221         , MadgraphPythia    , MadgraphPythia8   , aMCatNLOPythia8     ,
                           aMCatNLOHerwig    , aMCatNLOHerwigpp  , PowhegPythia8_dil , PowhegPythia6_dil   ,
-                          PowhegHerwig7     , PowhegHerwig7_dil , Sherpa222         , aMCatNLOPythia8_dil
+                          PowhegHerwig7     , PowhegHerwig7_dil , Sherpa222         , aMCatNLOPythia8_dil ,
+                          PowhegPythia8_had
   };
 
   enum class kSampleType { Unknown, Data, Nominal, Systematic };

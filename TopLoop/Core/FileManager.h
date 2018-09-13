@@ -78,7 +78,7 @@ namespace TL {
      *
      *  @param dirpath path of the directory containing files to
      *  process
-     *  @param take_all take all files no matter what the extension is
+     *  @param max_files maximum number of files to find before breaking
      */
     void feedDir(const std::string& dirpath, const unsigned int max_files = 10000);
 
