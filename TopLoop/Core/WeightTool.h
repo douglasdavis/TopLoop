@@ -133,7 +133,8 @@ namespace TL {
      *    // ...
      *    auto nom_weight = xsec *
      *      (weight_mc() / weightTool().generatorSumWeight()) *
-     *      (other_weights;
+     *      other_weights;
+     *
      *    auto foo_weight = xsec *
      *      (weightTool().currentWeightOfVariation("foo") / weightTool().sumOfVariation("foo")) *
      *      other_weights;
@@ -147,7 +148,9 @@ namespace TL {
 
     /// generate "sum in quadrature" of the PDF4LHC variations (use in execute()).
     /**
-     *  This function will return the following calculation:
+     *  This function returns a pair.
+     *
+     *  The first entry will is following calculation:
      *
      *  \f[
      *     w_{\mathrm{PDF4LHC}} =
@@ -159,8 +162,15 @@ namespace TL {
      *  ("PDFset=909{01-30}"). This function also takes into account
      *  the "sum of weights" associated with each variation such that
      *  the normalization is treated correctly.
+     *
+     *  The second entry is the percent of the central value
+     *  ("PDFset=90900") weight that the above calculation is:
+     *
+     *  \f[
+     *     p = \frac{w_{\mathrm{PDF4LHC}}}{w_c} \times 100
+     *  \f]
      */
-    float currentPDF4LHCsumQuadVariations();
+    std::pair<float,float> currentPDF4LHCsumQuadVariations();
 
     /// get the cross section of the sample the algorithm is processing
     /**
@@ -175,7 +185,7 @@ namespace TL {
     /// k-factor from TopDataPreparation
     float sampleKfactor() const;
 
-    /// get a luminosity weight associated with the sample
+    /// get a nominal luminosity weight associated with the sample
     /**
      *  This function uses the cross section and sum of weights to
      *  calculate nominal luminosity weight. We scale such that the

@@ -114,7 +114,7 @@ float TL::WeightTool::currentWeightOfVariation(const std::string& variation_name
   return m_alg->mc_generator_weights().at(itr->second);
 }
 
-float TL::WeightTool::currentPDF4LHCsumQuadVariations() {
+std::pair<float,float> TL::WeightTool::currentPDF4LHCsumQuadVariations() {
   float sumSq = 0.0;
   float w_c = currentWeightOfVariation("PDFset=90900");
   float n_c = sumOfVariation("PDFset=90900");
@@ -125,7 +125,9 @@ float TL::WeightTool::currentPDF4LHCsumQuadVariations() {
     float term = (w_c*n_i - w_i*n_c)/n_i;
     sumSq += term*term;
   }
-  return (1.0/n_c)*std::sqrt(sumSq);
+  float final_val = (1.0/n_c)*std::sqrt(sumSq);
+  float percent   = final_val / w_c * 100.0;
+  return std::make_pair(final_val, percent);
 }
 
 float TL::WeightTool::sampleCrossSection() const {
