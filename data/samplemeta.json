@@ -169,6 +169,12 @@
             "Generator" : "PowhegPythia6",
             "InitialState": "tchan",
             "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [410658,410659],
+            "Generator" : "PowhegPythia8",
+            "InitialState": "tchan",
+            "SampleType": "Nominal"
         }
     ],
     "tW": [
@@ -305,6 +311,12 @@
         {
             "DSID_range": [410470,410470],
             "Generator": "PowhegPythia8",
+            "InitialState": "ttbar",
+            "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [410471,410471],
+            "Generator": "PowhegPythia8_had",
             "InitialState": "ttbar",
             "SampleType": "Nominal"
         },
