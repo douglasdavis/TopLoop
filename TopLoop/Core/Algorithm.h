@@ -49,6 +49,7 @@ namespace TL {
     std::unique_ptr<TL::FileManager> m_fm{nullptr};
     std::shared_ptr<TTreeReader>     m_reader{nullptr};
     std::shared_ptr<TTreeReader>     m_weightsReader{nullptr};
+    std::shared_ptr<TTreeReader>     m_particleLevelReader{nullptr};
 
     TL::WeightTool m_weightTool{this};
 
@@ -151,6 +152,7 @@ namespace TL {
      */
     void setIsData();
 
+    /// Function to tell algorithm its analyzing fakes
     void setIsFake();
 
     /// @}
@@ -206,11 +208,13 @@ namespace TL {
     /// @{
 
     /// get the raw pointer to the file manager
-    const TL::FileManager*              fileManager()   const;
+    const TL::FileManager* fileManager() const;
     /// get pointer to the main reader
-    const std::shared_ptr<TTreeReader>& reader()        const;
+    const std::shared_ptr<TTreeReader>& reader() const;
     /// get pointer to the weights reader
     const std::shared_ptr<TTreeReader>& weightsReader() const;
+    /// get pointer to the particle level reader
+    const std::shared_ptr<TTreeReader>& particleLevelReader() const;
 
     /// @}
 

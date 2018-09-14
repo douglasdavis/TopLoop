@@ -22,13 +22,16 @@ class TChain;
 namespace TL {
   class FileManager : public TL::Loggable {
   private:
-    std::vector<std::string> m_fileNames        {};
-    std::string              m_treeName         {"nominal"};
-    std::string              m_weightsTreeName  {"sumWeights"};
-    std::unique_ptr<TChain>  m_rootChain        {nullptr};
-    std::unique_ptr<TChain>  m_rootWeightsChain {nullptr};
-    std::string              m_rucioDirName     {"none"};
-    unsigned int             m_dsid             {0};
+    std::vector<std::string> m_fileNames          {};
+    std::string              m_treeName           {"nominal"};
+    std::string              m_weightsTreeName    {"sumWeights"};
+    std::unique_ptr<TChain>  m_rootChain          {nullptr};
+    std::unique_ptr<TChain>  m_particleLevelChain {nullptr};
+    std::unique_ptr<TChain>  m_rootWeightsChain   {nullptr};
+    std::string              m_rucioDirName       {"none"};
+    unsigned int             m_dsid               {0};
+
+    bool m_doParticleLevel {false};
 
     /// initialize the ROOT TChain pointers
     TL::StatusCode initChain();
@@ -40,6 +43,9 @@ namespace TL {
 
     /// destructor
     virtual ~FileManager() = default;
+
+    /// enable particle level tree setup
+    void enableParticleLevel();
 
     /// @name Sample tree naming setup functions
     /**
@@ -63,6 +69,8 @@ namespace TL {
      *  feeds!
      */
     void setWeightsTreeName(const std::string& tn);
+
+    /// @}
 
     /// @name Feeding functions
     /**
@@ -111,6 +119,8 @@ namespace TL {
 
     /// getter for the main chain raw pointer
     TChain* rootChain()        const;
+    /// getter for the particle level chain raw pointer
+    TChain* particleLevelChain()   const;
     /// getter for the weights chain raw pointer
     TChain* rootWeightsChain() const;
 
@@ -126,7 +136,8 @@ inline const std::string& TL::FileManager::treeName()        const { return m_tr
 inline const std::string& TL::FileManager::rucioDir()        const { return m_rucioDirName;    }
 inline       unsigned int TL::FileManager::dsid()            const { return m_dsid;            }
 
-inline       TChain* TL::FileManager::rootChain()        const { return m_rootChain.get();        }
-inline       TChain* TL::FileManager::rootWeightsChain() const { return m_rootWeightsChain.get(); }
+inline       TChain* TL::FileManager::particleLevelChain() const { return m_particleLevelChain.get(); }
+inline       TChain* TL::FileManager::rootChain()          const { return m_rootChain.get();          }
+inline       TChain* TL::FileManager::rootWeightsChain()   const { return m_rootWeightsChain.get();   }
 
 #endif

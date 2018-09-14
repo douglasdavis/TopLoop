@@ -14,6 +14,9 @@
 #include <TopLoop/Core/Utils.h>
 #include <TopLoop/Core/Loggable.h>
 
+#include <vector>
+#include <utility>
+
 namespace TL {
   class Algorithm;
   class FileManager;
@@ -26,6 +29,20 @@ namespace TL {
   protected:
     std::unique_ptr<TL::Algorithm>   m_algorithm{nullptr};
     std::unique_ptr<TL::FileManager> m_fm{nullptr};
+
+  private:
+    bool m_useProgressBar{true};
+
+    bool m_enableParticleLevel{false};
+    bool m_loopOverAllParticleLevel{false};
+    bool m_loopOverParticleLevelOnly{false};
+
+    std::vector<uint64_t>                     m_particleLevelOnly {};
+    std::vector<uint64_t>                     m_recoLevelOnly     {};
+    std::vector<std::pair<uint64_t,uint64_t>> m_particleAndReco   {};
+
+  private:
+    TL::StatusCode constructIndices();
 
   public:
 
@@ -51,6 +68,30 @@ namespace TL {
 
     /// launches the TL::Algorithm and checks the steps.
     TL::StatusCode run();
+
+    /// disable the tqdm-like progress bar
+    void disableProgressBar();
+
+    /// enable particle level tree processing
+    /**
+     *  enables the ability to use particle level information this
+     *  will cause a _large_ increase in memory consumption for big
+     *  samples and you'll see a performance reduction due to a lot
+     *  more data being retrieved per event.
+     */
+    void enableParticleLevel();
+
+    /// loop over the whole particle level tree (reco information irrelevant)
+    /**
+     *  requires `enableParticleLevel()` to have been called
+     */
+    void loopOverAllParticleLevel();
+
+    /// loop over the particle level information _only_ (exclude known reco'd events)
+    /**
+     *  requires `enableParticleLevel()` to have been called
+     */
+    void loopOverParticleLevelOnly();
 
   };
 

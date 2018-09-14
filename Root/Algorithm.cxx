@@ -53,6 +53,10 @@ const std::shared_ptr<TTreeReader>& TL::Algorithm::reader() const {
   return m_reader;
 }
 
+const std::shared_ptr<TTreeReader>& TL::Algorithm::particleLevelReader() const {
+  return m_particleLevelReader;
+}
+
 const std::shared_ptr<TTreeReader>& TL::Algorithm::weightsReader() const {
   return m_weightsReader;
 }
