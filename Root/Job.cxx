@@ -50,7 +50,7 @@ TL::StatusCode TL::Job::run() {
   TL_CHECK(m_algorithm->setupOutput());
   m_algorithm->reader()->Restart();
   if ( !m_useProgressBar ) {
-    logger()->info("Progress bar disabled.. you'll have to be patient");
+    logger()->info("Progress bar disabled.. you're in the dark");
   }
   tqdm bar;
   bar.set_theme_braille_spin();
@@ -69,10 +69,12 @@ void TL::Job::disableProgressBar() {
 }
 
 void TL::Job::enableParticleLevel() {
+  logger()->info("Particle level information enabled");
   m_enableParticleLevel = true;
 }
 
 void TL::Job::loopOverAllParticleLevel() {
+  logger()->info("Going to loop over all particle level");
   if ( m_loopOverParticleLevelOnly ) {
     logger()->warn("You've asked for loopOverParticleLevelOnly() already. "
                    "Overriding that in favor of loopOverAllParticleLevel()");
@@ -82,6 +84,7 @@ void TL::Job::loopOverAllParticleLevel() {
 }
 
 void TL::Job::loopOverParticleLevelOnly() {
+  logger()->info("Going to loop over particle level _only_ (skip reco'd)");
   if ( m_loopOverAllParticleLevel ) {
     logger()->warn("You've asked for loopOverAllParticleLevel() already. "
                    "Overriding that in favor of loopOverParticleLevelOnly()");
@@ -90,6 +93,7 @@ void TL::Job::loopOverParticleLevelOnly() {
 }
 
 TL::StatusCode TL::Job::constructIndices() {
+  logger()->info("Constructing particle level and reco level indices");
   if ( not m_particleLevelOnly.empty() ||
        not m_particleAndReco.empty() ||
        not m_recoLevelOnly.empty() ) {
@@ -99,6 +103,10 @@ TL::StatusCode TL::Job::constructIndices() {
     return TL::StatusCode::FAILURE;
   }
   auto c_PL = m_fm->particleLevelChain();
+  if ( !c_PL ) {
+    logger()->error("Particle level chain is null... "
+                    "Enable particle level in your TL::FileManager!");
+  }
   auto c_RL = m_fm->rootChain();
   auto idx_PL = std::make_unique<TTreeIndex>(c_PL,"runNumber","eventNumber");
   auto idx_RL = std::make_unique<TTreeIndex>(c_RL,"runNumber","eventNumber");
@@ -114,6 +122,12 @@ TL::StatusCode TL::Job::constructIndices() {
   c_RL->SetBranchAddress("runNumber",  &runNumber_RL);
   c_PL->SetBranchAddress("eventNumber",&eventNumber_PL);
   c_RL->SetBranchAddress("eventNumber",&eventNumber_RL);
+
+  // do some conservative reserving to save time spent allocating
+  // memory... it shouldn't waste too much memory...
+  m_particleAndReco.reserve(c_RL->GetEntries());
+  m_particleLevelOnly.reserve(c_PL->GetEntries());
+  m_recoLevelOnly.reserve(c_RL->GetEntries());
 
   // get indices for particle+reco and particle only
   for ( ULong64_t i = 0; i < c_PL->GetEntries(); ++i ) {
