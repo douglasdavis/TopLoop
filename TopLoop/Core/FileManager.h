@@ -22,7 +22,9 @@ class TChain;
 namespace TL {
   class FileManager : public TL::Loggable {
   private:
+    bool                     m_doParticleLevel    {false};
     std::vector<std::string> m_fileNames          {};
+    std::string              m_plTreeName         {"particleLevel"};
     std::string              m_treeName           {"nominal"};
     std::string              m_weightsTreeName    {"sumWeights"};
     std::unique_ptr<TChain>  m_rootChain          {nullptr};
@@ -30,8 +32,6 @@ namespace TL {
     std::unique_ptr<TChain>  m_rootWeightsChain   {nullptr};
     std::string              m_rucioDirName       {"none"};
     unsigned int             m_dsid               {0};
-
-    bool m_doParticleLevel {false};
 
     /// initialize the ROOT TChain pointers
     TL::StatusCode initChain();
@@ -46,6 +46,9 @@ namespace TL {
 
     /// enable particle level tree setup
     void enableParticleLevel();
+
+    /// determine if particle level has been enabled
+    bool particleLevelEnabled() const;
 
     /// @name Sample tree naming setup functions
     /**
@@ -69,6 +72,13 @@ namespace TL {
      *  feeds!
      */
     void setWeightsTreeName(const std::string& tn);
+
+    /// set the particle level tree name to something other than "particleLevel"
+    /**
+     *  If this function is to be used - it must be called before any
+     *  feeds!
+     */
+    void setParticleLevelTreeName(const std::string& tn);
 
     /// @}
 
@@ -102,15 +112,17 @@ namespace TL {
     /// @{
 
     /// getter for the file names which have been fed to the chains
-    const std::vector<std::string>& fileNames()       const;
+    const std::vector<std::string>& fileNames() const;
     /// the name of the main tree being read
-    const std::string&              treeName()        const;
+    const std::string& treeName() const;
     /// the name of the weights tree being read
-    const std::string&              weightsTreeName() const;
+    const std::string& weightsTreeName() const;
+    /// the name of the particle level tree being read
+    const std::string& particleLevelTreeName() const;
     /// the name of the rucio dataset fed to feedDir
-    const std::string&              rucioDir()        const;
+    const std::string& rucioDir() const;
     /// the dsid as determined from a regex search on the rucio dir
-    unsigned int                    dsid()            const;
+    unsigned int dsid() const;
 
     /// @}
 
@@ -118,9 +130,9 @@ namespace TL {
     /// @{
 
     /// getter for the main chain raw pointer
-    TChain* rootChain()        const;
+    TChain* rootChain() const;
     /// getter for the particle level chain raw pointer
-    TChain* particleLevelChain()   const;
+    TChain* particleLevelChain() const;
     /// getter for the weights chain raw pointer
     TChain* rootWeightsChain() const;
 
@@ -129,8 +141,11 @@ namespace TL {
 
 }
 
+inline bool TL::FileManager::particleLevelEnabled() const { return m_doParticleLevel; }
+
 inline const std::vector<std::string>& TL::FileManager::fileNames() const { return m_fileNames; }
 
+inline const std::string& TL::FileManager::particleLevelTreeName() const { return m_plTreeName; }
 inline const std::string& TL::FileManager::weightsTreeName() const { return m_weightsTreeName; }
 inline const std::string& TL::FileManager::treeName()        const { return m_treeName;        }
 inline const std::string& TL::FileManager::rucioDir()        const { return m_rucioDirName;    }

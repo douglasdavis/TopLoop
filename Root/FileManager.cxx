@@ -37,6 +37,10 @@ void TL::FileManager::setWeightsTreeName(const std::string& tn) {
   m_weightsTreeName = tn;
 }
 
+void TL::FileManager::setParticleLevelTreeName(const std::string& tn) {
+  m_plTreeName = tn;
+}
+
 TL::StatusCode TL::FileManager::initChain() {
   if ( !m_rootChain ) {
     m_rootChain = std::make_unique<TChain>(m_treeName.c_str());
@@ -45,7 +49,7 @@ TL::StatusCode TL::FileManager::initChain() {
     m_rootWeightsChain = std::make_unique<TChain>(m_weightsTreeName.c_str());
   }
   if ( m_doParticleLevel && !m_particleLevelChain ) {
-    m_particleLevelChain = std::make_unique<TChain>("particleLevel");
+    m_particleLevelChain = std::make_unique<TChain>(m_plTreeName.c_str());
   }
   if ( !m_rootChain || !m_rootWeightsChain ) {
     return TL::StatusCode::FAILURE;

@@ -30,14 +30,26 @@
     std::unique_ptr<TTreeReaderValue<TYPE>> bv__##NAME;                               \
   public:                                                                             \
     inline const TYPE& NAME() const {                                                 \
-      if ( bv__##NAME != nullptr ) return *(*bv__##NAME);                             \
+      if ( bv__##NAME ) return *(*bv__##NAME);                                        \
       spdlog::get("TopLoop non-existent branch")->critical("No {} branch!",#NAME);    \
-      spdlog::get("TopLoop non-existent Branch")->flush();                            \
+      std::exit(EXIT_FAILURE);                                                        \
+    }
+
+#define DECLARE_PL_BRANCH(NAME,TYPE)                                                  \
+  protected:                                                                          \
+    std::unique_ptr<TTreeReaderValue<TYPE>> bv__pl__##NAME;                           \
+  public:                                                                             \
+    inline const TYPE& PL_##NAME() const {                                            \
+      if ( bv__pl__##NAME ) return *(*bv__pl__##NAME);                                \
+      spdlog::get("TopLoop non-existent branch")->critical("No PL_{} branch!",#NAME); \
       std::exit(EXIT_FAILURE);                                                        \
     }
 
 #define CONNECT_BRANCH(NAME,TYPE,READER)                                   \
   bv__##NAME = TL::Variables::setupBranch<TTreeReaderValue<TYPE>>((READER),#NAME);
+
+#define CONNECT_PL_BRANCH(NAME,TYPE,READER)                                \
+  bv__pl__##NAME = TL::Variables::setupBranch<TTreeReaderValue<TYPE>>((READER),#NAME);
 
 namespace TL {
 
@@ -368,9 +380,64 @@ namespace TL {
     DECLARE_BRANCH(mu_weight_isolSF_tight_MU_SF_Isol_SYST_UP             , std::vector<float> );
     DECLARE_BRANCH(mu_weight_isolSF_tight_MU_SF_Isol_SYST_DOWN           , std::vector<float> );
 
-    // Needed for Fakes
-//    DECLARE_BRANCH(weight_mm_ejets                                       , Float_t            );
-//    DECLARE_BRANCH(weight_mm_mujets                                      , Float_t            );
+    DECLARE_PL_BRANCH(weight_mc            , Float_t            );
+    DECLARE_PL_BRANCH(eventNumber          , ULong64_t          );
+    DECLARE_PL_BRANCH(runNumber            , UInt_t             );
+    DECLARE_PL_BRANCH(randomRunNumber      , UInt_t             );
+    DECLARE_PL_BRANCH(mcChannelNumber      , UInt_t             );
+    DECLARE_PL_BRANCH(mu                   , Float_t            );
+    DECLARE_PL_BRANCH(weight_pileup        , Float_t            );
+    DECLARE_PL_BRANCH(el_pt                , std::vector<float> );
+    DECLARE_PL_BRANCH(el_eta               , std::vector<float> );
+    DECLARE_PL_BRANCH(el_phi               , std::vector<float> );
+    DECLARE_PL_BRANCH(el_e                 , std::vector<float> );
+    DECLARE_PL_BRANCH(el_charge            , std::vector<float> );
+    DECLARE_PL_BRANCH(el_pt_bare           , std::vector<float> );
+    DECLARE_PL_BRANCH(el_eta_bare          , std::vector<float> );
+    DECLARE_PL_BRANCH(el_phi_bare          , std::vector<float> );
+    DECLARE_PL_BRANCH(el_e_bare            , std::vector<float> );
+    DECLARE_PL_BRANCH(mu_pt                , std::vector<float> );
+    DECLARE_PL_BRANCH(mu_eta               , std::vector<float> );
+    DECLARE_PL_BRANCH(mu_phi               , std::vector<float> );
+    DECLARE_PL_BRANCH(mu_e                 , std::vector<float> );
+    DECLARE_PL_BRANCH(mu_charge            , std::vector<float> );
+    DECLARE_PL_BRANCH(mu_pt_bare           , std::vector<float> );
+    DECLARE_PL_BRANCH(mu_eta_bare          , std::vector<float> );
+    DECLARE_PL_BRANCH(mu_phi_bare          , std::vector<float> );
+    DECLARE_PL_BRANCH(mu_e_bare            , std::vector<float> );
+    DECLARE_PL_BRANCH(jet_pt               , std::vector<float> );
+    DECLARE_PL_BRANCH(jet_eta              , std::vector<float> );
+    DECLARE_PL_BRANCH(jet_phi              , std::vector<float> );
+    DECLARE_PL_BRANCH(jet_e                , std::vector<float> );
+    DECLARE_PL_BRANCH(jet_nGhosts_bHadron  , std::vector<int>   );
+    DECLARE_PL_BRANCH(jet_nGhosts_cHadron  , std::vector<int>   );
+    DECLARE_PL_BRANCH(met_met              , Float_t            );
+    DECLARE_PL_BRANCH(met_phi              , Float_t            );
+    DECLARE_PL_BRANCH(PDFinfo_X1           , std::vector<float> );
+    DECLARE_PL_BRANCH(PDFinfo_X2           , std::vector<float> );
+    DECLARE_PL_BRANCH(PDFinfo_PDGID1       , std::vector<int>   );
+    DECLARE_PL_BRANCH(PDFinfo_PDGID2       , std::vector<int>   );
+    DECLARE_PL_BRANCH(PDFinfo_Q            , std::vector<float> );
+    DECLARE_PL_BRANCH(PDFinfo_XF1          , std::vector<float> );
+    DECLARE_PL_BRANCH(PDFinfo_XF2          , std::vector<float> );
+    DECLARE_PL_BRANCH(mc_generator_weights , std::vector<float> );
+    DECLARE_PL_BRANCH(all_particle         , Int_t              );
+    DECLARE_PL_BRANCH(leptonic_2015        , Int_t              );
+    DECLARE_PL_BRANCH(leptonic_2016        , Int_t              );
+    DECLARE_PL_BRANCH(ee_2015              , Int_t              );
+    DECLARE_PL_BRANCH(ee_2016              , Int_t              );
+    DECLARE_PL_BRANCH(mumu_2015            , Int_t              );
+    DECLARE_PL_BRANCH(mumu_2016            , Int_t              );
+    DECLARE_PL_BRANCH(emu_2015             , Int_t              );
+    DECLARE_PL_BRANCH(emu_2016             , Int_t              );
+    DECLARE_PL_BRANCH(eee_2015             , Int_t              );
+    DECLARE_PL_BRANCH(eee_2016             , Int_t              );
+    DECLARE_PL_BRANCH(eemu_2015            , Int_t              );
+    DECLARE_PL_BRANCH(eemu_2016            , Int_t              );
+    DECLARE_PL_BRANCH(emumu_2015           , Int_t              );
+    DECLARE_PL_BRANCH(emumu_2016           , Int_t              );
+    DECLARE_PL_BRANCH(mumumu_2015          , Int_t              );
+    DECLARE_PL_BRANCH(mumumu_2016          , Int_t              );
 
   };
 
