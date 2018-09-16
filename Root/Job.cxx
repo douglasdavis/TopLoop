@@ -178,6 +178,13 @@ TL::StatusCode TL::Job::constructIndices() {
   c_PL->SetBranchAddress("eventNumber",&eventNumber_PL);
   c_RL->SetBranchAddress("eventNumber",&eventNumber_RL);
 
+  c_PL->SetBranchStatus("*",0);
+  c_RL->SetBranchStatus("*",0);
+  c_PL->SetBranchStatus("runNumber",1);
+  c_RL->SetBranchStatus("runNumber",1);
+  c_PL->SetBranchStatus("eventNumber",1);
+  c_RL->SetBranchStatus("eventNumber",1);
+
   // do some conservative reserving to save time spent allocating
   // memory... it shouldn't waste too much memory...
   m_particleAndReco.reserve(c_RL->GetEntries());
@@ -204,5 +211,9 @@ TL::StatusCode TL::Job::constructIndices() {
       m_recoLevelOnly.push_back(i);
     }
   }
+
+  c_PL->SetBranchStatus("*",1);
+  c_RL->SetBranchStatus("*",1);
+
   return TL::StatusCode::SUCCESS;
 }
