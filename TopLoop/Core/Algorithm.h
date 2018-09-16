@@ -45,6 +45,7 @@ namespace TL {
 
     std::size_t m_totalEntries{0};
     std::size_t m_eventCounter{0};
+    std::size_t m_totalParticleLevelEntries{0};
 
     std::unique_ptr<TL::FileManager> m_fm{nullptr};
     std::shared_ptr<TTreeReader>     m_reader{nullptr};

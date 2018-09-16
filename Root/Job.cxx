@@ -34,6 +34,11 @@ TL::StatusCode TL::Job::setFileManager(std::unique_ptr<TL::FileManager> fm) {
 }
 
 TL::StatusCode TL::Job::run() {
+  if ( m_algorithm->isData() && m_enableParticleLevel ) {
+    logger()->error("You cannot have the algorithm set to data mode"
+                    " and also enable particle level!");
+    return TL::StatusCode::FAILURE;
+  }
 
   if ( m_enableParticleLevel ) {
     TL_CHECK(constructIndices());
@@ -52,14 +57,64 @@ TL::StatusCode TL::Job::run() {
   if ( !m_useProgressBar ) {
     logger()->info("Progress bar disabled.. you're in the dark");
   }
+
   tqdm bar;
   bar.set_theme_braille_spin();
-  while ( m_algorithm->reader()->Next() ) {
-    if ( m_useProgressBar ) {
-      bar.progress(m_algorithm->m_eventCounter,m_algorithm->m_totalEntries);
+
+  // if particle level is not enabled, do the standard loop over the
+  // normal tree.
+  if ( !m_enableParticleLevel ) {
+    while ( m_algorithm->reader()->Next() ) {
+      if ( m_useProgressBar ) {
+        bar.progress(m_algorithm->m_eventCounter,m_algorithm->m_totalEntries);
+      }
+      TL_CHECK(m_algorithm->execute());
     }
-    TL_CHECK(m_algorithm->execute());
-  }
+  } // end if standard (not using particle level)
+
+  // when particle level is enabled we have a few more logical cases
+  // to work through.
+  else {
+    m_algorithm->particleLevelReader()->Restart();
+    // first, if we want particle level only (i.e. events that didn't
+    // end up in reco tree
+    if ( m_loopOverParticleLevelOnly ) {
+      logger()->info("Entering particle level only loop");
+      for ( const auto idx : m_particleLevelOnly ) {
+        m_algorithm->particleLevelReader()->SetEntry(idx);
+        if ( m_useProgressBar ) {
+          bar.progress(m_algorithm->m_eventCounter,m_algorithm->m_totalParticleLevelEntries);
+        }
+        TL_CHECK(m_algorithm->execute());
+      }
+    } // end if particle level only
+
+    // next, we do all particle level, agnostic to reco information
+    else if ( m_loopOverAllParticleLevel ) {
+      logger()->info("Entering all particle level loop");
+      while ( m_algorithm->particleLevelReader()->Next() ) {
+        if ( m_useProgressBar ) {
+          bar.progress(m_algorithm->m_eventCounter,m_algorithm->m_totalParticleLevelEntries);
+        }
+        TL_CHECK(m_algorithm->execute());
+      }
+    } // end if all particle level
+
+    // finally, we do reco and particle info together
+    else {
+      logger()->info("Entering loop over reco _and_  particle level information");
+      for ( const auto idx : m_particleAndReco ) {
+        m_algorithm->particleLevelReader()->SetEntry(std::get<0>(idx));
+        m_algorithm->reader()->SetEntry(std::get<1>(idx));
+        if ( m_useProgressBar ) {
+          bar.progress(m_algorithm->m_eventCounter,m_algorithm->m_totalEntries);
+        }
+        TL_CHECK(m_algorithm->execute());
+      }
+    } // end if reco and particle
+
+  } // end if particle level enabled
+
   TL_CHECK(m_algorithm->finish());
   return TL::StatusCode::SUCCESS;
 }
