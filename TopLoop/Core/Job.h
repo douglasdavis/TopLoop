@@ -36,6 +36,7 @@ namespace TL {
     bool m_enableParticleLevel{false};
     bool m_loopOverAllParticleLevel{false};
     bool m_loopOverParticleLevelOnly{false};
+    bool m_loopOverRecoOnly{false};
 
     std::vector<uint64_t>                     m_particleLevelOnly {};
     std::vector<uint64_t>                     m_recoLevelOnly     {};
@@ -92,6 +93,12 @@ namespace TL {
      *  requires `enableParticleLevel()` to have been called
      */
     void loopOverParticleLevelOnly();
+
+    /// loop over reco events which do not appear in the particle level tree
+    /**
+     *  requires `enableParticleLevel()` to have been called
+     */
+    void loopOverRecoOnly();
 
   };
 

@@ -130,21 +130,39 @@ void TL::Job::enableParticleLevel() {
 
 void TL::Job::loopOverAllParticleLevel() {
   logger()->info("Going to loop over all particle level");
-  if ( m_loopOverParticleLevelOnly ) {
-    logger()->warn("You've asked for loopOverParticleLevelOnly() already. "
+  if ( m_loopOverParticleLevelOnly || m_loopOverRecoOnly ) {
+    logger()->warn("You've asked for loopOverParticleLevelOnly() or "
+                   "loopOverRecoOnly() already. "
                    "Overriding that in favor of loopOverAllParticleLevel()");
     m_loopOverParticleLevelOnly = false;
+    m_loopOverRecoOnly = false;
   }
   m_loopOverAllParticleLevel = true;
 }
 
 void TL::Job::loopOverParticleLevelOnly() {
   logger()->info("Going to loop over particle level _only_ (skip reco'd)");
-  if ( m_loopOverAllParticleLevel ) {
-    logger()->warn("You've asked for loopOverAllParticleLevel() already. "
+  if ( m_loopOverAllParticleLevel || m_loopOverRecoOnly ) {
+    logger()->warn("You've asked for loopOverAllParticleLevel() or "
+                   "loopOverRecoOnly() already. "
                    "Overriding that in favor of loopOverParticleLevelOnly()");
+    m_loopOverAllParticleLevel = false;
+    m_loopOverRecoOnly = false;
   }
   m_loopOverParticleLevelOnly = true;
+}
+
+void TL::Job::loopOverRecoOnly() {
+  logger()->info("Going to loop over reco only events "
+                 "(skip if in particle level tree)");
+  if ( m_loopOverAllParticleLevel || m_loopOverParticleLevelOnly ) {
+    logger()->warn("You've alreaady asked for loopOverAllParticleLevel() or "
+                   "loopOverParticleLevelOnly(), overriding that in favor "
+                   "of loopOverRecoOnly");
+    m_loopOverParticleLevelOnly = false;
+    m_loopOverAllParticleLevel = false;
+  }
+  m_loopOverRecoOnly = true;
 }
 
 TL::StatusCode TL::Job::constructIndices() {
