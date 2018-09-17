@@ -133,7 +133,7 @@ void TL::Job::disableProgressBar() {
   m_useProgressBar = false;
 }
 
-void TL::Job::setLoopType(const TL::Job::LoopType loopType) {
+void TL::Job::setLoopType(const TL::LoopType loopType) {
   m_loopType = loopType;
 }
 

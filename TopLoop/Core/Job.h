@@ -24,16 +24,15 @@ namespace TL {
 
 namespace TL {
 
-  class Job : public TL::Loggable {
+  enum class LoopType {
+    RecoStandard,
+    RecoWithParticle,
+    ParticleAll,
+    ParticleOnly,
+    RecoOnly
+  };
 
-  public:
-    enum class LoopType {
-      RecoStandard,
-      RecoWithParticle,
-      ParticleAll,
-      ParticleOnly,
-      RecoOnly
-    };
+  class Job : public TL::Loggable {
 
   protected:
     std::unique_ptr<TL::Algorithm>   m_algorithm{nullptr};
@@ -85,7 +84,7 @@ namespace TL {
      * be some overhead determining the reco-level <-> particle-level
      * indices.
      */
-    void setLoopType(const TL::Job::LoopType loopType);
+    void setLoopType(const TL::LoopType loopType);
 
   };
 
