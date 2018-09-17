@@ -24,12 +24,13 @@ namespace TL {
 
 namespace TL {
 
+  /// enum for declaring what data to execute the loop over
   enum class LoopType {
-    RecoStandard,
-    RecoWithParticle,
-    ParticleAll,
-    ParticleOnly,
-    RecoOnly
+    RecoStandard,     ///< Loop over reco tree in standard way (no PL access)
+    RecoWithParticle, ///< Loop over reco tree with access to PL information
+    ParticleAll,      ///< Loop over all particle level events
+    ParticleOnly,     ///< Loop over particle level events which are not in reco
+    RecoOnly          ///< Loop over reco events which are not in particle level
   };
 
   class Job : public TL::Loggable {
