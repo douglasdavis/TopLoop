@@ -34,13 +34,13 @@ TL::StatusCode TL::Job::setFileManager(std::unique_ptr<TL::FileManager> fm) {
 }
 
 TL::StatusCode TL::Job::run() {
-  if ( m_algorithm->isData() && m_enableParticleLevel ) {
+  if ( m_algorithm->isData() && m_loopType != LoopType::RecoStandard ) {
     logger()->error("You cannot have the algorithm set to data mode"
-                    " and also enable particle level!");
+                    " and also loop over anything but RecoOnly");
     return TL::StatusCode::FAILURE;
   }
 
-  if ( m_enableParticleLevel ) {
+  if ( m_loopType != LoopType::RecoStandard ) {
     TL_CHECK(constructIndices());
   }
 
@@ -63,7 +63,7 @@ TL::StatusCode TL::Job::run() {
 
   // if particle level is not enabled, do the standard loop over the
   // normal tree.
-  if ( !m_enableParticleLevel ) {
+  if ( m_loopType == LoopType::RecoStandard ) {
     while ( m_algorithm->reader()->Next() ) {
       if ( m_useProgressBar ) {
         bar.progress(m_algorithm->m_eventCounter,m_algorithm->m_totalEntries);
@@ -78,7 +78,7 @@ TL::StatusCode TL::Job::run() {
     m_algorithm->particleLevelReader()->Restart();
     // first, if we want particle level only (i.e. events that didn't
     // end up in reco tree
-    if ( m_loopOverParticleLevelOnly ) {
+    if ( m_loopType == LoopType::ParticleOnly ) {
       logger()->info("Entering particle level only loop");
       for ( const auto idx : m_particleLevelOnly ) {
         m_algorithm->particleLevelReader()->SetEntry(idx);
@@ -90,7 +90,7 @@ TL::StatusCode TL::Job::run() {
     } // end if particle level only
 
     // next, we do all particle level, agnostic to reco information
-    else if ( m_loopOverAllParticleLevel ) {
+    else if ( m_loopType == LoopType::ParticleAll ) {
       logger()->info("Entering all particle level loop");
       while ( m_algorithm->particleLevelReader()->Next() ) {
         if ( m_useProgressBar ) {
@@ -101,7 +101,7 @@ TL::StatusCode TL::Job::run() {
     } // end if all particle level
 
     // finally, we do reco and particle info together
-    else {
+    else if ( m_loopType == LoopType::RecoWithParticle ) {
       logger()->info("Entering loop over reco _and_  particle level information");
       for ( const auto idx : m_particleAndReco ) {
         m_algorithm->particleLevelReader()->SetEntry(std::get<0>(idx));
@@ -113,6 +113,16 @@ TL::StatusCode TL::Job::run() {
       }
     } // end if reco and particle
 
+    else if ( m_loopType == LoopType::RecoOnly ) {
+      logger()->warn("RecoOnly not supported yet. Exiting.");
+      std::exit(EXIT_SUCCESS);
+    }
+
+    else {
+      logger()->error("Someone went wrong with the LoopType");
+      return TL::StatusCode::FAILURE;
+    }
+
   } // end if particle level enabled
 
   TL_CHECK(m_algorithm->finish());
@@ -123,46 +133,8 @@ void TL::Job::disableProgressBar() {
   m_useProgressBar = false;
 }
 
-void TL::Job::enableParticleLevel() {
-  logger()->info("Particle level information enabled");
-  m_enableParticleLevel = true;
-}
-
-void TL::Job::loopOverAllParticleLevel() {
-  logger()->info("Going to loop over all particle level");
-  if ( m_loopOverParticleLevelOnly || m_loopOverRecoOnly ) {
-    logger()->warn("You've asked for loopOverParticleLevelOnly() or "
-                   "loopOverRecoOnly() already. "
-                   "Overriding that in favor of loopOverAllParticleLevel()");
-    m_loopOverParticleLevelOnly = false;
-    m_loopOverRecoOnly = false;
-  }
-  m_loopOverAllParticleLevel = true;
-}
-
-void TL::Job::loopOverParticleLevelOnly() {
-  logger()->info("Going to loop over particle level _only_ (skip reco'd)");
-  if ( m_loopOverAllParticleLevel || m_loopOverRecoOnly ) {
-    logger()->warn("You've asked for loopOverAllParticleLevel() or "
-                   "loopOverRecoOnly() already. "
-                   "Overriding that in favor of loopOverParticleLevelOnly()");
-    m_loopOverAllParticleLevel = false;
-    m_loopOverRecoOnly = false;
-  }
-  m_loopOverParticleLevelOnly = true;
-}
-
-void TL::Job::loopOverRecoOnly() {
-  logger()->info("Going to loop over reco only events "
-                 "(skip if in particle level tree)");
-  if ( m_loopOverAllParticleLevel || m_loopOverParticleLevelOnly ) {
-    logger()->warn("You've alreaady asked for loopOverAllParticleLevel() or "
-                   "loopOverParticleLevelOnly(), overriding that in favor "
-                   "of loopOverRecoOnly");
-    m_loopOverParticleLevelOnly = false;
-    m_loopOverAllParticleLevel = false;
-  }
-  m_loopOverRecoOnly = true;
+void TL::Job::setLoopType(const TL::Job::LoopType loopType) {
+  m_loopType = loopType;
 }
 
 TL::StatusCode TL::Job::constructIndices() {

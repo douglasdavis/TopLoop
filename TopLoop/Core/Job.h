@@ -26,17 +26,22 @@ namespace TL {
 
   class Job : public TL::Loggable {
 
+  public:
+    enum class LoopType {
+      RecoStandard,
+      RecoWithParticle,
+      ParticleAll,
+      ParticleOnly,
+      RecoOnly
+    };
+
   protected:
     std::unique_ptr<TL::Algorithm>   m_algorithm{nullptr};
     std::unique_ptr<TL::FileManager> m_fm{nullptr};
 
   private:
     bool m_useProgressBar{true};
-
-    bool m_enableParticleLevel{false};
-    bool m_loopOverAllParticleLevel{false};
-    bool m_loopOverParticleLevelOnly{false};
-    bool m_loopOverRecoOnly{false};
+    LoopType m_loopType{LoopType::RecoStandard};
 
     std::vector<uint64_t>                     m_particleLevelOnly {};
     std::vector<uint64_t>                     m_recoLevelOnly     {};
@@ -73,32 +78,14 @@ namespace TL {
     /// disable the tqdm-like progress bar
     void disableProgressBar();
 
-    /// enable particle level tree processing
+    /// Set which kind of loop to execute on the algorithm
     /**
-     *  enables the ability to use particle level information this
-     *  will cause a _large_ increase in memory consumption for big
-     *  samples and you'll see a performance reduction due to a lot
-     *  more data being retrieved per event.
+     * options are any of the members of the LoopType enumeration.  If
+     * the type is anything other than LoopType::RecoOnly, there will
+     * be some overhead determining the reco-level <-> particle-level
+     * indices.
      */
-    void enableParticleLevel();
-
-    /// loop over the whole particle level tree (reco information irrelevant)
-    /**
-     *  requires `enableParticleLevel()` to have been called
-     */
-    void loopOverAllParticleLevel();
-
-    /// loop over the particle level information _only_ (exclude known reco'd events)
-    /**
-     *  requires `enableParticleLevel()` to have been called
-     */
-    void loopOverParticleLevelOnly();
-
-    /// loop over reco events which do not appear in the particle level tree
-    /**
-     *  requires `enableParticleLevel()` to have been called
-     */
-    void loopOverRecoOnly();
+    void setLoopType(const TL::Job::LoopType loopType);
 
   };
 
