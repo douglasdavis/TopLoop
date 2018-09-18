@@ -14,6 +14,9 @@
 #include <TopLoop/Core/Utils.h>
 #include <TopLoop/Core/Loggable.h>
 
+#include <vector>
+#include <utility>
+
 namespace TL {
   class Algorithm;
   class FileManager;
@@ -21,11 +24,31 @@ namespace TL {
 
 namespace TL {
 
+  /// enum for declaring what data to execute the loop over
+  enum class LoopType {
+    RecoStandard,     ///< Loop over reco tree in standard way (no PL access)
+    RecoWithParticle, ///< Loop over reco tree with access to PL information
+    ParticleAll,      ///< Loop over all particle level events
+    ParticleOnly,     ///< Loop over particle level events which are not in reco
+    RecoOnly          ///< Loop over reco events which are not in particle level
+  };
+
   class Job : public TL::Loggable {
 
   protected:
     std::unique_ptr<TL::Algorithm>   m_algorithm{nullptr};
     std::unique_ptr<TL::FileManager> m_fm{nullptr};
+
+  private:
+    bool m_useProgressBar{true};
+    LoopType m_loopType{LoopType::RecoStandard};
+
+    std::vector<uint64_t>                     m_particleLevelOnly {};
+    std::vector<uint64_t>                     m_recoLevelOnly     {};
+    std::vector<std::pair<uint64_t,uint64_t>> m_particleAndReco   {};
+
+  private:
+    TL::StatusCode constructIndices();
 
   public:
 
@@ -51,6 +74,18 @@ namespace TL {
 
     /// launches the TL::Algorithm and checks the steps.
     TL::StatusCode run();
+
+    /// disable the tqdm-like progress bar
+    void disableProgressBar();
+
+    /// Set which kind of loop to execute on the algorithm
+    /**
+     * options are any of the members of the LoopType enumeration.  If
+     * the type is anything other than LoopType::RecoOnly, there will
+     * be some overhead determining the reco-level <-> particle-level
+     * indices.
+     */
+    void setLoopType(const TL::LoopType loopType);
 
   };
 

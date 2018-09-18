@@ -25,6 +25,10 @@ namespace fs = boost::filesystem;
 
 TL::FileManager::FileManager() : TL::Loggable("TL::FileManager") {}
 
+void TL::FileManager::enableParticleLevel() {
+  m_doParticleLevel = true;
+}
+
 void TL::FileManager::setTreeName(const std::string& tn) {
   m_treeName = tn;
 }
@@ -33,12 +37,19 @@ void TL::FileManager::setWeightsTreeName(const std::string& tn) {
   m_weightsTreeName = tn;
 }
 
+void TL::FileManager::setParticleLevelTreeName(const std::string& tn) {
+  m_plTreeName = tn;
+}
+
 TL::StatusCode TL::FileManager::initChain() {
   if ( !m_rootChain ) {
     m_rootChain = std::make_unique<TChain>(m_treeName.c_str());
   }
   if ( !m_rootWeightsChain ) {
     m_rootWeightsChain = std::make_unique<TChain>(m_weightsTreeName.c_str());
+  }
+  if ( m_doParticleLevel && !m_particleLevelChain ) {
+    m_particleLevelChain = std::make_unique<TChain>(m_plTreeName.c_str());
   }
   if ( !m_rootChain || !m_rootWeightsChain ) {
     return TL::StatusCode::FAILURE;
@@ -139,6 +150,9 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
       m_fileNames.emplace_back(final_path);
       m_rootChain->AddFile(final_path.c_str());
       m_rootWeightsChain->AddFile(final_path.c_str());
+      if ( m_doParticleLevel ) {
+        m_particleLevelChain->AddFile(final_path.c_str());
+      }
     }
     else {
       continue;
@@ -174,6 +188,9 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
       m_fileNames.emplace_back(line);
       m_rootChain->Add(line.c_str());
       m_rootWeightsChain->Add(line.c_str());
+      if ( m_doParticleLevel ) {
+        m_particleLevelChain->AddFile(line.c_str());
+      }
     }
   }
 }
@@ -183,4 +200,7 @@ void TL::FileManager::feedSingle(const char* fileName) {
   m_fileNames.emplace_back(std::string(fileName));
   m_rootChain->Add(fileName);
   m_rootWeightsChain->Add(fileName);
+  if ( m_doParticleLevel ) {
+    m_particleLevelChain->AddFile(fileName);
+  }
 }

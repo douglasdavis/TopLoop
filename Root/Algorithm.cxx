@@ -53,6 +53,10 @@ const std::shared_ptr<TTreeReader>& TL::Algorithm::reader() const {
   return m_reader;
 }
 
+const std::shared_ptr<TTreeReader>& TL::Algorithm::particleLevelReader() const {
+  return m_particleLevelReader;
+}
+
 const std::shared_ptr<TTreeReader>& TL::Algorithm::weightsReader() const {
   return m_weightsReader;
 }
@@ -70,6 +74,10 @@ TL::StatusCode TL::Algorithm::setFileManager(std::unique_ptr<TL::FileManager> fm
   m_totalEntries    = m_fm->rootChain()->GetEntries();
   m_isNominal       = m_fm->treeName() == "nominal";
   m_isNominal_Loose = m_fm->treeName() == "nominal_Loose";
+
+  if ( m_fm->particleLevelEnabled() ) {
+    m_totalParticleLevelEntries = m_fm->particleLevelChain()->GetEntries();
+  }
   return TL::StatusCode::SUCCESS;
 }
 

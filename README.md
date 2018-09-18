@@ -57,6 +57,20 @@ TL::StatusCode MyAlgorithm::execute() {
 }
 ```
 
+### Particle level variables
+
+If particle level access has been enabled in your `TL::FileManager`
+and `TL::Job`, then the algorithm will have access to branches in the
+`particleLevel` tree. These are prefixed with `PL_`. For example,
+accessing the `el_pt` branch from the particle level tree:
+
+```cpp
+std::size_t n_partLevel_electrons = PL_el_pt().size();
+if ( n_partLevel_electrons > 1 ) {
+  float second_electron_pt_partLevel = PL_el_pt().at(1);
+}
+```
+
 ### Adding custom variable access
 
 It's very easy to add additional variable access in a TopLoop based
