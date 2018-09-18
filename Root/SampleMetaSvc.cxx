@@ -244,7 +244,9 @@ bool TL::SampleMetaSvc::tWorTtbarPowPy8(const unsigned int d) const {
     kInitialState::tW_DS
   };
   bool is_top = std::find(std::begin(tops),std::end(tops),initstate) != tops.end();
-  bool is_pp8 = (gen == kGenerator::PowhegPythia8 || gen == kGenerator::PowhegPythia8_dil);
+  bool is_pp8 = (gen == kGenerator::PowhegPythia8 ||
+                 gen == kGenerator::PowhegPythia8_dil ||
+                 gen == kGenerator::PowhegPythia8_had);
   return (is_top && is_pp8);
 }
 
