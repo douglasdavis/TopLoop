@@ -181,8 +181,11 @@ TL::StatusCode TL::Job::constructIndices() {
   m_particleLevelOnly.reserve(c_PL->GetEntries());
   m_recoLevelOnly.reserve(c_RL->GetEntries());
 
+  ULong64_t totalPL = static_cast<ULong64_t>(c_PL->GetEntries());
+  ULong64_t totalRL = static_cast<ULong64_t>(c_RL->GetEntries());
+
   // get indices for particle+reco and particle only
-  for ( ULong64_t i = 0; i < c_PL->GetEntries(); ++i ) {
+  for ( ULong64_t i = 0; i < totalPL; ++i ) {
     c_PL->GetEntry(i);
     auto index_RL = c_RL->GetEntryNumberWithIndex(runNumber_PL, eventNumber_PL);
     if ( index_RL > 0 ) {
@@ -194,7 +197,7 @@ TL::StatusCode TL::Job::constructIndices() {
   }
 
   // get indices for reco only
-  for ( ULong64_t i = 0; i < c_RL->GetEntries(); ++i ) {
+  for ( ULong64_t i = 0; i < totalRL; ++i ) {
     c_RL->GetEntry(i);
     auto index_CL = c_RL->GetEntryNumberWithIndex(runNumber_RL, runNumber_RL);
     if ( index_CL < 0 ) {
