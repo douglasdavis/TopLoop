@@ -40,7 +40,9 @@ TL::StatusCode TL::Job::run() {
     return TL::StatusCode::FAILURE;
   }
 
-  if ( m_loopType != LoopType::RecoStandard ) {
+  // indices required for loops that are not standard reco or all particle
+  if ( not (m_loopType == LoopType::RecoStandard ||
+            m_loopType == LoopType::ParticleAll) ) {
     TL_CHECK(constructIndices());
   }
 
