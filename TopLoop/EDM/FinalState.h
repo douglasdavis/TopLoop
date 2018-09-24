@@ -37,6 +37,7 @@ namespace TL {
 
       bool m_hasFakeElectronMC{false};
       bool m_hasFakeMuonMC{false};
+      bool m_hasManTrigMatched{false};
 
       void addLepton(const TL::EDM::Lepton& lep);
       void addLeptonPair(const TL::EDM::LeptonPair& lp);
@@ -95,6 +96,9 @@ namespace TL {
       bool        hasFakeMuonMC()     const;
       /// true if fake electron or fake muon
       bool        hasFakeLeptonMC()   const;
+      /// true if an electron was flagged with isManTrigMatched
+      bool        hasManTrigMatched() const;
+
       /// count the number of jets in the container (default is MV2c10 at 77 percent eff)
       /**
        *  Uses the TL::EDM::BTagWP enum to ask for a specific working point.
@@ -131,6 +135,7 @@ inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs(
   return m_leptonPairs;
 }
 
+inline bool TL::EDM::FinalState::hasManTrigMatched()  const { return m_hasManTrigMatched; }
 inline bool TL::EDM::FinalState::hasFakeElectronMC()  const { return m_hasFakeElectronMC; }
 inline bool TL::EDM::FinalState::hasFakeMuonMC()      const { return m_hasFakeMuonMC;     }
 inline bool TL::EDM::FinalState::hasFakeLeptonMC()    const {
