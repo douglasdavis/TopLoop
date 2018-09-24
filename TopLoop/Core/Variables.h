@@ -441,20 +441,45 @@ namespace TL {
     DECLARE_PL_BRANCH(all_particle         , Int_t              );
     DECLARE_PL_BRANCH(leptonic_2015        , Int_t              );
     DECLARE_PL_BRANCH(leptonic_2016        , Int_t              );
+    DECLARE_PL_BRANCH(leptonic_2017        , Int_t              );
+    DECLARE_PL_BRANCH(leptonic_2018        , Int_t              );
     DECLARE_PL_BRANCH(ee_2015              , Int_t              );
     DECLARE_PL_BRANCH(ee_2016              , Int_t              );
+    DECLARE_PL_BRANCH(ee_2017              , Int_t              );
+    DECLARE_PL_BRANCH(ee_2018              , Int_t              );
+    DECLARE_PL_BRANCH(ejets_2015           , Int_t              );
+    DECLARE_PL_BRANCH(ejets_2016           , Int_t              );
+    DECLARE_PL_BRANCH(ejets_2017           , Int_t              );
+    DECLARE_PL_BRANCH(ejets_2018           , Int_t              );
     DECLARE_PL_BRANCH(mumu_2015            , Int_t              );
     DECLARE_PL_BRANCH(mumu_2016            , Int_t              );
+    DECLARE_PL_BRANCH(mumu_2017            , Int_t              );
+    DECLARE_PL_BRANCH(mumu_2018            , Int_t              );
+    DECLARE_PL_BRANCH(mujets_2015          , Int_t              );
+    DECLARE_PL_BRANCH(mujets_2016          , Int_t              );
+    DECLARE_PL_BRANCH(mujets_2017          , Int_t              );
+    DECLARE_PL_BRANCH(mujets_2018          , Int_t              );
     DECLARE_PL_BRANCH(emu_2015             , Int_t              );
     DECLARE_PL_BRANCH(emu_2016             , Int_t              );
+    DECLARE_PL_BRANCH(emu_2017             , Int_t              );
+    DECLARE_PL_BRANCH(emu_2018             , Int_t              );
     DECLARE_PL_BRANCH(eee_2015             , Int_t              );
     DECLARE_PL_BRANCH(eee_2016             , Int_t              );
+    DECLARE_PL_BRANCH(eee_2017             , Int_t              );
+    DECLARE_PL_BRANCH(eee_2018             , Int_t              );
     DECLARE_PL_BRANCH(eemu_2015            , Int_t              );
     DECLARE_PL_BRANCH(eemu_2016            , Int_t              );
+    DECLARE_PL_BRANCH(eemu_2017            , Int_t              );
+    DECLARE_PL_BRANCH(eemu_2018            , Int_t              );
     DECLARE_PL_BRANCH(emumu_2015           , Int_t              );
     DECLARE_PL_BRANCH(emumu_2016           , Int_t              );
+    DECLARE_PL_BRANCH(emumu_2017           , Int_t              );
+    DECLARE_PL_BRANCH(emumu_2018           , Int_t              );
     DECLARE_PL_BRANCH(mumumu_2015          , Int_t              );
     DECLARE_PL_BRANCH(mumumu_2016          , Int_t              );
+    DECLARE_PL_BRANCH(mumumu_2017          , Int_t              );
+    DECLARE_PL_BRANCH(mumumu_2018          , Int_t              );
+
 
   };
 
