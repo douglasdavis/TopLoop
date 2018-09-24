@@ -93,6 +93,9 @@ std::size_t TL::EDM::FinalState::mostForwardJetIdx() const {
 }
 
 void TL::EDM::FinalState::reset() {
+  m_hasFakeElectronMC = false;
+  m_hasFakeMuonMC     = false;
+  m_hasManTrigMatched = false;
   m_leptons.clear();
   m_jets.clear();
   m_leptonPairs.clear();
