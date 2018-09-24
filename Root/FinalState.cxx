@@ -21,6 +21,7 @@ void TL::EDM::FinalState::makeLeptonPairs() {
 void TL::EDM::FinalState::evaluateSelf(bool sort_leptons, bool manual_promptness) {
   m_hasFakeElectronMC = false;
   m_hasFakeMuonMC     = false;
+  m_hasManTrigMatched = false;
   for ( const TL::EDM::Electron& el : m_electrons ) {
     addLepton(el);
     if ( manual_promptness ) {
@@ -45,6 +46,13 @@ void TL::EDM::FinalState::evaluateSelf(bool sort_leptons, bool manual_promptness
                 return (lep1.pT() > lep2.pT());
               });
   }
+  for ( const auto& lep : m_leptons ) {
+    if ( lep.isManTrigMatched() ) {
+      m_hasManTrigMatched = true;
+      break;
+    }
+  }
+
   makeLeptonPairs();
   if ( m_leptons.size() > 10 ) {
     logger()->warn("Lepton container size has grown to over 10! "
