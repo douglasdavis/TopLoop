@@ -46,12 +46,10 @@ void TL::EDM::FinalState::evaluateSelf(bool sort_leptons, bool manual_promptness
                 return (lep1.pT() > lep2.pT());
               });
   }
-  for ( const auto& lep : m_leptons ) {
-    if ( lep.isManTrigMatched() ) {
-      m_hasManTrigMatched = true;
-      break;
-    }
-  }
+  m_hasManTrigMatched = std::any_of(std::begin(m_leptons),std::end(m_leptons),
+                                    [](const TL::EDM::Lepton& lep) {
+                                      return lep.isManTrigMatched();
+                                    });
 
   makeLeptonPairs();
   if ( m_leptons.size() > 10 ) {
