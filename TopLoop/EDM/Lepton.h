@@ -36,6 +36,8 @@ namespace TL {
       float        m_e_branch;
       char         m_isTight;
 
+      bool         m_isManTrigMatched;
+
     public:
       /// default constructor
       Lepton() = default;
@@ -72,6 +74,9 @@ namespace TL {
       void set_true_isPrompt(const char val);
       void set_isTight(const char val);
 
+      /// allows user to manually flag a lepton as trigger matched
+      void set_isManTrigMatched(const bool val);
+
       /// Value from the energy branch that AnalysisTop ntuples include
       /**
        *  a branch for the reconstructed energy. The energy in the
@@ -97,6 +102,8 @@ namespace TL {
       char         true_isPrompt()     const;
       char         isTight()           const;
 
+      bool         isManTrigMatched()  const;
+
       /// @}
 
     };
@@ -114,6 +121,8 @@ inline void TL::EDM::Lepton::set_true_origin(const int val)         { m_true_ori
 inline void TL::EDM::Lepton::set_true_isPrompt(const char val)      { m_true_isPrompt     = val; }
 inline void TL::EDM::Lepton::set_isTight(const char val)            { m_isTight           = val; }
 
+inline void TL::EDM::Lepton::set_isManTrigMatched(const bool val)   { m_isManTrigMatched  = val; }
+
 inline unsigned int TL::EDM::Lepton::pdgId()             const { return m_pdgId;             }
 inline float        TL::EDM::Lepton::e_branch()          const { return m_e_branch;          }
 inline float        TL::EDM::Lepton::charge()            const { return m_charge;            }
@@ -124,5 +133,7 @@ inline int          TL::EDM::Lepton::true_type()         const { return m_true_t
 inline int          TL::EDM::Lepton::true_origin()       const { return m_true_origin;       }
 inline char         TL::EDM::Lepton::true_isPrompt()     const { return m_true_isPrompt;     }
 inline char         TL::EDM::Lepton::isTight()           const { return m_isTight;           }
+
+inline bool         TL::EDM::Lepton::isManTrigMatched()  const { return m_isManTrigMatched;  }
 
 #endif
