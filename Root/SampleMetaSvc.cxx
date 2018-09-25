@@ -58,16 +58,28 @@ TL::SampleMetaSvc::SampleMetaSvc() : TL::Loggable("TL::SampleMetaSvc") {
   if ( camp_in.bad() ) {
     logger()->error("cannot fill campaign metadata from file. {} cannot be found", camp_filepath);
   }
-  auto j_camp = nlohmann::json::parse(camp_in);
+  auto j_camp      = nlohmann::json::parse(camp_in);
+  auto use_version = j_camp.at("use").get<std::string>();
+  auto use_node    = j_camp.at(use_version);
+  logger()->info("Using {} campaign luminosities",use_version);
   m_campaignLumis = {
-                     { TL::kCampaign::MC15c, j_camp.at("MC15c").get<float>() } ,
-                     { TL::kCampaign::MC16a, j_camp.at("MC16a").get<float>() } ,
-                     { TL::kCampaign::MC16c, j_camp.at("MC16c").get<float>() } ,
-                     { TL::kCampaign::MC16d, j_camp.at("MC16d").get<float>() } ,
-                     { TL::kCampaign::MC16e, j_camp.at("MC16e").get<float>() } ,
-                     { TL::kCampaign::MC16f, j_camp.at("MC16f").get<float>() }
+                     { TL::kCampaign::MC15c, use_node.at("MC15c").get<float>() } ,
+                     { TL::kCampaign::MC16a, use_node.at("MC16a").get<float>() } ,
+                     { TL::kCampaign::MC16c, use_node.at("MC16c").get<float>() } ,
+                     { TL::kCampaign::MC16d, use_node.at("MC16d").get<float>() } ,
+                     { TL::kCampaign::MC16e, use_node.at("MC16e").get<float>() } ,
+                     { TL::kCampaign::MC16f, use_node.at("MC16f").get<float>() }
   };
-  m_campaignLumis.emplace(TL::kCampaign::Data,0.0);
+  logger()->info("| {:>8} | {:>8} | {:>8} | {:>8} | {:>8} | {:>8} |",
+                 "MC15c", "MC16a", "MC16c", "MC16d", "MC16e", "MC16f");
+  logger()->info("| {:>8} | {:>8} | {:>8} | {:>8} | {:>8} | {:>8} |",
+                 m_campaignLumis.at(TL::kCampaign::MC15c),
+                 m_campaignLumis.at(TL::kCampaign::MC16a),
+                 m_campaignLumis.at(TL::kCampaign::MC16c),
+                 m_campaignLumis.at(TL::kCampaign::MC16d),
+                 m_campaignLumis.at(TL::kCampaign::MC16e),
+                 m_campaignLumis.at(TL::kCampaign::MC16f));
+  m_campaignLumis.emplace(TL::kCampaign::Data, 0.0);
 }
 
 //___________________________________________________________________
