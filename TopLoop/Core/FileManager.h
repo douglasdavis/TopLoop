@@ -15,6 +15,7 @@
 // TopLoop
 #include <TopLoop/Core/Loggable.h>
 #include <TopLoop/Core/Utils.h>
+#include <TopLoop/Core/SampleMetaSvc.h>
 
 // ROOT
 class TChain;
@@ -32,6 +33,7 @@ namespace TL {
     std::unique_ptr<TChain>  m_rootWeightsChain   {nullptr};
     std::string              m_rucioDirName       {"none"};
     unsigned int             m_dsid               {0};
+    TL::kSgTopNtup           m_sgtopNtupVersion   {};
 
     /// initialize the ROOT TChain pointers
     TL::StatusCode initChain();
@@ -123,6 +125,8 @@ namespace TL {
     const std::string& rucioDir() const;
     /// the dsid as determined from a regex search on the rucio dir
     unsigned int dsid() const;
+    /// the single top ntuple version
+    TL::kSgTopNtup getSgTopNtupVersion() const;
 
     /// @}
 
@@ -150,6 +154,8 @@ inline const std::string& TL::FileManager::weightsTreeName() const { return m_we
 inline const std::string& TL::FileManager::treeName()        const { return m_treeName;        }
 inline const std::string& TL::FileManager::rucioDir()        const { return m_rucioDirName;    }
 inline       unsigned int TL::FileManager::dsid()            const { return m_dsid;            }
+
+inline       TL::kSgTopNtup TL::FileManager::getSgTopNtupVersion() const { return m_sgtopNtupVersion; }
 
 inline       TChain* TL::FileManager::particleLevelChain() const { return m_particleLevelChain.get(); }
 inline       TChain* TL::FileManager::rootChain()          const { return m_rootChain.get();          }

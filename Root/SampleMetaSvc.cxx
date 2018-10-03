@@ -235,6 +235,19 @@ bool TL::SampleMetaSvc::isAFII(const std::string& sample_name, bool log_it) cons
   return isaf2;
 }
 
+TL::kSgTopNtup TL::SampleMetaSvc::getNtupleVersion(const std::string& sample_name, bool log_it) const {
+  std::regex v23reg("(v23)");
+  bool is23 = std::regex_search(sample_name, v23reg);
+  if ( is23 ) {
+    if ( log_it ) logger()->info("Sample is v23 single top ntuple");
+    return TL::kSgTopNtup::v23;
+  }
+  else {
+    if ( log_it ) logger()->info("Sample is v25 single top ntuple");
+    return TL::kSgTopNtup::v25;
+  }
+}
+
 unsigned int TL::SampleMetaSvc::getYear(const unsigned int runNum) const {
   /////////////////////////////////////////////////////////////////////
   // These numbers were grabbed from SUSYTools:
