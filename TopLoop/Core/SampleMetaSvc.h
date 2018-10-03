@@ -42,7 +42,7 @@ namespace TL {
 
   enum class kSampleType { Unknown, Data, Nominal, Systematic };
 
-  enum class kSgTopNtup { v23, v25 };
+  enum class kSgTopNtup { Unknown, v23, v25 };
 
 }
 
