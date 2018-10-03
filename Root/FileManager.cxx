@@ -70,6 +70,7 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
   std::vector<std::string> splits;
   boost::algorithm::split(splits,dp,boost::is_any_of("/"));
   m_rucioDirName = splits.back();
+  m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
 
   // try to determine dsid from rucio directory name
   std::regex rgx("(.[0-9]{6}.)");

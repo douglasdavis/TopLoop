@@ -42,6 +42,8 @@ namespace TL {
 
   enum class kSampleType { Unknown, Data, Nominal, Systematic };
 
+  enum class kSgTopNtup { Unknown, v23, v25 };
+
 }
 
 namespace TL {
@@ -129,7 +131,7 @@ namespace TL {
      */
     const std::string getCampaignStr(const std::string& sample_name, bool log_it = true) const;
 
-    /// given  the campaign enum entry get the string
+    /// given the campaign enum entry get the string
     const std::string getCampaignStr(const TL::kCampaign campaign) const;
 
     /// get the luminosity of a particular campaign
@@ -232,6 +234,9 @@ namespace TL {
      *  @param d the DSID
      */
     bool tWorTtbarPowPy8(const unsigned int d) const;
+
+    /// given the sample name, get the SgTop ntuple version
+    TL::kSgTopNtup getNtupleVersion(const std::string& sample_name, bool log_it = true) const;
 
     /// @}
 
