@@ -54,6 +54,12 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(weight_pileup,Float_t,m_reader);
   CONNECT_BRANCH(weight_leptonSF,Float_t,m_reader);
   CONNECT_BRANCH(weight_globalLeptonTriggerSF,Float_t,m_reader);
+  CONNECT_BRANCH(weight_globalLeptonTriggerSF_EL_Trigger_UP,Float_t,m_reader);
+  CONNECT_BRANCH(weight_globalLeptonTriggerSF_EL_Trigger_DOWN,Float_t,m_reader);
+  CONNECT_BRANCH(weight_globalLeptonTriggerSF_MU_Trigger_STAT_UP,Float_t,m_reader);
+  CONNECT_BRANCH(weight_globalLeptonTriggerSF_MU_Trigger_STAT_DOWN,Float_t,m_reader);
+  CONNECT_BRANCH(weight_globalLeptonTriggerSF_MU_Trigger_SYST_UP,Float_t,m_reader);
+  CONNECT_BRANCH(weight_globalLeptonTriggerSF_MU_Trigger_SYST_DOWN,Float_t,m_reader);
   CONNECT_BRANCH(weight_bTagSF_MV2c10_70,Float_t,m_reader);
   CONNECT_BRANCH(weight_bTagSF_MV2c10_77,Float_t,m_reader);
   CONNECT_BRANCH(weight_bTagSF_MV2c10_85,Float_t,m_reader);
