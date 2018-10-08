@@ -75,7 +75,7 @@ namespace TL {
 
     std::map<std::string,TL::kCampaign>     m_rTags;
 
-    TL::kSgTopNtup m_ntupVersion{TL::kSgTopNtup::v23};
+    TL::kSgTopNtup m_ntupVersion{TL::kSgTopNtup::Unknown};
     std::map<TL::kSgTopNtup,
              std::map<TL::kCampaign,float>> m_campaignLumis;
 
