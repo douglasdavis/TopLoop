@@ -58,28 +58,42 @@ TL::SampleMetaSvc::SampleMetaSvc() : TL::Loggable("TL::SampleMetaSvc") {
   if ( camp_in.bad() ) {
     logger()->error("cannot fill campaign metadata from file. {} cannot be found", camp_filepath);
   }
-  auto j_camp      = nlohmann::json::parse(camp_in);
-  auto use_version = j_camp.at("use").get<std::string>();
-  auto use_node    = j_camp.at(use_version);
-  logger()->info("Using {} campaign luminosities",use_version);
-  m_campaignLumis = {
-                     { TL::kCampaign::MC15c, use_node.at("MC15c").get<float>() } ,
-                     { TL::kCampaign::MC16a, use_node.at("MC16a").get<float>() } ,
-                     { TL::kCampaign::MC16c, use_node.at("MC16c").get<float>() } ,
-                     { TL::kCampaign::MC16d, use_node.at("MC16d").get<float>() } ,
-                     { TL::kCampaign::MC16e, use_node.at("MC16e").get<float>() } ,
-                     { TL::kCampaign::MC16f, use_node.at("MC16f").get<float>() }
+  auto j_camp = nlohmann::json::parse(camp_in);
+  std::map<TL::kCampaign, float> campaignLumis_23 = {
+    { TL::kCampaign::MC15c, j_camp.at("v23").at("MC15c").get<float>() } ,
+    { TL::kCampaign::MC16a, j_camp.at("v23").at("MC16a").get<float>() } ,
+    { TL::kCampaign::MC16c, j_camp.at("v23").at("MC16c").get<float>() } ,
+    { TL::kCampaign::MC16d, j_camp.at("v23").at("MC16d").get<float>() } ,
+    { TL::kCampaign::MC16e, j_camp.at("v23").at("MC16e").get<float>() } ,
+    { TL::kCampaign::MC16f, j_camp.at("v23").at("MC16f").get<float>() } ,
+    { TL::kCampaign::Data,  0.0 }
   };
-  logger()->info("| {:>8} | {:>8} | {:>8} | {:>8} | {:>8} | {:>8} |",
-                 "MC15c", "MC16a", "MC16c", "MC16d", "MC16e", "MC16f");
-  logger()->info("| {:>8} | {:>8} | {:>8} | {:>8} | {:>8} | {:>8} |",
-                 m_campaignLumis.at(TL::kCampaign::MC15c),
-                 m_campaignLumis.at(TL::kCampaign::MC16a),
-                 m_campaignLumis.at(TL::kCampaign::MC16c),
-                 m_campaignLumis.at(TL::kCampaign::MC16d),
-                 m_campaignLumis.at(TL::kCampaign::MC16e),
-                 m_campaignLumis.at(TL::kCampaign::MC16f));
-  m_campaignLumis.emplace(TL::kCampaign::Data, 0.0);
+  std::map<TL::kCampaign, float> campaignLumis_25 = {
+    { TL::kCampaign::MC15c, j_camp.at("v25").at("MC15c").get<float>() } ,
+    { TL::kCampaign::MC16a, j_camp.at("v25").at("MC16a").get<float>() } ,
+    { TL::kCampaign::MC16c, j_camp.at("v25").at("MC16c").get<float>() } ,
+    { TL::kCampaign::MC16d, j_camp.at("v25").at("MC16d").get<float>() } ,
+    { TL::kCampaign::MC16e, j_camp.at("v25").at("MC16e").get<float>() } ,
+    { TL::kCampaign::MC16f, j_camp.at("v25").at("MC16f").get<float>() } ,
+    { TL::kCampaign::Data,  0.0 }
+  };
+  m_campaignLumis = {
+                     {TL::kSgTopNtup::v23, campaignLumis_23},
+                     {TL::kSgTopNtup::v25, campaignLumis_25}
+  };
+
+  logger()->info("| {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} |",
+                 "SgTopNtup","MC15c", "MC16a", "MC16c", "MC16d", "MC16e", "MC16f");
+  for ( const auto& m : m_campaignLumis ) {
+    logger()->info("| {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} |",
+                   as_string(m.first),
+                   m.second.at(TL::kCampaign::MC15c),
+                   m.second.at(TL::kCampaign::MC16a),
+                   m.second.at(TL::kCampaign::MC16c),
+                   m.second.at(TL::kCampaign::MC16d),
+                   m.second.at(TL::kCampaign::MC16e),
+                   m.second.at(TL::kCampaign::MC16f));
+  }
 }
 
 //___________________________________________________________________
@@ -151,6 +165,11 @@ void TL::SampleMetaSvc::setupMaps() {
     { "MC16f"                , TL::kCampaign::MC16f              } ,
     { "MC15c"                , TL::kCampaign::MC15c              }
   };
+  m_s2e_NT = {
+    { "Unknown"              , TL::kSgTopNtup::Unknown           } ,
+    { "v23"                  , TL::kSgTopNtup::v23               } ,
+    { "v25"                  , TL::kSgTopNtup::v25               }
+  };
   auto flipMap = [](const auto& templateMap, auto& newMap) {
     for ( auto const& templatePair : templateMap ) {
       newMap.emplace(templatePair.second,templatePair.first);
@@ -160,13 +179,14 @@ void TL::SampleMetaSvc::setupMaps() {
   flipMap(m_s2e_G,  m_e2s_G);
   flipMap(m_s2e_ST, m_e2s_ST);
   flipMap(m_s2e_C,  m_e2s_C);
+  flipMap(m_s2e_NT, m_e2s_NT);
 
   m_rTags = {
-             {"r7676"   , TL::kCampaign::MC15c } ,
-             { "r9364"  , TL::kCampaign::MC16a } ,
-             { "r9781"  , TL::kCampaign::MC16c } ,
-             { "r10201" , TL::kCampaign::MC16d } ,
-             { "r10724" , TL::kCampaign::MC16e }
+    { "r7676"  , TL::kCampaign::MC15c } ,
+    { "r9364"  , TL::kCampaign::MC16a } ,
+    { "r9781"  , TL::kCampaign::MC16c } ,
+    { "r10201" , TL::kCampaign::MC16d } ,
+    { "r10724" , TL::kCampaign::MC16e }
   };
 
 }
@@ -189,8 +209,8 @@ TL::kCampaign TL::SampleMetaSvc::getCampaign(const std::string& sample_name) con
 }
 
 float TL::SampleMetaSvc::getLumi(const TL::kCampaign campaign) const {
-  auto itr = m_campaignLumis.find(campaign);
-  if ( itr == std::end(m_campaignLumis) ) {
+  auto itr = m_campaignLumis.at(m_ntupVersion).find(campaign);
+  if ( itr == std::end(m_campaignLumis.at(m_ntupVersion)) ) {
     logger()->error("Campaign {} doesn't have a luminosity",getCampaignStr(campaign));
     return 0;
   }
@@ -235,25 +255,29 @@ bool TL::SampleMetaSvc::isAFII(const std::string& sample_name, bool log_it) cons
   return isaf2;
 }
 
-TL::kSgTopNtup TL::SampleMetaSvc::getNtupleVersion(const std::string& sample_name, bool log_it) const {
+TL::kSgTopNtup TL::SampleMetaSvc::getNtupleVersion(const std::string& sample_name, bool log_it) {
   std::regex v23reg("(v23)");
   std::regex v25reg("(v25)");
   bool is23 = std::regex_search(sample_name, v23reg);
   bool is25 = std::regex_search(sample_name, v25reg);
   if ( is23 && is25 ) {
     logger()->warn("SgTopNtuple version degeneracy detected, set to Unknown.");
+    m_ntupVersion = TL::kSgTopNtup::Unknown;
     return TL::kSgTopNtup::Unknown;
   }
   if ( is23 ) {
     if ( log_it ) logger()->info("Sample is v23 single top ntuple");
+    m_ntupVersion = TL::kSgTopNtup::v23;
     return TL::kSgTopNtup::v23;
   }
   else if ( is25 ) {
     if ( log_it ) logger()->info("Sample is v25 single top ntuple");
+    m_ntupVersion = TL::kSgTopNtup::v25;
     return TL::kSgTopNtup::v25;
   }
   else {
     if ( log_it ) logger()->info("Cannot determine single top ntuple version, set to Unknown");
+    m_ntupVersion = TL::kSgTopNtup::Unknown;
     return TL::kSgTopNtup::Unknown;
   }
 }
@@ -301,7 +325,9 @@ void TL::SampleMetaSvc::dump() {
                    as_string(std::get<2>(entry.second)));
   }
   for ( auto const& camp : m_campaignLumis ) {
-    logger()->info("Campaign : {} has associated luminosity: {} /fb",
-                   as_string(camp.first),camp.second);
+    for ( auto const& cl : camp.second ) {
+      logger()->info("Campaign  ({}) : {} has associated luminosity: {} /fb",
+                     as_string(camp.first),as_string(cl.first),cl.second);
+    }
   }
 }

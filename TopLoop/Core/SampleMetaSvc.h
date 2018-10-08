@@ -70,8 +70,14 @@ namespace TL {
     std::map<std::string,TL::kCampaign>     m_s2e_C;
     std::map<TL::kCampaign,std::string>     m_e2s_C;
 
+    std::map<std::string,TL::kSgTopNtup>    m_s2e_NT;
+    std::map<TL::kSgTopNtup,std::string>    m_e2s_NT;
+
     std::map<std::string,TL::kCampaign>     m_rTags;
-    std::map<TL::kCampaign,float>           m_campaignLumis;
+
+    TL::kSgTopNtup m_ntupVersion{TL::kSgTopNtup::Unknown};
+    std::map<TL::kSgTopNtup,
+             std::map<TL::kCampaign,float>> m_campaignLumis;
 
     void setupMaps();
 
@@ -218,6 +224,16 @@ namespace TL {
     /// @name Misc helper functions
     /// @{
 
+    /// set the single top ntuple version (controls campaign lumis)
+    /**
+     *  The class uses ntuple version information internally to make
+     *  lumi calculations based on campaigns and ntuple,
+     *  versions. This function manually sets the internal ntuple
+     *  version used... if getNtupleVersion is called the information
+     *  is overriden!
+     */
+    void setNtupleVersionForCampaignUse(const TL::kSgTopNtup ntupVersion);
+
     /// given a sample name, return if the sample was simulated with AFII
     /**
      *  @param sample_name string which should be the rucio sample
@@ -236,7 +252,14 @@ namespace TL {
     bool tWorTtbarPowPy8(const unsigned int d) const;
 
     /// given the sample name, get the SgTop ntuple version
-    TL::kSgTopNtup getNtupleVersion(const std::string& sample_name, bool log_it = true) const;
+    /**
+     *  This function will make this class internally use the
+     *  determined ntuple version for luminosity information!
+     */
+    TL::kSgTopNtup getNtupleVersion(const std::string& sample_name, bool log_it = true);
+
+    /// convenience function to grab which ntuple version is in use by this class
+    std::string ntupleVersionInUse() const;
 
     /// @}
 
@@ -255,6 +278,7 @@ namespace TL {
     const std::string as_string(const TL::kGenerator ienum) const;
     const std::string as_string(const TL::kSampleType ienum) const;
     const std::string as_string(const TL::kCampaign ienum) const;
+    const std::string as_string(const TL::kSgTopNtup ienum) const;
 
   };
 }
@@ -320,6 +344,14 @@ inline const std::string TL::SampleMetaSvc::as_string(const TL::kCampaign ienum)
   return itr->second;
 }
 
+inline const std::string TL::SampleMetaSvc::as_string(const TL::kSgTopNtup ienum) const {
+  auto itr = m_e2s_NT.find(ienum);
+  if ( itr == m_e2s_NT.end() ) {
+    logger()->error("Can't find  single top ntuple version enum entry");
+  }
+  return itr->second;
+}
+
 inline const std::string TL::SampleMetaSvc::getInitialStateStr(const unsigned int dsid) const {
   return as_string(getInitialState(dsid));
 }
@@ -346,6 +378,14 @@ inline const std::string TL::SampleMetaSvc::getCampaignStr(const TL::kCampaign c
     logger()->error("can't find campaign enum entry");
   }
   return itr->second;
+}
+
+inline void TL::SampleMetaSvc::setNtupleVersionForCampaignUse(const TL::kSgTopNtup ntupVersion) {
+  m_ntupVersion = ntupVersion;
+}
+
+inline std::string TL::SampleMetaSvc::ntupleVersionInUse() const {
+  return as_string(m_ntupVersion);
 }
 
 #endif
