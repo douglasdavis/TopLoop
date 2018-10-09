@@ -215,8 +215,7 @@ namespace TL {
      *  The weight that is returned is calculated as:
      *
      *  \f[
-     *     w_c = \frac{\mathcal{L}_c}
-     {\sum_i \mathcal{L}_i}
+     *     w_c = \frac{\mathcal{L}_c}{\sum_i \mathcal{L}_i}
      *  \f]
      *
      *  where \f$\mathcal{L}_c\f$ is the luminosity associated with
