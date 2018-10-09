@@ -110,6 +110,9 @@ the value via a double derefencing. If you imagine the top ntuple as a
 class itself (or perhaps a pandas.DataFrame) then the function call
 structure is intuitive.
 
+For particle level variables, the macros are `DECLARE_PL_BRANCH` and
+`CONNECT_PL_BRANCH`.
+
 ## API Documentation
 
 Doxygen documentation can be found here: http://twrun2.web.cern.ch/TopLoopDocs/
