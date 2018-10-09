@@ -22,8 +22,6 @@ namespace TL {
       float m_ptvarcone20;
       char  m_CF;
       float m_cl_eta;
-      int   m_true_originbkg;
-      int   m_true_typebkg;
 
       bool m_isManualTruthPrompt{false};
 
