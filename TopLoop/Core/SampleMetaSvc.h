@@ -84,7 +84,13 @@ namespace TL {
     typedef std::map<int,std::tuple<TL::kInitialState,TL::kGenerator,TL::kSampleType>> SampleTable_t;
     SampleTable_t m_sampleTable;
 
-    const SampleTable_t::const_iterator checkTable(const unsigned int dsid) const;
+    const SampleTable_t::const_iterator checkTable(const unsigned int dsid) const {
+      const SampleTable_t::const_iterator itr = m_sampleTable.find(dsid);
+      if ( itr == m_sampleTable.end() ) {
+        logger()->error("can't find DSID! {} not in SampleMetaSvc table!",dsid);
+      }
+      return itr;
+    }
 
     template <typename Enumeration>
     auto as_integer(const Enumeration value) const -> typename std::underlying_type<Enumeration>::type {
@@ -101,24 +107,44 @@ namespace TL {
      *  std::string initstatestr    = TL::SampleMetaSvc::get().getInitialStateStr(410015);
      *  @endcode
      */
-    static SampleMetaSvc& get();
+    static SampleMetaSvc& get() {
+      static SampleMetaSvc inst;
+      return inst;
+    }
 
     /// @name Enum and string identification getters taking DSID
     /// @{
 
     /// retrieve a enum value corresponding to the initial state based on a DSID
-    TL::kInitialState getInitialState(const unsigned int dsid) const;
+    TL::kInitialState getInitialState(const unsigned int dsid) const {
+      auto itr = checkTable(dsid);
+      return std::get<0>(itr->second);
+    }
     /// retrieve a enum value corresponding to the generator based on a DSID
-    TL::kGenerator    getGenerator(const unsigned int dsid)    const;
+    TL::kGenerator    getGenerator(const unsigned int dsid)    const {
+      auto itr = checkTable(dsid);
+      return std::get<1>(itr->second);
+    }
     /// retrieve a enum value corresponding to the sample type based on a DSID
-    TL::kSampleType   getSampleType(const unsigned int dsid)   const;
+    TL::kSampleType   getSampleType(const unsigned int dsid)   const {
+      auto itr = checkTable(dsid);
+      return std::get<2>(itr->second);
+    }
 
     /// get the initial state name based on a dsid
-    const std::string getInitialStateStr(const unsigned int dsid) const;
+    const std::string getInitialStateStr(const unsigned int dsid) const {
+      return as_string(getInitialState(dsid));
+    }
+
     /// get the generator name based on a dsid
-    const std::string getGeneratorStr(const unsigned int dsid)    const;
+    const std::string getGeneratorStr(const unsigned int dsid) const {
+      return as_string(getGenerator(dsid));
+    }
+
     /// get the sample type name based on a dsid
-    const std::string getSampleTypeStr(const unsigned int dsid)   const;
+    const std::string getSampleTypeStr(const unsigned int dsid) const {
+      return as_string(getSampleType(dsid));
+    }
 
     /// @}
 
@@ -128,6 +154,16 @@ namespace TL {
 
     /// Given a sample name, get the MC campaign identifier
     TL::kCampaign getCampaign(const std::string& sample_name) const;
+
+    /// given the campaign enum entry get the string
+    const std::string getCampaignStr(const TL::kCampaign campaign) const {
+      auto itr = m_e2s_C.find(campaign);
+      if ( itr == m_e2s_C.end() ) {
+        logger()->error("can't find campaign enum entry");
+      }
+      return itr->second;
+    }
+
     /// Given a sample name, get the MC campaign string identifier
     /**
      *  @param sample_name string which should be the rucio sample
@@ -135,10 +171,13 @@ namespace TL {
      *  @param log_it flag (default true) to print result at "info"
      *  level.
      */
-    const std::string getCampaignStr(const std::string& sample_name, bool log_it = true) const;
-
-    /// given the campaign enum entry get the string
-    const std::string getCampaignStr(const TL::kCampaign campaign) const;
+    const std::string getCampaignStr(const std::string& sample_name, bool log_it) const {
+      auto retval = as_string(getCampaign(sample_name));
+      if  ( log_it ) {
+        logger()->info("This appears to be campaign: {}",retval);
+      }
+      return retval;
+    }
 
     /// get the luminosity of a particular campaign
     /**
@@ -177,7 +216,7 @@ namespace TL {
      *
      *  \f[
      *     w_c = \frac{\mathcal{L}_c}
-                      {\sum_i \mathcal{L}_i}
+     {\sum_i \mathcal{L}_i}
      *  \f]
      *
      *  where \f$\mathcal{L}_c\f$ is the luminosity associated with
@@ -224,16 +263,6 @@ namespace TL {
     /// @name Misc helper functions
     /// @{
 
-    /// set the single top ntuple version (controls campaign lumis)
-    /**
-     *  The class uses ntuple version information internally to make
-     *  lumi calculations based on campaigns and ntuple,
-     *  versions. This function manually sets the internal ntuple
-     *  version used... if getNtupleVersion is called the information
-     *  is overriden!
-     */
-    void setNtupleVersionForCampaignUse(const TL::kSgTopNtup ntupVersion);
-
     /// given a sample name, return if the sample was simulated with AFII
     /**
      *  @param sample_name string which should be the rucio sample
@@ -251,6 +280,18 @@ namespace TL {
      */
     bool tWorTtbarPowPy8(const unsigned int d) const;
 
+    /// set the single top ntuple version (controls campaign lumis)
+    /**
+     *  The class uses ntuple version information internally to make
+     *  lumi calculations based on campaigns and ntuple,
+     *  versions. This function manually sets the internal ntuple
+     *  version used... if getNtupleVersion is called the information
+     *  is overriden!
+     */
+    void setNtupleVersionForCampaignUse(const TL::kSgTopNtup ntupVersion) {
+      m_ntupVersion = ntupVersion;
+    }
+
     /// given the sample name, get the SgTop ntuple version
     /**
      *  This function will make this class internally use the
@@ -259,7 +300,9 @@ namespace TL {
     TL::kSgTopNtup getNtupleVersion(const std::string& sample_name, bool log_it = true);
 
     /// convenience function to grab which ntuple version is in use by this class
-    std::string ntupleVersionInUse() const;
+    std::string ntupleVersionInUse() const {
+      return as_string(m_ntupVersion);
+    }
 
     /// @}
 
@@ -274,118 +317,47 @@ namespace TL {
     /// @}
 
   private:
-    const std::string as_string(const TL::kInitialState ienum) const;
-    const std::string as_string(const TL::kGenerator ienum) const;
-    const std::string as_string(const TL::kSampleType ienum) const;
-    const std::string as_string(const TL::kCampaign ienum) const;
-    const std::string as_string(const TL::kSgTopNtup ienum) const;
+    const std::string as_string(const TL::kInitialState ienum) const {
+      auto itr = m_e2s_IS.find(ienum);
+      if ( itr == m_e2s_IS.end() ) {
+        logger()->error("can't find initial state enum entry");
+      }
+      return itr->second;
+    }
+
+    const std::string as_string(const TL::kGenerator ienum) const {
+      auto itr = m_e2s_G.find(ienum);
+      if ( itr == m_e2s_G.end() ) {
+        logger()->error("can't find generator enum entry");
+      }
+      return itr->second;
+    }
+
+    const std::string as_string(const TL::kSampleType ienum) const {
+      auto itr = m_e2s_ST.find(ienum);
+      if ( itr == m_e2s_ST.end() ) {
+        logger()->error("can't find sample type enum entry");
+      }
+      return itr->second;
+    }
+
+    const std::string as_string(const TL::kCampaign ienum) const {
+      auto itr = m_e2s_C.find(ienum);
+      if ( itr == m_e2s_C.end() ) {
+        logger()->error("Can't find campaign enum entry");
+      }
+      return itr->second;
+    }
+
+    const std::string as_string(const TL::kSgTopNtup ienum) const {
+      auto itr = m_e2s_NT.find(ienum);
+      if ( itr == m_e2s_NT.end() ) {
+        logger()->error("Can't find  single top ntuple version enum entry");
+      }
+      return itr->second;
+    }
 
   };
-}
-
-inline TL::SampleMetaSvc& TL::SampleMetaSvc::get() {
-  static SampleMetaSvc inst;
-  return inst;
-}
-
-inline const TL::SampleMetaSvc::SampleTable_t::const_iterator
-TL::SampleMetaSvc::checkTable(const unsigned int dsid) const {
-  const SampleTable_t::const_iterator itr = m_sampleTable.find(dsid);
-  if ( itr == m_sampleTable.end() ) {
-    logger()->error("can't find DSID! {} not in SampleMetaSvc table!",dsid);
-  }
-  return itr;
-}
-
-inline TL::kInitialState TL::SampleMetaSvc::getInitialState(const unsigned int dsid) const {
-  auto itr = checkTable(dsid);
-  return std::get<0>(itr->second);
-}
-
-inline TL::kGenerator TL::SampleMetaSvc::getGenerator(const unsigned int dsid) const {
-  auto itr = checkTable(dsid);
-  return std::get<1>(itr->second);
-}
-
-inline TL::kSampleType TL::SampleMetaSvc::getSampleType(const unsigned int dsid) const {
-  auto itr = checkTable(dsid);
-  return std::get<2>(itr->second);
-}
-
-inline const std::string TL::SampleMetaSvc::as_string(const TL::kInitialState ienum) const {
-  auto itr = m_e2s_IS.find(ienum);
-  if ( itr == m_e2s_IS.end() ) {
-    logger()->error("can't find initial state enum entry");
-  }
-  return itr->second;
-}
-
-inline const std::string TL::SampleMetaSvc::as_string(const TL::kGenerator ienum) const {
-  auto itr = m_e2s_G.find(ienum);
-  if ( itr == m_e2s_G.end() ) {
-    logger()->error("can't find generator enum entry");
-  }
-  return itr->second;
-}
-
-inline const std::string TL::SampleMetaSvc::as_string(const TL::kSampleType ienum) const {
-  auto itr = m_e2s_ST.find(ienum);
-  if ( itr == m_e2s_ST.end() ) {
-    logger()->error("can't find sample type enum entry");
-  }
-  return itr->second;
-}
-
-inline const std::string TL::SampleMetaSvc::as_string(const TL::kCampaign ienum) const {
-  auto itr = m_e2s_C.find(ienum);
-  if ( itr == m_e2s_C.end() ) {
-    logger()->error("Can't find campaign enum entry");
-  }
-  return itr->second;
-}
-
-inline const std::string TL::SampleMetaSvc::as_string(const TL::kSgTopNtup ienum) const {
-  auto itr = m_e2s_NT.find(ienum);
-  if ( itr == m_e2s_NT.end() ) {
-    logger()->error("Can't find  single top ntuple version enum entry");
-  }
-  return itr->second;
-}
-
-inline const std::string TL::SampleMetaSvc::getInitialStateStr(const unsigned int dsid) const {
-  return as_string(getInitialState(dsid));
-}
-
-inline const std::string TL::SampleMetaSvc::getGeneratorStr(const unsigned int dsid) const {
-  return as_string(getGenerator(dsid));
-}
-
-inline const std::string TL::SampleMetaSvc::getSampleTypeStr(const unsigned int dsid) const {
-  return as_string(getSampleType(dsid));
-}
-
-inline const std::string TL::SampleMetaSvc::getCampaignStr(const std::string& sample_name, bool log_it) const {
-  auto retval = as_string(getCampaign(sample_name));
-  if  ( log_it ) {
-    logger()->info("This appears to be campaign: {}",retval);
-  }
-  return retval;
-}
-
-inline const std::string TL::SampleMetaSvc::getCampaignStr(const TL::kCampaign campaign) const {
-  auto itr = m_e2s_C.find(campaign);
-  if ( itr == m_e2s_C.end() ) {
-    logger()->error("can't find campaign enum entry");
-  }
-  return itr->second;
-}
-
-inline void TL::SampleMetaSvc::setNtupleVersionForCampaignUse(const TL::kSgTopNtup ntupVersion) {
-  m_ntupVersion = ntupVersion;
-}
-
-inline std::string TL::SampleMetaSvc::ntupleVersionInUse() const {
-  return as_string(m_ntupVersion);
 }
 
 #endif

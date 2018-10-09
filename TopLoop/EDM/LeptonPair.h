@@ -87,26 +87,26 @@ namespace TL {
        *  This function uses the ROOT function
        *  `TLorentzVector::DeltaR`.
        */
-      float deltaR()   const;
+      float deltaR()   const { return m_deltaR;   }
       /// get the \f$\Delta\phi\f$ between the two leptons.
-      float deltaPhi() const;
+      float deltaPhi() const { return m_deltaPhi; }
       /// get the \f$\Delta\eta\f$ between the two leptons.
-      float deltaEta() const;
+      float deltaEta() const { return m_deltaEta; }
 
       /// return true for same sign lepton pair.
-      bool SS()   const;
+      bool SS()   const { return m_SS;    }
       /// return true for opposite sign lepton pair.
-      bool OS()   const;
+      bool OS()   const { return m_OS;    }
       /// return true for same flavor lepton pair.
-      bool SF()   const;
+      bool SF()   const { return !m_elmu; }
       /// return true for opposite flavor lepton pair (same as elmu()).
-      bool OF()   const;
+      bool OF()   const { return m_elmu;  }
       /// return true if \f$\mu\mu\f$ lepton pair.
-      bool mumu() const;
+      bool mumu() const { return m_mumu;  }
       /// return true if \f$ee\f$ lepton pair.
-      bool elel() const;
+      bool elel() const { return m_elel;  }
       /// return true if \f$e\mu\f$ lepton pair (same as OF()).
-      bool elmu() const;
+      bool elmu() const { return m_elmu;  }
 
       /// get the index of the first lepton in the pair
       /**
@@ -114,33 +114,18 @@ namespace TL {
        *  TL::EDM::FinalState class, it may be useful to have the
        *  index in that vector, that's what this is for.
        */
-      std::size_t firstIdx()  const;
+      std::size_t firstIdx()  const { return m_fIdx; }
       /// get the index of the second lepton in the pair
       /**
        *  because we store leptons in a vector in the
        *  TL::EDM::FinalState class, it may be useful to have the
        *  index in that vector, that's what this is for.
        */
-      std::size_t secondIdx() const;
+      std::size_t secondIdx() const { return m_sIdx; }
 
     };
 
   }
 }
-
-inline float TL::EDM::LeptonPair::deltaR()   const { return m_deltaR;   }
-inline float TL::EDM::LeptonPair::deltaPhi() const { return m_deltaPhi; }
-inline float TL::EDM::LeptonPair::deltaEta() const { return m_deltaEta; }
-
-inline bool TL::EDM::LeptonPair::SS()   const { return  m_SS;   }
-inline bool TL::EDM::LeptonPair::OS()   const { return  m_OS;   }
-inline bool TL::EDM::LeptonPair::mumu() const { return  m_mumu; }
-inline bool TL::EDM::LeptonPair::elel() const { return  m_elel; }
-inline bool TL::EDM::LeptonPair::elmu() const { return  m_elmu; }
-inline bool TL::EDM::LeptonPair::OF()   const { return  m_elmu; }
-inline bool TL::EDM::LeptonPair::SF()   const { return !m_elmu; }
-
-inline std::size_t TL::EDM::LeptonPair::firstIdx()  const { return m_fIdx; }
-inline std::size_t TL::EDM::LeptonPair::secondIdx() const { return m_sIdx; }
 
 #endif

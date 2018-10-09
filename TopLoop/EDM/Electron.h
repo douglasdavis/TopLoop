@@ -44,57 +44,47 @@ namespace TL {
       /// @name setters
       /// @{
 
-      void set_ptvarcone20(const float val);
-      void set_CF(const char val);
-      void set_cl_eta(const float val);
+      void set_ptvarcone20(const float val) {
+        m_ptvarcone20 = val;
+      }
+      void set_CF(const char val) {
+        m_CF = val;
+      }
+      void set_cl_eta(const float val) {
+        m_cl_eta = val;
+      }
 
       /// manually define if prompt
       /**
        *  This function allows a user to manually tag an electron as
        *  prompt based on some selection they define.
        */
-      void set_isManualTruthPrompt(const bool val);
+      void set_isManualTruthPrompt(const bool val) {
+        m_isManualTruthPrompt = val;
+      }
 
       /// @}
 
       /// @name getters
       /// @{
 
-      float ptvarcone20()    const;
-      char  CF()             const;
-      float cl_eta()         const;
+      float ptvarcone20()    const { return m_ptvarcone20; }
+      char  CF()             const { return m_CF; }
+      float cl_eta()         const { return m_cl_eta; }
 
       /// if the electron is matched to an IsoElectron in MC
-      bool isTruthPrompt() const;
+      bool isTruthPrompt() const {
+        return true_type() == MCTruthPartClassifier::ParticleType::IsoElectron;
+      }
 
       /// using a mix of variables, determine promptness (for 20.7)
-      bool isManualTruthPrompt() const;
+      bool isManualTruthPrompt() const { return m_isManualTruthPrompt; }
 
       /// @}
 
     };
 
   }
-}
-
-inline void TL::EDM::Electron::set_ptvarcone20(const float val)  { m_ptvarcone20    = val; }
-inline void TL::EDM::Electron::set_CF(const char val)            { m_CF             = val; }
-inline void TL::EDM::Electron::set_cl_eta(const float val)       { m_cl_eta         = val; }
-
-inline void TL::EDM::Electron::set_isManualTruthPrompt(const bool val) {
-  m_isManualTruthPrompt = val;
-}
-
-inline float TL::EDM::Electron::ptvarcone20()    const { return m_ptvarcone20;    }
-inline char  TL::EDM::Electron::CF()             const { return m_CF;             }
-inline float TL::EDM::Electron::cl_eta()         const { return m_cl_eta;         }
-
-inline bool TL::EDM::Electron::isTruthPrompt() const {
-  return (true_type() == MCTruthPartClassifier::ParticleType::IsoElectron);
-}
-
-inline bool TL::EDM::Electron::isManualTruthPrompt() const {
-  return m_isManualTruthPrompt;
 }
 
 #endif

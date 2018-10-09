@@ -76,7 +76,27 @@ namespace TL {
      */
     template<typename T>
     inline static std::unique_ptr<T>
-    setupBranch(std::shared_ptr<TTreeReader> reader, const char* name);
+    setupBranch(std::shared_ptr<TTreeReader> reader, const char* name) {
+      if ( spdlog::get("TopLoop non-existent branch") == nullptr ) {
+        spdlog::stdout_color_mt("TopLoop non-existent branch");
+      }
+
+      if ( reader->GetTree() == nullptr ) {
+        spdlog::get("TopLoop non-existent branch")->debug("{} branch trying to link to a null tree! "
+                                                          "TTreeReader name name: {}",
+                                                          name, reader->GetTree()->GetName());
+        return nullptr;
+      }
+      if ( reader->GetTree()->GetListOfBranches()->FindObject(name) != nullptr ) {
+        return std::make_unique<T>(*reader,name);
+      }
+      else {
+        spdlog::get("TopLoop non-existent branch")->debug("{} branch not found in the tree \"{}\"! "
+                                                          "Using this branch will cause a painful death! ",
+                                                          name,reader->GetTree()->GetName());
+      }
+      return nullptr;
+    }
 
   protected:
 
@@ -493,31 +513,6 @@ namespace TL {
 
   };
 
-}
-
-template<typename T>
-inline std::unique_ptr<T>
-TL::Variables::setupBranch(std::shared_ptr<TTreeReader> reader,
-                           const char* name) {
-  if ( spdlog::get("TopLoop non-existent branch") == nullptr ) {
-    spdlog::stdout_color_mt("TopLoop non-existent branch");
-  }
-
-  if ( reader->GetTree() == nullptr ) {
-    spdlog::get("TopLoop non-existent branch")->debug("{} branch trying to link to a null tree! "
-                                                      "TTreeReader name name: {}",
-                                                      name, reader->GetTree()->GetName());
-    return nullptr;
-  }
-  if ( reader->GetTree()->GetListOfBranches()->FindObject(name) != nullptr ) {
-    return std::make_unique<T>(*reader,name);
-  }
-  else {
-    spdlog::get("TopLoop non-existent branch")->debug("{} branch not found in the tree \"{}\"! "
-                                                      "Using this branch will cause a painful death! ",
-                                                      name,reader->GetTree()->GetName());
-  }
-  return nullptr;
 }
 
 #endif

@@ -40,44 +40,31 @@ namespace TL {
       /// @name setters
       /// @{
 
-      void set_ptvarcone30(const float val);
+      void set_ptvarcone30(const float val) { m_ptvarcone30 = val; }
 
-      void set_isManualTruthPrompt(const bool val);
-
+      void set_isManualTruthPrompt(const bool val) {
+        m_isManualTruthPrompt = val;
+      }
       /// @}
 
       /// @name getters
       /// @{
 
-      float ptvarcone30() const;
+      float ptvarcone30() const { return m_ptvarcone30; }
 
       /// if the muon is matched to an IsoMuon in MC
-      bool isTruthPrompt() const;
+      bool isTruthPrompt() const {
+        return true_type() == MCTruthPartClassifier::ParticleType::IsoMuon;
+      }
 
       /// if the manual promptness is flag
-      bool isManualTruthPrompt() const;
+      bool isManualTruthPrompt() const { return m_isManualTruthPrompt; }
 
       /// @}
 
     };
 
   }
-}
-
-inline void TL::EDM::Muon::set_ptvarcone30(const float val) { m_ptvarcone30 = val; }
-
-inline void TL::EDM::Muon::set_isManualTruthPrompt(const bool val) {
-  m_isManualTruthPrompt = val;
-}
-
-inline float TL::EDM::Muon::ptvarcone30() const { return m_ptvarcone30; }
-
-inline bool TL::EDM::Muon::isTruthPrompt() const {
-  return (true_type() == MCTruthPartClassifier::ParticleType::IsoMuon);
-}
-
-inline bool TL::EDM::Muon::isManualTruthPrompt() const {
-  return m_isManualTruthPrompt;
 }
 
 #endif
