@@ -183,6 +183,31 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
 
 void TL::FileManager::feedTxt(const std::string& txtfilename) {
   TL_CHECK(initChain());
+
+  fs::path p(txtfilename);
+  if ( p.extension().string() != ".txt" ) {
+    logger()->warn("feedTxt given file without .txt extension");
+    logger()->warn("Logic to determine rucio info might fail");
+  }
+
+  auto txtpos = txtfilename.find_last_of(".");
+  m_rucioDirName = txtfilename.substr(0,txtpos);
+  logger()->info("feedTxt determined rucio dataset name:");
+  logger()->info("{}", m_rucioDirName);
+
+  // try to determine dsid from rucio directory name
+  std::regex rgx("(.[0-9]{6}.)");
+  std::smatch match;
+  if (std::regex_search(m_rucioDirName, match, rgx)) {
+    std::string matchstr = match[1].str();
+    matchstr = matchstr.substr(1, matchstr.size() - 2);
+    m_dsid = std::stoi(matchstr);
+    logger()->info("Determined DSID: {}", m_dsid);
+    TL::SampleMetaSvc::get().printInfo(m_dsid);
+  }
+
+  m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
+
   std::string line;
   std::ifstream infile(txtfilename);
   while ( std::getline(infile,line) ) {
