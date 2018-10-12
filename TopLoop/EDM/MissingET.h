@@ -34,46 +34,36 @@ namespace TL {
       /// @name setters
       /// @{
 
-      void set_px(const float val);
-      void set_py(const float val);
-      void set_sumet(const float val);
+      void set_px(const float val)    { m_px = val;    }
+      void set_py(const float val)    { m_py = val;    }
+      void set_sumet(const float val) { m_sumet = val; }
 
       /// @}
 
       /// @name getters
       /// @{
 
-      float px()    const;
-      float py()    const;
-      float sumet() const;
+      float px()    const { return m_px;    }
+      float py()    const { return m_py;    }
+      float sumet() const { return m_sumet; }
 
       /// @}
 
       /// @name utilities
       /// @{
 
-      void reset();
+      void reset() {
+        m_px = 0;
+        m_py = 0;
+        m_sumet = 0;
+        p4().SetPtEtaPhiM(0,0,0,0);
+      }
 
       /// @}
 
     };
 
   }
-}
-
-inline void TL::EDM::MissingET::set_px(const float val)    { m_px    = val; }
-inline void TL::EDM::MissingET::set_py(const float val)    { m_py    = val; }
-inline void TL::EDM::MissingET::set_sumet(const float val) { m_sumet = val; }
-
-inline float TL::EDM::MissingET::px()    const { return m_px;    }
-inline float TL::EDM::MissingET::py()    const { return m_py;    }
-inline float TL::EDM::MissingET::sumet() const { return m_sumet; }
-
-inline void TL::EDM::MissingET::reset() {
-  m_px = 0;
-  m_py = 0;
-  m_sumet = 0;
-  p4().SetPtEtaPhiM(0,0,0,0);
 }
 
 #endif

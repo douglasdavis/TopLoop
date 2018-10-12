@@ -72,7 +72,7 @@ namespace TL {
     Algorithm& operator=(const Algorithm&) = delete;
 
     /// for use in TL::Job to ensure main init() function is called.
-    bool initCalled() const;
+    bool initCalled() const { return m_initCalled; }
 
     /// Set the file manager
     /**
@@ -151,10 +151,10 @@ namespace TL {
      *  know if it's touching data, so it knows which variables to
      *  avoid initializing.
      */
-    void setIsData();
+    void setIsData() { m_isMC = false; }
 
     /// Function to tell algorithm its analyzing fakes
-    void setIsFake();
+    void setIsFake() { m_isFake = true; }
 
     /// @}
 
@@ -163,21 +163,21 @@ namespace TL {
     /// @{
 
     /// get if sample is MC
-    bool isMC()            const;
+    bool isMC()            const { return m_isMC; }
     /// get if sample is data (for readability, opposite of isMC())
-    bool isData()          const;
+    bool isData()          const { return !m_isMC; }
     /// get if sample is fake (for readability, opposite of isMC())
-    bool isFake()          const;
+    bool isFake()          const { return m_isFake; }
     /// get is nominal
-    bool isNominal()       const;
+    bool isNominal()       const { return m_isNominal; }
     /// get is nominal loose
-    bool isNominal_Loose() const;
+    bool isNominal_Loose() const { return m_isNominal_Loose; }
     /// get is systematic (for readability, true if not nominal or nominal_Loose)
-    bool isSystematic()    const;
+    bool isSystematic()    const { return !(m_isNominal || m_isNominal_Loose); }
     /// get if the sample is release 20.7
-    bool isRel207()        const;
+    bool isRel207()        const { return m_isRel207; }
     /// get the current event counter (not eventNumber!)
-    long eventCount()      const;
+    long eventCount()      const { return m_eventCounter; }
 
     /// @}
 
@@ -235,17 +235,5 @@ namespace TL {
   };
 
 }
-
-inline void TL::Algorithm::setIsData()             { m_isMC = false;                             }
-inline void TL::Algorithm::setIsFake()             { m_isFake = true;                            }
-inline bool TL::Algorithm::initCalled()      const { return m_initCalled;                        }
-inline bool TL::Algorithm::isMC()            const { return m_isMC;                              }
-inline bool TL::Algorithm::isData()          const { return !m_isMC;                             }
-inline bool TL::Algorithm::isFake()          const { return m_isFake;                            }
-inline bool TL::Algorithm::isNominal()       const { return m_isNominal;                         }
-inline bool TL::Algorithm::isNominal_Loose() const { return m_isNominal_Loose;                   }
-inline bool TL::Algorithm::isSystematic()    const { return !(m_isNominal || m_isNominal_Loose); }
-inline bool TL::Algorithm::isRel207()        const { return m_isRel207;                          }
-inline long TL::Algorithm::eventCount()      const { return m_eventCounter;                      }
 
 #endif

@@ -64,13 +64,13 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
     dp.pop_back();
   }
   fs::path p(dp);
+  logger()->info("Feeding from {}", p.string());
 
   // the "rucio directory name" or "rucio dataset name" is assumed to
   // be the path fed to this function.
   std::vector<std::string> splits;
   boost::algorithm::split(splits,dp,boost::is_any_of("/"));
   m_rucioDirName = splits.back();
-  m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
 
   // try to determine dsid from rucio directory name
   std::regex rgx("(.[0-9]{6}.)");
@@ -80,7 +80,10 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
     matchstr = matchstr.substr(1, matchstr.size() - 2);
     m_dsid = std::stoi(matchstr);
     logger()->info("Determined DSID: {}", m_dsid);
+    TL::SampleMetaSvc::get().printInfo(m_dsid);
   }
+
+  m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
 
   // were going to loop over the files in a rucio download
   // directory... nominally just the directory path given to this
@@ -125,7 +128,6 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
     // symlink directory.. not the original one.
     loop_over = fs::path(symlink_name);
   }
-  logger()->info("Feeding from {}", loop_over.string());
 
   std::vector<std::string> checkForDupes;
 

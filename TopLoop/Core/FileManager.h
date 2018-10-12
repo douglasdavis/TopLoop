@@ -50,7 +50,7 @@ namespace TL {
     void enableParticleLevel();
 
     /// determine if particle level has been enabled
-    bool particleLevelEnabled() const;
+    bool particleLevelEnabled() const { return m_doParticleLevel; }
 
     /// @name Sample tree naming setup functions
     /**
@@ -114,19 +114,19 @@ namespace TL {
     /// @{
 
     /// getter for the file names which have been fed to the chains
-    const std::vector<std::string>& fileNames() const;
+    const std::vector<std::string>& fileNames() const { return m_fileNames; }
     /// the name of the main tree being read
-    const std::string& treeName() const;
+    const std::string& treeName() const { return m_treeName; }
     /// the name of the weights tree being read
-    const std::string& weightsTreeName() const;
+    const std::string& weightsTreeName() const { return m_weightsTreeName; }
     /// the name of the particle level tree being read
-    const std::string& particleLevelTreeName() const;
+    const std::string& particleLevelTreeName() const { return m_plTreeName; }
     /// the name of the rucio dataset fed to feedDir
-    const std::string& rucioDir() const;
+    const std::string& rucioDir() const { return m_rucioDirName; }
     /// the dsid as determined from a regex search on the rucio dir
-    unsigned int dsid() const;
+    unsigned int dsid() const { return m_dsid; }
     /// the single top ntuple version
-    TL::kSgTopNtup getSgTopNtupVersion() const;
+    TL::kSgTopNtup getSgTopNtupVersion() const { return m_sgtopNtupVersion; }
 
     /// @}
 
@@ -134,31 +134,15 @@ namespace TL {
     /// @{
 
     /// getter for the main chain raw pointer
-    TChain* rootChain() const;
+    TChain* rootChain() const { return m_rootChain.get(); }
     /// getter for the particle level chain raw pointer
-    TChain* particleLevelChain() const;
+    TChain* particleLevelChain() const { return m_particleLevelChain.get(); }
     /// getter for the weights chain raw pointer
-    TChain* rootWeightsChain() const;
+    TChain* rootWeightsChain() const { return m_rootWeightsChain.get(); }
 
     /// @}
   };
 
 }
-
-inline bool TL::FileManager::particleLevelEnabled() const { return m_doParticleLevel; }
-
-inline const std::vector<std::string>& TL::FileManager::fileNames() const { return m_fileNames; }
-
-inline const std::string& TL::FileManager::particleLevelTreeName() const { return m_plTreeName; }
-inline const std::string& TL::FileManager::weightsTreeName() const { return m_weightsTreeName; }
-inline const std::string& TL::FileManager::treeName()        const { return m_treeName;        }
-inline const std::string& TL::FileManager::rucioDir()        const { return m_rucioDirName;    }
-inline       unsigned int TL::FileManager::dsid()            const { return m_dsid;            }
-
-inline       TL::kSgTopNtup TL::FileManager::getSgTopNtupVersion() const { return m_sgtopNtupVersion; }
-
-inline       TChain* TL::FileManager::particleLevelChain() const { return m_particleLevelChain.get(); }
-inline       TChain* TL::FileManager::rootChain()          const { return m_rootChain.get();          }
-inline       TChain* TL::FileManager::rootWeightsChain()   const { return m_rootWeightsChain.get();   }
 
 #endif
