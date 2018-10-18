@@ -61,6 +61,10 @@ const std::shared_ptr<TTreeReader>& TL::Algorithm::weightsReader() const {
   return m_weightsReader;
 }
 
+const std::shared_ptr<TTreeReader>& TL::Algorithm::truthReader() const {
+  return m_truthReader;
+}
+
 std::shared_ptr<TTreeReader>& TL::Algorithm::weightsReader() {
   return m_weightsReader;
 }

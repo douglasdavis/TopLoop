@@ -41,6 +41,10 @@ void TL::FileManager::setParticleLevelTreeName(const std::string& tn) {
   m_plTreeName = tn;
 }
 
+void TL::FileManager::setTruthTreeName(const std::string& tn) {
+  m_truthTreeName = tn;
+}
+
 TL::StatusCode TL::FileManager::initChain() {
   if ( !m_rootChain ) {
     m_rootChain = std::make_unique<TChain>(m_treeName.c_str());
@@ -48,8 +52,9 @@ TL::StatusCode TL::FileManager::initChain() {
   if ( !m_rootWeightsChain ) {
     m_rootWeightsChain = std::make_unique<TChain>(m_weightsTreeName.c_str());
   }
-  if ( m_doParticleLevel && !m_particleLevelChain ) {
+  if ( m_doParticleLevel && !m_particleLevelChain && !m_truthChain ) {
     m_particleLevelChain = std::make_unique<TChain>(m_plTreeName.c_str());
+    m_truthChain         = std::make_unique<TChain>(m_truthTreeName.c_str());
   }
   if ( !m_rootChain || !m_rootWeightsChain ) {
     return TL::StatusCode::FAILURE;
@@ -71,19 +76,6 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
   std::vector<std::string> splits;
   boost::algorithm::split(splits,dp,boost::is_any_of("/"));
   m_rucioDirName = splits.back();
-
-  // try to determine dsid from rucio directory name
-  std::regex rgx("(.[0-9]{6}.)");
-  std::smatch match;
-  if (std::regex_search(m_rucioDirName, match, rgx)) {
-    std::string matchstr = match[1].str();
-    matchstr = matchstr.substr(1, matchstr.size() - 2);
-    m_dsid = std::stoi(matchstr);
-    logger()->info("Determined DSID: {}", m_dsid);
-    TL::SampleMetaSvc::get().printInfo(m_dsid);
-  }
-
-  m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
 
   // were going to loop over the files in a rucio download
   // directory... nominally just the directory path given to this
@@ -155,6 +147,7 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
       m_rootWeightsChain->AddFile(final_path.c_str());
       if ( m_doParticleLevel ) {
         m_particleLevelChain->AddFile(final_path.c_str());
+        m_truthChain->AddFile(final_path.c_str());
       }
     }
     else {
@@ -179,6 +172,18 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
     return;
   }
 
+  // try to determine dsid from rucio directory name
+  std::regex rgx("(.[0-9]{6}.)");
+  std::smatch match;
+  if (std::regex_search(m_rucioDirName, match, rgx)) {
+    std::string matchstr = match[1].str();
+    matchstr = matchstr.substr(1, matchstr.size() - 2);
+    m_dsid = std::stoi(matchstr);
+    logger()->info("Determined DSID: {}", m_dsid);
+    TL::SampleMetaSvc::get().printInfo(m_dsid);
+  }
+  m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
+
 }
 
 void TL::FileManager::feedTxt(const std::string& txtfilename) {
@@ -195,19 +200,6 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
   logger()->info("feedTxt determined rucio dataset name:");
   logger()->info("{}", m_rucioDirName);
 
-  // try to determine dsid from rucio directory name
-  std::regex rgx("(.[0-9]{6}.)");
-  std::smatch match;
-  if (std::regex_search(m_rucioDirName, match, rgx)) {
-    std::string matchstr = match[1].str();
-    matchstr = matchstr.substr(1, matchstr.size() - 2);
-    m_dsid = std::stoi(matchstr);
-    logger()->info("Determined DSID: {}", m_dsid);
-    TL::SampleMetaSvc::get().printInfo(m_dsid);
-  }
-
-  m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
-
   std::string line;
   std::ifstream infile(txtfilename);
   while ( std::getline(infile,line) ) {
@@ -218,9 +210,23 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
       m_rootWeightsChain->Add(line.c_str());
       if ( m_doParticleLevel ) {
         m_particleLevelChain->AddFile(line.c_str());
+        m_truthChain->AddFile(line.c_str());
       }
     }
   }
+
+  // try to determine dsid from rucio directory name
+  std::regex rgx("(.[0-9]{6}.)");
+  std::smatch match;
+  if (std::regex_search(m_rucioDirName, match, rgx)) {
+    std::string matchstr = match[1].str();
+    matchstr = matchstr.substr(1, matchstr.size() - 2);
+    m_dsid = std::stoi(matchstr);
+    logger()->info("Determined DSID: {}", m_dsid);
+    TL::SampleMetaSvc::get().printInfo(m_dsid);
+  }
+  m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
+
 }
 
 void TL::FileManager::feedSingle(const char* fileName) {
@@ -230,5 +236,6 @@ void TL::FileManager::feedSingle(const char* fileName) {
   m_rootWeightsChain->Add(fileName);
   if ( m_doParticleLevel ) {
     m_particleLevelChain->AddFile(fileName);
+    m_truthChain->AddFile(fileName);
   }
 }
