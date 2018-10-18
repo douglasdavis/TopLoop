@@ -28,9 +28,11 @@ namespace TL {
     std::string              m_plTreeName         {"particleLevel"};
     std::string              m_treeName           {"nominal"};
     std::string              m_weightsTreeName    {"sumWeights"};
+    std::string              m_truthTreeName      {"truth"};
     std::unique_ptr<TChain>  m_rootChain          {nullptr};
     std::unique_ptr<TChain>  m_particleLevelChain {nullptr};
     std::unique_ptr<TChain>  m_rootWeightsChain   {nullptr};
+    std::unique_ptr<TChain>  m_truthChain         {nullptr};
     std::string              m_rucioDirName       {"none"};
     unsigned int             m_dsid               {0};
     TL::kSgTopNtup           m_sgtopNtupVersion   {};
@@ -81,6 +83,13 @@ namespace TL {
      *  feeds!
      */
     void setParticleLevelTreeName(const std::string& tn);
+
+    /// set the truth tree name to something other than "truth"
+    /**
+     *  If this function is to be used - it must be called before any
+     *  feeds!
+     */
+    void setTruthTreeName(const std::string& tn);
 
     /// @}
 
@@ -139,8 +148,11 @@ namespace TL {
     TChain* particleLevelChain() const { return m_particleLevelChain.get(); }
     /// getter for the weights chain raw pointer
     TChain* rootWeightsChain() const { return m_rootWeightsChain.get(); }
+    /// getter for the truth chain raw pointer
+    TChain* truthChain() const {return m_truthChain.get(); }
 
     /// @}
+
   };
 
 }

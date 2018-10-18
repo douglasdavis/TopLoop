@@ -51,6 +51,7 @@ namespace TL {
     std::shared_ptr<TTreeReader>     m_reader{nullptr};
     std::shared_ptr<TTreeReader>     m_weightsReader{nullptr};
     std::shared_ptr<TTreeReader>     m_particleLevelReader{nullptr};
+    std::shared_ptr<TTreeReader>     m_truthReader{nullptr};
 
     TL::WeightTool m_weightTool{this};
 
@@ -216,6 +217,8 @@ namespace TL {
     const std::shared_ptr<TTreeReader>& weightsReader() const;
     /// get pointer to the particle level reader
     const std::shared_ptr<TTreeReader>& particleLevelReader() const;
+    /// get pointer to the truth tree reader
+    const std::shared_ptr<TTreeReader>& truthReader() const;
 
     /// @}
 

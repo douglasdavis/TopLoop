@@ -84,6 +84,7 @@ TL::StatusCode TL::Job::run() {
       logger()->info("Entering particle level only loop");
       for ( const auto idx : m_particleLevelOnly ) {
         m_algorithm->particleLevelReader()->SetEntry(idx);
+        m_algorithm->truthReader()->SetEntry(idx);
         if ( m_useProgressBar ) {
           bar.progress(m_algorithm->m_eventCounter,m_algorithm->m_totalParticleLevelEntries);
         }
@@ -94,7 +95,8 @@ TL::StatusCode TL::Job::run() {
     // next, we do all particle level, agnostic to reco information
     else if ( m_loopType == LoopType::ParticleAll ) {
       logger()->info("Entering all particle level loop");
-      while ( m_algorithm->particleLevelReader()->Next() ) {
+      while ( m_algorithm->particleLevelReader()->Next() &&
+              m_algorithm->truthReader()->Next() ) {
         if ( m_useProgressBar ) {
           bar.progress(m_algorithm->m_eventCounter,m_algorithm->m_totalParticleLevelEntries);
         }
@@ -107,6 +109,7 @@ TL::StatusCode TL::Job::run() {
       logger()->info("Entering loop over reco _and_  particle level information");
       for ( const auto idx : m_particleAndReco ) {
         m_algorithm->particleLevelReader()->SetEntry(std::get<0>(idx));
+        m_algorithm->truthReader()->SetEntry(std::get<0>(idx));
         m_algorithm->reader()->SetEntry(std::get<1>(idx));
         if ( m_useProgressBar ) {
           bar.progress(m_algorithm->m_eventCounter,m_algorithm->m_totalEntries);

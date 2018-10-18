@@ -24,7 +24,9 @@ TL::StatusCode TL::Algorithm::init_core_vars() {
 
   if ( fileManager()->particleLevelChain() ) {
     fileManager()->particleLevelChain()->LoadTree(0);
+    fileManager()->truthChain()->LoadTree(0);
     m_particleLevelReader = std::make_shared<TTreeReader>(fileManager()->particleLevelChain());
+    m_truthReader         = std::make_shared<TTreeReader>(fileManager()->truthChain());
   }
 
   TL_CHECK(connect_default_branches());
@@ -445,6 +447,88 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
     CONNECT_PL_BRANCH(mumumu_2016,Int_t,m_particleLevelReader);
     CONNECT_PL_BRANCH(mumumu_2017,Int_t,m_particleLevelReader);
     CONNECT_PL_BRANCH(mumumu_2018,Int_t,m_particleLevelReader);
+  }
+
+  if ( m_truthReader ) {
+    CONNECT_TRUTH_BRANCH(weight_mc,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(eventNumber,ULong64_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(runNumber,UInt_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(mu,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(weight_pileup,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(randomRunNumber,UInt_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(mcChannelNumber,UInt_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay2_from_tbar_pdgId,Int_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay2_from_t_pdgId,Int_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay1_from_tbar_pdgId,Int_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay1_from_t_pdgId,Int_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay2_from_tbar_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay2_from_t_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay2_from_t_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay1_from_tbar_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay1_from_tbar_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay1_from_tbar_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay1_from_t_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay1_from_t_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay2_from_tbar_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_b_from_tbar_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_b_from_tbar_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay2_from_t_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_b_from_t_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_t_afterFSR_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay2_from_tbar_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_ttbar_beforeFSR_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_t_afterFSR_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_ttbar_afterFSR_beforeDecay_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_t_beforeFSR_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_ttbar_afterFSR_beforeDecay_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_t_afterFSR_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_tbar_beforeFSR_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_ttbar_beforeFSR_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_ttbar_afterFSR_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_ttbar_beforeFSR_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_ttbar_beforeFSR_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_t_afterFSR_SC_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_W_from_t_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_b_from_t_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_tbar_afterFSR_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_ttbar_afterFSR_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay1_from_tbar_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_t_beforeFSR_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_ttbar_afterFSR_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_ttbar_afterFSR_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_t_afterFSR_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_ttbar_afterFSR_beforeDecay_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_ttbar_afterFSR_beforeDecay_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_b_from_t_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_t_afterFSR_SC_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_t_beforeFSR_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_t_afterFSR_SC_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_t_afterFSR_SC_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay2_from_tbar_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_tbar_beforeFSR_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_tbar_afterFSR_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay1_from_t_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_tbar_beforeFSR_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_tbar_afterFSR_SC_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_b_from_tbar_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_W_from_t_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_tbar_afterFSR_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_b_from_t_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_tbar_beforeFSR_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_W_from_tbar_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_tbar_afterFSR_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay1_from_t_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_tbar_afterFSR_SC_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_W_from_t_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_tbar_afterFSR_SC_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_b_from_tbar_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_tbar_afterFSR_SC_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_W_from_t_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_Wdecay2_from_t_phi,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_W_from_tbar_m,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_W_from_tbar_eta,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_t_beforeFSR_pt,Float_t,m_truthReader);
+    CONNECT_TRUTH_BRANCH(MC_W_from_tbar_phi,Float_t,m_truthReader);
   }
 
   return TL::StatusCode::SUCCESS;
