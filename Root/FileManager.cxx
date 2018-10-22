@@ -82,6 +82,8 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
   // function... which we've defined as a path object p above
   fs::path loop_over = p;
 
+#if ROOT_VERSION_CODE < ROOT_VERSION(6,14,04)
+  logger()->debug("TChain::Add .root.N bug exists in this version of ROOT");
   // loop over the dataset files to determine if we need a symbolic link
   // we need one if a file doesn't end in exactly ".root"
   bool need_symlink = false;
@@ -120,6 +122,9 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
     // symlink directory.. not the original one.
     loop_over = fs::path(symlink_name);
   }
+#else
+  logger()->debug("No TChain::Add .root.N bug");
+#endif
 
   std::vector<std::string> checkForDupes;
 
@@ -170,6 +175,10 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
   if ( std::unique(std::begin(m_fileNames),std::end(m_fileNames)) != std::end(m_fileNames) ) {
     logger()->error("You have duplicate files in your dataset!");
     return;
+  }
+
+  if ( m_fileNames.size() != static_cast<std::size_t>(m_rootChain->GetNtrees()) ) {
+    logger()->error("number of files does not equal number of trees!");
   }
 
   // try to determine dsid from rucio directory name
