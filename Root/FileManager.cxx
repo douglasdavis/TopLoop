@@ -82,7 +82,7 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
   // function... which we've defined as a path object p above
   fs::path loop_over = p;
 
-#if ROOT_VERSION_CODE < ROOT_VERSION(6,14,04)
+#if ROOT_VERSION_CODE < ROOT_VERSION(6,14,00)
   logger()->debug("TChain::Add .root.N bug exists in this version of ROOT");
   // loop over the dataset files to determine if we need a symbolic link
   // we need one if a file doesn't end in exactly ".root"
