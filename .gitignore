@@ -5,3 +5,5 @@
 *Dict.cxx
 *.pcm
 doc/html
+doc/xml
+doc/build
