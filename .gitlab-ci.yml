@@ -1,8 +1,7 @@
-before_script:
-  - mkdir -p ../ci/build ../ci/run ../ci/source
-  - cp -r $(pwd) ../ci/source/.
-  - cp $(pwd)/.gitlab-ci.cmake ../ci/source/CMakeLists.txt
-  - cd ../ci/source
+stages:
+  - build
+  - docgen
+  - docdeploy
 
 TopLoop:
   image: gitlab-registry.cern.ch/ci-tools/ci-worker:slc6
@@ -11,6 +10,11 @@ TopLoop:
     - cvmfs
   variables:
     ATLAS_LOCAL_ROOT_BASE: /cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+  before_script:
+    - mkdir -p ../ci/build ../ci/run ../ci/source
+    - cp -r $(pwd) ../ci/source/.
+    - cp $(pwd)/.gitlab-ci.cmake ../ci/source/CMakeLists.txt
+    - cd ../ci/source
   script:
     - ls
     - pwd
@@ -22,3 +26,37 @@ TopLoop:
     - make
     - cd ..
     - source build/*/setup.sh
+
+TopLoopDocGen:
+  image: gitlab-registry.cern.ch/ddavis/doxygen-from-arch:latest
+  stage: docgen
+  variables:
+    GIT_SUBMODULE_STRATEGY: normal
+    GIT_SSL_NO_VERIFY: "true"
+  script:
+    - set +e
+    - ls
+    - doxygen doc/dox.cfg
+    - mkdir public
+    - mv doc/html public/TopLoopDoxygenAPI
+    - cd doc
+    - make html
+    - mv build/html ../public/TopLoop
+    - cd ..
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 hour
+  only:
+    - master
+
+TopLoopDocDeploy:
+  image: gitlab-registry.cern.ch/ci-tools/ci-web-deployer:latest
+  stage: docdeploy
+  variables:
+    DFS_WEBSITE_NAME: "twrun2"
+  script:
+    - set +e
+    - deploy-dfs
+  only:
+    - master
