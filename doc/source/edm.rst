@@ -38,7 +38,7 @@ TL::EDM::Electron
    :protected-members:
 
 TL::EDM::Muon
------------------
+-------------
 
 .. doxygenclass:: TL::EDM::Muon
    :project: TopLoop
@@ -46,9 +46,15 @@ TL::EDM::Muon
    :protected-members:
 
 TL::EDM::Jet
------------------
+------------
 
 .. doxygenclass:: TL::EDM::Jet
    :project: TopLoop
    :members:
    :protected-members:
+
+Helper Functions
+----------------
+
+.. doxygengroup:: EDMHelpers
+   :project: TopLoop

@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'TopLoop'
-copyright = '2018, Doug Davis, Kevin Finelli, Carl Suster, Federico Guillermo Diaz Capriles'
+copyright = '2002-2018, CERN for the benefit of the ATLAS collaboration'
 author = 'Doug Davis, Kevin Finelli, Carl Suster, Federico Guillermo Diaz Capriles'
 
 # The short X.Y version

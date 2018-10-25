@@ -23,6 +23,10 @@
 
 namespace TL {
 
+  /// @addtogroup Enums convenience enums
+  /// @brief Enums to help with meta data
+  /// @{
+
   enum class kCampaign {
     Unknown, Data, MC15c, MC16a, MC16c, MC16d, MC16e, MC16f
   };
@@ -51,6 +55,8 @@ namespace TL {
   enum class kSgTopNtup {
     Unknown, v23, v25
   };
+
+  /// @}
 
 }
 

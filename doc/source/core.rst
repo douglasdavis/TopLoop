@@ -44,3 +44,10 @@ TL::SampleMetaSvc
 .. doxygenclass:: TL::SampleMetaSvc
    :project: TopLoop
    :members:
+
+TL::Loggable
+------------
+
+.. doxygenclass:: TL::Loggable
+   :project: TopLoop
+   :members:

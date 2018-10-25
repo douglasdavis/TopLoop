@@ -14,7 +14,7 @@ namespace TL {
 
     using PhysObjList = std::initializer_list<TL::EDM::PhysicsObject>;
 
-    /// @addtogroup EDM EDM Helper functions
+    /// @addtogroup EDMHelpers EDM Helper functions
     /// @brief Helper functions for making calculations using EDM
     /// classes.
     ///
