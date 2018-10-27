@@ -13,6 +13,7 @@
 #define TL_Loggable_h
 
 #include <TopLoop/spdlog/spdlog.h>
+#include <TopLoop/spdlog/sinks/stdout_color_sinks.h>
 
 namespace TL {
   class Loggable {
@@ -38,20 +39,20 @@ namespace TL {
      *  because we require the logger to be named.
      */
     Loggable(const std::string& name) {
-      m_logger = spdlog::stdout_color_mt(name);
+      m_logger = spdlog::stdout_color_st(name);
     }
 
     /// default constructor deleted
     Loggable() = default;
-    /// delete copy
-    Loggable(const Loggable&) = delete;
-    /// default move
-    Loggable(Loggable&&) = delete;
+    /// copy constructor default
+    Loggable(const Loggable&) = default;
+    /// move constructor default
+    Loggable(Loggable&&) = default;
 
-    /// delete assignment
-    Loggable& operator=(const Loggable&) = delete;
-    /// default move assignment
-    Loggable& operator=(Loggable&&) = delete;
+    /// assignment operator default
+    Loggable& operator=(const Loggable&) = default;
+    /// move assignment operator default
+    Loggable& operator=(Loggable&&) = default;
 
     /// virtual destructor
     virtual ~Loggable() {
@@ -62,10 +63,10 @@ namespace TL {
     void setLogLevel(spdlog::level::level_enum lvl) { m_logger->set_level(lvl); }
 
     /// retrieve a const logger pointer
-    const std::shared_ptr<spdlog::logger>& logger() const { return m_logger; }
+    virtual const std::shared_ptr<spdlog::logger>& logger() const { return m_logger; }
 
     /// retrieve the logger pointer
-    std::shared_ptr<spdlog::logger>& logger() { return m_logger; }
+    virtual std::shared_ptr<spdlog::logger>& logger() { return m_logger; }
 
   };
 }

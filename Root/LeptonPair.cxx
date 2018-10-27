@@ -6,7 +6,7 @@
 
 // TL
 #include <TopLoop/EDM/LeptonPair.h>
-#include <TopLoop/spdlog/spdlog.h>
+#include <TopLoop/spdlog/sinks/stdout_color_sinks.h>
 
 TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
                                 const TL::EDM::Lepton& lep2,
@@ -19,7 +19,7 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
   m_deltaPhi = lep1.p4().DeltaPhi(lep2.p4());
 
   auto pdgsum    = lep1.pdgId() + lep2.pdgId();
-  auto chargesum = std::abs(lep1.charge() + lep2.charge());
+  auto chargesum = static_cast<unsigned int>(std::abs(lep1.charge() + lep2.charge()));
 
   if ( pdgsum == 26 ) {
     m_mumu = true;
@@ -38,7 +38,7 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
   }
   else {
     if ( spdlog::get("TL::EDM::LeptonPair") == nullptr ) {
-      spdlog::stdout_color_mt("TL::EDM::LeptonPair");
+      spdlog::stdout_color_st("TL::EDM::LeptonPair");
     }
     else {
       spdlog::get("TL::EDM::LeptonPair")->warn("Bad pdgsum: {}",pdgsum);
@@ -55,7 +55,7 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
   }
   else {
     if ( spdlog::get("TL::EDM::LeptonPair") == nullptr ) {
-      spdlog::stdout_color_mt("TL::EDM::LeptonPair");
+      spdlog::stdout_color_st("TL::EDM::LeptonPair");
     }
     else {
       spdlog::get("TL::EDM::LeptonPair")->warn("Bad charge sum: {}",chargesum);
