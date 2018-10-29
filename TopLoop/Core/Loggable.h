@@ -39,7 +39,11 @@ namespace TL {
      *  because we require the logger to be named.
      */
     Loggable(const std::string& name) {
-      m_logger = spdlog::stdout_color_st(name);
+      std::string loggername(name);
+      while ( loggername.size() < 20 ) {
+        loggername.append(" ");
+      }
+      m_logger = spdlog::stdout_color_st(loggername);
     }
 
     /// default constructor deleted
