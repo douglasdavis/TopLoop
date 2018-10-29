@@ -39,11 +39,7 @@ namespace TL {
      *  because we require the logger to be named.
      */
     Loggable(const std::string& name) {
-      std::string loggername(name);
-      while ( loggername.size() < 20 ) {
-        loggername.append(" ");
-      }
-      m_logger = spdlog::stdout_color_st(loggername);
+      m_logger = setupLogger(name);
     }
 
     /// default constructor deleted
@@ -61,6 +57,22 @@ namespace TL {
     /// virtual destructor
     virtual ~Loggable() {
       spdlog::drop(m_logger->name());
+    }
+
+    static std::shared_ptr<spdlog::logger> setupLogger(const std::string& name) {
+      std::string loggername(name);
+      if ( loggername.length() < 15 ) {
+        while ( loggername.length() < 15 ) {
+          loggername.append(" ");
+        }
+      }
+      else {
+        while ( loggername.length() > 12 ) {
+          loggername.pop_back();
+        }
+        loggername.append("...");
+      }
+      return spdlog::stdout_color_st(loggername);
     }
 
     /// set the level of the logger (see spdlog documentation for levels)

@@ -5,12 +5,13 @@
  */
 
 // TL
+#include <TopLoop/Core/Loggable.h>
 #include <TopLoop/EDM/LeptonPair.h>
-#include <TopLoop/spdlog/sinks/stdout_color_sinks.h>
 
 TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
                                 const TL::EDM::Lepton& lep2,
                                 const size_t idxf, const size_t idxs) {
+  static auto logger = TL::Loggable::setupLogger("TL::EDM::LeptonPair");
   m_fIdx     = idxf;
   m_sIdx     = idxs;
   m_p        = lep1.p4() + lep2.p4();
@@ -37,12 +38,7 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
     m_elel = true;
   }
   else {
-    if ( spdlog::get("TL::EDM::LeptonPair") == nullptr ) {
-      spdlog::stdout_color_st("TL::EDM::LeptonPair");
-    }
-    else {
-      spdlog::get("TL::EDM::LeptonPair")->warn("Bad pdgsum: {}",pdgsum);
-    }
+    logger->warn("Bad pdgsum: {}",pdgsum);
   }
 
   if ( chargesum == 0 ) {
@@ -54,11 +50,6 @@ TL::EDM::LeptonPair::LeptonPair(const TL::EDM::Lepton& lep1,
     m_OS = false;
   }
   else {
-    if ( spdlog::get("TL::EDM::LeptonPair") == nullptr ) {
-      spdlog::stdout_color_st("TL::EDM::LeptonPair");
-    }
-    else {
-      spdlog::get("TL::EDM::LeptonPair")->warn("Bad charge sum: {}",chargesum);
-    }
+    logger->warn("Bad charge sum: {}",chargesum);
   }
 }
