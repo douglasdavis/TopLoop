@@ -93,6 +93,21 @@ namespace TL {
 
     /// @}
 
+    /// @name utilities
+    /// @{
+
+    /// disable a list of branches in the main SgTop ntuple tree
+    /**
+     *  If you know your algorithm will not be accessing a particular
+     *  branch you can disable it to improve performance. This
+     *  function will disable a list you provide.
+     *
+     *  @param branch_list list of branches to disable
+     */
+    void disableBranches(const std::vector<std::string> &branch_list) const;
+
+    /// @}
+
     /// @name Feeding functions
     /**
      *  Various ways to feed your FileManager with samples
@@ -101,10 +116,6 @@ namespace TL {
 
     /// Feed the chains with files in a directory
     /**
-     *  By default this function will only look for files ending in
-     *  "*.root" the take_all param set to true will eat _all_ files!
-     *  (e.g. "*.root.2")
-     *
      *  @param dirpath path of the directory containing files to
      *  process
      *  @param max_files maximum number of files to find before breaking

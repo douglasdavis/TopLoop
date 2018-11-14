@@ -49,6 +49,7 @@ namespace TL {
 
   private:
     TL::StatusCode constructIndices();
+    void printProgress(int, long, long) const;
 
   public:
 

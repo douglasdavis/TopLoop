@@ -62,6 +62,12 @@ TL::StatusCode TL::FileManager::initChain() {
   return TL::StatusCode::SUCCESS;
 }
 
+void TL::FileManager::disableBranches(const std::vector<std::string>& branch_list) const {
+  for ( const auto branch_name : branch_list ) {
+    m_rootChain->SetBranchStatus(branch_name.c_str(), 0);
+  }
+}
+
 void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max_files) {
   TL_CHECK(initChain());
   std::string dp{dirpath};
