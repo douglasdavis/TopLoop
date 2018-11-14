@@ -31,6 +31,7 @@ namespace TL {
       std::vector<TL::EDM::Electron>   m_electrons{};
       std::vector<TL::EDM::Muon>       m_muons{};
       std::vector<TL::EDM::Jet>        m_jets{};
+      std::vector<TL::EDM::Jet>        m_looseJets{};
       std::vector<TL::EDM::Lepton>     m_leptons{};
       std::vector<TL::EDM::LeptonPair> m_leptonPairs{};
       TL::EDM::MissingET               m_missingET{};
@@ -39,8 +40,8 @@ namespace TL {
       bool m_hasFakeMuonMC{false};
       bool m_hasManTrigMatched{false};
 
-      void addLepton(const TL::EDM::Lepton& lep);
-      void addLeptonPair(const TL::EDM::LeptonPair& lp);
+      void addLepton(const TL::EDM::Lepton &lep) { m_leptons.emplace_back(lep); }
+      void addLeptonPair(const TL::EDM::LeptonPair& lp) { m_leptonPairs.emplace_back(lp); }
       void makeLeptonPairs();
 
     public:
@@ -60,12 +61,15 @@ namespace TL {
       /// @{
 
       /// add a jet to the final state
-      void addJet(const TL::EDM::Jet& jet);
+      void addJet(const TL::EDM::Jet& jet) { m_jets.emplace_back(jet); }
+      /// add a loose jet to the final state
+      void addLooseJet(const TL::EDM::Jet& jet) { m_looseJets.emplace_back(jet); }
       /// add an electron to electron container
-      void addElectron(const TL::EDM::Electron& el);
+      void addElectron(const TL::EDM::Electron& el) { m_electrons.emplace_back(el); }
       /// add a muon to the muon container
-      void addMuon(const TL::EDM::Muon& mu);
-      /// process the physics objects to set some final state properties.
+      void addMuon(const TL::EDM::Muon& mu) { m_muons.emplace_back(mu); }
+
+      /// process the physics objects to set some final state properties
       /**
        *  @param sort_leptons flag to apply std::sort to the lepton
        *  container.
@@ -80,24 +84,26 @@ namespace TL {
       /// @{
 
       /// get the leptons
-      const std::vector<TL::EDM::Lepton>&     leptons()     const;
+      const std::vector<TL::EDM::Lepton>& leptons() const { return m_leptons; }
       /// get the jets
-      const std::vector<TL::EDM::Jet>&        jets()        const;
+      const std::vector<TL::EDM::Jet>& jets() const { return m_jets; }
+      /// get loose jets
+      const std::vector<TL::EDM::Jet>& looseJets() const { return m_looseJets; }
       /// get the lepton pairs
-      const std::vector<TL::EDM::LeptonPair>& leptonPairs() const;
+      const std::vector<TL::EDM::LeptonPair>& leptonPairs() const { return m_leptonPairs; }
       /// get the MissingET object (const)
-      const TL::EDM::MissingET&               MissingET()   const;
+      const TL::EDM::MissingET& MissingET() const { return m_missingET; }
       /// get the MissingET object (non const)
-      TL::EDM::MissingET&                     MissingET();
+      TL::EDM::MissingET& MissingET() { return m_missingET; }
 
       /// true if the event has a fake electron (at least one electron that failed truth matching)
-      bool        hasFakeElectronMC() const;
+      bool hasFakeElectronMC() const { return m_hasFakeElectronMC; }
       /// true if the event has a fake muon (at least one muon that failed truth matching)
-      bool        hasFakeMuonMC()     const;
+      bool hasFakeMuonMC() const { return m_hasFakeMuonMC; }
       /// true if fake electron or fake muon
-      bool        hasFakeLeptonMC()   const;
+      bool hasFakeLeptonMC() const { return hasFakeMuonMC() || hasFakeElectronMC(); }
       /// true if an electron was flagged with isManTrigMatched
-      bool        hasManTrigMatched() const;
+      bool hasManTrigMatched() const { return m_hasManTrigMatched; }
 
       /// count the number of jets in the container (default is MV2c10 at 77 percent eff)
       /**
@@ -118,28 +124,6 @@ namespace TL {
     };
 
   }
-}
-
-inline void TL::EDM::FinalState::addElectron(const TL::EDM::Electron& el)     { m_electrons.emplace_back(el);   }
-inline void TL::EDM::FinalState::addMuon(const TL::EDM::Muon& mu)             { m_muons.emplace_back(mu);       }
-inline void TL::EDM::FinalState::addJet(const TL::EDM::Jet& jet)              { m_jets.emplace_back(jet);       }
-inline void TL::EDM::FinalState::addLepton(const TL::EDM::Lepton& lep)        { m_leptons.emplace_back(lep);    }
-inline void TL::EDM::FinalState::addLeptonPair(const TL::EDM::LeptonPair& lp) { m_leptonPairs.emplace_back(lp); }
-
-inline const std::vector<TL::EDM::Lepton>& TL::EDM::FinalState::leptons()   const { return m_leptons;   }
-inline const std::vector<TL::EDM::Jet>&    TL::EDM::FinalState::jets()      const { return m_jets;      }
-inline const TL::EDM::MissingET&           TL::EDM::FinalState::MissingET() const { return m_missingET; }
-inline       TL::EDM::MissingET&           TL::EDM::FinalState::MissingET()       { return m_missingET; }
-
-inline const std::vector<TL::EDM::LeptonPair>& TL::EDM::FinalState::leptonPairs() const {
-  return m_leptonPairs;
-}
-
-inline bool TL::EDM::FinalState::hasManTrigMatched()  const { return m_hasManTrigMatched; }
-inline bool TL::EDM::FinalState::hasFakeElectronMC()  const { return m_hasFakeElectronMC; }
-inline bool TL::EDM::FinalState::hasFakeMuonMC()      const { return m_hasFakeMuonMC;     }
-inline bool TL::EDM::FinalState::hasFakeLeptonMC()    const {
-  return (m_hasFakeElectronMC || m_hasFakeMuonMC);
 }
 
 #endif
