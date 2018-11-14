@@ -56,9 +56,6 @@ TL::StatusCode TL::Job::run() {
   }
   TL_CHECK(m_algorithm->setupOutput());
   m_algorithm->reader()->Restart();
-  if ( !m_useProgressBar ) {
-    logger()->info("Progress bar disabled.. you're in the dark");
-  }
 
   tqdm bar;
   bar.set_theme_braille_spin();
@@ -69,6 +66,9 @@ TL::StatusCode TL::Job::run() {
     while ( m_algorithm->reader()->Next() ) {
       if ( m_useProgressBar ) {
         bar.progress(m_algorithm->m_eventCounter,m_algorithm->m_totalEntries);
+      }
+      else {
+        printProgress(5, m_algorithm->m_totalEntries, m_algorithm->m_eventCounter);
       }
       TL_CHECK(m_algorithm->execute());
     }
@@ -88,6 +88,9 @@ TL::StatusCode TL::Job::run() {
         if ( m_useProgressBar ) {
           bar.progress(m_algorithm->m_eventCounter,m_algorithm->m_totalParticleLevelEntries);
         }
+        else {
+          printProgress(5, m_algorithm->m_totalParticleLevelEntries, m_algorithm->m_eventCounter);
+        }
         TL_CHECK(m_algorithm->execute());
       }
     } // end if particle level only
@@ -99,6 +102,9 @@ TL::StatusCode TL::Job::run() {
               m_algorithm->truthReader()->Next() ) {
         if ( m_useProgressBar ) {
           bar.progress(m_algorithm->m_eventCounter,m_algorithm->m_totalParticleLevelEntries);
+        }
+        else {
+          printProgress(5, m_algorithm->m_totalParticleLevelEntries, m_algorithm->m_eventCounter);
         }
         TL_CHECK(m_algorithm->execute());
       }
@@ -113,6 +119,9 @@ TL::StatusCode TL::Job::run() {
         m_algorithm->reader()->SetEntry(std::get<1>(idx));
         if ( m_useProgressBar ) {
           bar.progress(m_algorithm->m_eventCounter,m_algorithm->m_totalEntries);
+        }
+        else {
+          printProgress(5, m_algorithm->m_totalEntries, m_algorithm->m_eventCounter);
         }
         TL_CHECK(m_algorithm->execute());
       }
@@ -214,4 +223,14 @@ TL::StatusCode TL::Job::constructIndices() {
   c_RL->SetBranchStatus("*",1);
 
   return TL::StatusCode::SUCCESS;
+}
+
+void TL::Job::printProgress(int n_prints, long total_entries, long event_count) const {
+  if (total_entries > n_prints) {
+    int gap = total_entries / n_prints;
+    if (event_count % gap == 0) {
+      auto progress = std::round(100.0 * event_count / total_entries);
+      logger()->info(" -- [{:3.0f}%] Event: {}", progress, event_count);
+    }
+  }
 }

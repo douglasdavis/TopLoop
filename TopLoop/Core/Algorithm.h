@@ -62,9 +62,9 @@ namespace TL {
     virtual ~Algorithm() = default;
 
     /// default move constructor
-    Algorithm(Algorithm&&) = default;
+    Algorithm(Algorithm&&) = delete;
     /// default move assignemnt
-    Algorithm& operator=(Algorithm&&) = default;
+    Algorithm& operator=(Algorithm&&) = delete;
 
   private:
     /// delete copy constructor
