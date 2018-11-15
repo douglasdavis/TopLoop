@@ -105,13 +105,18 @@ namespace TL {
       /// true if an electron was flagged with isManTrigMatched
       bool hasManTrigMatched() const { return m_hasManTrigMatched; }
 
+      [[deprecated("Use the static function overload nbjets(container, wp)")]]
+      std::size_t nbjets(const TL::EDM::BTagWP wp = TL::EDM::BTagWP::mv2c10_77) const;
+
       /// count the number of jets in the container (default is MV2c10 at 77 percent eff)
       /**
        *  Uses the TL::EDM::BTagWP enum to ask for a specific working point.
        *
+       *  @param container the jet container to test
        *  @param wp the Working point enum value (default BTagWP::mv2c10_77).
        */
-      std::size_t nbjets(const TL::EDM::BTagWP wp = TL::EDM::BTagWP::mv2c10_77) const;
+      static std::size_t nbjets(const std::vector<TL::EDM::Jet>& container,
+                                const TL::EDM::BTagWP wp = TL::EDM::BTagWP::mv2c10_77);
 
       /// grab the index of most forward jet (largest \f$|\eta|\f$).
       std::size_t mostForwardJetIdx() const;
