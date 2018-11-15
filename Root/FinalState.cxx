@@ -59,15 +59,21 @@ void TL::EDM::FinalState::evaluateSelf(bool sort_leptons, bool manual_promptness
 }
 
 std::size_t TL::EDM::FinalState::nbjets(const TL::EDM::BTagWP wp) const {
+  return TL::EDM::FinalState::nbjets(m_jets, wp);
+}
+
+std::size_t TL::EDM::FinalState::nbjets(const std::vector<TL::EDM::Jet>& container,
+                                        const TL::EDM::BTagWP wp) {
   std::function<char(const Jet&)> isbtagged;
   if      ( wp == BTagWP::mv2c10_70 ) { isbtagged = &Jet::isbtagged_MV2c10_70; }
   else if ( wp == BTagWP::mv2c10_77 ) { isbtagged = &Jet::isbtagged_MV2c10_77; }
   else if ( wp == BTagWP::mv2c10_85 ) { isbtagged = &Jet::isbtagged_MV2c10_85; }
   else {
-    logger()->warn("BTagWP supplied to nbjets() doesn't exist! Returning 0");
+    spdlog::get("TL::EDM::FinalState")
+      ->warn("BTagWP supplied to nbjets() doesn't exist. Returning 0");
     return 0;
   }
-  return std::count_if(m_jets.begin(), m_jets.end(),
+  return std::count_if(container.begin(), container.end(),
                        [&](const TL::EDM::Jet& a) {
                          return isbtagged(a);
                        });
@@ -98,6 +104,7 @@ void TL::EDM::FinalState::reset() {
   m_hasManTrigMatched = false;
   m_leptons.clear();
   m_jets.clear();
+  m_looseJets.clear();
   m_leptonPairs.clear();
   m_electrons.clear();
   m_muons.clear();
