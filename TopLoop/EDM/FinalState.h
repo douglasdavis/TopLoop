@@ -40,7 +40,7 @@ namespace TL {
       bool m_hasFakeMuonMC{false};
       bool m_hasManTrigMatched{false};
 
-      void addLepton(const TL::EDM::Lepton &lep) { m_leptons.emplace_back(lep); }
+      void addLepton(const TL::EDM::Lepton& lep) { m_leptons.emplace_back(lep); }
       void addLeptonPair(const TL::EDM::LeptonPair& lp) { m_leptonPairs.emplace_back(lp); }
       void makeLeptonPairs();
 
