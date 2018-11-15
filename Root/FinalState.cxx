@@ -98,6 +98,7 @@ void TL::EDM::FinalState::reset() {
   m_hasManTrigMatched = false;
   m_leptons.clear();
   m_jets.clear();
+  m_looseJets.clear();
   m_leptonPairs.clear();
   m_electrons.clear();
   m_muons.clear();
