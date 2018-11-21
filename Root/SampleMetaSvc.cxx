@@ -276,9 +276,9 @@ TL::kSgTopNtup TL::SampleMetaSvc::getNtupleVersion(const std::string& sample_nam
     return TL::kSgTopNtup::v25;
   }
   else {
-    if ( log_it ) logger()->info("Cannot determine single top ntuple version, set to Unknown");
-    m_ntupVersion = TL::kSgTopNtup::Unknown;
-    return TL::kSgTopNtup::Unknown;
+    if ( log_it ) logger()->warn("Cannot determine single top ntuple version, set to v25");
+    m_ntupVersion = TL::kSgTopNtup::v25;
+    return TL::kSgTopNtup::v25;
   }
 }
 
