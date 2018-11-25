@@ -53,7 +53,7 @@ namespace TL {
   };
 
   enum class kSgTopNtup {
-    Unknown, v23, v25
+    Unknown, v23, v25, v27
   };
 
   /// @}
