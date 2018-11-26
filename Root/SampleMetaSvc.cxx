@@ -176,7 +176,8 @@ void TL::SampleMetaSvc::setupMaps() {
   m_s2e_NT = {
     { "Unknown"              , TL::kSgTopNtup::Unknown           } ,
     { "v23"                  , TL::kSgTopNtup::v23               } ,
-    { "v25"                  , TL::kSgTopNtup::v25               }
+    { "v25"                  , TL::kSgTopNtup::v25               } ,
+    { "v27"                  , TL::kSgTopNtup::v27               }
   };
   auto flipMap = [](const auto& templateMap, auto& newMap) {
     for ( auto const& templatePair : templateMap ) {
