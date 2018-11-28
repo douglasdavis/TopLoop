@@ -83,3 +83,35 @@ double TL::EDM::energyMassRatio(const TL::EDM::PhysObjList objects) {
   TLorentzVector combinedVec = system(objects);
   return (combinedVec.E() / combinedVec.M());
 }
+
+std::tuple<double,double,double> TL::EDM::thrust(const PhysObjList& objects) {
+  double numerator = 0;
+  double scalarProduct = 0;
+  double thrust_mag = 0;
+  double thrust_tmp = 0;
+  double thrust_phi = 0;
+  double thrust_eta = 0;
+  TVector3 n{0,0,0};
+  double hsys = TL::EDM::Hsys(objects);
+
+  for (float phi = -M_PI; phi < M_PI; phi = phi + 0.05) {
+    for (float eta = -5; eta < 5; eta = eta + 0.05) {
+      numerator = 0;
+      n.SetMagThetaPhi(1, 2*atan(exp(-eta)), phi);
+
+      for ( const auto& obj : objects ) {
+        scalarProduct = n.Dot(obj.p4().Vect());
+        if (scalarProduct > 0) numerator += scalarProduct;
+      }
+
+      thrust_tmp = numerator / hsys;
+      if (thrust_tmp > thrust_mag) {
+        thrust_phi = phi;
+        thrust_eta = eta;
+        thrust_mag = thrust_tmp;
+      }
+    }
+  }
+
+  return std::make_tuple(1 - thrust_mag, thrust_phi, thrust_eta);
+}
