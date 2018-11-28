@@ -182,15 +182,10 @@ namespace TL {
     /**
      *  @param sample_name string which should be the rucio sample
      *  name.
-     *  @param log_it flag (default true) to print result at "info"
      *  level.
      */
-    const std::string getCampaignStr(const std::string& sample_name, bool log_it) const {
-      auto retval = as_string(getCampaign(sample_name));
-      if  ( log_it ) {
-        logger()->info("This appears to be campaign: {}",retval);
-      }
-      return retval;
+    const std::string getCampaignStr(const std::string& sample_name) const {
+      return as_string(getCampaign(sample_name));
     }
 
     /// get the luminosity of a particular campaign
@@ -280,10 +275,8 @@ namespace TL {
     /**
      *  @param sample_name string which should be the rucio sample
      *  name.
-     *  @param log_it flag (default true) to print result at "info"
-     *  level.
      */
-    bool isAFII(const std::string& sample_name, bool log_it = true) const;
+    bool isAFII(const std::string& sample_name) const;
 
     /// Determine if the DSID is PowPy8 ttbar or Wt
     /**
@@ -300,6 +293,8 @@ namespace TL {
      *  versions. This function manually sets the internal ntuple
      *  version used... if getNtupleVersion is called the information
      *  is overriden!
+     *
+     *  @param ntupVersion ntuple version to set
      */
     void setNtupleVersionForCampaignUse(const TL::kSgTopNtup ntupVersion) {
       m_ntupVersion = ntupVersion;
@@ -309,8 +304,19 @@ namespace TL {
     /**
      *  This function will make this class internally use the
      *  determined ntuple version for luminosity information!
+     *
+     *  @param sample_name string which should be the rucio sample
+     *  name.
      */
-    TL::kSgTopNtup getNtupleVersion(const std::string& sample_name, bool log_it = true);
+    TL::kSgTopNtup getNtupleVersion(const std::string& sample_name);
+
+    /// get ntuple version as string
+    /**
+     *  @param ntupVersion the enum entry
+     */
+    std::string getNtupleVersionStr(const TL::kSgTopNtup ntupVersion) {
+      return as_string(ntupVersion);
+    }
 
     /// convenience function to grab which ntuple version is in use by this class
     std::string ntupleVersionInUse() const {

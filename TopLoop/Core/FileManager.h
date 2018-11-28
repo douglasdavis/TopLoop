@@ -36,6 +36,7 @@ namespace TL {
     std::string              m_rucioDirName       {"none"};
     unsigned int             m_dsid               {0};
     TL::kSgTopNtup           m_sgtopNtupVersion   {};
+    TL::kCampaign            m_campaign           {};
 
     /// initialize the ROOT TChain pointers
     TL::StatusCode initChain();
@@ -147,6 +148,8 @@ namespace TL {
     unsigned int dsid() const { return m_dsid; }
     /// the single top ntuple version
     TL::kSgTopNtup getSgTopNtupVersion() const { return m_sgtopNtupVersion; }
+    /// the campaign the sample is associated with
+    TL::kCampaign getCampaign() const { return m_campaign; }
 
     /// @}
 

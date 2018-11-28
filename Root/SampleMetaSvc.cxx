@@ -243,28 +243,17 @@ float TL::SampleMetaSvc::getCampaignWeight(const std::string& rucioDir,
   return getCampaignWeight(getCampaign(rucioDir),campaigns);
 }
 
-bool TL::SampleMetaSvc::isAFII(const std::string& sample_name, bool log_it) const {
+bool TL::SampleMetaSvc::isAFII(const std::string& sample_name) const {
   bool isdata = sample_name.find("physics_Main") != std::string::npos;
   if ( isdata ) {
-    if ( log_it ) {
-      logger()->info("This appears to be data");
-    }
     return false;
   }
   std::regex af2regex("(_a[0-9]{3})");
   bool isaf2 = std::regex_search(sample_name,af2regex);
-  if ( log_it ) {
-    if ( isaf2  ) {
-      logger()->info("This appears to be simulation type: AFII");
-    }
-    else {
-      logger()->info("This appears to be simulation type: Full Sim");
-    }
-  }
   return isaf2;
 }
 
-TL::kSgTopNtup TL::SampleMetaSvc::getNtupleVersion(const std::string& sample_name, bool log_it) {
+TL::kSgTopNtup TL::SampleMetaSvc::getNtupleVersion(const std::string& sample_name) {
   std::regex v23reg("(v23)");
   std::regex v25reg("(v25)");
   std::regex v27reg("(v27)");
@@ -281,24 +270,21 @@ TL::kSgTopNtup TL::SampleMetaSvc::getNtupleVersion(const std::string& sample_nam
     return TL::kSgTopNtup::Unknown;
   }
   if ( is23 ) {
-    if ( log_it ) logger()->info("Sample is v23 single top ntuple");
     m_ntupVersion = TL::kSgTopNtup::v23;
     return TL::kSgTopNtup::v23;
   }
   else if ( is25 ) {
-    if ( log_it ) logger()->info("Sample is v25 single top ntuple");
     m_ntupVersion = TL::kSgTopNtup::v25;
     return TL::kSgTopNtup::v25;
   }
   else if ( is27 ) {
-    if ( log_it ) logger()->info("Sample is v27 single top ntuple");
     m_ntupVersion = TL::kSgTopNtup::v27;
     return TL::kSgTopNtup::v27;
   }
   else {
-    if ( log_it ) logger()->warn("Cannot determine single top ntuple version, set to v25");
-    m_ntupVersion = TL::kSgTopNtup::v25;
-    return TL::kSgTopNtup::v25;
+    logger()->warn("Cannot determine single top ntuple version, set to Unknown");
+    m_ntupVersion = TL::kSgTopNtup::Unknown;
+    return TL::kSgTopNtup::Unknown;
   }
 }
 
