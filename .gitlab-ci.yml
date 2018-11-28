@@ -21,6 +21,7 @@ TopLoop:
     - set +e
     - source /cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase/user/atlasLocalSetup.sh
     - asetup 21.2,AnalysisTop,latest
+    - set -e
     - cd ../build
     - cmake ../source
     - make
