@@ -77,10 +77,18 @@ TL::SampleMetaSvc::SampleMetaSvc() : TL::Loggable("TL::SampleMetaSvc") {
     { TL::kCampaign::MC16f, j_camp.at("v25").at("MC16f").get<float>() } ,
     { TL::kCampaign::Data,  0.0 }
   };
-  m_campaignLumis = {
-                     {TL::kSgTopNtup::v23, campaignLumis_23},
-                     {TL::kSgTopNtup::v25, campaignLumis_25}
+  std::map<TL::kCampaign, float> campaignLumis_27 = {
+    { TL::kCampaign::MC15c, j_camp.at("v27").at("MC15c").get<float>() } ,
+    { TL::kCampaign::MC16a, j_camp.at("v27").at("MC16a").get<float>() } ,
+    { TL::kCampaign::MC16c, j_camp.at("v27").at("MC16c").get<float>() } ,
+    { TL::kCampaign::MC16d, j_camp.at("v27").at("MC16d").get<float>() } ,
+    { TL::kCampaign::MC16e, j_camp.at("v27").at("MC16e").get<float>() } ,
+    { TL::kCampaign::MC16f, j_camp.at("v27").at("MC16f").get<float>() } ,
+    { TL::kCampaign::Data,  0.0 }
   };
+  m_campaignLumis = {{TL::kSgTopNtup::v23, campaignLumis_23},
+                     {TL::kSgTopNtup::v25, campaignLumis_25},
+                     {TL::kSgTopNtup::v27, campaignLumis_27}};
 
   logger()->info("| {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} |",
                  "SgTopNtup","MC15c", "MC16a", "MC16c", "MC16d", "MC16e", "MC16f");
@@ -168,7 +176,8 @@ void TL::SampleMetaSvc::setupMaps() {
   m_s2e_NT = {
     { "Unknown"              , TL::kSgTopNtup::Unknown           } ,
     { "v23"                  , TL::kSgTopNtup::v23               } ,
-    { "v25"                  , TL::kSgTopNtup::v25               }
+    { "v25"                  , TL::kSgTopNtup::v25               } ,
+    { "v27"                  , TL::kSgTopNtup::v27               }
   };
   auto flipMap = [](const auto& templateMap, auto& newMap) {
     for ( auto const& templatePair : templateMap ) {
@@ -234,51 +243,48 @@ float TL::SampleMetaSvc::getCampaignWeight(const std::string& rucioDir,
   return getCampaignWeight(getCampaign(rucioDir),campaigns);
 }
 
-bool TL::SampleMetaSvc::isAFII(const std::string& sample_name, bool log_it) const {
+bool TL::SampleMetaSvc::isAFII(const std::string& sample_name) const {
   bool isdata = sample_name.find("physics_Main") != std::string::npos;
   if ( isdata ) {
-    if ( log_it ) {
-      logger()->info("This appears to be data");
-    }
     return false;
   }
   std::regex af2regex("(_a[0-9]{3})");
   bool isaf2 = std::regex_search(sample_name,af2regex);
-  if ( log_it ) {
-    if ( isaf2  ) {
-      logger()->info("This appears to be simulation type: AFII");
-    }
-    else {
-      logger()->info("This appears to be simulation type: Full Sim");
-    }
-  }
   return isaf2;
 }
 
-TL::kSgTopNtup TL::SampleMetaSvc::getNtupleVersion(const std::string& sample_name, bool log_it) {
+TL::kSgTopNtup TL::SampleMetaSvc::getNtupleVersion(const std::string& sample_name) {
   std::regex v23reg("(v23)");
   std::regex v25reg("(v25)");
+  std::regex v27reg("(v27)");
   bool is23 = std::regex_search(sample_name, v23reg);
   bool is25 = std::regex_search(sample_name, v25reg);
-  if ( is23 && is25 ) {
+  bool is27 = std::regex_search(sample_name, v27reg);
+  unsigned int isversionSum = 0;
+  for ( auto const isversion : {is23, is25, is27} ) {
+    isversionSum += static_cast<unsigned int>(isversion);
+  }
+  if ( isversionSum > 1 ) {
     logger()->warn("SgTopNtuple version degeneracy detected, set to Unknown.");
     m_ntupVersion = TL::kSgTopNtup::Unknown;
     return TL::kSgTopNtup::Unknown;
   }
   if ( is23 ) {
-    if ( log_it ) logger()->info("Sample is v23 single top ntuple");
     m_ntupVersion = TL::kSgTopNtup::v23;
     return TL::kSgTopNtup::v23;
   }
   else if ( is25 ) {
-    if ( log_it ) logger()->info("Sample is v25 single top ntuple");
     m_ntupVersion = TL::kSgTopNtup::v25;
     return TL::kSgTopNtup::v25;
   }
+  else if ( is27 ) {
+    m_ntupVersion = TL::kSgTopNtup::v27;
+    return TL::kSgTopNtup::v27;
+  }
   else {
-    if ( log_it ) logger()->warn("Cannot determine single top ntuple version, set to v25");
-    m_ntupVersion = TL::kSgTopNtup::v25;
-    return TL::kSgTopNtup::v25;
+    logger()->warn("Cannot determine single top ntuple version, set to Unknown");
+    m_ntupVersion = TL::kSgTopNtup::Unknown;
+    return TL::kSgTopNtup::Unknown;
   }
 }
 

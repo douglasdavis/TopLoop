@@ -197,8 +197,13 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
     logger()->info("Determined DSID: {}", m_dsid);
     TL::SampleMetaSvc::get().printInfo(m_dsid);
   }
-  m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
 
+  m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
+  m_campaign = TL::SampleMetaSvc::get().getCampaign(m_rucioDirName);
+  logger()->info("Ntuple version for this sample: {}",
+                 TL::SampleMetaSvc::get().getNtupleVersionStr(m_sgtopNtupVersion));
+  logger()->info("Campaign for this sample: {}",
+                 TL::SampleMetaSvc::get().getCampaignStr(m_campaign));
 }
 
 void TL::FileManager::feedTxt(const std::string& txtfilename) {
@@ -240,8 +245,13 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
     logger()->info("Determined DSID: {}", m_dsid);
     TL::SampleMetaSvc::get().printInfo(m_dsid);
   }
-  m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
 
+  m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
+  m_campaign = TL::SampleMetaSvc::get().getCampaign(m_rucioDirName);
+  logger()->info("Ntuple version for this sample: {}",
+                 TL::SampleMetaSvc::get().getNtupleVersionStr(m_sgtopNtupVersion));
+  logger()->info("Campaign for this sample: {}",
+                 TL::SampleMetaSvc::get().getCampaignStr(m_campaign));
 }
 
 void TL::FileManager::feedSingle(const char* fileName) {
