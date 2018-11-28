@@ -30,6 +30,14 @@ double TL::EDM::HTsys(const TL::EDM::PhysObjList objects) {
   return ht;
 }
 
+double TL::EDM::Hsys(const TL::EDM::PhysObjList objects) {
+  double h = 0.0;
+  for ( const auto& obj : objects ) {
+    h += obj.p4().P();
+  }
+  return h;
+}
+
 double TL::EDM::centrality(const TL::EDM::PhysObjList objects) {
   double pT_sum = 0.0;
   double p_sum  = 0.0;

@@ -84,6 +84,15 @@ namespace TL {
      */
     double HTsys(const PhysObjList objects);
 
+    /// Calculate the \f$H\f$ of the system of objects
+    /**
+     *  The \f$H\f$ is the scalar sum of the \f$p\f$ of all objects.
+     *
+     *  @param objects the list of objects inhjeriting from
+     *  TL::EDM::PhysicsObject to use in the calculation.
+     */
+    double Hsys(const PhysObjList objects);
+
     /// Calculate the centrality of the system of objects
     /**
      *  Centrality is defined as
