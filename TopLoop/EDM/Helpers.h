@@ -7,6 +7,8 @@
 #ifndef TL_EDM_Helpers_h
 #define TL_EDM_Helpers_h
 
+#include <cmath>
+#include <tuple>
 #include <TopLoop/EDM/PhysicsObject.h>
 
 namespace TL {
@@ -42,6 +44,13 @@ namespace TL {
     /// @endcode
     ///
     /// @{
+
+    /// Calculate the 4-vector sum of the system of objects.
+    /**
+     *  @param objects the list of objects inheriting from
+     *  TL::EDM::PhysicsObject to use in the calculation.
+     */
+    TLorentzVector system(const PhysObjList objects);
 
     /// calculate the \f$p_{\mathrm{T}}\f$ of the system of objects.
     /**
@@ -83,6 +92,15 @@ namespace TL {
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
     double HTsys(const PhysObjList objects);
+
+    /// Calculate the \f$H\f$ of the system of objects
+    /**
+     *  The \f$H\f$ is the scalar sum of the \f$p\f$ of all objects.
+     *
+     *  @param objects the list of objects inhjeriting from
+     *  TL::EDM::PhysicsObject to use in the calculation.
+     */
+    double Hsys(const PhysObjList objects);
 
     /// Calculate the centrality of the system of objects
     /**
@@ -145,6 +163,24 @@ namespace TL {
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
     double energyMassRatio(const PhysObjList objects);
+
+    /// Calculate the thrust of the event.
+    /**
+     *  The thrust is defined as
+     *  \f[
+     *    T =
+     *      max_{\hat{n}}
+     *      \frac{\sum_i \left| \hat{p}_i . \hat{n} \right|}
+     *           {\sum_i \left| \hat{p}_i \right|}
+     *  \f]
+     *  where \f$\hat{n}\f$ is the unit vector pointing along the thrust axis.
+     *  All objects in the event should be included in the calculation.
+     *  Returns the thrust magnitude, phi, and eta in that order.
+     *
+     *  @param objects the list of objects inhjeriting from
+     *  TL::EDM::PhysicsObject to use in the calculation.
+     */
+    std::tuple<double,double,double> thrust(const PhysObjList& objects);
 
     /// @}
 
