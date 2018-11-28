@@ -7,12 +7,16 @@
 #include <TopLoop/EDM/Helpers.h>
 #include <cmath>
 
-double TL::EDM::pTsys(const TL::EDM::PhysObjList objects) {
+TLorentzVector TL::EDM::system(const TL::EDM::PhysObjList objects) {
   TLorentzVector retVec{0,0,0,0};
   for ( const auto& obj : objects ) {
     retVec += obj.p4();
   }
-  return retVec.Pt();
+  return retVec;
+}
+
+double TL::EDM::pTsys(const TL::EDM::PhysObjList objects) {
+  return system(objects).Pt();
 }
 
 double TL::EDM::sigma_pTsys(const TL::EDM::PhysObjList objects,
@@ -50,40 +54,22 @@ double TL::EDM::centrality(const TL::EDM::PhysObjList objects) {
 
 double TL::EDM::deltaR(const TL::EDM::PhysObjList system1,
                        const TL::EDM::PhysObjList system2) {
-  TLorentzVector v1{0,0,0,0};
-  TLorentzVector v2{0,0,0,0};
-  for ( const auto& obj : system1 ) {
-    v1 += obj.p4();
-  }
-  for ( const auto& obj : system2 ) {
-    v2 += obj.p4();
-  }
+  TLorentzVector v1 = system(system1);
+  TLorentzVector v2 = system(system2);
   return v1.DeltaR(v2);
 }
 
 double TL::EDM::deltapT(const TL::EDM::PhysObjList system1,
                         const TL::EDM::PhysObjList system2) {
-  TLorentzVector v1{0,0,0,0};
-  TLorentzVector v2{0,0,0,0};
-  for ( const auto& obj : system1 ) {
-    v1 += obj.p4();
-  }
-  for ( const auto& obj : system2 ) {
-    v2 += obj.p4();
-  }
+  TLorentzVector v1 = system(system1);
+  TLorentzVector v2 = system(system2);
   return (v1.Pt() - v2.Pt());
 }
 
 double TL::EDM::deltaphi(const TL::EDM::PhysObjList system1,
                          const TL::EDM::PhysObjList system2) {
-  TLorentzVector v1{0,0,0,0};
-  TLorentzVector v2{0,0,0,0};
-  for ( const auto& obj : system1 ) {
-    v1 += obj.p4();
-  }
-  for ( const auto& obj : system2 ) {
-    v2 += obj.p4();
-  }
+  TLorentzVector v1 = system(system1);
+  TLorentzVector v2 = system(system2);
   return v1.DeltaPhi(v2);
 }
 
@@ -94,10 +80,6 @@ double TL::EDM::transverseMass(const TL::EDM::PhysicsObject& obj1,
 }
 
 double TL::EDM::energyMassRatio(const TL::EDM::PhysObjList objects) {
-  TLorentzVector combinedVec{0,0,0,0};
-  for ( const auto& obj : objects ) {
-    combinedVec += obj.p4();
-  }
+  TLorentzVector combinedVec = system(objects);
   return (combinedVec.E() / combinedVec.M());
-  return 0;
 }

@@ -43,6 +43,13 @@ namespace TL {
     ///
     /// @{
 
+    /// Calculate the 4-vector sum of the system of objects.
+    /**
+     *  @param objects the list of objects inheriting from
+     *  TL::EDM::PhysicsObject to use in the calculation.
+     */
+    TLorentzVector TL::EDM::system(const TL::EDM::PhysObjList objects);
+
     /// calculate the \f$p_{\mathrm{T}}\f$ of the system of objects.
     /**
      *  @param objects the list of objects inheriting from
