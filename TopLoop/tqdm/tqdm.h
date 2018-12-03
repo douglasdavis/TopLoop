@@ -15,7 +15,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <vector>
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 
 class tqdm {

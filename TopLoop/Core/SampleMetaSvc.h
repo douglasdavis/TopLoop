@@ -23,7 +23,7 @@
 
 namespace TL {
 
-  /// @addtogroup Enums convenience enums
+  /// @addtogroup Enums Convenience Enums
   /// @brief Enums to help with meta data
   /// @{
 
