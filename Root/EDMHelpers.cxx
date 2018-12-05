@@ -54,23 +54,65 @@ double TL::EDM::centrality(const TL::EDM::PhysObjList objects) {
 
 double TL::EDM::deltaR(const TL::EDM::PhysObjList system1,
                        const TL::EDM::PhysObjList system2) {
-  TLorentzVector v1 = system(system1);
-  TLorentzVector v2 = system(system2);
+  const TLorentzVector v1 = system(system1);
+  const TLorentzVector v2 = system(system2);
   return v1.DeltaR(v2);
+}
+double TL::EDM::deltaR(const TL::EDM::PhysicsObject& object1,
+                       const TL::EDM::PhysObjList system2) {
+  const TLorentzVector v2 = system(system2);
+  return object1.p4().DeltaR(v2);
+}
+double TL::EDM::deltaR(const TL::EDM::PhysObjList system1,
+                       const TL::EDM::PhysicsObject& object2) {
+  const TLorentzVector v1 = system(system1);
+  return v1.DeltaR(object2.p4());
+}
+double TL::EDM::deltaR(const TL::EDM::PhysicsObject& object1,
+                       const TL::EDM::PhysicsObject& object2) {
+  return object1.p4().DeltaR(object2.p4());
 }
 
 double TL::EDM::deltapT(const TL::EDM::PhysObjList system1,
                         const TL::EDM::PhysObjList system2) {
-  TLorentzVector v1 = system(system1);
-  TLorentzVector v2 = system(system2);
+  const TLorentzVector v1 = system(system1);
+  const TLorentzVector v2 = system(system2);
   return (v1.Pt() - v2.Pt());
+}
+double TL::EDM::deltapT(const TL::EDM::PhysicsObject& object1,
+                        const TL::EDM::PhysObjList system2) {
+  const TLorentzVector v2 = system(system2);
+  return (object1.pt() - v2.Pt());
+}
+double TL::EDM::deltapT(const TL::EDM::PhysObjList system1,
+                        const TL::EDM::PhysicsObject& object2) {
+  const TLorentzVector v1 = system(system1);
+  return (v1.Pt() - object2.pt());
+}
+double TL::EDM::deltapT(const TL::EDM::PhysicsObject& object1,
+                        const TL::EDM::PhysicsObject& object2) {
+  return (object1.pt() - object2.pt());
 }
 
 double TL::EDM::deltaphi(const TL::EDM::PhysObjList system1,
                          const TL::EDM::PhysObjList system2) {
-  TLorentzVector v1 = system(system1);
-  TLorentzVector v2 = system(system2);
+  const TLorentzVector v1 = system(system1);
+  const TLorentzVector v2 = system(system2);
   return v1.DeltaPhi(v2);
+}
+double TL::EDM::deltaphi(const TL::EDM::PhysicsObject& object1,
+                         const TL::EDM::PhysObjList system2) {
+  const TLorentzVector v2 = system(system2);
+  return object1.p4().DeltaPhi(v2);
+}
+double TL::EDM::deltaphi(const TL::EDM::PhysObjList system1,
+                         const TL::EDM::PhysicsObject& object2) {
+  const TLorentzVector v1 = system(system1);
+  return v1.DeltaPhi(object2.p4());
+}
+double TL::EDM::deltaphi(const TL::EDM::PhysicsObject& object1,
+                         const TL::EDM::PhysicsObject& object2) {
+  return object1.p4().DeltaPhi(object2.p4());
 }
 
 double TL::EDM::transverseMass(const TL::EDM::PhysicsObject& obj1,
