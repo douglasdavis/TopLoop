@@ -127,6 +127,9 @@ namespace TL {
      *  @param system2 list of objects (inheriting from TL::EDM::PhysicsObject) in system 2.
      */
     double deltaR(const PhysObjList system1, const PhysObjList system2);
+    double deltaR(const PhysicsObject& object1, const PhysObjList system2);
+    double deltaR(const PhysObjList system1, const PhysicsObject& object2);
+    double deltaR(const PhysicsObject& object1, const PhysicsObject& object2);
 
     /// Calculate \f$\Delta p_{\mathrm{T}}\f$ between systems of objects.
     /**
@@ -134,6 +137,9 @@ namespace TL {
      *  @param system2 list of objects (inheriting from TL::EDM::PhysicsObject) in system 2.
      */
     double deltapT(const PhysObjList system1, const PhysObjList system2);
+    double deltapT(const PhysicsObject& object1, const PhysObjList system2);
+    double deltapT(const PhysObjList system1, const PhysicsObject& object2);
+    double deltapT(const PhysicsObject& object1, const PhysicsObject& object2);
 
     /// Calculate \f$\Delta \phi\f$ between systems of objects.
     /**
@@ -143,6 +149,9 @@ namespace TL {
      *  @param system2 list of objects (inheriting from TL::EDM::PhysicsObject) in system 2.
      */
     double deltaphi(const PhysObjList system1, const PhysObjList system2);
+    double deltaphi(const PhysicsObject& object1, const PhysObjList system2);
+    double deltaphi(const PhysObjList system1, const PhysicsObject& object2);
+    double deltaphi(const PhysicsObject& object1, const PhysicsObject& object2);
 
     /// Calculate the transverse mass (\f$m_{\mathrm{T}}\f$) of two object system.
     /**
