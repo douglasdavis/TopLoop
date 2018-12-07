@@ -14,7 +14,26 @@
 namespace TL {
   namespace EDM {
 
-    using PhysObjList = std::initializer_list<TL::EDM::PhysicsObject>;
+    /// Stores the total 4-vector of a system of physics objects.
+    class PhysicsSystem {
+      public:
+        PhysicsSystem(const std::initializer_list<TL::EDM::PhysicsObject> list);
+        PhysicsSystem(const TL::EDM::PhysicsObject& object)
+          : m_p{object.p4()}
+          , m_ht{static_cast<float>(object.p4().Pt())}
+          , m_h{static_cast<float>(object.p4().P())}
+          { };
+
+      public:
+        const TLorentzVector& p4() const { return m_p; }
+        float ht() const { return m_ht; }
+        float h() const { return m_h; }
+
+      protected:
+        TLorentzVector m_p;
+        float m_ht;
+        float m_h;
+    };
 
     /// @addtogroup EDMHelpers EDM Helper functions
     /// @brief Helper functions for making calculations using EDM
@@ -22,14 +41,14 @@ namespace TL {
     ///
     /// Many of these functions take
     /// `std::initializer_list<TL::EDM::PhysicsObject>` function
-    /// parameters. An alias to that has been created called
-    /// `PhysObjList`. For use, just feed a braced-init-list of
-    /// objects inheriting from TL::EDM::PhysicsObject to the
-    /// function. For example:
+    /// parameters. This implicitly constructs a `PhysicsSystem` which is an
+    //  expensive operation. If possible construct `PhysicsSystem`s explicitly
+    //  to avoid creating equivalent systems many times.
+    /// For example:
     ///
     /// @code{.cpp}
     ///
-    /// // assuming the existense of finalState as a TL::EDM::FinalState object.
+    /// // assuming the existence of finalState as a TL::EDM::FinalState object.
     /// auto lep1  = finalState.leptons().at(0);
     /// auto lep2  = finalState.leptons().at(1);
     /// auto jet1  = finalState.leptons().at(0);
@@ -45,19 +64,12 @@ namespace TL {
     ///
     /// @{
 
-    /// Calculate the 4-vector sum of the system of objects.
-    /**
-     *  @param objects the list of objects inheriting from
-     *  TL::EDM::PhysicsObject to use in the calculation.
-     */
-    TLorentzVector system(const PhysObjList objects);
-
     /// calculate the \f$p_{\mathrm{T}}\f$ of the system of objects.
     /**
      *  @param objects the list of objects inheriting from
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
-    double pTsys(const PhysObjList objects);
+    double pTsys(const PhysicsSystem& system);
 
     /// calculate the \f$\sigma(p^\mathrm{sys}_{\mathrm{T}})\f$ of a system in the final state
     /**
@@ -81,7 +93,7 @@ namespace TL {
      *  of \f$p_\mathrm{T}\f$ of all hard objects contributing to the
      *  \f$E_\mathrm{T}^\mathrm{miss}\f$ calculation).
      */
-    double sigma_pTsys(const PhysObjList objects, const float sumet);
+    double sigma_pTsys(const PhysicsSystem& system, const float sumet);
 
     /// Calculate the \f$H_{\mathrm{T}}\f$ of the system of objects
     /**
@@ -91,7 +103,7 @@ namespace TL {
      *  @param objects the list of objects inhjeriting from
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
-    double HTsys(const PhysObjList objects);
+    inline double HTsys(const PhysicsSystem& system) { return system.ht(); }
 
     /// Calculate the \f$H\f$ of the system of objects
     /**
@@ -100,7 +112,7 @@ namespace TL {
      *  @param objects the list of objects inhjeriting from
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
-    double Hsys(const PhysObjList objects);
+    inline double Hsys(const PhysicsSystem& system) { return system.h(); }
 
     /// Calculate the centrality of the system of objects
     /**
@@ -113,7 +125,7 @@ namespace TL {
      *  @param objects the list of objects inhjeriting from
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
-    double centrality(const PhysObjList objects);
+    double centrality(const PhysicsSystem& system);
 
     /// Calculate \f$\Delta R\f$ between systems of objects
     /**
@@ -126,20 +138,16 @@ namespace TL {
      *  @param system1 list of objects (inheriting from TL::EDM::PhysicsObject) in system 1.
      *  @param system2 list of objects (inheriting from TL::EDM::PhysicsObject) in system 2.
      */
-    double deltaR(const PhysObjList system1, const PhysObjList system2);
-    double deltaR(const PhysicsObject& object1, const PhysObjList system2);
-    double deltaR(const PhysObjList system1, const PhysicsObject& object2);
-    double deltaR(const PhysicsObject& object1, const PhysicsObject& object2);
+    inline double deltaR(const PhysicsSystem& system1, const PhysicsSystem& system2) {
+      return system1.p4().DeltaR(system2.p4());
+    }
 
     /// Calculate \f$\Delta p_{\mathrm{T}}\f$ between systems of objects.
     /**
      *  @param system1 list of objects (inheriting from TL::EDM::PhysicsObject) in system 1.
      *  @param system2 list of objects (inheriting from TL::EDM::PhysicsObject) in system 2.
      */
-    double deltapT(const PhysObjList system1, const PhysObjList system2);
-    double deltapT(const PhysicsObject& object1, const PhysObjList system2);
-    double deltapT(const PhysObjList system1, const PhysicsObject& object2);
-    double deltapT(const PhysicsObject& object1, const PhysicsObject& object2);
+    double deltapT(const PhysicsSystem& system1, const PhysicsSystem& system2);
 
     /// Calculate \f$\Delta \phi\f$ between systems of objects.
     /**
@@ -148,10 +156,9 @@ namespace TL {
      *  @param system1 list of objects (inheriting from TL::EDM::PhysicsObject) in system 1.
      *  @param system2 list of objects (inheriting from TL::EDM::PhysicsObject) in system 2.
      */
-    double deltaphi(const PhysObjList system1, const PhysObjList system2);
-    double deltaphi(const PhysicsObject& object1, const PhysObjList system2);
-    double deltaphi(const PhysObjList system1, const PhysicsObject& object2);
-    double deltaphi(const PhysicsObject& object1, const PhysicsObject& object2);
+    inline double deltaphi(const PhysicsSystem& system1, const PhysicsSystem& system2) {
+      return system1.p4().DeltaPhi(system2.p4());
+    }
 
     /// Calculate the transverse mass (\f$m_{\mathrm{T}}\f$) of two object system.
     /**
@@ -171,7 +178,7 @@ namespace TL {
      *  @param objects the list of objects inhjeriting from
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
-    double energyMassRatio(const PhysObjList objects);
+    double energyMassRatio(const PhysicsSystem& system);
 
     /// Calculate the thrust of the event.
     /**
@@ -189,7 +196,7 @@ namespace TL {
      *  @param objects the list of objects inhjeriting from
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
-    std::tuple<double,double,double> thrust(const PhysObjList& objects);
+    std::tuple<double,double,double> thrust(const std::initializer_list<PhysicsObject> objects);
 
     /// @}
 
