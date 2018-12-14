@@ -18,7 +18,7 @@ void TL::EDM::FinalState::makeLeptonPairs() {
   }
 }
 
-void TL::EDM::FinalState::evaluateSelf(bool sort_leptons, bool manual_promptness) {
+void TL::EDM::FinalState::evaluateSelf(bool sort_leptons, bool manual_promptness, bool sort_jets) {
   m_hasFakeElectronMC = false;
   m_hasFakeMuonMC     = false;
   m_hasManTrigMatched = false;
@@ -43,13 +43,22 @@ void TL::EDM::FinalState::evaluateSelf(bool sort_leptons, bool manual_promptness
   if ( sort_leptons ) {
     std::sort(m_leptons.begin(),m_leptons.end(),
               [](const TL::EDM::Lepton& lep1, const TL::EDM::Lepton& lep2) {
-                return (lep1.pT() > lep2.pT());
+                return lep1.pt() > lep2.pt();
               });
   }
   m_hasManTrigMatched = std::any_of(std::begin(m_leptons),std::end(m_leptons),
                                     [](const TL::EDM::Lepton& lep) {
                                       return lep.isManTrigMatched();
                                     });
+  // jets are nominally sorted by pt at the sgtop ntuple level
+  // this should be used only if that changes in the future
+  // as of december 2018 v25 ntuples they are still sorted
+  if ( sort_jets ) {
+    std::sort(m_jets.begin(), m_jets.end(),
+              [](const TL::EDM::Jet& jet1, const TL::EDM::Jet& jet2) {
+                return jet1.pt() > jet2.pt();
+              });
+  }
 
   makeLeptonPairs();
   if ( m_leptons.size() > 10 ) {

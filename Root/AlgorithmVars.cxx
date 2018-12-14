@@ -181,6 +181,8 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(jet_isbtagged_MV2c10_70,std::vector<char>,m_reader);
   CONNECT_BRANCH(jet_isbtagged_MV2c10_77,std::vector<char>,m_reader);
   CONNECT_BRANCH(jet_isbtagged_MV2c10_85,std::vector<char>,m_reader);
+  CONNECT_BRANCH(jet_tagWeightBin_MV2c10_Continuous,std::vector<int>,m_reader);
+  CONNECT_BRANCH(jet_isbtagged_DL1_HybBEff_60,std::vector<char>,m_reader);
   CONNECT_BRANCH(jet_MV2c10mu,std::vector<float>,m_reader);
   CONNECT_BRANCH(jet_MV2c10rnn,std::vector<float>,m_reader);
   CONNECT_BRANCH(jet_DL1,std::vector<float>,m_reader);

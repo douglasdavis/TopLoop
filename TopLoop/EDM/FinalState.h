@@ -75,8 +75,12 @@ namespace TL {
        *  container.
        *  @param manual_promptness flag to use the isManualPrompt for
        *  electron promptness determination.
+       *  @param sort_jets flag to force sorting jets, they should
+       *  already be sorted thought! (as of December 2018)
        */
-      void evaluateSelf(bool sort_leptons = true, bool manual_promptness = false);
+      void evaluateSelf(bool sort_leptons = true,
+                        bool manual_promptness = false,
+                        bool sort_jets = false);
 
       /// @}
 
