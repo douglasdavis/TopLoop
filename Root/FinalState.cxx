@@ -88,6 +88,14 @@ std::size_t TL::EDM::FinalState::nbjets(const std::vector<TL::EDM::Jet>& contain
                        });
 }
 
+std::size_t TL::EDM::FinalState::nbjets(const std::vector<TL::EDM::Jet>& container,
+                                        const TL::EDM::BTagBin bin_req) {
+  return std::count_if(container.begin(), container.end(),
+                       [&](const TL::EDM::Jet& a) {
+                         return a.isbtaggedContinuous(bin_req);
+                       });
+}
+
 std::size_t TL::EDM::FinalState::mostForwardJetIdx() const {
   if ( jets().empty() ) {
     logger()->warn("Asking for forward jet index but no jets! return 0");
