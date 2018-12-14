@@ -22,7 +22,20 @@ namespace TL {
   namespace EDM {
 
     /// b-tagging working point identifiers
-    enum class BTagWP { mv2c10_70, mv2c10_77, mv2c10_85 };
+    enum class BTagWP {
+      mv2c10_70 = 1,
+      mv2c10_77 = 2,
+      mv2c10_85 = 3,
+      mv2c10_PC = 4
+    };
+    enum class BTagBin {
+      eff_100_85 = 1,
+      eff_85_77  = 2,
+      eff_77_70  = 3,
+      eff_70_60  = 4,
+      eff_60_0   = 5
+    };
+
 
     class Jet : public TL::EDM::PhysicsObject {
     private:
