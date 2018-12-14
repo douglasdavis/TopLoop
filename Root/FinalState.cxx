@@ -77,6 +77,12 @@ std::size_t TL::EDM::FinalState::nbjets(const std::vector<TL::EDM::Jet>& contain
   if      ( wp == BTagWP::mv2c10_70 ) { isbtagged = &Jet::isbtagged_MV2c10_70; }
   else if ( wp == BTagWP::mv2c10_77 ) { isbtagged = &Jet::isbtagged_MV2c10_77; }
   else if ( wp == BTagWP::mv2c10_85 ) { isbtagged = &Jet::isbtagged_MV2c10_85; }
+  else if ( wp == BTagWP::mv2c10_PC ) {
+    spdlog::get("TL::EDM::FinalState")
+      ->warn("BTagWP::mv2c10_PC not supported with this nbjets() overload. "
+             "You should use overload for BTagBin. Returning 0");
+    return 0;
+  }
   else {
     spdlog::get("TL::EDM::FinalState")
       ->warn("BTagWP supplied to nbjets() doesn't exist. Returning 0");
