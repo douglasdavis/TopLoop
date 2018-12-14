@@ -21,13 +21,19 @@
 namespace TL {
   namespace EDM {
 
-    /// b-tagging working point identifiers
+    /// Fixed b-tagging WP identifiers
     enum class BTagWP {
       mv2c10_70 = 1,
       mv2c10_77 = 2,
       mv2c10_85 = 3,
       mv2c10_PC = 4
     };
+
+    /// Pseudocontinuous b-tagging WP indentifiers
+    /**
+     *  The numbers are lowerBoundEff_upperBoundEff. (tightest WP
+     *  would be 60_0).
+     */
     enum class BTagBin {
       eff_100_85 = 1,
       eff_85_77  = 2,
@@ -139,6 +145,13 @@ namespace TL {
       float DL1mu_pb()            const { return m_DL1mu_pb;            }
       float DL1rnn_pu()           const { return m_DL1rnn_pu;           }
       float DL1rnn_pc()           const { return m_DL1rnn_pc;           }
+
+      /// test if jet is b-tagged based on the given minimum bin
+      /**
+       *  @param minimum_bin the minimum PC b-tagging bin the jet must
+       *  pass to be considered tagged.
+       */
+      bool isbtaggedContinuous(const TL::EDM::BTagBin minimum_bin) const;
 
     };
 

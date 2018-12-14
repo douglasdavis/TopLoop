@@ -2,6 +2,7 @@
  *  @brief TL::EDM Helper functions
  *
  *  @author Douglas Davis, <ddavis@cern.ch>
+ *  @author Carl Suster, <carl.suster@cern.ch>
  */
 
 #ifndef TL_EDM_Helpers_h
@@ -66,7 +67,7 @@ namespace TL {
 
     /// calculate the \f$p_{\mathrm{T}}\f$ of the system of objects.
     /**
-     *  @param objects the list of objects inheriting from
+     *  @param system the list of objects inheriting from
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
     double pTsys(const PhysicsSystem& system);
@@ -87,7 +88,7 @@ namespace TL {
      *
      *  Has units of \f$\sqrt{\mathrm{[Energy]}}\f$.
      *
-     *  @param objects the list of objects inheriting from
+     *  @param system the list of objects inheriting from
      *  TL::EDM::PhysicsObject to use in the calculation.
      *  @param sumet the \f$\sum E_{\mathrm{T}}\f$ of the event. (sum
      *  of \f$p_\mathrm{T}\f$ of all hard objects contributing to the
@@ -100,7 +101,7 @@ namespace TL {
      *  The \f$H_\mathrm{T}\f$ is the scalar sum of the
      *  \f$p_\mathrm{T}\f$ of all objects.
      *
-     *  @param objects the list of objects inhjeriting from
+     *  @param system the list of objects inhjeriting from
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
     inline double HTsys(const PhysicsSystem& system) { return system.ht(); }
@@ -109,7 +110,7 @@ namespace TL {
     /**
      *  The \f$H\f$ is the scalar sum of the \f$p\f$ of all objects.
      *
-     *  @param objects the list of objects inhjeriting from
+     *  @param system the list of objects inhjeriting from
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
     inline double Hsys(const PhysicsSystem& system) { return system.h(); }
@@ -122,7 +123,7 @@ namespace TL {
              \frac{\sum_\limits{i=1}^{n}p_\mathrm{T}^{(i)}}{\sum_\limits{i=1}^{n}E^{(i)}}
      *  \f]
      *
-     *  @param objects the list of objects inhjeriting from
+     *  @param system the list of objects inhjeriting from
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
     double centrality(const PhysicsSystem& system);
@@ -175,7 +176,7 @@ namespace TL {
 
     /// Calculate the energy to mass ratio of a system.
     /**
-     *  @param objects the list of objects inhjeriting from
+     *  @param system the list of objects inhjeriting from
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
     double energyMassRatio(const PhysicsSystem& system);
@@ -196,7 +197,7 @@ namespace TL {
      *  @param objects the list of objects inhjeriting from
      *  TL::EDM::PhysicsObject to use in the calculation.
      */
-    std::tuple<double,double,double> thrust(const std::initializer_list<PhysicsObject> objects);
+    std::tuple<double,double,double> thrust(const std::initializer_list<TL::EDM::PhysicsObject> objects);
 
     /// @}
 
