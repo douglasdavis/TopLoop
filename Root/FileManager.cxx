@@ -63,8 +63,12 @@ TL::StatusCode TL::FileManager::initChain() {
 }
 
 void TL::FileManager::disableBranches(const std::vector<std::string>& branch_list) const {
+  /// check the chain for the branch before disabling to silence ROOT warning
+  auto root_branch_list = m_rootChain->GetListOfBranches();
   for ( const auto branch_name : branch_list ) {
-    m_rootChain->SetBranchStatus(branch_name.c_str(), 0);
+    if ( root_branch_list->Contains(branch_name.c_str()) ) {
+      m_rootChain->SetBranchStatus(branch_name.c_str(), 0);
+    }
   }
 }
 
