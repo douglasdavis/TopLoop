@@ -2,6 +2,7 @@
  *  @brief TL::EDM helper implementations
  *
  *  @author Douglas Davis, <ddavis@cern.ch>
+ *  @author Carl Suster, <carl.suster@cern.ch>
  */
 
 #include <TopLoop/EDM/Helpers.h>

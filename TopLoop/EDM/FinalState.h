@@ -75,8 +75,12 @@ namespace TL {
        *  container.
        *  @param manual_promptness flag to use the isManualPrompt for
        *  electron promptness determination.
+       *  @param sort_jets flag to force sorting jets, they should
+       *  already be sorted thought! (as of December 2018)
        */
-      void evaluateSelf(bool sort_leptons = true, bool manual_promptness = false);
+      void evaluateSelf(bool sort_leptons = true,
+                        bool manual_promptness = false,
+                        bool sort_jets = false);
 
       /// @}
 
@@ -117,6 +121,16 @@ namespace TL {
        */
       static std::size_t nbjets(const std::vector<TL::EDM::Jet>& container,
                                 const TL::EDM::BTagWP wp = TL::EDM::BTagWP::mv2c10_77);
+
+      /// count the number of jets in the container passing the requirement
+      /**
+       *  Uses the TL::EDM::BTagBin enum to ask for a specific WP
+       *
+       *  @param container hte jet container to test
+       *  @param bin_req the minimum b-tagging bin (default minimum is 77->70 bin)
+       */
+      static std::size_t nbjets(const std::vector<TL::EDM::Jet>& container,
+                                const TL::EDM::BTagBin bin_req = TL::EDM::BTagBin::eff_77_70);
 
       /// grab the index of most forward jet (largest \f$|\eta|\f$).
       std::size_t mostForwardJetIdx() const;

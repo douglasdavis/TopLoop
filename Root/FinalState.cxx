@@ -18,7 +18,7 @@ void TL::EDM::FinalState::makeLeptonPairs() {
   }
 }
 
-void TL::EDM::FinalState::evaluateSelf(bool sort_leptons, bool manual_promptness) {
+void TL::EDM::FinalState::evaluateSelf(bool sort_leptons, bool manual_promptness, bool sort_jets) {
   m_hasFakeElectronMC = false;
   m_hasFakeMuonMC     = false;
   m_hasManTrigMatched = false;
@@ -43,13 +43,22 @@ void TL::EDM::FinalState::evaluateSelf(bool sort_leptons, bool manual_promptness
   if ( sort_leptons ) {
     std::sort(m_leptons.begin(),m_leptons.end(),
               [](const TL::EDM::Lepton& lep1, const TL::EDM::Lepton& lep2) {
-                return (lep1.pT() > lep2.pT());
+                return lep1.pt() > lep2.pt();
               });
   }
   m_hasManTrigMatched = std::any_of(std::begin(m_leptons),std::end(m_leptons),
                                     [](const TL::EDM::Lepton& lep) {
                                       return lep.isManTrigMatched();
                                     });
+  // jets are nominally sorted by pt at the sgtop ntuple level
+  // this should be used only if that changes in the future
+  // as of december 2018 v25 ntuples they are still sorted
+  if ( sort_jets ) {
+    std::sort(m_jets.begin(), m_jets.end(),
+              [](const TL::EDM::Jet& jet1, const TL::EDM::Jet& jet2) {
+                return jet1.pt() > jet2.pt();
+              });
+  }
 
   makeLeptonPairs();
   if ( m_leptons.size() > 10 ) {
@@ -68,6 +77,12 @@ std::size_t TL::EDM::FinalState::nbjets(const std::vector<TL::EDM::Jet>& contain
   if      ( wp == BTagWP::mv2c10_70 ) { isbtagged = &Jet::isbtagged_MV2c10_70; }
   else if ( wp == BTagWP::mv2c10_77 ) { isbtagged = &Jet::isbtagged_MV2c10_77; }
   else if ( wp == BTagWP::mv2c10_85 ) { isbtagged = &Jet::isbtagged_MV2c10_85; }
+  else if ( wp == BTagWP::mv2c10_PC ) {
+    spdlog::get("TL::EDM::FinalState")
+      ->warn("BTagWP::mv2c10_PC not supported with this nbjets() overload. "
+             "You should use overload for BTagBin. Returning 0");
+    return 0;
+  }
   else {
     spdlog::get("TL::EDM::FinalState")
       ->warn("BTagWP supplied to nbjets() doesn't exist. Returning 0");
@@ -76,6 +91,14 @@ std::size_t TL::EDM::FinalState::nbjets(const std::vector<TL::EDM::Jet>& contain
   return std::count_if(container.begin(), container.end(),
                        [&](const TL::EDM::Jet& a) {
                          return isbtagged(a);
+                       });
+}
+
+std::size_t TL::EDM::FinalState::nbjets(const std::vector<TL::EDM::Jet>& container,
+                                        const TL::EDM::BTagBin bin_req) {
+  return std::count_if(container.begin(), container.end(),
+                       [&](const TL::EDM::Jet& a) {
+                         return a.isbtaggedContinuous(bin_req);
                        });
 }
 
