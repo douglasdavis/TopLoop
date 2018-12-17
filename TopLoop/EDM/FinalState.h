@@ -120,7 +120,7 @@ namespace TL {
        *  @param wp the Working point enum value (default BTagWP::mv2c10_77).
        */
       static std::size_t nbjets(const std::vector<TL::EDM::Jet>& container,
-                                const TL::EDM::BTagWP wp = TL::EDM::BTagWP::mv2c10_77);
+                                const TL::EDM::BTagWP wp);
 
       /// count the number of jets in the container passing the requirement
       /**
@@ -130,7 +130,7 @@ namespace TL {
        *  @param bin_req the minimum b-tagging bin (default minimum is 77->70 bin)
        */
       static std::size_t nbjets(const std::vector<TL::EDM::Jet>& container,
-                                const TL::EDM::BTagBin bin_req = TL::EDM::BTagBin::eff_77_70);
+                                const TL::EDM::BTagBin bin_req);
 
       /// grab the index of most forward jet (largest \f$|\eta|\f$).
       std::size_t mostForwardJetIdx() const;
