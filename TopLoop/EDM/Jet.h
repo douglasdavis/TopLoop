@@ -42,6 +42,10 @@ namespace TL {
       eff_60_0   = 5
     };
 
+    /// convenience enum to string map
+    extern std::map<TL::EDM::BTagWP, std::string> BTagWPDict;
+    /// convenience enum to string map
+    extern std::map<TL::EDM::BTagBin, std::string> BTagBinDict;
 
     class Jet : public TL::EDM::PhysicsObject {
     private:
