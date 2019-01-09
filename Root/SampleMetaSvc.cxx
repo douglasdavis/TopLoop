@@ -59,36 +59,21 @@ TL::SampleMetaSvc::SampleMetaSvc() : TL::Loggable("TL::SampleMetaSvc") {
     logger()->error("cannot fill campaign metadata from file. {} cannot be found", camp_filepath);
   }
   auto j_camp = nlohmann::json::parse(camp_in);
-  std::map<TL::kCampaign, float> campaignLumis_23 = {
-    { TL::kCampaign::MC15c, j_camp.at("v23").at("MC15c").get<float>() } ,
-    { TL::kCampaign::MC16a, j_camp.at("v23").at("MC16a").get<float>() } ,
-    { TL::kCampaign::MC16c, j_camp.at("v23").at("MC16c").get<float>() } ,
-    { TL::kCampaign::MC16d, j_camp.at("v23").at("MC16d").get<float>() } ,
-    { TL::kCampaign::MC16e, j_camp.at("v23").at("MC16e").get<float>() } ,
-    { TL::kCampaign::MC16f, j_camp.at("v23").at("MC16f").get<float>() } ,
-    { TL::kCampaign::Data,  0.0 }
-  };
-  std::map<TL::kCampaign, float> campaignLumis_25 = {
-    { TL::kCampaign::MC15c, j_camp.at("v25").at("MC15c").get<float>() } ,
-    { TL::kCampaign::MC16a, j_camp.at("v25").at("MC16a").get<float>() } ,
-    { TL::kCampaign::MC16c, j_camp.at("v25").at("MC16c").get<float>() } ,
-    { TL::kCampaign::MC16d, j_camp.at("v25").at("MC16d").get<float>() } ,
-    { TL::kCampaign::MC16e, j_camp.at("v25").at("MC16e").get<float>() } ,
-    { TL::kCampaign::MC16f, j_camp.at("v25").at("MC16f").get<float>() } ,
-    { TL::kCampaign::Data,  0.0 }
-  };
-  std::map<TL::kCampaign, float> campaignLumis_27 = {
-    { TL::kCampaign::MC15c, j_camp.at("v27").at("MC15c").get<float>() } ,
-    { TL::kCampaign::MC16a, j_camp.at("v27").at("MC16a").get<float>() } ,
-    { TL::kCampaign::MC16c, j_camp.at("v27").at("MC16c").get<float>() } ,
-    { TL::kCampaign::MC16d, j_camp.at("v27").at("MC16d").get<float>() } ,
-    { TL::kCampaign::MC16e, j_camp.at("v27").at("MC16e").get<float>() } ,
-    { TL::kCampaign::MC16f, j_camp.at("v27").at("MC16f").get<float>() } ,
-    { TL::kCampaign::Data,  0.0 }
-  };
-  m_campaignLumis = {{TL::kSgTopNtup::v23, campaignLumis_23},
-                     {TL::kSgTopNtup::v25, campaignLumis_25},
-                     {TL::kSgTopNtup::v27, campaignLumis_27}};
+  for ( const auto& entry : m_s2e_NT ) {
+    std::string string_val = std::get<0>(entry);
+    TL::kSgTopNtup enum_val = std::get<1>(entry);
+    if (enum_val == TL::kSgTopNtup::Unknown) continue;
+    std::map<TL::kCampaign, float> campaign_lumis = {
+      { TL::kCampaign::MC15c, j_camp.at(string_val).at("MC15c").get<float>() } ,
+      { TL::kCampaign::MC16a, j_camp.at(string_val).at("MC16a").get<float>() } ,
+      { TL::kCampaign::MC16c, j_camp.at(string_val).at("MC16c").get<float>() } ,
+      { TL::kCampaign::MC16d, j_camp.at(string_val).at("MC16d").get<float>() } ,
+      { TL::kCampaign::MC16e, j_camp.at(string_val).at("MC16e").get<float>() } ,
+      { TL::kCampaign::MC16f, j_camp.at(string_val).at("MC16f").get<float>() } ,
+      { TL::kCampaign::Data,  0.0 }
+    };
+    m_campaignLumis.emplace(std::make_pair(enum_val, campaign_lumis));
+  }
 
   logger()->info("| {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} |",
                  "SgTopNtup","MC15c", "MC16a", "MC16c", "MC16d", "MC16e", "MC16f");
@@ -177,7 +162,8 @@ void TL::SampleMetaSvc::setupMaps() {
     { "Unknown"              , TL::kSgTopNtup::Unknown           } ,
     { "v23"                  , TL::kSgTopNtup::v23               } ,
     { "v25"                  , TL::kSgTopNtup::v25               } ,
-    { "v27"                  , TL::kSgTopNtup::v27               }
+    { "v27"                  , TL::kSgTopNtup::v27               } ,
+    { "v28"                  , TL::kSgTopNtup::v28               }
   };
   auto flipMap = [](const auto& templateMap, auto& newMap) {
     for ( auto const& templatePair : templateMap ) {
@@ -257,11 +243,13 @@ TL::kSgTopNtup TL::SampleMetaSvc::getNtupleVersion(const std::string& sample_nam
   std::regex v23reg("(v23)");
   std::regex v25reg("(v25)");
   std::regex v27reg("(v27)");
+  std::regex v28reg("(v28)");
   bool is23 = std::regex_search(sample_name, v23reg);
   bool is25 = std::regex_search(sample_name, v25reg);
   bool is27 = std::regex_search(sample_name, v27reg);
+  bool is28 = std::regex_search(sample_name, v28reg);
   unsigned int isversionSum = 0;
-  for ( auto const isversion : {is23, is25, is27} ) {
+  for ( auto const isversion : {is23, is25, is27, is28} ) {
     isversionSum += static_cast<unsigned int>(isversion);
   }
   if ( isversionSum > 1 ) {
@@ -280,6 +268,10 @@ TL::kSgTopNtup TL::SampleMetaSvc::getNtupleVersion(const std::string& sample_nam
   else if ( is27 ) {
     m_ntupVersion = TL::kSgTopNtup::v27;
     return TL::kSgTopNtup::v27;
+  }
+  else if ( is28 ) {
+    m_ntupVersion = TL::kSgTopNtup::v28;
+    return TL::kSgTopNtup::v28;
   }
   else {
     logger()->warn("Cannot determine single top ntuple version, set to Unknown");
