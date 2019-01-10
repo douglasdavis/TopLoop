@@ -176,7 +176,7 @@ void TL::SampleMetaSvc::setupMaps() {
   flipMap(m_s2e_C,  m_e2s_C);
   flipMap(m_s2e_NT, m_e2s_NT);
 
-  m_rTags = {
+  m_recoTags = {
     { "r7676"  , TL::kCampaign::MC15c } ,
     { "r9364"  , TL::kCampaign::MC16a } ,
     { "r9781"  , TL::kCampaign::MC16c } ,
@@ -192,7 +192,7 @@ TL::kCampaign TL::SampleMetaSvc::getCampaign(const std::string& sample_name) con
                     "Returning TL::kCampaign::Data");
     return TL::kCampaign::Data;
   }
-  for ( const auto& entry : m_rTags ) {
+  for ( const auto& entry : m_recoTags ) {
     if ( sample_name.find(entry.first) != std::string::npos ) {
       return entry.second;
     }
@@ -240,44 +240,24 @@ bool TL::SampleMetaSvc::isAFII(const std::string& sample_name) const {
 }
 
 TL::kSgTopNtup TL::SampleMetaSvc::getNtupleVersion(const std::string& sample_name) {
-  std::regex v23reg("(v23)");
-  std::regex v25reg("(v25)");
-  std::regex v27reg("(v27)");
-  std::regex v28reg("(v28)");
-  bool is23 = std::regex_search(sample_name, v23reg);
-  bool is25 = std::regex_search(sample_name, v25reg);
-  bool is27 = std::regex_search(sample_name, v27reg);
-  bool is28 = std::regex_search(sample_name, v28reg);
-  unsigned int isversionSum = 0;
-  for ( auto const isversion : {is23, is25, is27, is28} ) {
-    isversionSum += static_cast<unsigned int>(isversion);
+  std::uint32_t nfound = 0;
+  for ( const auto& version : m_e2s_NT ) {
+    auto enum_val = std::get<0>(version);
+    auto str_val = std::get<1>(version);
+    std::regex vreg(fmt::format("({})", str_val));
+    if ( std::regex_search(sample_name, vreg) ) {
+      m_ntupVersion = enum_val;
+      nfound++;
+    }
   }
-  if ( isversionSum > 1 ) {
-    logger()->warn("SgTopNtuple version degeneracy detected, set to Unknown.");
-    m_ntupVersion = TL::kSgTopNtup::Unknown;
+  if ( nfound != 1 ) {
+    logger()->warn("getNtupleVersion found 0 or more than 1 ntuple versions");
+    logger()->warn("returning Unknown and setting internal version to Unknown");
     return TL::kSgTopNtup::Unknown;
   }
-  if ( is23 ) {
-    m_ntupVersion = TL::kSgTopNtup::v23;
-    return TL::kSgTopNtup::v23;
-  }
-  else if ( is25 ) {
-    m_ntupVersion = TL::kSgTopNtup::v25;
-    return TL::kSgTopNtup::v25;
-  }
-  else if ( is27 ) {
-    m_ntupVersion = TL::kSgTopNtup::v27;
-    return TL::kSgTopNtup::v27;
-  }
-  else if ( is28 ) {
-    m_ntupVersion = TL::kSgTopNtup::v28;
-    return TL::kSgTopNtup::v28;
-  }
-  else {
-    logger()->warn("Cannot determine single top ntuple version, set to Unknown");
-    m_ntupVersion = TL::kSgTopNtup::Unknown;
-    return TL::kSgTopNtup::Unknown;
-  }
+  logger()->debug("getNtupleVersion: determined {} from {}",
+                  as_string(m_ntupVersion), sample_name);
+  return m_ntupVersion;
 }
 
 unsigned int TL::SampleMetaSvc::getYear(const unsigned int runNum) const {

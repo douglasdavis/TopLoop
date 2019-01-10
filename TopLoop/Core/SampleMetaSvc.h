@@ -87,7 +87,7 @@ namespace TL {
     std::map<std::string,TL::kSgTopNtup>    m_s2e_NT;
     std::map<TL::kSgTopNtup,std::string>    m_e2s_NT;
 
-    std::map<std::string,TL::kCampaign>     m_rTags;
+    std::map<std::string,TL::kCampaign>     m_recoTags;
 
     TL::kSgTopNtup m_ntupVersion{TL::kSgTopNtup::Unknown};
     std::map<TL::kSgTopNtup,
@@ -292,7 +292,7 @@ namespace TL {
      *  lumi calculations based on campaigns and ntuple,
      *  versions. This function manually sets the internal ntuple
      *  version used... if getNtupleVersion is called the information
-     *  is overriden!
+     *  is overriden! This function should be used with care!
      *
      *  @param ntupVersion ntuple version to set
      */
