@@ -111,12 +111,6 @@ structure is intuitive.
 For particle level variables, the macros are `DECLARE_PL_BRANCH` and
 `CONNECT_PL_BRANCH`.
 
-## API Documentation
-
-Documentation can be found here: http://twrun2.web.cern.ch/TopLoop
-
-Doxygen documentation can be found here: http://twrun2.web.cern.ch/TopLoopDoxygenAPI
-
 ## Example Algorithm
 
 We have a mature TopLoop based algorithm for the tW dilepton analysis:
