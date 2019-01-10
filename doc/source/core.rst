@@ -13,6 +13,7 @@ TL::Algorithm
    :project: TopLoop
    :members:
    :protected-members:
+   :undoc-members:
 
 TL::Job
 -------
@@ -21,6 +22,7 @@ TL::Job
    :project: TopLoop
    :members:
    :protected-members:
+   :undoc-members:
 
 TL::FileManager
 ---------------
@@ -29,6 +31,7 @@ TL::FileManager
    :project: TopLoop
    :members:
    :protected-members:
+   :undoc-members:
 
 TL::WeightTool
 --------------
@@ -37,6 +40,7 @@ TL::WeightTool
    :project: TopLoop
    :members:
    :protected-members:
+   :undoc-members:
 
 TL::SampleMetaSvc
 -----------------
@@ -44,6 +48,7 @@ TL::SampleMetaSvc
 .. doxygenclass:: TL::SampleMetaSvc
    :project: TopLoop
    :members:
+   :undoc-members:
 
 TL::Loggable
 ------------
@@ -51,3 +56,4 @@ TL::Loggable
 .. doxygenclass:: TL::Loggable
    :project: TopLoop
    :members:
+   :undoc-members:

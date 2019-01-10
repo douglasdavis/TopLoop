@@ -17,23 +17,28 @@ namespace TL {
 
     /// Stores the total 4-vector of a system of physics objects.
     class PhysicsSystem {
-      public:
-        PhysicsSystem(const std::initializer_list<TL::EDM::PhysicsObject> list);
-        PhysicsSystem(const TL::EDM::PhysicsObject& object)
-          : m_p{object.p4()}
-          , m_ht{static_cast<float>(object.p4().Pt())}
-          , m_h{static_cast<float>(object.p4().P())}
-          { };
+    public:
+      /// initializer list based constructor
+      PhysicsSystem(const std::initializer_list<TL::EDM::PhysicsObject> list);
+      /// single object based consturctor
+      PhysicsSystem(const TL::EDM::PhysicsObject& object)
+        : m_p{object.p4()}
+        , m_ht{static_cast<float>(object.p4().Pt())}
+        , m_h{static_cast<float>(object.p4().P())}
+      { };
 
-      public:
-        const TLorentzVector& p4() const { return m_p; }
-        float ht() const { return m_ht; }
-        float h() const { return m_h; }
+    public:
+      /// retrieve the four momentum of the system
+      const TLorentzVector& p4() const { return m_p; }
+      /// retrieve the sum of transverse momenta of objects in the system
+      float ht() const { return m_ht; }
+      /// retrieve the sum of momenta of objects in the system
+      float h() const { return m_h; }
 
-      protected:
-        TLorentzVector m_p;
-        float m_ht;
-        float m_h;
+    protected:
+      TLorentzVector m_p;
+      float m_ht;
+      float m_h;
     };
 
     /// @addtogroup EDMHelpers EDM Helper functions

@@ -6,6 +6,10 @@
 Welcome to TopLoop's documentation!
 ===================================
 
+TopLoop provides an API for processing single top ntuples, dealing
+with metadata describing the samples, and constructing simple physical
+objects to simplify common calculations.
+
 .. toctree::
    :maxdepth: 3
    :caption: Contents:
@@ -13,10 +17,3 @@ Welcome to TopLoop's documentation!
    intro.rst
    core.rst
    edm.rst
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
