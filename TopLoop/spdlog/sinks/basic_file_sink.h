@@ -4,10 +4,14 @@
 //
 
 #pragma once
+
+#ifndef SPDLOG_H
+#error "spdlog.h must be included before this file."
+#endif
+
 #include "TopLoop/spdlog/details/file_helper.h"
 #include "TopLoop/spdlog/details/null_mutex.h"
 #include "TopLoop/spdlog/sinks/base_sink.h"
-#include "TopLoop/spdlog/spdlog.h"
 
 #include <mutex>
 #include <string>

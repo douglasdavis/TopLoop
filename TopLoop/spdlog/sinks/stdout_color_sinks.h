@@ -5,7 +5,10 @@
 
 #pragma once
 
-#include "TopLoop/spdlog/spdlog.h"
+#ifndef SPDLOG_H
+#error "spdlog.h must be included before this file."
+#endif
+
 #ifdef _WIN32
 #include "TopLoop/spdlog/sinks/wincolor_sink.h"
 #else
