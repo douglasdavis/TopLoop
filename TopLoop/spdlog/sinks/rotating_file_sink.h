@@ -4,11 +4,15 @@
 //
 
 #pragma once
+
+#ifndef SPDLOG_H
+#error "spdlog.h must be included before this file."
+#endif
+
 #include "TopLoop/spdlog/details/file_helper.h"
 #include "TopLoop/spdlog/details/null_mutex.h"
 #include "TopLoop/spdlog/fmt/fmt.h"
 #include "TopLoop/spdlog/sinks/base_sink.h"
-#include "TopLoop/spdlog/spdlog.h"
 
 #include <cerrno>
 #include <chrono>
@@ -44,7 +48,7 @@ public:
         if (index != 0u)
         {
             filename_t basename, ext;
-            std::tie(basename, ext) = details::file_helper::split_by_extenstion(filename);
+            std::tie(basename, ext) = details::file_helper::split_by_extension(filename);
             fmt::format_to(w, SPDLOG_FILENAME_T("{}.{}{}"), basename, index, ext);
         }
         else
@@ -101,6 +105,7 @@ private:
                 if (!rename_file(src, target))
                 {
                     file_helper_.reopen(true); // truncate the log file anyway to prevent it to grow beyond its limit!
+                    current_size_ = 0;
                     throw spdlog_ex(
                         "rotating_file_sink: failed renaming " + filename_to_str(src) + " to " + filename_to_str(target), errno);
                 }

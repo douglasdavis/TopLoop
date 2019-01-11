@@ -5,6 +5,10 @@
 
 #pragma once
 
+#ifndef SPDLOG_H
+#error "spdlog.h must be included before this file."
+#endif
+
 #include "TopLoop/spdlog/details/fmt_helper.h"
 #include "TopLoop/spdlog/details/null_mutex.h"
 #include "TopLoop/spdlog/details/os.h"
@@ -30,7 +34,7 @@ template<typename Mutex>
 class android_sink final : public base_sink<Mutex>
 {
 public:
-    explicit android_sink(std::string tag = "TopLoop/spdlog", bool use_raw_msg = false)
+    explicit android_sink(std::string tag = "spdlog", bool use_raw_msg = false)
         : tag_(std::move(tag))
         , use_raw_msg_(use_raw_msg)
     {
@@ -43,7 +47,7 @@ protected:
         fmt::memory_buffer formatted;
         if (use_raw_msg_)
         {
-            details::fmt_helper::append_buf(msg.raw, formatted);
+            details::fmt_helper::append_string_view(msg.payload, formatted);
         }
         else
         {
@@ -103,13 +107,13 @@ using android_sink_st = android_sink<details::null_mutex>;
 // Create and register android syslog logger
 
 template<typename Factory = default_factory>
-inline std::shared_ptr<logger> android_logger_mt(const std::string &logger_name, const std::string &tag = "TopLoop/spdlog")
+inline std::shared_ptr<logger> android_logger_mt(const std::string &logger_name, const std::string &tag = "spdlog")
 {
     return Factory::template create<sinks::android_sink_mt>(logger_name, tag);
 }
 
 template<typename Factory = default_factory>
-inline std::shared_ptr<logger> android_logger_st(const std::string &logger_name, const std::string &tag = "TopLoop/spdlog")
+inline std::shared_ptr<logger> android_logger_st(const std::string &logger_name, const std::string &tag = "spdlog")
 {
     return Factory::template create<sinks::android_sink_st>(logger_name, tag);
 }

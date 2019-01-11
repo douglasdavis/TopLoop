@@ -4,11 +4,15 @@
 //
 
 #pragma once
+
+#ifndef SPDLOG_H
+#error "spdlog.h must be included before this file."
+#endif
+
 #include "TopLoop/spdlog/details/file_helper.h"
 #include "TopLoop/spdlog/details/null_mutex.h"
 #include "TopLoop/spdlog/fmt/fmt.h"
 #include "TopLoop/spdlog/sinks/base_sink.h"
-#include "TopLoop/spdlog/spdlog.h"
 
 #include <chrono>
 #include <cstdio>
@@ -28,7 +32,7 @@ struct daily_filename_calculator
     static filename_t calc_filename(const filename_t &filename, const tm &now_tm)
     {
         filename_t basename, ext;
-        std::tie(basename, ext) = details::file_helper::split_by_extenstion(filename);
+        std::tie(basename, ext) = details::file_helper::split_by_extension(filename);
         std::conditional<std::is_same<filename_t::value_type, char>::value, fmt::memory_buffer, fmt::wmemory_buffer>::type w;
         fmt::format_to(
             w, SPDLOG_FILENAME_T("{}_{:04d}-{:02d}-{:02d}{}"), basename, now_tm.tm_year + 1900, now_tm.tm_mon + 1, now_tm.tm_mday, ext);
