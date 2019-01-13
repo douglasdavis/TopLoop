@@ -129,8 +129,6 @@ namespace TL {
 
   private:
     std::shared_ptr<spdlog::logger> m_brlogger{nullptr};
-    //protected:
-    //const std::shared_ptr<spdlog::logger>& brlogger() const { return m_brlogger; }
 
   protected:
 
