@@ -31,7 +31,7 @@
   public:                                                                             \
     const TYPE& NAME() const {                                                        \
       if ( bv__##NAME ) return *(*bv__##NAME);                                        \
-      spdlog::get("TopLoop non-existent branch")->critical("No {} branch!",#NAME);    \
+      m_brlogger->critical("No {} branch!",#NAME);                                    \
       std::exit(EXIT_FAILURE);                                                        \
     }
 
@@ -41,7 +41,7 @@
   public:                                                                             \
     TYPE NAME() const {                                                               \
       if ( bv__##NAME ) return *(*bv__##NAME);                                        \
-      spdlog::get("TopLoop non-existent branch")->critical("No {} branch!",#NAME);    \
+      m_brlogger->critical("No {} branch!",#NAME);                                    \
       std::exit(EXIT_FAILURE);                                                        \
     }
 
@@ -51,7 +51,7 @@
   public:                                                                             \
     const TYPE& PL_##NAME() const {                                                   \
       if ( bv__pl__##NAME ) return *(*bv__pl__##NAME);                                \
-      spdlog::get("TopLoop non-existent branch")->critical("No PL_{} branch!",#NAME); \
+      m_brlogger->critical("No PL_{} branch!",#NAME);                                 \
       std::exit(EXIT_FAILURE);                                                        \
     }
 
@@ -61,18 +61,18 @@
   public:                                                                             \
     TYPE PL_##NAME() const {                                                          \
       if ( bv__pl__##NAME ) return *(*bv__pl__##NAME);                                \
-      spdlog::get("TopLoop non-existent branch")->critical("No PL_{} branch!",#NAME); \
+      m_brlogger->critical("No PL_{} branch!",#NAME);                                 \
       std::exit(EXIT_FAILURE);                                                        \
     }
 
-#define DECLARE_TRUTH_BRANCH(NAME, TYPE)                                                 \
-  protected:                                                                             \
-    std::unique_ptr<TTreeReaderValue<TYPE>> bv__truth__##NAME;                           \
-  public:                                                                                \
-    TYPE truth_##NAME() const {                                                          \
-      if ( bv__truth__##NAME ) return *(*bv__truth__##NAME);                             \
-      spdlog::get("TopLoop non-existent branch")->critical("No truth_{} branch!",#NAME); \
-      std::exit(EXIT_FAILURE);                                                           \
+#define DECLARE_TRUTH_BRANCH(NAME, TYPE)                                              \
+  protected:                                                                          \
+    std::unique_ptr<TTreeReaderValue<TYPE>> bv__truth__##NAME;                        \
+  public:                                                                             \
+    TYPE truth_##NAME() const {                                                       \
+      if ( bv__truth__##NAME ) return *(*bv__truth__##NAME);                          \
+      m_brlogger->critical("No truth_{} branch!",#NAME);                              \
+      std::exit(EXIT_FAILURE);                                                        \
     }
 
 #define CONNECT_BRANCH(NAME,TYPE,READER)                                \
@@ -87,11 +87,11 @@
 namespace TL {
 
   class Variables {
-  private:
-
   public:
     /// default constructor
-    Variables() = default;
+    Variables() {
+      m_brlogger = TL::Loggable::setupLogger("TL::Variables");
+    }
     /// destructor
     virtual ~Variables() = default;
 
@@ -108,28 +108,27 @@ namespace TL {
      *  dereference the pointer.
      */
     template<typename T>
-    static std::unique_ptr<T>
-    setupBranch(std::shared_ptr<TTreeReader> reader, const char* name) {
-      if ( spdlog::get("TopLoop non-existent branch") == nullptr ) {
-        spdlog::stdout_color_mt("TopLoop non-existent branch");
-      }
-
+    std::unique_ptr<T>
+    setupBranch(std::shared_ptr<TTreeReader> reader, const char* name) const {
       if ( reader->GetTree() == nullptr ) {
-        spdlog::get("TopLoop non-existent branch")->debug("{} branch trying to link to a null tree! "
-                                                          "TTreeReader name name: {}",
-                                                          name, reader->GetTree()->GetName());
+        m_brlogger->debug("{} branch trying to link to a null tree! "
+                          "TTreeReader name name: {}",
+                          name, reader->GetTree()->GetName());
         return nullptr;
       }
       if ( reader->GetTree()->GetListOfBranches()->FindObject(name) != nullptr ) {
         return std::make_unique<T>(*reader,name);
       }
       else {
-        spdlog::get("TopLoop non-existent branch")->debug("{} branch not found in the tree \"{}\"! "
-                                                          "Using this branch will cause a painful death! ",
-                                                          name,reader->GetTree()->GetName());
+        m_brlogger->debug("{} branch not found in the tree \"{}\"! "
+                          "Using this branch will cause a painful death! ",
+                          name,reader->GetTree()->GetName());
       }
       return nullptr;
     }
+
+  private:
+    std::shared_ptr<spdlog::logger> m_brlogger{nullptr};
 
   protected:
 
