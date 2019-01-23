@@ -9,9 +9,6 @@
 #include <TopLoop/Core/FileManager.h>
 #include <TopLoop/Core/Utils.h>
 
-// ROOT
-#include <TChain.h>
-
 // boost
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem/path.hpp>

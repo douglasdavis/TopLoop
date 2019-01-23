@@ -18,7 +18,7 @@
 #include <TopLoop/Core/SampleMetaSvc.h>
 
 // ROOT
-class TChain;
+#include <TChain.h>
 
 namespace TL {
   class FileManager : public TL::Loggable {
