@@ -40,8 +40,16 @@ namespace TL {
 
     /// initialize the ROOT TChain pointers
     TL::StatusCode initChain();
+    /// uses rucio directory name
+    void determineDSIDandVersion();
 
   public:
+
+    struct SubsetInstructions {
+      int dsid{-1};
+      float fraction{0.0};
+      int seed{-1};
+    };
 
     /// default constructor
     FileManager();
@@ -105,7 +113,7 @@ namespace TL {
      *
      *  @param branch_list list of branches to disable
      */
-    void disableBranches(const std::vector<std::string> &branch_list) const;
+    void disableBranches(const std::vector<std::string>& branch_list) const;
 
     /// @}
 
@@ -119,9 +127,10 @@ namespace TL {
     /**
      *  @param dirpath path of the directory containing files to
      *  process
-     *  @param max_files maximum number of files to find before breaking
+     *  @param sis subset instructions
      */
-    void feedDir(const std::string& dirpath, const unsigned int max_files = 10000);
+    void feedDir(const std::string& dirpath,
+                 const std::vector<TL::FileManager::SubsetInstructions>& sis = {});
 
     /// Feed the chains with files listed in a text file.
     void feedTxt(const std::string& txtfilename);
