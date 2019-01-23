@@ -40,13 +40,14 @@ namespace TL {
 
     /// initialize the ROOT TChain pointers
     TL::StatusCode initChain();
-    /// uses rucio directory name
-    void determineDSIDandVersion();
+    /// uses rucio directory name to determine DSID, ntup version, and campaign
+    void determineSampleProperties();
 
   public:
 
     struct SubsetInstructions {
       unsigned int dsid{999999};
+      TL::kCampaign campaign{TL::kCampaign::Unknown};
       float fraction{0.0};
       int seed{-1};
     };

@@ -82,7 +82,7 @@ void TL::FileManager::feedDir(const std::string& dirpath,
   boost::algorithm::split(splits,dp,boost::is_any_of("/"));
   m_rucioDirName = splits.back();
 
-  determineDSIDandVersion();
+  determineSampleProperties();
 
   // were going to loop over the files in a rucio download
   // directory... nominally just the directory path given to this
@@ -158,8 +158,9 @@ void TL::FileManager::feedDir(const std::string& dirpath,
   }
 
   for ( const auto& si : sis ) {
-    if ( si.dsid == m_dsid ) {
-      logger()->info("DSID {} is in the shuffle list", si.dsid);
+    if ( si.dsid == m_dsid && m_campaign == si.campaign ) {
+      logger()->info("DSID {} for campaign {} is in the shuffle list",
+                     si.dsid, TL::SampleMetaSvc::get().getCampaignStr(m_campaign));
       logger()->info(" -- Fraction to keep: {}", si.fraction);
       logger()->info(" -- Shuffling seed:   {}", si.seed);
       logger()->info(" -- N-files before:   {}", m_fileNames.size());
@@ -172,7 +173,9 @@ void TL::FileManager::feedDir(const std::string& dirpath,
       logger()->info(" -- N-files after:    {}", m_fileNames.size());
       break;
     }
-    else { continue; }
+    else {
+      continue;
+    }
   }
 
   for ( auto const& filepath : m_fileNames ) {
@@ -219,7 +222,7 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
   logger()->info("feedTxt determined rucio dataset name:");
   logger()->info("{}", m_rucioDirName);
 
-  determineDSIDandVersion();
+  determineSampleProperties();
 
   std::string line;
   std::ifstream infile(txtfilename);
@@ -248,7 +251,7 @@ void TL::FileManager::feedSingle(const char* fileName) {
   }
 }
 
-void TL::FileManager::determineDSIDandVersion() {
+void TL::FileManager::determineSampleProperties() {
   // try to determine dsid from rucio directory name
   std::regex rgx("(.[0-9]{6}.)");
   std::smatch match;
