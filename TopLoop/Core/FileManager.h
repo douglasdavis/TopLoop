@@ -46,7 +46,7 @@ namespace TL {
   public:
 
     struct SubsetInstructions {
-      int dsid{-1};
+      unsigned int dsid{999999};
       float fraction{0.0};
       int seed{-1};
     };

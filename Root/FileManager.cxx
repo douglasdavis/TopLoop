@@ -257,7 +257,6 @@ void TL::FileManager::determineDSIDandVersion() {
     matchstr = matchstr.substr(1, matchstr.size() - 2);
     m_dsid = std::stoi(matchstr);
     logger()->info("Determined DSID: {}", m_dsid);
-    TL::SampleMetaSvc::get().printInfo(m_dsid);
   }
 
   m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
@@ -267,4 +266,5 @@ void TL::FileManager::determineDSIDandVersion() {
   logger()->info("Campaign for this sample: {}",
                  TL::SampleMetaSvc::get().getCampaignStr(m_campaign));
 
+  TL::SampleMetaSvc::get().printInfo(m_dsid);
 }
