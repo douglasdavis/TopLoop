@@ -127,10 +127,10 @@ namespace TL {
     /**
      *  @param dirpath path of the directory containing files to
      *  process
-     *  @param ssint subset instructions
+     *  @param sis subset instructions
      */
     void feedDir(const std::string& dirpath,
-                 const std::vector<TL::FileManager::SubsetInstructions>& sis);
+                 const std::vector<TL::FileManager::SubsetInstructions>& sis = {});
 
     /// Feed the chains with files listed in a text file.
     void feedTxt(const std::string& txtfilename);
