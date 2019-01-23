@@ -22,6 +22,7 @@ namespace fs = boost::filesystem;
 #include <fstream>
 #include <regex>
 #include <string>
+#include <random>
 
 TL::FileManager::FileManager() : TL::Loggable("TL::FileManager") {}
 
@@ -68,7 +69,8 @@ void TL::FileManager::disableBranches(const std::vector<std::string>& branch_lis
   }
 }
 
-void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max_files) {
+void TL::FileManager::feedDir(const std::string& dirpath,
+                              const std::vector<TL::FileManager::SubsetInstructions>& sis) {
   TL_CHECK(initChain());
   std::string dp{dirpath};
   if ( boost::algorithm::ends_with(dp,"/") ) {
@@ -82,6 +84,8 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
   std::vector<std::string> splits;
   boost::algorithm::split(splits,dp,boost::is_any_of("/"));
   m_rucioDirName = splits.back();
+
+  determineDSIDandVersion();
 
   // were going to loop over the files in a rucio download
   // directory... nominally just the directory path given to this
@@ -137,29 +141,16 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
   // loop_over is the symobolic link if necessary. nominally it's
   // just the standard rucio dataset directory
   for ( const auto& i : fs::directory_iterator(loop_over) ) {
-    if ( m_fileNames.size() >= max_files ) {
-      logger()->warn("Breaking file feeding loop at {} files",max_files);
-      break;
-    }
     if ( !fs::is_directory(i.path()) ) {
       auto whole_path = i.path();
       if ( whole_path.filename().string().find(".root") == std::string::npos ) {
         continue;
       }
-      logger()->info("Adding file: {}",whole_path.filename().string());
-
       std::vector<std::string> dupeSplits;
       boost::algorithm::split(dupeSplits,i.path().filename().string(),boost::is_any_of("."));
       checkForDupes.emplace_back(dupeSplits.at(2)+dupeSplits.at(3));
-
       std::string final_path = whole_path.string();
       m_fileNames.emplace_back(final_path);
-      m_rootChain->AddFile(final_path.c_str());
-      m_rootWeightsChain->AddFile(final_path.c_str());
-      if ( m_doParticleLevel ) {
-        m_particleLevelChain->AddFile(final_path.c_str());
-        m_truthChain->AddFile(final_path.c_str());
-      }
     }
     else {
       continue;
@@ -167,6 +158,34 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
   }
   if ( m_fileNames.empty() ) {
     logger()->error("Directory {} doesn't contain any files!", dp);
+  }
+
+  for ( const auto& si : sis ) {
+    if ( si.dsid == m_dsid ) {
+      logger()->info("DSID {} is in the shuffle list", si.dsid);
+      logger()->info(" -- Fraction to keep: {}", si.fraction);
+      logger()->info(" -- Shuffling seed:   {}", si.seed);
+      logger()->info(" -- N-files before:   {}", m_fileNames.size());
+      auto og_size = static_cast<float>(m_fileNames.size());
+      std::default_random_engine rng(si.seed);
+      std::shuffle(std::begin(m_fileNames), std::end(m_fileNames), rng);
+      while ( (static_cast<float>(m_fileNames.size()) / og_size) > si.fraction ) {
+        m_fileNames.pop_back();
+      }
+      logger()->info(" -- N-files after:    {}", m_fileNames.size());
+      break;
+    }
+    else { continue; }
+  }
+
+  for ( auto const& filepath : m_fileNames ) {
+    logger()->info("Adding file: {}", fs::path(filepath).filename().string());
+    m_rootChain->AddFile(filepath.c_str());
+    m_rootWeightsChain->AddFile(filepath.c_str());
+    if ( m_doParticleLevel ) {
+      m_particleLevelChain->AddFile(filepath.c_str());
+      m_truthChain->AddFile(filepath.c_str());
+    }
   }
 
   // check for duplicate {[job number].[file number]} combos
@@ -187,23 +206,6 @@ void TL::FileManager::feedDir(const std::string& dirpath, const unsigned int max
     logger()->error("number of files does not equal number of trees!");
   }
 
-  // try to determine dsid from rucio directory name
-  std::regex rgx("(.[0-9]{6}.)");
-  std::smatch match;
-  if (std::regex_search(m_rucioDirName, match, rgx)) {
-    std::string matchstr = match[1].str();
-    matchstr = matchstr.substr(1, matchstr.size() - 2);
-    m_dsid = std::stoi(matchstr);
-    logger()->info("Determined DSID: {}", m_dsid);
-    TL::SampleMetaSvc::get().printInfo(m_dsid);
-  }
-
-  m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
-  m_campaign = TL::SampleMetaSvc::get().getCampaign(m_rucioDirName);
-  logger()->info("Ntuple version for this sample: {}",
-                 TL::SampleMetaSvc::get().getNtupleVersionStr(m_sgtopNtupVersion));
-  logger()->info("Campaign for this sample: {}",
-                 TL::SampleMetaSvc::get().getCampaignStr(m_campaign));
 }
 
 void TL::FileManager::feedTxt(const std::string& txtfilename) {
@@ -220,6 +222,8 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
   logger()->info("feedTxt determined rucio dataset name:");
   logger()->info("{}", m_rucioDirName);
 
+  determineDSIDandVersion();
+
   std::string line;
   std::ifstream infile(txtfilename);
   while ( std::getline(infile,line) ) {
@@ -234,7 +238,20 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
       }
     }
   }
+}
 
+void TL::FileManager::feedSingle(const char* fileName) {
+  TL_CHECK(initChain());
+  m_fileNames.emplace_back(std::string(fileName));
+  m_rootChain->Add(fileName);
+  m_rootWeightsChain->Add(fileName);
+  if ( m_doParticleLevel ) {
+    m_particleLevelChain->AddFile(fileName);
+    m_truthChain->AddFile(fileName);
+  }
+}
+
+void TL::FileManager::determineDSIDandVersion() {
   // try to determine dsid from rucio directory name
   std::regex rgx("(.[0-9]{6}.)");
   std::smatch match;
@@ -252,15 +269,5 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
                  TL::SampleMetaSvc::get().getNtupleVersionStr(m_sgtopNtupVersion));
   logger()->info("Campaign for this sample: {}",
                  TL::SampleMetaSvc::get().getCampaignStr(m_campaign));
-}
 
-void TL::FileManager::feedSingle(const char* fileName) {
-  TL_CHECK(initChain());
-  m_fileNames.emplace_back(std::string(fileName));
-  m_rootChain->Add(fileName);
-  m_rootWeightsChain->Add(fileName);
-  if ( m_doParticleLevel ) {
-    m_particleLevelChain->AddFile(fileName);
-    m_truthChain->AddFile(fileName);
-  }
 }

@@ -75,17 +75,17 @@ TL::SampleMetaSvc::SampleMetaSvc() : TL::Loggable("TL::SampleMetaSvc") {
     m_campaignLumis.emplace(std::make_pair(enum_val, campaign_lumis));
   }
 
-  logger()->info("| {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} |",
-                 "SgTopNtup","MC15c", "MC16a", "MC16c", "MC16d", "MC16e", "MC16f");
+  logger()->debug("| {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} |",
+                  "SgTopNtup","MC15c", "MC16a", "MC16c", "MC16d", "MC16e", "MC16f");
   for ( const auto& m : m_campaignLumis ) {
-    logger()->info("| {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} |",
-                   as_string(m.first),
-                   m.second.at(TL::kCampaign::MC15c),
-                   m.second.at(TL::kCampaign::MC16a),
-                   m.second.at(TL::kCampaign::MC16c),
-                   m.second.at(TL::kCampaign::MC16d),
-                   m.second.at(TL::kCampaign::MC16e),
-                   m.second.at(TL::kCampaign::MC16f));
+    logger()->debug("| {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} | {:>9} |",
+                    as_string(m.first),
+                    m.second.at(TL::kCampaign::MC15c),
+                    m.second.at(TL::kCampaign::MC16a),
+                    m.second.at(TL::kCampaign::MC16c),
+                    m.second.at(TL::kCampaign::MC16d),
+                    m.second.at(TL::kCampaign::MC16e),
+                    m.second.at(TL::kCampaign::MC16f));
   }
 }
 
