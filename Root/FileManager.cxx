@@ -157,24 +157,27 @@ void TL::FileManager::feedDir(const std::string& dirpath,
     logger()->error("Directory {} doesn't contain any files!", dp);
   }
 
-  for ( const auto& si : sis ) {
-    if ( si.dsid == m_dsid && m_campaign == si.campaign ) {
-      logger()->info("DSID {} for campaign {} is in the shuffle list",
-                     si.dsid, TL::SampleMetaSvc::get().getCampaignStr(m_campaign));
-      logger()->info(" -- Fraction to keep: {}", si.fraction);
-      logger()->info(" -- Shuffling seed:   {}", si.seed);
-      logger()->info(" -- N-files before:   {}", m_fileNames.size());
-      auto og_size = static_cast<float>(m_fileNames.size());
-      std::default_random_engine rng(si.seed);
-      std::shuffle(std::begin(m_fileNames), std::end(m_fileNames), rng);
-      while ( (static_cast<float>(m_fileNames.size()) / og_size) > si.fraction ) {
-        m_fileNames.pop_back();
+  bool isaf2 = TL::SampleMetaSvc::get().isAFII(m_rucioDirName);
+  if ( !isaf2 ) {
+    for ( const auto& si : sis ) {
+      if ( si.dsid == m_dsid && m_campaign == si.campaign ) {
+        logger()->info("DSID {} for campaign {} is in the shuffle list",
+                       si.dsid, TL::SampleMetaSvc::get().getCampaignStr(m_campaign));
+        logger()->info(" -- Fraction to keep: {}", si.fraction);
+        logger()->info(" -- Shuffling seed:   {}", si.seed);
+        logger()->info(" -- N-files before:   {}", m_fileNames.size());
+        auto og_size = static_cast<float>(m_fileNames.size());
+        std::default_random_engine rng(si.seed);
+        std::shuffle(std::begin(m_fileNames), std::end(m_fileNames), rng);
+        while ( (static_cast<float>(m_fileNames.size()) / og_size) > si.fraction ) {
+          m_fileNames.pop_back();
+        }
+        logger()->info(" -- N-files after:    {}", m_fileNames.size());
+        break;
       }
-      logger()->info(" -- N-files after:    {}", m_fileNames.size());
-      break;
-    }
-    else {
-      continue;
+      else {
+        continue;
+      }
     }
   }
 
