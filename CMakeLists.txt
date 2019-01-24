@@ -52,9 +52,9 @@ atlas_add_library( TopLoop
   TopDataPreparation
   INCLUDE_DIRS ${ROOT_INCLUDE_DIRS} )
 
-atlas_add_dictionary( TopLoopDict
-  TopLoop/TopLoopDict.h TopLoop/selection.xml
-  LINK_LIBRARIES TopLoop )
+#atlas_add_dictionary( TopLoopDict
+#  TopLoop/TopLoopDict.h TopLoop/selection.xml
+#  LINK_LIBRARIES TopLoop )
 
 target_compile_features( TopLoop PUBLIC cxx_std_14 )
 
