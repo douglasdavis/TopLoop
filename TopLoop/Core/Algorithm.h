@@ -152,6 +152,7 @@ namespace TL {
      *  know if it's touching data, so it knows which variables to
      *  avoid initializing.
      */
+    [[deprecated("Algorithm should automatically detect MC or Data!")]]
     void setIsData() { m_isMC = false; }
 
     /// Function to tell algorithm its analyzing fakes
