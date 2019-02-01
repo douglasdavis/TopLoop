@@ -21,11 +21,16 @@ TL::StatusCode TL::Algorithm::init() {
   m_eventCounter = 0;
   std::string treename(fileManager()->rootChain()->GetName());
 
+  std::string data_or_mc = "MC";
   std::string mode = "nominal";
   if ( isSystematic() ) {
     mode = "systematic";
   }
-  logger()->info("Processing tree {} in mode {}",treename,mode);
+  if ( isData() ) {
+    data_or_mc = "Data";
+  }
+  logger()->info("Processing tree {} in mode {} as a {} sample",
+                 treename, mode, data_or_mc);
 
   checkRelease();
 
@@ -75,9 +80,17 @@ TL::StatusCode TL::Algorithm::setFileManager(std::unique_ptr<TL::FileManager> fm
     return TL::StatusCode::FAILURE;
   }
   m_fm = std::move(fm);
-  m_totalEntries    = m_fm->rootChain()->GetEntries();
-  m_isNominal       = m_fm->treeName() == "nominal";
+  m_totalEntries = m_fm->rootChain()->GetEntries();
+  m_isNominal = m_fm->treeName() == "nominal";
   m_isNominal_Loose = m_fm->treeName() == "nominal_Loose";
+  auto camp = m_fm->getCampaign();
+  if (camp == TL::kCampaign::Unknown) {
+    logger()->warn("Unknown campaign, TL::Algorithm is going to assume this is data");
+    m_isMC = false;
+  }
+  else {
+    m_isMC = camp != TL::kCampaign::Data;
+  }
 
   if ( m_fm->particleLevelEnabled() ) {
     m_totalParticleLevelEntries = m_fm->particleLevelChain()->GetEntries();
@@ -87,9 +100,9 @@ TL::StatusCode TL::Algorithm::setFileManager(std::unique_ptr<TL::FileManager> fm
 
 void TL::Algorithm::checkRelease() {
   /*** Figuring out if we're using release 20.7 sample ***/
-  auto rucioDirStr       = fileManager()->rucioDir();
+  auto rucioDirStr = fileManager()->rucioDir();
   bool dataCouldBeRel207 = boost::algorithm::contains(rucioDirStr,"p2950");
-  auto camp              = TL::SampleMetaSvc::get().getCampaign(rucioDirStr);
+  auto camp = TL::SampleMetaSvc::get().getCampaign(rucioDirStr);
   if ( isMC() && (camp == TL::kCampaign::MC15c) ) {
     m_isRel207 = true;
   }
