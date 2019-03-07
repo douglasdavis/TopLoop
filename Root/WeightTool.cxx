@@ -6,8 +6,8 @@
 
 // TL
 #include <TopLoop/Core/Algorithm.h>
-#include <TopLoop/Core/WeightTool.h>
 #include <TopLoop/Core/SampleMetaSvc.h>
+#include <TopLoop/Core/WeightTool.h>
 
 // C++
 #include <cmath>
@@ -16,14 +16,14 @@
 #include <boost/range/adaptor/indexed.hpp>
 
 // ATLAS
-#include <TopDataPreparation/SampleXsectionSvc.h>
 #include <PathResolver/PathResolver.h>
+#include <TopDataPreparation/SampleXsectionSvc.h>
 
 TL::WeightTool::WeightTool(TL::Algorithm* algorithm)
-  : TL::Loggable("TL::WeightTool"), m_alg(algorithm) {
+    : TL::Loggable("TL::WeightTool"), m_alg(algorithm) {
   PathResolverSetOutputLevel(5);
-  std::string xsFile = PathResolverFindCalibFile
-    ("dev/AnalysisTop/TopDataPreparation/XSection-MC15-13TeV.data");
+  std::string xsFile = PathResolverFindCalibFile(
+      "dev/AnalysisTop/TopDataPreparation/XSection-MC15-13TeV.data");
   m_xsec = SampleXsectionSvc::svc(xsFile)->sampleXsection();
   logger()->info("Cross section file: {}", xsFile);
 }
@@ -36,8 +36,7 @@ float TL::WeightTool::generatorSumWeights() {
   m_alg->weightsReader()->Restart();
   while (m_alg->weightsReader()->Next()) {
     if (m_alg->weightsReader()->GetEntryStatus() != TTreeReader::kEntryValid) {
-      logger()->error(
-        "countSumWeights(): Tree reader does not return kEntryValid");
+      logger()->error("countSumWeights(): Tree reader does not return kEntryValid");
     }
     std::get<0>(m_weightCache) += m_alg->totalEventsWeighted();
   }
@@ -62,8 +61,9 @@ const std::vector<float>& TL::WeightTool::generatorVariedSumWeights() {
 
   while (m_alg->weightsReader()->Next()) {
     if (m_alg->weightsReader()->GetEntryStatus() != TTreeReader::kEntryValid) {
-      logger()->error("generatorVariedSumWeights(): Tree reader does not "
-                      "return kEntryValid");
+      logger()->error(
+          "generatorVariedSumWeights(): Tree reader does not "
+          "return kEntryValid");
     }
     // now get all the rest
     for (std::size_t j = 0; j < vsize; ++j) {
@@ -73,18 +73,16 @@ const std::vector<float>& TL::WeightTool::generatorVariedSumWeights() {
   }
   m_alg->weightsReader()->Restart();
 
-  // todo: cross-check the value with Ami, warn if different?
   return std::get<1>(m_weightCache);
 }
 
-const std::map<std::string, std::size_t>&
-TL::WeightTool::generatorVariedWeightsNames() {
+const std::map<std::string, std::size_t>& TL::WeightTool::generatorVariedWeightsNames() {
   if (not std::get<2>(m_weightCache).empty()) {
     return std::get<2>(m_weightCache);
   }
   m_alg->weightsReader()->Restart();
   while (m_alg->weightsReader()->Next()) {
-    for (const auto &nameitr :
+    for (const auto& nameitr :
          m_alg->names_mc_generator_weights() | boost::adaptors::indexed()) {
       std::get<2>(m_weightCache).emplace(nameitr.value(), nameitr.index());
     }
@@ -97,8 +95,7 @@ TL::WeightTool::generatorVariedWeightsNames() {
 float TL::WeightTool::sumOfVariation(const std::string& variation_name) {
   auto itr = generatorVariedWeightsNames().find(variation_name);
   if (itr == std::end(generatorVariedWeightsNames())) {
-    logger()->error("Cannot find variation named {}, returning nominal!",
-                    variation_name);
+    logger()->error("Cannot find variation named {}, returning nominal!", variation_name);
     return generatorSumWeights();
   }
   return generatorVariedSumWeights().at(itr->second);
@@ -107,57 +104,56 @@ float TL::WeightTool::sumOfVariation(const std::string& variation_name) {
 float TL::WeightTool::currentWeightOfVariation(const std::string& variation_name) {
   auto itr = generatorVariedWeightsNames().find(variation_name);
   if (itr == std::end(generatorVariedWeightsNames())) {
-    logger()->error("Cannot find variation named {}, returning 0!",
-                    variation_name);
+    logger()->error("Cannot find variation named {}, returning 0!", variation_name);
     return 0;
   }
   return m_alg->mc_generator_weights().at(itr->second);
 }
 
-std::pair<float,float> TL::WeightTool::currentPDF4LHCsumQuadVariations() {
+std::pair<float, float> TL::WeightTool::currentPDF4LHCsumQuadVariations() {
   float sumSq = 0.0;
   float w_c = currentWeightOfVariation("PDFset=90900");
   float n_c = sumOfVariation("PDFset=90900");
-  for ( unsigned int i = 90901; i <= 90930; ++i ) {
-    std::string vname = "PDFset="+std::to_string(i);
-    float w_i  = currentWeightOfVariation(vname);
-    float n_i  = sumOfVariation(vname);
-    float term = (w_c*n_i - w_i*n_c)/n_i;
-    sumSq += term*term;
+  for (unsigned int i = 90901; i <= 90930; ++i) {
+    std::string vname = "PDFset=" + std::to_string(i);
+    float w_i = currentWeightOfVariation(vname);
+    float n_i = sumOfVariation(vname);
+    float term = (w_c * n_i - w_i * n_c) / n_i;
+    sumSq += term * term;
   }
-  float final_val = (1.0/n_c)*std::sqrt(sumSq);
-  float percent   = final_val / w_c * n_c * 100.0;
+  float final_val = (1.0 / n_c) * std::sqrt(sumSq);
+  float percent = final_val / w_c * n_c * 100.0;
   return std::make_pair(final_val, percent);
 }
 
 float TL::WeightTool::sampleCrossSection() const {
   auto dsid = m_alg->get_dsid();
   auto xsec = m_xsec->getXsection(dsid);
-  logger()->debug("Retreiving cross section for sample {}: {} pb",dsid,xsec);
+  logger()->debug("Retreiving cross section for sample {}: {} pb", dsid, xsec);
   return xsec;
 }
 
 float TL::WeightTool::sampleRawCrossSection() const {
-  auto dsid  = m_alg->get_dsid();
+  auto dsid = m_alg->get_dsid();
   auto rxsec = m_xsec->getRawXsection(dsid);
-  logger()->debug("Retrieving raw cross section for sample {}: {} pb",dsid,rxsec);
+  logger()->debug("Retrieving raw cross section for sample {}: {} pb", dsid, rxsec);
   return rxsec;
 }
 
 float TL::WeightTool::sampleKfactor() const {
   auto dsid = m_alg->get_dsid();
-  auto kf   = m_xsec->getKfactor(dsid);
-  logger()->debug("Retrieving k-factor for sample {}: {}",dsid,kf);
+  auto kf = m_xsec->getKfactor(dsid);
+  logger()->debug("Retrieving k-factor for sample {}: {}", dsid, kf);
   return kf;
 }
 
 float TL::WeightTool::luminosityWeight(const std::vector<TL::kCampaign>& campaigns,
                                        const float lumi) {
-  auto xs    = sampleCrossSection();
-  auto sumW  = generatorSumWeights();
+  auto xs = sampleCrossSection();
+  auto sumW = generatorSumWeights();
   auto campW = TL::SampleMetaSvc::get().getCampaignWeight(m_alg->fileManager()->rucioDir(),
                                                           campaigns);
   float finalW = (xs * lumi / sumW) * campW;
-  logger()->debug("Retreiving luminosity weight (for 1/fb): {}",finalW);
+  logger()->debug("Retreiving luminosity weight (for 1/fb): {}", finalW);
   return finalW;
 }

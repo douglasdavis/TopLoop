@@ -21,92 +21,91 @@
 #include "MCTruthClassifier/MCTruthClassifierDefs.h"
 
 namespace TL {
-  namespace EDM {
+namespace EDM {
 
-    class Lepton : public TL::EDM::PhysicsObject {
-    private:
-      unsigned int m_pdgId;
-      float        m_charge;
-      float        m_topoetcone20;
-      float        m_d0sig;
-      float        m_delta_z0_sintheta;
-      int          m_true_type;
-      int          m_true_origin;
-      char         m_true_isPrompt;
-      float        m_e_branch;
-      char         m_isTight;
+class Lepton : public TL::EDM::PhysicsObject {
+ private:
+  unsigned int m_pdgId;
+  float m_charge;
+  float m_topoetcone20;
+  float m_d0sig;
+  float m_delta_z0_sintheta;
+  int m_true_type;
+  int m_true_origin;
+  char m_true_isPrompt;
+  float m_e_branch;
+  char m_isTight;
 
-      bool         m_isManTrigMatched;
+  bool m_isManTrigMatched;
 
-    public:
-      /// default constructor
-      Lepton() = default;
-      /// default destructor
-      virtual ~Lepton() = default;
-      /// default copy constructor
-      Lepton(const Lepton&) = default;
-      /// default assignment operator
-      Lepton& operator=(const Lepton&) = default;
-      /// default move copy constructor
-      Lepton(Lepton&&) = default;
-      /// default move assignment operator
-      Lepton& operator=(Lepton&&) = default;
+ public:
+  /// default constructor
+  Lepton() = default;
+  /// default destructor
+  virtual ~Lepton() = default;
+  /// default copy constructor
+  Lepton(const Lepton&) = default;
+  /// default assignment operator
+  Lepton& operator=(const Lepton&) = default;
+  /// default move copy constructor
+  Lepton(Lepton&&) = default;
+  /// default move assignment operator
+  Lepton& operator=(Lepton&&) = default;
 
-      /// constructor defining pdgId
-      /**
-       *  This is mainly for the Electron and Muon classes which
-       *  inherit from Lepton
-       *
-       *  @param pdgId the PDG code
-       */
-      Lepton(const unsigned int pdgId) : m_pdgId(pdgId) {}
+  /// constructor defining pdgId
+  /**
+   *  This is mainly for the Electron and Muon classes which
+   *  inherit from Lepton
+   *
+   *  @param pdgId the PDG code
+   */
+  Lepton(const unsigned int pdgId) : m_pdgId(pdgId) {}
 
-      /// @name setters
-      /// @{
+  /// @name setters
+  /// @{
 
-      void set_pdgId(const unsigned int val) { m_pdgId = val; }
-      void set_charge(const float val) { m_charge = val; }
-      void set_topoetcone20(const float val) { m_topoetcone20 = val; }
-      void set_d0sig(const float val) { m_d0sig = val; }
-      void set_delta_z0_sintheta(const float val) { m_delta_z0_sintheta = val; }
-      void set_true_type(const int val) { m_true_type = val; }
-      void set_true_origin(const int val) { m_true_origin = val; }
-      void set_true_isPrompt(const char val) { m_true_isPrompt = val; }
-      void set_isTight(const char val) { m_isTight = val; }
+  void set_pdgId(const unsigned int val) { m_pdgId = val; }
+  void set_charge(const float val) { m_charge = val; }
+  void set_topoetcone20(const float val) { m_topoetcone20 = val; }
+  void set_d0sig(const float val) { m_d0sig = val; }
+  void set_delta_z0_sintheta(const float val) { m_delta_z0_sintheta = val; }
+  void set_true_type(const int val) { m_true_type = val; }
+  void set_true_origin(const int val) { m_true_origin = val; }
+  void set_true_isPrompt(const char val) { m_true_isPrompt = val; }
+  void set_isTight(const char val) { m_isTight = val; }
 
-      /// allows user to manually flag a lepton as trigger matched
-      void set_isManTrigMatched(const bool val) { m_isManTrigMatched = val; }
+  /// allows user to manually flag a lepton as trigger matched
+  void set_isManTrigMatched(const bool val) { m_isManTrigMatched = val; }
 
-      /// Value from the energy branch that AnalysisTop ntuples include
-      /**
-       *  a branch for the reconstructed energy. The energy in the
-       *  _four vector_ of this object will be calculated using the
-       *  (pT, eta, phi, m) information. the "e_branch" variable is
-       *  separate.
-       */
-      void set_e_branch(const float val) { m_e_branch = val; }
+  /// Value from the energy branch that AnalysisTop ntuples include
+  /**
+   *  a branch for the reconstructed energy. The energy in the
+   *  _four vector_ of this object will be calculated using the
+   *  (pT, eta, phi, m) information. the "e_branch" variable is
+   *  separate.
+   */
+  void set_e_branch(const float val) { m_e_branch = val; }
 
-      /// @}
+  /// @}
 
-      /// @name getters
-      /// @{
+  /// @name getters
+  /// @{
 
-      unsigned int pdgId()             const { return m_pdgId;             }
-      float        e_branch()          const { return m_e_branch ;         }
-      float        charge()            const { return m_charge;            }
-      float        topoetcone20()      const { return m_topoetcone20;      }
-      float        d0sig()             const { return m_d0sig;             }
-      float        delta_z0_sintheta() const { return m_delta_z0_sintheta; }
-      int          true_type()         const { return m_true_type;         }
-      int          true_origin()       const { return m_true_origin;       }
-      char         true_isPrompt()     const { return m_true_isPrompt;     }
-      char         isTight()           const { return m_isTight;           }
-      bool         isManTrigMatched()  const { return m_isManTrigMatched;  }
+  unsigned int pdgId() const { return m_pdgId; }
+  float e_branch() const { return m_e_branch; }
+  float charge() const { return m_charge; }
+  float topoetcone20() const { return m_topoetcone20; }
+  float d0sig() const { return m_d0sig; }
+  float delta_z0_sintheta() const { return m_delta_z0_sintheta; }
+  int true_type() const { return m_true_type; }
+  int true_origin() const { return m_true_origin; }
+  char true_isPrompt() const { return m_true_isPrompt; }
+  char isTight() const { return m_isTight; }
+  bool isManTrigMatched() const { return m_isManTrigMatched; }
 
-      /// @}
-
-    };
-  }
-}
+  /// @}
+};
+}  // namespace EDM
+}  // namespace TL
 
 #endif

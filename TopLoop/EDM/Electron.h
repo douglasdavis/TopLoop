@@ -15,74 +15,65 @@
 #include <TopLoop/EDM/Lepton.h>
 
 namespace TL {
-  namespace EDM {
+namespace EDM {
 
-    class Electron : public TL::EDM::Lepton {
-    private:
-      float m_ptvarcone20;
-      char  m_CF;
-      float m_cl_eta;
+class Electron : public TL::EDM::Lepton {
+ private:
+  float m_ptvarcone20;
+  char m_CF;
+  float m_cl_eta;
 
-      bool m_isManualTruthPrompt{false};
+  bool m_isManualTruthPrompt{false};
 
-    public:
-      /// default constructor
-      Electron() : TL::EDM::Lepton(11) {}
-      /// default destructor
-      virtual ~Electron() = default;
-      /// default copy constructor
-      Electron(const Electron&) = default;
-      /// default assignment operator
-      Electron& operator=(const Electron&) = default;
-      /// default move constructor
-      Electron(Electron&&) = default;
-      /// default move assignment operator
-      Electron& operator=(Electron&&) = default;
+ public:
+  /// default constructor
+  Electron() : TL::EDM::Lepton(11) {}
+  /// default destructor
+  virtual ~Electron() = default;
+  /// default copy constructor
+  Electron(const Electron&) = default;
+  /// default assignment operator
+  Electron& operator=(const Electron&) = default;
+  /// default move constructor
+  Electron(Electron&&) = default;
+  /// default move assignment operator
+  Electron& operator=(Electron&&) = default;
 
-      /// @name setters
-      /// @{
+  /// @name setters
+  /// @{
 
-      void set_ptvarcone20(const float val) {
-        m_ptvarcone20 = val;
-      }
-      void set_CF(const char val) {
-        m_CF = val;
-      }
-      void set_cl_eta(const float val) {
-        m_cl_eta = val;
-      }
+  void set_ptvarcone20(const float val) { m_ptvarcone20 = val; }
+  void set_CF(const char val) { m_CF = val; }
+  void set_cl_eta(const float val) { m_cl_eta = val; }
 
-      /// manually define if prompt
-      /**
-       *  This function allows a user to manually tag an electron as
-       *  prompt based on some selection they define.
-       */
-      void set_isManualTruthPrompt(const bool val) {
-        m_isManualTruthPrompt = val;
-      }
+  /// manually define if prompt
+  /**
+   *  This function allows a user to manually tag an electron as
+   *  prompt based on some selection they define.
+   */
+  void set_isManualTruthPrompt(const bool val) { m_isManualTruthPrompt = val; }
 
-      /// @}
+  /// @}
 
-      /// @name getters
-      /// @{
+  /// @name getters
+  /// @{
 
-      float ptvarcone20()    const { return m_ptvarcone20; }
-      char  CF()             const { return m_CF; }
-      float cl_eta()         const { return m_cl_eta; }
+  float ptvarcone20() const { return m_ptvarcone20; }
+  char CF() const { return m_CF; }
+  float cl_eta() const { return m_cl_eta; }
 
-      /// if the electron is matched to an IsoElectron in MC
-      bool isTruthPrompt() const {
-        return true_type() == MCTruthPartClassifier::ParticleType::IsoElectron;
-      }
-
-      /// using a mix of variables, determine promptness (for 20.7)
-      bool isManualTruthPrompt() const { return m_isManualTruthPrompt; }
-
-      /// @}
-
-    };
-
+  /// if the electron is matched to an IsoElectron in MC
+  bool isTruthPrompt() const {
+    return true_type() == MCTruthPartClassifier::ParticleType::IsoElectron;
   }
-}
+
+  /// using a mix of variables, determine promptness (for 20.7)
+  bool isManualTruthPrompt() const { return m_isManualTruthPrompt; }
+
+  /// @}
+};
+
+}  // namespace EDM
+}  // namespace TL
 
 #endif

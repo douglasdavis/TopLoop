@@ -21,111 +21,107 @@
 #include <utility>
 
 namespace TL {
-  namespace EDM {
+namespace EDM {
 
-    class LeptonPair : public TL::EDM::PhysicsObject {
-    private:
+class LeptonPair : public TL::EDM::PhysicsObject {
+ private:
+  float m_deltaR;
+  float m_deltaPhi;
+  float m_deltaEta;
+  bool m_SS;
+  bool m_OS;
+  bool m_elel;
+  bool m_mumu;
+  bool m_elmu;
 
-      float  m_deltaR;
-      float  m_deltaPhi;
-      float  m_deltaEta;
-      bool   m_SS;
-      bool   m_OS;
-      bool   m_elel;
-      bool   m_mumu;
-      bool   m_elmu;
+  std::size_t m_fIdx;
+  std::size_t m_sIdx;
 
-      std::size_t m_fIdx;
-      std::size_t m_sIdx;
+ public:
+  /// unused default constructor
+  LeptonPair() = default;
 
-    public:
+  /// main constructor
+  /**
+   *  We feed the leptons *and* their indices to the
+   *  constructor. Because we use an std::vector as a
+   *  TL::EDM::Lepton container in the TL::EDM::FinalState class,
+   *  it can be useful to have the indices of the leptons in that
+   *  container. That is why we also feed them in here. If you
+   *  don't need them.. just put bogus values. The reason we don't
+   *  supply a default value is to make the user have to think
+   *  about it.
+   *
+   *  @param lep1 The first lepton ingrediant
+   *  @param lep2 The second lepton ingrediant
+   *  @param idxf The index of the first lepton in the TL::EDM::FinalState lepton container
+   *  @param idxs The index of the first lepton in the TL::EDM::FinalState lepton container
+   */
+  LeptonPair(const TL::EDM::Lepton& lep1, const TL::EDM::Lepton& lep2, const size_t idxf,
+             const size_t idxs);
 
-      /// unused default constructor
-      LeptonPair() = default;
+  /// default destructor
+  virtual ~LeptonPair() = default;
 
-      /// main constructor
-      /**
-       *  We feed the leptons *and* their indices to the
-       *  constructor. Because we use an std::vector as a
-       *  TL::EDM::Lepton container in the TL::EDM::FinalState class,
-       *  it can be useful to have the indices of the leptons in that
-       *  container. That is why we also feed them in here. If you
-       *  don't need them.. just put bogus values. The reason we don't
-       *  supply a default value is to make the user have to think
-       *  about it.
-       *
-       *  @param lep1 The first lepton ingrediant
-       *  @param lep2 The second lepton ingrediant
-       *  @param idxf The index of the first lepton in the TL::EDM::FinalState lepton container
-       *  @param idxs The index of the first lepton in the TL::EDM::FinalState lepton container
-       */
-      LeptonPair(const TL::EDM::Lepton& lep1,
-                 const TL::EDM::Lepton& lep2,
-                 const size_t idxf, const size_t idxs);
+  /// default copy constructor
+  LeptonPair(const LeptonPair&) = default;
+  /// default assignment operator
+  LeptonPair& operator=(const LeptonPair&) = default;
+  /// default move copy constructor
+  LeptonPair(LeptonPair&&) = default;
+  /// default move assignment operator
+  LeptonPair& operator=(LeptonPair&&) = default;
 
-      /// default destructor
-      virtual ~LeptonPair() = default;
+  /// get the ATLAS coordinate system \f$\Delta R\f$ between the two leptons.
+  /**
+   *  ATLAS coordinate system definition (separation of objects in
+   *  \f$\eta\text{-}\phi\f$ space):
+   *
+   *  \f[
+   *     \Delta R \equiv \sqrt{(\Delta\eta)^2 + (\Delta\phi)^2}.
+   *  \f]
+   *
+   *  This function uses the ROOT function
+   *  `TLorentzVector::DeltaR`.
+   */
+  float deltaR() const { return m_deltaR; }
+  /// get the \f$\Delta\phi\f$ between the two leptons.
+  float deltaPhi() const { return m_deltaPhi; }
+  /// get the \f$\Delta\eta\f$ between the two leptons.
+  float deltaEta() const { return m_deltaEta; }
 
-      /// default copy constructor
-      LeptonPair(const LeptonPair&) = default;
-      /// default assignment operator
-      LeptonPair& operator=(const LeptonPair&) = default;
-      /// default move copy constructor
-      LeptonPair(LeptonPair&&) = default;
-      /// default move assignment operator
-      LeptonPair& operator=(LeptonPair&&) = default;
+  /// return true for same sign lepton pair.
+  bool SS() const { return m_SS; }
+  /// return true for opposite sign lepton pair.
+  bool OS() const { return m_OS; }
+  /// return true for same flavor lepton pair.
+  bool SF() const { return !m_elmu; }
+  /// return true for opposite flavor lepton pair (same as elmu()).
+  bool OF() const { return m_elmu; }
+  /// return true if \f$\mu\mu\f$ lepton pair.
+  bool mumu() const { return m_mumu; }
+  /// return true if \f$ee\f$ lepton pair.
+  bool elel() const { return m_elel; }
+  /// return true if \f$e\mu\f$ lepton pair (same as OF()).
+  bool elmu() const { return m_elmu; }
 
-      /// get the ATLAS coordinate system \f$\Delta R\f$ between the two leptons.
-      /**
-       *  ATLAS coordinate system definition (separation of objects in
-       *  \f$\eta\text{-}\phi\f$ space):
-       *
-       *  \f[
-       *     \Delta R \equiv \sqrt{(\Delta\eta)^2 + (\Delta\phi)^2}.
-       *  \f]
-       *
-       *  This function uses the ROOT function
-       *  `TLorentzVector::DeltaR`.
-       */
-      float deltaR()   const { return m_deltaR;   }
-      /// get the \f$\Delta\phi\f$ between the two leptons.
-      float deltaPhi() const { return m_deltaPhi; }
-      /// get the \f$\Delta\eta\f$ between the two leptons.
-      float deltaEta() const { return m_deltaEta; }
+  /// get the index of the first lepton in the pair
+  /**
+   *  because we store leptons in a vector in the
+   *  TL::EDM::FinalState class, it may be useful to have the
+   *  index in that vector, that's what this is for.
+   */
+  std::size_t firstIdx() const { return m_fIdx; }
+  /// get the index of the second lepton in the pair
+  /**
+   *  because we store leptons in a vector in the
+   *  TL::EDM::FinalState class, it may be useful to have the
+   *  index in that vector, that's what this is for.
+   */
+  std::size_t secondIdx() const { return m_sIdx; }
+};
 
-      /// return true for same sign lepton pair.
-      bool SS()   const { return m_SS;    }
-      /// return true for opposite sign lepton pair.
-      bool OS()   const { return m_OS;    }
-      /// return true for same flavor lepton pair.
-      bool SF()   const { return !m_elmu; }
-      /// return true for opposite flavor lepton pair (same as elmu()).
-      bool OF()   const { return m_elmu;  }
-      /// return true if \f$\mu\mu\f$ lepton pair.
-      bool mumu() const { return m_mumu;  }
-      /// return true if \f$ee\f$ lepton pair.
-      bool elel() const { return m_elel;  }
-      /// return true if \f$e\mu\f$ lepton pair (same as OF()).
-      bool elmu() const { return m_elmu;  }
-
-      /// get the index of the first lepton in the pair
-      /**
-       *  because we store leptons in a vector in the
-       *  TL::EDM::FinalState class, it may be useful to have the
-       *  index in that vector, that's what this is for.
-       */
-      std::size_t firstIdx()  const { return m_fIdx; }
-      /// get the index of the second lepton in the pair
-      /**
-       *  because we store leptons in a vector in the
-       *  TL::EDM::FinalState class, it may be useful to have the
-       *  index in that vector, that's what this is for.
-       */
-      std::size_t secondIdx() const { return m_sIdx; }
-
-    };
-
-  }
-}
+}  // namespace EDM
+}  // namespace TL
 
 #endif
