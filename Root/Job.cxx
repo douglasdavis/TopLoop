@@ -81,6 +81,7 @@ TL::StatusCode TL::Job::run() {
     // first, if we want particle level only (i.e. events that didn't
     // end up in reco tree
     if (m_loopType == LoopType::ParticleOnly) {
+      m_algorithm->m_truthAvailable = true;
       logger()->info("Entering particle level only loop");
       for (const auto idx : m_particleLevelOnly) {
         m_algorithm->particleLevelReader()->SetEntry(idx);
@@ -99,6 +100,7 @@ TL::StatusCode TL::Job::run() {
 
     // next, we do all particle level, agnostic to reco information
     else if (m_loopType == LoopType::ParticleAll) {
+      m_algorithm->m_truthAvailable = true;
       logger()->info("Entering all particle level loop");
       while (m_algorithm->particleLevelReader()->Next() &&
              m_algorithm->truthReader()->Next()) {
@@ -116,6 +118,7 @@ TL::StatusCode TL::Job::run() {
 
     // finally, we do reco and particle info together
     else if (m_loopType == LoopType::RecoWithParticle) {
+      m_algorithm->m_truthAvailable = true;
       logger()->info("Entering loop over reco _and_  particle level information");
       for (const auto idx : m_particleAndReco) {
         m_algorithm->particleLevelReader()->SetEntry(std::get<0>(idx));

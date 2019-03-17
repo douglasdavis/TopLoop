@@ -41,6 +41,7 @@ class Algorithm : public TL::Loggable, public TL::Variables {
   bool m_isNominal_Loose{false};
   bool m_initCalled{false};
   bool m_isRel207{false};
+  bool m_truthAvailable{false};
 
   std::size_t m_totalEntries{0};
   std::size_t m_eventCounter{0};
@@ -178,7 +179,8 @@ class Algorithm : public TL::Loggable, public TL::Variables {
   bool isRel207() const { return m_isRel207; }
   /// get the current event counter (not eventNumber!)
   long eventCount() const { return m_eventCounter; }
-
+  /// get if truth information is available
+  bool truthAvailable() const { return m_truthAvailable; }
   /// @}
 
  protected:
