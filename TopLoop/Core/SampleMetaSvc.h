@@ -44,9 +44,7 @@ enum class kInitialState {
   WZ,
   ZZ,
   Diboson,
-  ttbarZ,
-  ttbarW,
-  ttbarll,
+  ttV,
   ttH,
   tchan,
   schan
