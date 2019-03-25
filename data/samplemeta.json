@@ -464,7 +464,7 @@
             "DSID_range": [410155,410157],
             "Generator": "aMCatNLOPythia8",
             "InitialState": "ttV",
-            "SampleType": "Unknown"
+            "SampleType": "Nominal"
         },
         {
             "DSID_range": [410218,410220],
