@@ -119,12 +119,11 @@ void TL::SampleMetaSvc::setupMaps() {
              {"Sherpa22", TL::kGenerator::Sherpa22},
              {"Sherpa221", TL::kGenerator::Sherpa221},
              {"Sherpa222", TL::kGenerator::Sherpa222},
-             {"MadgraphPythia", TL::kGenerator::MadgraphPythia},
-             {"MadgraphPythia8", TL::kGenerator::MadgraphPythia8},
-             {"aMCatNLOPythia8", TL::kGenerator::aMCatNLOPythia8},
-             {"aMCatNLOPythia8_dil", TL::kGenerator::aMCatNLOPythia8_dil},
-             {"aMCatNLOHerwig", TL::kGenerator::aMCatNLOHerwig},
-             {"aMCatNLOHerwigpp", TL::kGenerator::aMCatNLOHerwigpp}};
+             {"MG5aMCatNLOPythia", TL::kGenerator::MG5aMCatNLOPythia},
+             {"MG5aMCatNLOPythia8", TL::kGenerator::MG5aMCatNLOPythia8},
+             {"MG5aMCatNLOPythia8_dil", TL::kGenerator::MG5aMCatNLOPythia8_dil},
+             {"MG5aMCatNLOHerwig", TL::kGenerator::MG5aMCatNLOHerwig},
+             {"MG5aMCatNLOHerwigpp", TL::kGenerator::MG5aMCatNLOHerwigpp}};
   m_s2e_ST = {{"Unknown", TL::kSampleType::Unknown},
               {"Data", TL::kSampleType::Data},
               {"Nominal", TL::kSampleType::Nominal},

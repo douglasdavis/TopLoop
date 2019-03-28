@@ -158,7 +158,7 @@
         },
         {
             "DSID_range": [361520,361534],
-            "Generator": "MadgraphPythia8",
+            "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "Wjets",
             "SampleType": "Nominal"
         }
@@ -222,7 +222,7 @@
         },
         {
             "DSID_range": [410164,410164],
-            "Generator": "aMCatNLOHerwigpp",
+            "Generator": "MG5aMCatNLOHerwigpp",
             "InitialState": "tW",
             "SampleType": "Systematic"
         },
@@ -264,13 +264,13 @@
         },
         {
             "DSID_range": [412002,412002],
-            "Generator": "aMCatNLOPythia8",
+            "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tW",
             "SampleType": "Systematic"
         },
         {
             "DSID_range": [412003,412003],
-            "Generator": "aMCatNLOPythia8_dil",
+            "Generator": "MG5aMCatNLOPythia8_dil",
             "InitialState": "tW",
             "SampleType": "Systematic"
         }
@@ -302,7 +302,7 @@
         },
         {
             "DSID_range": [361500,361514],
-            "Generator": "MadgraphPythia8",
+            "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "Zjets",
             "SampleType": "Nominal"
         }
@@ -352,7 +352,7 @@
         },
         {
             "DSID_range": [410003,410003],
-            "Generator": "aMCatNLOHerwigpp",
+            "Generator": "MG5aMCatNLOHerwigpp",
             "InitialState": "ttbar",
             "SampleType": "Systematic"
         },
@@ -388,7 +388,7 @@
         },
         {
             "DSID_range": [410164,410164],
-            "Generator": "aMCatNLOHerwigpp",
+            "Generator": "MG5aMCatNLOHerwigpp",
             "InitialState": "ttbar",
             "SampleType": "Systematic"
         },
@@ -424,7 +424,7 @@
         },
         {
             "DSID_range": [410225,410225],
-            "Generator": "aMCatNLOPythia8",
+            "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "ttbar",
             "SampleType": "Systematic"
         },
@@ -436,13 +436,13 @@
         },
         {
             "DSID_range": [410464,410464],
-            "Generator": "aMCatNLOPythia8",
+            "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "ttbar",
             "SampleType": "Systematic"
         },
         {
             "DSID_range": [410465,410465],
-            "Generator": "aMCatNLOPythia8_dil",
+            "Generator": "MG5aMCatNLOPythia8_dil",
             "InitialState": "ttbar",
             "SampleType": "Systematic"
         },
@@ -462,13 +462,13 @@
     "ttV": [
         {
             "DSID_range": [410155,410157],
-            "Generator": "aMCatNLOPythia8",
+            "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "ttV",
             "SampleType": "Nominal"
         },
         {
             "DSID_range": [410218,410220],
-            "Generator": "MadgraphPythia8",
+            "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "ttV",
             "SampleType": "Nominal"
         }
@@ -476,7 +476,7 @@
     "ttH": [
         {
             "DSID_range": [343365,343367],
-            "Generator": "MadgraphPythia8",
+            "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "ttH",
             "SampleType": "Nominal"
         }
@@ -484,7 +484,7 @@
     "ttt": [
         {
             "DSID_range": [304014,304014],
-            "Generator": "MadgraphPythia8",
+            "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "ttt",
             "SampleType": "Nominal"
         }
@@ -492,7 +492,7 @@
     "tttt": [
         {
             "DSID_range": [410080,410080],
-            "Generator": "MadgraphPythia8",
+            "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tttt",
             "SampleType": "Nominal"
         }
