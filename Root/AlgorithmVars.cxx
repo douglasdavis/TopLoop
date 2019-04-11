@@ -16,10 +16,10 @@ TL::StatusCode TL::Algorithm::init_core_vars() {
   // this TChain::LoadTree()) call suppresses a warning from
   // TTreeReader about the entries being changed by multiple
   // controllers
-  fileManager()->rootChain()->LoadTree(0);
-  fileManager()->rootWeightsChain()->LoadTree(0);
-  m_reader = std::make_shared<TTreeReader>(fileManager()->rootChain());
-  m_weightsReader = std::make_shared<TTreeReader>(fileManager()->rootWeightsChain());
+  fileManager()->mainChain()->LoadTree(0);
+  fileManager()->weightsChain()->LoadTree(0);
+  m_reader = std::make_shared<TTreeReader>(fileManager()->mainChain());
+  m_weightsReader = std::make_shared<TTreeReader>(fileManager()->weightsChain());
 
   if (fileManager()->particleLevelChain()) {
     fileManager()->particleLevelChain()->LoadTree(0);

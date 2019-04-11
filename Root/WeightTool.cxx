@@ -1,3 +1,4 @@
+
 /** @file WeightTool.cxx
  *  @brief TL::WeightTool class implementation
  *
@@ -127,21 +128,21 @@ std::pair<float, float> TL::WeightTool::currentPDF4LHCsumQuadVariations() {
 }
 
 float TL::WeightTool::sampleCrossSection() const {
-  auto dsid = m_alg->get_dsid();
+  auto dsid = m_alg->fileManager()->dsid();
   auto xsec = m_xsec->getXsection(dsid);
   logger()->debug("Retreiving cross section for sample {}: {} pb", dsid, xsec);
   return xsec;
 }
 
 float TL::WeightTool::sampleRawCrossSection() const {
-  auto dsid = m_alg->get_dsid();
+  auto dsid = m_alg->fileManager()->dsid();
   auto rxsec = m_xsec->getRawXsection(dsid);
   logger()->debug("Retrieving raw cross section for sample {}: {} pb", dsid, rxsec);
   return rxsec;
 }
 
 float TL::WeightTool::sampleKfactor() const {
-  auto dsid = m_alg->get_dsid();
+  auto dsid = m_alg->fileManager()->dsid();
   auto kf = m_xsec->getKfactor(dsid);
   logger()->debug("Retrieving k-factor for sample {}: {}", dsid, kf);
   return kf;

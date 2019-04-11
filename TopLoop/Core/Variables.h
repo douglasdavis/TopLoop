@@ -136,8 +136,23 @@ class Variables {
   std::shared_ptr<spdlog::logger> m_brlogger{nullptr};
 
  protected:
-  DECLARE_BRANCH(dsid, Int_t);
-  DECLARE_BRANCH(isAFII, Int_t);
+  std::unique_ptr<TTreeReaderValue<Int_t>> bv__dsid;
+  std::unique_ptr<TTreeReaderValue<Int_t>> bv__isAFII;
+
+ public:
+  [[deprecated("Don't use dsid branch, use fileManager->dsid()")]] Int_t dsid() const {
+    if (bv__dsid) return *(*bv__dsid);
+    m_brlogger->critical("No {} branch!", "dsid");
+    std::exit(EXIT_FAILURE);
+  }
+  [[deprecated("Don't use isAFII branch, use fileManager->isAFII()")]] Int_t isAFII()
+      const {
+    if (bv__isAFII) return *(*bv__isAFII);
+    m_brlogger->critical("No {} branch!", "isAFII");
+    std::exit(EXIT_FAILURE);
+  }
+
+ protected:
   DECLARE_BRANCH(totalEventsWeighted, Float_t);
   DECLARE_BRANCH(totalEvents, ULong64_t);
   DECLARE_BRANCH(totalEventsWeighted_mc_generator_weights, std::vector<float>);

@@ -12,25 +12,11 @@
 #include <cmath>
 
 unsigned int TL::Algorithm::get_dsid() {
-  unsigned int ret_dsid = 999999;
-  m_weightsReader->Restart();
-  while (m_weightsReader->Next()) {
-    ret_dsid = dsid();
-    break;
-  }
-  m_weightsReader->Restart();
-  return ret_dsid;
+  return fileManager()->dsid();
 }
 
 bool TL::Algorithm::sampleIsAFII() {
-  int branch_value = 0;
-  m_weightsReader->Restart();
-  while (m_weightsReader->Next()) {
-    branch_value = isAFII();
-    break;
-  }
-  m_weightsReader->Restart();
-  return (branch_value > 0);
+  return fileManager()->isAFII();
 }
 
 void TL::Algorithm::printProgress(const unsigned int n_prints) const {

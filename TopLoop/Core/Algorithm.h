@@ -194,17 +194,13 @@ class Algorithm : public TL::Loggable, public TL::Variables {
     return weightTool().generatorSumWeights();
   }
 
-  /// Get the dataset id
-  /**
-   *  This can be called in the init() function if the dataset ID is
-   *  desired
-   */
+  /// @}
+
+  [[deprecated("use fileManager()->dsid()")]]
   unsigned int get_dsid();
 
-  /// get if the sample is AFII (determined from the sumWeights tree)
+  [[deprecated("use fileManager()->isAFII()")]]
   bool sampleIsAFII();
-
-  /// @}
 
  protected:
   /// @name Sample pointer getters

@@ -170,7 +170,7 @@ TL::StatusCode TL::Job::constructIndices() {
         "Particle level chain is null... "
         "Enable particle level in your TL::FileManager!");
   }
-  auto c_RL = m_fm->rootChain();
+  auto c_RL = m_fm->mainChain();
   auto idx_PL = std::make_unique<TTreeIndex>(c_PL, "runNumber", "eventNumber");
   auto idx_RL = std::make_unique<TTreeIndex>(c_RL, "runNumber", "eventNumber");
   c_PL->SetTreeIndex(idx_PL.get());

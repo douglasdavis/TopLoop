@@ -18,7 +18,7 @@ TL::StatusCode TL::Algorithm::init() {
   TL_CHECK(init_core_vars());
   m_initCalled = true;
   m_eventCounter = 0;
-  std::string treename(fileManager()->rootChain()->GetName());
+  std::string treename(fileManager()->mainChain()->GetName());
 
   std::string data_or_mc = "MC";
   std::string mode = "nominal";
@@ -69,7 +69,7 @@ TL::StatusCode TL::Algorithm::setFileManager(std::unique_ptr<TL::FileManager> fm
     return TL::StatusCode::FAILURE;
   }
   m_fm = std::move(fm);
-  m_totalEntries = m_fm->rootChain()->GetEntries();
+  m_totalEntries = m_fm->mainChain()->GetEntries();
   m_isNominal = m_fm->treeName() == "nominal";
   m_isNominal_Loose = m_fm->treeName() == "nominal_Loose";
   auto camp = m_fm->getCampaign();
