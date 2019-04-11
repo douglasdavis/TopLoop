@@ -51,8 +51,22 @@ TL::StatusCode TL::FileManager::initChain() {
 }
 
 void TL::FileManager::disableBranches(const std::vector<std::string>& branch_list) const {
-  for (const auto branch_name : branch_list) {
+  for (const auto& branch_name : branch_list) {
     m_rootChain->SetBranchStatus(branch_name.c_str(), 0);
+  }
+}
+
+void TL::FileManager::disableParticleLevelBranches(
+    const std::vector<std::string>& branch_list) const {
+  for (const auto& branch_name : branch_list) {
+    m_particleLevelChain->SetBranchStatus(branch_name.c_str(), 0);
+  }
+}
+
+void TL::FileManager::disableTruthBranches(
+    const std::vector<std::string>& branch_list) const {
+  for (const auto& branch_name : branch_list) {
+    m_truthChain->SetBranchStatus(branch_name.c_str(), 0);
   }
 }
 
@@ -256,13 +270,21 @@ void TL::FileManager::determineSampleProperties() {
     m_dsid = std::stoi(matchstr);
     logger()->info("Determined DSID: {}", m_dsid);
   }
-
+  m_isAFII = TL::SampleMetaSvc::get().isAFII(m_rucioDirName);
   m_sgtopNtupVersion = TL::SampleMetaSvc::get().getNtupleVersion(m_rucioDirName);
   m_campaign = TL::SampleMetaSvc::get().getCampaign(m_rucioDirName);
   logger()->info("Ntuple version for this sample: {}",
                  TL::SampleMetaSvc::get().getNtupleVersionStr(m_sgtopNtupVersion));
   logger()->info("Campaign for this sample: {}",
                  TL::SampleMetaSvc::get().getCampaignStr(m_campaign));
-
+  if (m_isAFII) {
+    logger()->info("Sample determined to be AFII");
+  }
+  else if (m_campaign == TL::kCampaign::Data) {
+    logger()->info("Sample determined to be Data");
+  }
+  else {
+    logger()->info("Sample determined to be FullSim");
+  }
   TL::SampleMetaSvc::get().printInfo(m_dsid);
 }

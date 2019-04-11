@@ -35,6 +35,7 @@ class FileManager : public TL::Loggable {
   std::unique_ptr<TChain> m_truthChain{nullptr};
   std::string m_rucioDirName{"none"};
   unsigned int m_dsid{0};
+  bool m_isAFII{false};
   TL::kSgTopNtup m_sgtopNtupVersion{};
   TL::kCampaign m_campaign{};
 
@@ -115,6 +116,26 @@ class FileManager : public TL::Loggable {
    */
   void disableBranches(const std::vector<std::string>& branch_list) const;
 
+  /// disable a list of branches in the particleLevelTree
+  /**
+   * If you know your algorithm will not be accessing a particular
+   * branch in the particle level tree, we can improve performance by
+   * disabling it.
+   *
+   * @param branch_list list of particle level branches to disable
+   */
+  void disableParticleLevelBranches(const std::vector<std::string>& branch_list) const;
+
+  /// disable a list of branches in the truth tree
+  /**
+   * If you know your algorithm will not be accessing a particular
+   * branch in the truth tree, we can improve performance by
+   * disabling it.
+   *
+   * @param branch_list list of truth branches to disable
+   */
+  void disableTruthBranches(const std::vector<std::string>& branch_list) const;
+
   /// @}
 
   /// @name Feeding functions
@@ -155,6 +176,8 @@ class FileManager : public TL::Loggable {
   const std::string& rucioDir() const { return m_rucioDirName; }
   /// the dsid as determined from a regex search on the rucio dir
   unsigned int dsid() const { return m_dsid; }
+  /// regex determination if rucio dir is AFII
+  bool isAFII() const { return m_isAFII; }
   /// the single top ntuple version
   TL::kSgTopNtup getSgTopNtupVersion() const { return m_sgtopNtupVersion; }
   /// the campaign the sample is associated with
@@ -166,15 +189,22 @@ class FileManager : public TL::Loggable {
   /// @{
 
   /// getter for the main chain raw pointer
-  TChain* rootChain() const { return m_rootChain.get(); }
+  TChain* mainChain() const { return m_rootChain.get(); }
   /// getter for the particle level chain raw pointer
   TChain* particleLevelChain() const { return m_particleLevelChain.get(); }
   /// getter for the weights chain raw pointer
-  TChain* rootWeightsChain() const { return m_rootWeightsChain.get(); }
+  TChain* weightsChain() const { return m_rootWeightsChain.get(); }
   /// getter for the truth chain raw pointer
   TChain* truthChain() const { return m_truthChain.get(); }
 
   /// @}
+
+  [[deprecated("use mainChain() to avoid ambiguity")]] TChain* rootChain() const {
+    return m_rootChain.get();
+  }
+  [[deprecated("use weightsChain() to avoid ambiguity")]] TChain* rootWeightsChain() const {
+    return m_rootWeightsChain.get();
+  }
 };
 
 }  // namespace TL

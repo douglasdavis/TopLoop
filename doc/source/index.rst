@@ -11,7 +11,7 @@ with metadata describing the samples, and constructing simple physical
 objects to simplify common calculations.
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Contents:
 
    intro.rst
