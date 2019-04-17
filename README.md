@@ -1,7 +1,7 @@
 TopLoop Analysis Package
 ========================
 
-[![pipeline status](https://gitlab.cern.ch/atlasphys-top/singletop/tW_13TeV_Rel21/TopLoop/badges/master/pipeline.svg)](https://gitlab.cern.ch/atlasphys-top/singletop/tW_13TeV_Rel21/TopLoop/commits/master)
+[![pipeline status](https://gitlab.cern.ch/TopLoop/TopLoop/badges/master/pipeline.svg)](https://gitlab.cern.ch/TopLoop/TopLoop/commits/master)
 [![chat](https://img.shields.io/badge/chat-mattermost-lightgrey.svg)](https://mattermost.web.cern.ch/signup_user_complete/?id=d537tyrxnprjpgp59n95n6i59c)
 [![docs](https://img.shields.io/badge/docs-TopLoop-blue.svg)](http://twrun2.web.cern.ch/TopLoop/)
 
