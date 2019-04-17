@@ -47,7 +47,8 @@ enum class kInitialState {
   ttV,
   ttH,
   tchan,
-  schan
+  schan,
+  tZq
 };
 
 enum class kGenerator {

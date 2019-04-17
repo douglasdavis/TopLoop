@@ -103,7 +103,8 @@ void TL::SampleMetaSvc::setupMaps() {
       {"ZZ", TL::kInitialState::ZZ},           {"Diboson", TL::kInitialState::Diboson},
       {"ttV", TL::kInitialState::ttV},         {"ttH", TL::kInitialState::ttH},
       {"ttt", TL::kInitialState::ttt},         {"tttt", TL::kInitialState::tttt},
-      {"tchan", TL::kInitialState::tchan},     {"schan", TL::kInitialState::schan}};
+      {"tchan", TL::kInitialState::tchan},     {"schan", TL::kInitialState::schan},
+      {"tZq", TL::kInitialState::tZq}};
   m_s2e_G = {{"Unknown", TL::kGenerator::Unknown},
              {"Data", TL::kGenerator::Data},
              {"PowhegPythia6", TL::kGenerator::PowhegPythia6},
