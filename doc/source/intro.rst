@@ -68,7 +68,7 @@ details below).
 A list of available variables are found in
 `TopLoop/Core/Variables.h <https://gitlab.cern.ch/atlasphys-top/singletop/tW_13TeV_Rel21/TopLoop/blob/master/TopLoop/Core/Variables.h>`__
 
-An example code block (using the build-in EDM):
+An example code block (using the built-in EDM):
 
 .. code-block:: cpp
 
@@ -151,5 +151,10 @@ For particle level variables, the macros are ``DECLARE_PL_BRANCH`` and
 Example Algorithm
 -----------------
 
+A small example project: `ExampleProject
+<https://gitlab.cern.ch/TopLoop/ExampleProject>`_.
+
+
 We have a mature TopLoop based algorithm for the tW dilepton analysis:
-`WtLoop <http://gitlab.cern.ch/atlasphys-top/singletop/tW_13TeV_Rel21/WtLoop>`__
+`WtLoop
+<http://gitlab.cern.ch/atlasphys-top/singletop/tW_13TeV_Rel21/WtLoop>`_.
