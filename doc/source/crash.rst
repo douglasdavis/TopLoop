@@ -13,7 +13,7 @@ your algorithm (in some ``main`` function). Add the following:
 
 .. code-block:: cpp
 
-   spdlog::set_level(spdlog::level::debug)
+   spdlog::set_level(spdlog::level::debug);
 
 Common crash details
 --------------------
