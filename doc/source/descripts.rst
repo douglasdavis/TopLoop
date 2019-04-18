@@ -72,6 +72,7 @@ The EDM Classes
 ---------------
 
 The EDM classes have theirs headers in ``TopLoop/EDM`` -- they provide
-was is essentially syntactic sugar for doing calculations with the
-physics objects. Their names are self explanatory - so I will just
-point you to the API documentation.
+what is essentially syntactic sugar for doing calculations with
+physics objects constructed from branches in the SgTop ntuples. Their
+names member functions are self explanatory - so I will just point you
+to the API documentation.
