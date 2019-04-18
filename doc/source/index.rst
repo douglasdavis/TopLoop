@@ -15,5 +15,6 @@ objects to simplify common calculations.
    :caption: Contents:
 
    intro.rst
-   core.rst
-   edm.rst
+   descripts.rst
+   crash.rst
+   api.rst

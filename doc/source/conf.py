@@ -20,8 +20,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'TopLoop'
-copyright = '2002-2018, CERN for the benefit of the ATLAS collaboration'
-author = 'Doug Davis, Kevin Finelli, Carl Suster, Federico Guillermo Diaz Capriles'
+copyright = '2002-2019, CERN for the benefit of the ATLAS collaboration'
+author = 'Doug Davis'
 
 # The short X.Y version
 version = ''
@@ -39,11 +39,7 @@ release = ''
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
     'sphinx.ext.mathjax',
-    'sphinx.ext.viewcode',
-    'breathe',
-    'm2r'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
