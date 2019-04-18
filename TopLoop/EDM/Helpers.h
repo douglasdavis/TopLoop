@@ -47,8 +47,8 @@ class PhysicsSystem {
 /// Many of these functions take
 /// `std::initializer_list<TL::EDM::PhysicsObject>` function
 /// parameters. This implicitly constructs a `PhysicsSystem` which is an
-//  expensive operation. If possible construct `PhysicsSystem`s explicitly
-//  to avoid creating equivalent systems many times.
+/// expensive operation. If possible construct `PhysicsSystem`s explicitly
+/// to avoid creating equivalent systems many times.
 /// For example:
 ///
 /// @code{.cpp}
