@@ -10,11 +10,12 @@
 
 TL::EDM::PhysicsSystem::PhysicsSystem(
     const std::initializer_list<TL::EDM::PhysicsObject> list)
-    : m_p{0, 0, 0, 0}, m_ht{0}, m_h{0} {
+    : m_p{0, 0, 0, 0}, m_ht{0}, m_h{0}, m_sumenergy{0} {
   for (const auto& obj : list) {
     m_p += obj.p4();
     m_ht += obj.pT();
     m_h += obj.p4().P();
+    m_sumenergy += obj.p4().E();
   }
 }
 
@@ -23,11 +24,11 @@ double TL::EDM::pTsys(const TL::EDM::PhysicsSystem& system) { return system.p4()
 double TL::EDM::sigma_pTsys(const TL::EDM::PhysicsSystem& system, const float sumet) {
   double ptsys = TL::EDM::pTsys(system);
   double htsys = TL::EDM::HTsys(system);
-  return (ptsys / (htsys + sumet));
+  return (ptsys / std::sqrt(htsys + sumet));
 }
 
 double TL::EDM::centrality(const TL::EDM::PhysicsSystem& system) {
-  return (system.ht() / system.h());
+  return (system.ht() / system.sumenergy());
 }
 
 double TL::EDM::deltapT(const TL::EDM::PhysicsSystem& system1,

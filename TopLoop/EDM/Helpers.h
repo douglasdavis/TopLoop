@@ -24,7 +24,8 @@ class PhysicsSystem {
   PhysicsSystem(const TL::EDM::PhysicsObject& object)
       : m_p{object.p4()},
         m_ht{static_cast<float>(object.p4().Pt())},
-        m_h{static_cast<float>(object.p4().P())} {};
+        m_h{static_cast<float>(object.p4().P())},
+        m_sumenergy{static_cast<float>(object.p4().E())} {};
 
  public:
   /// retrieve the four momentum of the system
@@ -33,11 +34,14 @@ class PhysicsSystem {
   float ht() const { return m_ht; }
   /// retrieve the sum of momenta of objects in the system
   float h() const { return m_h; }
+  /// retrieve the sum of energies
+  float sumenergy() const { return m_sumenergy; }
 
  protected:
   TLorentzVector m_p;
   float m_ht;
   float m_h;
+  float m_sumenergy;
 };
 
 /// @addtogroup EDMHelpers EDM Helper functions

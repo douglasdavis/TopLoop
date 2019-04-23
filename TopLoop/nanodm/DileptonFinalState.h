@@ -12,6 +12,9 @@
 #include <TopLoop/nanodm/Lepton.h>
 #include <TopLoop/nanodm/MissingET.h>
 
+#include <iostream>
+#include <cstdlib>
+
 namespace nanodm {
 
 class DileptonFinalState {
@@ -113,14 +116,26 @@ class DileptonFinalState {
     m_met.reset(nullptr);
   }
 
-  /// returns false if something nonphysicsal is happening
+  /// crashes if something nonphysicsal is happening, return true if OK
   bool checkSelf() const {
-    if (m_lepton1->pt() < m_lepton2->pt()) return false;
-    if (OS() == SS()) return false;
-    if (OF() == SF()) return false;
+    if (m_lepton1->pt() < m_lepton2->pt()) {
+      std::cerr << "lepton pt ordering wrong" << std::endl;
+      std::exit(EXIT_FAILURE);
+    }
+    if (OS() == SS()) {
+      std::cerr << "lepton charges registering OS and SS" << std::endl;
+      std::exit(EXIT_FAILURE);
+    }
+    if (OF() == SF()) {
+      std::cerr << "lepton flavors registering OF and SF" << std::endl;
+      std::exit(EXIT_FAILURE);
+    }
     if (m_jets.size() > 1) {
       for (std::size_t i = 1; i < m_jets.size() - 1; ++i) {
-        if (jet(i - 1)->pt() < jet(i)->pt()) return false;
+        if (jet(i - 1)->pt() < jet(i)->pt()) {
+          std::cerr << "jet pt ordering wrong" << std::endl;
+          std::exit(EXIT_FAILURE);
+        }
       }
     }
     return true;

@@ -44,7 +44,7 @@ class PhysicsSystem {
       : m_p(object->p4()),
         m_ht(object->pt()),
         m_h(object->p4().P()),
-        m_sumenergy(object->p4().E()) {}
+        m_sumenergy(object->energy()) {}
 
   /// get the four vector
   const TLorentzVector& p4() const { return m_p; }

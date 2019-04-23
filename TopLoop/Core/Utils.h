@@ -17,6 +17,7 @@
 #define TeV 1000000.0
 #define GeV 1000.0
 #define toGeV 0.001
+#define toSqrtGeV 0.0316227766
 
 namespace TL {
 class StatusCode {
