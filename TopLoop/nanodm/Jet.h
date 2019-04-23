@@ -36,7 +36,7 @@ enum class BTagBin {
 };
 
 /// convenience working point enum to string function
-static std::string to_string(const nanodm::BTagWP wp) {
+inline std::string to_string(const nanodm::BTagWP wp) {
   switch (wp) {
     case BTagWP::mv2c10_70:
       return "mv2c10_70";
@@ -52,7 +52,7 @@ static std::string to_string(const nanodm::BTagWP wp) {
 }
 
 /// convenience working point string to enum
-static nanodm::BTagWP from_WP_string(const std::string& wp) {
+inline nanodm::BTagWP from_WP_string(const std::string& wp) {
   if (wp == "mv2c10_70") return BTagWP::mv2c10_70;
   if (wp == "mv2c10_77") return BTagWP::mv2c10_77;
   if (wp == "mv2c10_85") return BTagWP::mv2c10_85;
@@ -61,7 +61,7 @@ static nanodm::BTagWP from_WP_string(const std::string& wp) {
 }
 
 /// convenience bin enum to string function
-static std::string to_string(const nanodm::BTagBin bin) {
+inline std::string to_string(const nanodm::BTagBin bin) {
   switch (bin) {
     case BTagBin::eff_100_85:
       return "eff_100_85";
@@ -78,7 +78,7 @@ static std::string to_string(const nanodm::BTagBin bin) {
   };
 }
 
-static nanodm::BTagBin from_Bin_string(const std::string& bin) {
+inline nanodm::BTagBin from_Bin_string(const std::string& bin) {
   if (bin == "eff_100_85") return BTagBin::eff_100_85;
   if (bin == "eff_85_77") return BTagBin::eff_85_77;
   if (bin == "eff_77_70") return BTagBin::eff_77_70;
