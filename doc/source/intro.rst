@@ -174,15 +174,15 @@ For particle level variables, the macros are ``DECLARE_PL_BRANCH`` and
 Runtime Data Model(s)
 ---------------------
 
-TopLoop has two event data models (similar to the ATLAS xAOD model)
-but might more lightweight. These data models are an "optional" part
-of TopLoop.
+TopLoop has two event data models (similar to the ATLAS xAOD model but
+much more lightweight). These data models are an "optional" part of
+TopLoop.
 
-The first one is called the TopLoop EDM,
-and it exists in the ``TL::EDM`` namespace. This EDM attempted to
-describe all possible objects and all possible attributes (based on
-what SgTop ntuples provide). This set of classes ended up being a bit
-heavy and complicated and didn't adhere to proper polymorphism design.
+The first one is called the TopLoop EDM, and it exists in the
+``TL::EDM`` namespace. This EDM attempted to describe all possible
+objects and all possible attributes (based on what SgTop ntuples
+provide). This set of classes ended up being a bit heavy and
+complicated and didn't adhere to proper polymorphism design.
 
 A second EDM (called ``nanodm``) was designed that is header only and
 much smaller. It doesn't attempt to "keep up" with the SgTop ntuple
@@ -192,7 +192,7 @@ practices. This is the recommended way to use a run time data model if
 you'd like to use one starting from scratch.
 
 Take a look at the doxygen API documentation for more information
-about the run time data models.
+about the run time data models. They can always be updated necessary.
 
 Example Algorithm
 -----------------
