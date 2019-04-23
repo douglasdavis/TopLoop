@@ -68,23 +68,46 @@ details below).
 A list of available variables are found in
 `TopLoop/Core/Variables.h <https://gitlab.cern.ch/atlasphys-top/singletop/tW_13TeV_Rel21/TopLoop/blob/master/TopLoop/Core/Variables.h>`__
 
-An example code block (using the built-in EDM):
+An example code block:
 
 .. code-block:: cpp
 
    TL::StatusCode MyAlgorithm::execute() {
      //...
-     TL::EDM::FinalState finalState;
-     auto averageMu = mu();
+
+     // if no electrons or jets in the sgtop ntuple skip event
+     if (el_pt().empty()) return TL::StatusCode::SUCCESS;
+     if (jet_pt().empty()) return TL::StatusCode::SUCCESS;
+
+     // skip if a met cut (that you define as a class
+     // variable m_METcut) is not satisfied
+     if (met_met() < m_METcut) return TL::StatusCode::SUCCESS;
+
+     std::vector<TLorentzVector> electronVectors;
+     std::vector<TLorentzVector> jetVectors;
+
      for ( std::size_t i = 0; i < el_pt().size(); ++i ) {
-       TL::EDM::Electron elec;
        auto pt  = el_pt().at(i);
        auto eta = el_eta().at(i);
        auto phi = el_phi().at(i);
-       elec.p4().SetPtEtaPhiM(pt,eta,phi,0.511)
-       finalState.addElectron(elec);
+       TLorentzVector fourvec;
+       fourvec.SetPtEtaPhiM(pt, eta, phi, 0.510999);
+       electronVectors.push_back(fourvec);
      }
-     // ... use the final state
+
+     for ( std::size_t i = 0; i < jet_pt().size(); ++i ) {
+       auto pt  = jet_pt().at(i);
+       auto eta = jet_eta().at(i);
+       auto phi = jet_phi().at(i);
+       auto energy = jet_e().at(i);
+       TLorentzVector fourvec;
+       fourvec.SetPtEtaPhiE(pt, eta, phi, energy);
+       jetVectors.push_back(fourvec);
+     }
+
+     // ....
+
+     return TL::StatusCode::SUCCESS;
    }
 
 Particle level and truth variables
@@ -147,6 +170,29 @@ structure is intuitive.
 
 For particle level variables, the macros are ``DECLARE_PL_BRANCH`` and
 ``CONNECT_PL_BRANCH``.
+
+Runtime Data Model(s)
+---------------------
+
+TopLoop has two event data models (similar to the ATLAS xAOD model)
+but might more lightweight. These data models are an "optional" part
+of TopLoop.
+
+The first one is called the TopLoop EDM,
+and it exists in the ``TL::EDM`` namespace. This EDM attempted to
+describe all possible objects and all possible attributes (based on
+what SgTop ntuples provide). This set of classes ended up being a bit
+heavy and complicated and didn't adhere to proper polymorphism design.
+
+A second EDM (called ``nanodm``) was designed that is header only and
+much smaller. It doesn't attempt to "keep up" with the SgTop ntuple
+contents (since the branch contents are a bit fluid). The ``nanodm``
+is more flexible and adheres to proper C++ polymorphism
+practices. This is the recommended way to use a run time data model if
+you'd like to use one starting from scratch.
+
+Take a look at the doxygen API documentation for more information
+about the run time data models.
 
 Example Algorithm
 -----------------

@@ -42,7 +42,7 @@ find_package( Boost COMPONENTS filesystem system )
 
 # Build a library that other components can link against:
 atlas_add_library( TopLoop
-  TopLoop/Core/*.h TopLoop/EDM/*.h Root/*.cxx
+  TopLoop/Core/*.h TopLoop/EDM/*.h TopLoop/nanodm/*.h Root/*.cxx
   PUBLIC_HEADERS TopLoop
   LINK_LIBRARIES
   ${ROOT_LIBRARIES}
