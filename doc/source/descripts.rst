@@ -68,11 +68,8 @@ generator variation normalizations and individual weights for you
 tree. Secondly, it also handles cross section/k-factor
 information. See the API!
 
-The EDM Classes
----------------
+The Data Model Classes
+----------------------
 
-The EDM classes have theirs headers in ``TopLoop/EDM`` -- they provide
-what is essentially syntactic sugar for doing calculations with
-physics objects constructed from branches in the SgTop ntuples. Their
-names member functions are self explanatory - so I will just point you
-to the API documentation.
+The data model classes are summarized in the introduction section. See
+the doxygen API documentation for more.
