@@ -102,8 +102,9 @@ class DileptonFinalState {
   bool mumu() const { return (m_lepton1->pdgId() + m_lepton2->pdgId()) == 26; }
   bool OS() const { return (m_lepton1->charge() * m_lepton2->charge()) < 0; }
   bool SS() const { return !OS(); }
-  bool SF() const { return elmu(); }
-  bool OF() const { return !elmu(); }
+  bool OF() const { return elmu(); }
+  bool SF() const { return !elmu(); }
+
 
   /// @}
 
