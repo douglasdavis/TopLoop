@@ -12,12 +12,20 @@
 #include <TopLoop/nanodm/Lepton.h>
 #include <TopLoop/nanodm/MissingET.h>
 
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 
 namespace nanodm {
 
 class DileptonFinalState {
+ public:
+  enum class FlavComb {
+    ELMU = 0,
+    ELEL = 1,
+    MUMU = 2,
+    UNKNOWN = 3,
+  };
+
  private:
   std::unique_ptr<nanodm::Lepton> m_lepton1;
   std::unique_ptr<nanodm::Lepton> m_lepton2;
@@ -104,7 +112,12 @@ class DileptonFinalState {
   bool SS() const { return !OS(); }
   bool OF() const { return elmu(); }
   bool SF() const { return !elmu(); }
-
+  nanodm::DileptonFinalState::FlavComb flavComb() const {
+    if (elmu()) return FlavComb::ELMU;
+    else if (elel()) return FlavComb::ELEL;
+    else if (mumu()) return FlavComb::MUMU;
+    else return FlavComb::UNKNOWN;
+  }
 
   /// @}
 
