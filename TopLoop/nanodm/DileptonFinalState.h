@@ -104,19 +104,24 @@ class DileptonFinalState {
     return idx;
   }
 
+  int pdgSum() const { return m_lepton1->pdgId() + m_lepton2->pdgId(); }
   bool hasFake() const { return m_lepton1->isMCNonPrompt() || m_lepton2->isMCNonPrompt(); }
-  bool elel() const { return (m_lepton1->pdgId() + m_lepton2->pdgId()) == 22; }
-  bool elmu() const { return (m_lepton1->pdgId() + m_lepton2->pdgId()) == 24; }
-  bool mumu() const { return (m_lepton1->pdgId() + m_lepton2->pdgId()) == 26; }
+  bool elel() const { return pdgSum() == 22; }
+  bool elmu() const { return pdgSum() == 24; }
+  bool mumu() const { return pdgSum() == 26; }
   bool OS() const { return (m_lepton1->charge() * m_lepton2->charge()) < 0; }
   bool SS() const { return !OS(); }
   bool OF() const { return elmu(); }
   bool SF() const { return !elmu(); }
   nanodm::DileptonFinalState::FlavComb flavComb() const {
-    if (elmu()) return FlavComb::ELMU;
-    else if (elel()) return FlavComb::ELEL;
-    else if (mumu()) return FlavComb::MUMU;
-    else return FlavComb::UNKNOWN;
+    if (elmu())
+      return FlavComb::ELMU;
+    else if (elel())
+      return FlavComb::ELEL;
+    else if (mumu())
+      return FlavComb::MUMU;
+    else
+      return FlavComb::UNKNOWN;
   }
 
   /// @}
