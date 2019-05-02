@@ -113,7 +113,7 @@ class DileptonFinalState {
   bool SS() const { return !OS(); }
   bool OF() const { return elmu(); }
   bool SF() const { return !elmu(); }
-  nanodm::DileptonFinalState::FlavComb flavComb() const {
+  FlavComb flavComb() const {
     if (elmu())
       return FlavComb::ELMU;
     else if (elel())

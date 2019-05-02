@@ -1,3 +1,4 @@
+
 /** @file  nanodm/Lepton.h
  *  @brief nanodm::Lepton class header
  *
@@ -40,7 +41,7 @@ class Lepton : public nanodm::PhysicsObject {
    *
    *  @param pdgId the PDG code
    */
-  Lepton(const unsigned int pdgId) : m_pdgId(pdgId) {}
+  explicit Lepton(const unsigned int pdgId) : m_pdgId(pdgId) {}
 
   /// @name setters
   /// @{
