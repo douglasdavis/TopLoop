@@ -3,7 +3,7 @@
 ## Author: Doug Davis <ddavis@cern.ch>
 
 # Declare the name of this package:
-atlas_subdir( TopLoop None )
+atlas_subdir(TopLoop None)
 
 # Get the current working branch
 execute_process(
@@ -37,11 +37,11 @@ atlas_depends_on_subdirs(
   )
 
 # This package uses ROOT:
-find_package( ROOT REQUIRED COMPONENTS Physics Core Tree RIO TreePlayer )
-find_package( Boost COMPONENTS filesystem system )
+find_package(ROOT REQUIRED COMPONENTS Physics Core Tree RIO TreePlayer)
+find_package(Boost COMPONENTS filesystem system)
 
 # Build a library that other components can link against:
-atlas_add_library( TopLoop
+atlas_add_library(TopLoop
   TopLoop/Core/*.h TopLoop/EDM/*.h TopLoop/nanodm/*.h Root/*.cxx
   PUBLIC_HEADERS TopLoop
   LINK_LIBRARIES
@@ -50,16 +50,17 @@ atlas_add_library( TopLoop
   Boost::system
   PathResolver
   TopDataPreparation
-  INCLUDE_DIRS ${ROOT_INCLUDE_DIRS} )
+  INCLUDE_DIRS ${ROOT_INCLUDE_DIRS})
 
 #atlas_add_dictionary( TopLoopDict
 #  TopLoop/TopLoopDict.h TopLoop/selection.xml
 #  LINK_LIBRARIES TopLoop )
 
-target_compile_features( TopLoop PUBLIC cxx_std_14 )
+target_compile_features(TopLoop PUBLIC cxx_std_14)
+target_compile_options(TopLoop PRIVATE -Wall -Wextra)
 
 # Install data files from the package:
-atlas_install_data( data/* )
+atlas_install_data(data/*)
 
 # Install python modules
-atlas_install_python_modules( python/* )
+atlas_install_python_modules(python/*)

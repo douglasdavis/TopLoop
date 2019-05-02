@@ -1618,6 +1618,9 @@ class App {
     /// @name Basic
     ///@{
 
+    // silence warning
+    virtual ~App() = default;
+
     /// Create a new program. Pass in the same arguments as main(), along with a help string.
     App(std::string description_ = "") : App(description_, nullptr) {
         set_help_flag("-h,--help", "Print this help message and exit");
