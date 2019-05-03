@@ -17,8 +17,16 @@
 
 namespace nanodm {
 
+
+/** @class DileptonFinalState
+ *  @brief A class providing structure to describe a dilepton final state
+ *
+ *  This class is built from other classes in the nanodm namespace
+ */
 class DileptonFinalState {
+
  public:
+  /// convenient enum for dilepton flavor combination identification
   enum class FlavComb {
     ELMU = 0,
     ELEL = 1,
@@ -34,23 +42,39 @@ class DileptonFinalState {
   std::unique_ptr<nanodm::MissingET> m_met;
 
  public:
+  /// default constructor
   DileptonFinalState() {
     // reserve space to reduce allocations
     m_jets.reserve(15);
     m_softjets.reserve(5);
   }
+  /// default destructor
   virtual ~DileptonFinalState() = default;
 
+  /// delete copy
   DileptonFinalState(const DileptonFinalState&) = delete;
+  /// delete assignment
   DileptonFinalState& operator=(const DileptonFinalState&) = delete;
+  /// delete move
   DileptonFinalState(DileptonFinalState&&) = delete;
+  /// delete move assignment
   DileptonFinalState& operator=(DileptonFinalState&&) = delete;
 
+  /// @name smart pointer/container modifiers for building the final state
+  /// @{
+
+  /// assignable smart pointer for setting lepton1
   std::unique_ptr<nanodm::Lepton>& lepton1() { return m_lepton1; }
+  /// assignable smart pointer for setting lepton2
   std::unique_ptr<nanodm::Lepton>& lepton2() { return m_lepton2; }
+  /// modifiable vector for adding smart pointer jets
   std::vector<std::unique_ptr<nanodm::Jet>>& jets() { return m_jets; }
+  /// modifiable vector for adding smart pointer jets
   std::vector<std::unique_ptr<nanodm::Jet>>& softjets() { return m_softjets; }
+  /// assignable smart pointer for setting the @f$E_\mathrm{T}^\mathrm{miss}@f$ object
   std::unique_ptr<nanodm::MissingET>& missingET() { return m_met; }
+
+  /// @}
 
   /// @name const pointer getters
   /// @{
@@ -63,9 +87,9 @@ class DileptonFinalState {
   const std::vector<std::unique_ptr<nanodm::Jet>>& jets() const { return m_jets; }
   /// retrieve a const ref to the soft jet container
   const std::vector<std::unique_ptr<nanodm::Jet>>& softjets() const { return m_softjets; }
-  /// retrieve a const pointer to the \f$i^\mathrm{th}\f$ jet.
+  /// retrieve a const pointer to the @f$i^\mathrm{th}@f$ jet.
   const nanodm::Jet* jet(const std::size_t i) const { return m_jets.at(i).get(); }
-  /// retrieve a const pointer to the \f$i^\mathrm{th}\f$ soft jet.
+  /// retrieve a const pointer to the @f$i^\mathrm{th}@f$ soft jet.
   const nanodm::Jet* softjet(const std::size_t i) const { return m_softjets.at(i).get(); }
   /// retrieve a const pointer to the MissingET
   const nanodm::MissingET* missingET() const { return m_met.get(); }
@@ -91,7 +115,7 @@ class DileptonFinalState {
                          [&](const auto& j) { return j->isbtaggedContinuous(bin_req); });
   }
 
-  /// grab the index of most forward jet (largest \f$|\eta|\f$).
+  /// grab the index of most forward jet (largest @f$|\eta|@f$).
   std::size_t mostForwardJetIdx() const {
     if (jets().empty()) return 0;
     if (jets().size() == 1) return 0;
@@ -104,15 +128,25 @@ class DileptonFinalState {
     return idx;
   }
 
+  /// sum of the lepton pdg codes
   int pdgSum() const { return m_lepton1->pdgId() + m_lepton2->pdgId(); }
+  /// true if either lepton is fake/non-prompt based on MC information
   bool hasFake() const { return m_lepton1->isMCNonPrompt() || m_lepton2->isMCNonPrompt(); }
+  /// true if two electrons in final state (@f$ee@f$)
   bool elel() const { return pdgSum() == 22; }
+  /// true if electron + muon final state (@f$e\mu@f$)
   bool elmu() const { return pdgSum() == 24; }
+  /// true if two muons in final state (@f$\mu\mu@f$)
   bool mumu() const { return pdgSum() == 26; }
+  /// true if leptons are oppositely sign (@f$\ell^\pm\ell^\mp@f$).
   bool OS() const { return (m_lepton1->charge() * m_lepton2->charge()) < 0; }
+  /// true if leptons are same sign (@f$\ell^\pm\ell^\pm@f$).
   bool SS() const { return !OS(); }
+  /// true if leptons are opposite flavor (@f$e\mu@f$)
   bool OF() const { return elmu(); }
+  /// true if leptons are same flavor (@f$ee/\mu\mu@f$)
   bool SF() const { return !elmu(); }
+  /// get a specific flavor combination label
   FlavComb flavComb() const {
     if (elmu())
       return FlavComb::ELMU;

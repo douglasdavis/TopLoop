@@ -45,10 +45,24 @@ class FileManager : public TL::Loggable {
   void determineSampleProperties();
 
  public:
+
+  /// Describes instructions to only use a subset of a sgtop ntuple sample
+  /**
+   *  The FileManager::feedDir class takes can take a vector of
+   *  SubsetInstructions such that if it is given a sample with a
+   *  DSID+campaign combination that also exists in the
+   *  SubsetInstructions vector, the FileManager will only prepare a
+   *  fraction of the data for processing. This is useful for tests
+   *  and/or lvery large samples when processing time is an issue.
+   */
   struct SubsetInstructions {
+    /// dsid associated with instructions
     unsigned int dsid{999999};
+    /// campaign associated with instructions
     TL::kCampaign campaign{TL::kCampaign::Unknown};
+    /// fraction of the number of files in the dataset to use
     float fraction{0.0};
+    /// random seed to use when selecting only a fraction of files
     int seed{-1};
   };
 

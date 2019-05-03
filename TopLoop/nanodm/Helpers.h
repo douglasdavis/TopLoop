@@ -56,6 +56,13 @@ class PhysicsSystem {
   float sumenergy() const { return m_sumenergy; }
 };
 
+
+/// @addtogroup nanodm-helpers nanodm Helpers
+/// @brief Helper functions for making calculations using `nanodm`
+/// classes.
+///
+/// @{
+
 /// calculate the \f$p_{\mathrm{T}}\f$ of the system of objects.
 /**
  *  @param system the list of objects inheriting from
