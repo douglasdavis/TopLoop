@@ -14,7 +14,7 @@ namespace nanodm {
 
 /**
  *  @class nanodm::Lepton
- *  @brief A container for electron/muon information.
+ *  @brief A base class to describe electrons or muon.
  */
 class Lepton : public nanodm::PhysicsObject {
  protected:

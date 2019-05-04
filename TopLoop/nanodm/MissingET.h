@@ -13,7 +13,7 @@ namespace nanodm {
 
 /**
  *  @class nanodm::MissingET
- *  @brief A container for electron/muon information.
+ *  @brief a class to describe \f$E_\mathrm{T}^\mathrm{miss}\f$.
  */
 class MissingET : public nanodm::PhysicsObject {
  private:
@@ -22,7 +22,9 @@ class MissingET : public nanodm::PhysicsObject {
   float m_py;
 
  public:
+  /// default constructor
   MissingET() = default;
+  /// default destructor
   virtual ~MissingET() = default;
   /// default copy constructor
   MissingET(const MissingET&) = default;
@@ -36,8 +38,11 @@ class MissingET : public nanodm::PhysicsObject {
   /// @name setters
   /// @{
 
+  /// set the \f$\sum E_\mathrm{T}\f$ of all objects constributing to \f$E_\mathrm{T}^\mathrm{miss}\f$.
   void set_sumet(const float val) { m_sumet = val; }
+  /// set the \f$x\f$ component of the \f$E_\mathrm{T}^\mathrm{miss}\f$ value.
   void set_px(const float val) { m_px = val; }
+  /// set \f$y\f$ component of the \f$E_\mathrm{T}^\mathrm{miss}\f$ value.
   void set_py(const float val) { m_py = val; }
 
   /// @}
@@ -45,11 +50,11 @@ class MissingET : public nanodm::PhysicsObject {
   /// @name getters
   /// @{
 
-  /// get sumet from the sgtop ntuple tree
+  /// the \f$\sum E_\mathrm{T}\f$ of all objects constributing to \f$E_\mathrm{T}^\mathrm{miss}\f$. (sumet from the sgtop ntuple tree)
   float sumet() const { return m_sumet; }
-  /// get met_px from the sgtop ntuple tree
+  /// the \f$x\f$ component of the \f$E_\mathrm{T}^\mathrm{miss}\f$ value. (met_px from the sgtop ntuple tree)
   float px() const final { return m_px; }
-  /// get met_py from the sgtop ntuple tree
+  /// set \f$y\f$ component of the \f$E_\mathrm{T}^\mathrm{miss}\f$ value. (met_py from the sgtop ntuple tree)
   float py() const final { return m_py; }
 
   /// @}
@@ -57,6 +62,7 @@ class MissingET : public nanodm::PhysicsObject {
   /// @name creation utilities
   /// @{
 
+  /// construct a MissingET object from its met (pt) and phi valus
   static std::unique_ptr<MissingET> make(float pt, float phi) {
     auto m = std::make_unique<MissingET>();
     m->p4().SetPtEtaPhiM(pt, 0, phi, 0);

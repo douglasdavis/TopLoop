@@ -18,7 +18,7 @@ namespace nanodm {
 
 /**
  *  @class nanodm::PhysicsObject
- *  @brief A class for physics object information.
+ *  @brief A base class for physics object information.
  */
 class PhysicsObject {
  protected:

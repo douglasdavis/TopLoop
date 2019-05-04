@@ -89,7 +89,7 @@ inline nanodm::BTagBin from_Bin_string(const std::string& bin) {
 
 /**
  *  @class nanodm::Jet
- *  @brief A class for jet information
+ *  @brief A class to describe a jet
  */
 class Jet : public nanodm::PhysicsObject {
  private:
