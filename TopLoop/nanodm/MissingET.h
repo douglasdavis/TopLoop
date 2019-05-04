@@ -52,6 +52,11 @@ class MissingET : public nanodm::PhysicsObject {
   /// get met_py from the sgtop ntuple tree
   float py() const final { return m_py; }
 
+  /// @}
+
+  /// @name creation utilities
+  /// @{
+
   static std::unique_ptr<MissingET> make(float pt, float phi) {
     auto m = std::make_unique<MissingET>();
     m->p4().SetPtEtaPhiM(pt, 0, phi, 0);
@@ -59,6 +64,7 @@ class MissingET : public nanodm::PhysicsObject {
   }
 
   /// @}
+
 };
 }  // namespace nanodm
 

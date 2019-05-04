@@ -80,12 +80,17 @@ class Muon : public nanodm::Lepton {
   /// default move assignment operator
   Muon& operator=(Muon&&) = default;
 
+  /// @name creation utilities
+  /// @{
+
   /// construct a muon from \f$(p_\mathrm{T}, \eta, \phi)\f$
   static std::unique_ptr<Muon> make(float pt, float eta, float phi) {
     auto muon = std::make_unique<Muon>();
     muon->p4().SetPtEtaPhiM(pt, eta, phi, 105.6583745);
     return muon;
   }
+
+  /// @}
 };
 
 /**
@@ -106,12 +111,17 @@ class Electron : public nanodm::Lepton {
   /// default move assignment operator
   Electron& operator=(Electron&&) = default;
 
+  /// @name creation utilities
+  /// @{
+
   /// construct an electron from \f$(p_\mathrm{T}, \eta, \phi)\f$
   static std::unique_ptr<Electron> make(float pt, float eta, float phi) {
     auto electron = std::make_unique<Electron>();
     electron->p4().SetPtEtaPhiM(pt, eta, phi, 0.5109989461);
     return electron;
   }
+
+  /// @}
 };
 
 }  // namespace nanodm

@@ -138,12 +138,18 @@ class Jet : public nanodm::PhysicsObject {
 
   /// @}
 
+  /// @name creation utilities
+  /// @{
+
   /// construct a jet from \f$(p_\mathrm{T}, \eta, \phi, E)\f$
   static std::unique_ptr<Jet> make(float pt, float eta, float phi, float energy) {
     auto jet = std::make_unique<Jet>();
     jet->p4().SetPtEtaPhiE(pt, eta, phi, energy);
     return jet;
   }
+
+  /// @}
+
 };
 }  // namespace nanodm
 
