@@ -1,4 +1,3 @@
-
 /** @file  nanodm/DileptonFinalState.h
  *  @brief DileptonFinalState class header
  *
@@ -96,24 +95,13 @@ class DileptonFinalState {
 
   /// @}
 
-  /// @name other useful functions
+  /// @name read properties of final state
   /// @{
 
   /// retrieve the number of jets in the final state
   std::size_t njets() const { return m_jets.size(); }
   /// retrieve the number of soft jets in the final state
   std::size_t nsoftjets() const { return m_softjets.size(); }
-
-  /// determine the number of b-tagged jets in a container based on the bin requirement
-  /**
-   *  @param container the jet container
-   *  @param bin_req the bin requirement
-   */
-  static std::size_t nbtagged(const std::vector<std::unique_ptr<nanodm::Jet>>& container,
-                              const nanodm::BTagBin bin_req) {
-    return std::count_if(std::begin(container), std::end(container),
-                         [&](const auto& j) { return j->isbtaggedContinuous(bin_req); });
-  }
 
   /// grab the index of most forward jet (largest @f$|\eta|@f$).
   std::size_t mostForwardJetIdx() const {
@@ -160,6 +148,9 @@ class DileptonFinalState {
 
   /// @}
 
+  /// @name utilities
+  /// @{
+
   /// erase all information from the final state
   void destroy() {
     m_lepton1.reset(nullptr);
@@ -193,6 +184,25 @@ class DileptonFinalState {
     }
     return true;
   }
+
+  /// @}
+
+  /// @name static utilities
+  /// @{
+
+  /// determine the number of b-tagged jets in a container based on the bin requirement
+  /**
+   *  @param container the jet container
+   *  @param bin_req the bin requirement
+   */
+  static std::size_t nbtagged(const std::vector<std::unique_ptr<nanodm::Jet>>& container,
+                              const nanodm::BTagBin bin_req) {
+    return std::count_if(std::begin(container), std::end(container),
+                         [&](const auto& j) { return j->isbtaggedContinuous(bin_req); });
+  }
+
+  /// @}
+
 };
 }  // namespace nanodm
 
