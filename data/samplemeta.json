@@ -504,5 +504,13 @@
             "InitialState": "tZq",
             "SampleType": "Nominal"
         }
+    ],
+    "tHq": [
+        {
+            "DSID_range": [346229, 346234],
+            "Generator": "MG5aMCatNLOPythia8",
+            "InitialState": "tHq",
+            "SampleType": "Nominal"
+        }
     ]
 }
