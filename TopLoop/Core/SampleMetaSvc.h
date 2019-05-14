@@ -77,8 +77,7 @@ enum class kGenerator {
 
 enum class kSampleType { Unknown, Data, Nominal, Systematic };
 
-enum class kSgTopNtup { Unknown, v23, v25, v27, v28 };
-
+enum class kSgTopNtup { v23 = 0, v25 = 1, v27 = 2, v28 = 3, Unknown = 999 };
 /// @}
 
 }  // namespace TL
@@ -343,6 +342,18 @@ class SampleMetaSvc final : public TL::Loggable {
 
   /// convenience function to grab which ntuple version is in use by this class
   std::string ntupleVersionInUse() const { return as_string(m_ntupVersion); }
+
+  /// see if ntuple version (determined from sample_name) is older than template arg version
+  template <std::size_t N>
+    bool isOlderThan(const std::string& sample_name) {
+    return isOlderThan<N>(getNtupleVersion(sample_name));
+  }
+
+  /// see if ntuple version is older than template arg version
+  template <std::size_t N>
+    bool isOlderThan(const TL::kSgTopNtup ntupVersion) {
+    return static_cast<std::size_t>(ntupVersion) < N;
+  }
 
   /// @}
 
