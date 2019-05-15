@@ -4,29 +4,22 @@ stages:
   - docdeploy
 
 TopLoop:
-  image: gitlab-registry.cern.ch/ci-tools/ci-worker:slc6
+  image: atlas/analysistop:latest
   stage: build
-  tags:
-    - cvmfs
   variables:
-    ATLAS_LOCAL_ROOT_BASE: /cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+    GIT_SUBMODULE_STRATEGY: normal
+    GIT_SSL_NO_VERIFY: "true"
   before_script:
     - mkdir -p ../ci/build ../ci/run ../ci/source
     - cp -r $(pwd) ../ci/source/.
     - cp $(pwd)/.gitlab-ci.cmake ../ci/source/CMakeLists.txt
-    - cd ../ci/source
   script:
-    - ls
-    - pwd
+    - source /home/atlas/release_setup.sh
     - set +e
-    - source /cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase/user/atlasLocalSetup.sh
-    - asetup 21.2,AnalysisTop,latest
-    - set -e
-    - cd ../build
+    - cd ../ci/build
     - cmake ../source
     - make
-    - cd ..
-    - source build/*/setup.sh
+    - source "${AnalysisTop_PLATFORM}/setup.sh"
 
 TopLoopDocGen:
   image: gitlab-registry.cern.ch/ddavis/doxygen-from-arch:latest
@@ -55,6 +48,7 @@ TopLoopDocDeploy:
   image: gitlab-registry.cern.ch/ci-tools/ci-web-deployer:latest
   stage: docdeploy
   variables:
+    GIT_STRATEGY: none
     DFS_WEBSITE_NAME: "twrun2"
   script:
     - set +e
