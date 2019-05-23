@@ -164,15 +164,35 @@ TL::StatusCode TL::Job::constructIndices() {
         " called twice, but it shouldn't have.");
     return TL::StatusCode::FAILURE;
   }
-  auto c_PL = m_fm->particleLevelChain();
-  if (!c_PL) {
+
+  if (m_fm->particleLevelChain() == nullptr) {
     logger()->error(
         "Particle level chain is null... "
         "Enable particle level in your TL::FileManager!");
   }
-  auto c_RL = m_fm->mainChain();
-  auto idx_PL = std::make_unique<TTreeIndex>(c_PL, "runNumber", "eventNumber");
-  auto idx_RL = std::make_unique<TTreeIndex>(c_RL, "runNumber", "eventNumber");
+
+  // make copies for this isolated task
+  auto c_PL =
+      std::unique_ptr<TChain>(dynamic_cast<TChain*>(m_fm->particleLevelChain()->Clone()));
+  auto c_RL = std::unique_ptr<TChain>(dynamic_cast<TChain*>(m_fm->mainChain()->Clone()));
+
+  c_PL->SetBranchStatus("*", 0);
+  c_RL->SetBranchStatus("*", 0);
+  c_PL->SetBranchStatus("runNumber", 1);
+  c_RL->SetBranchStatus("runNumber", 1);
+  c_PL->SetBranchStatus("eventNumber", 1);
+  c_RL->SetBranchStatus("eventNumber", 1);
+  c_PL->SetCacheSize(25000000);  // 25 MB cache
+  c_RL->SetCacheSize(25000000);  // 25 MB cache
+  c_PL->AddBranchToCache("*", false);
+  c_RL->AddBranchToCache("*", false);
+  c_PL->AddBranchToCache("runNumber", true);
+  c_RL->AddBranchToCache("runNumber", true);
+  c_PL->AddBranchToCache("eventNumber", true);
+  c_RL->AddBranchToCache("eventNumber", true);
+
+  auto idx_PL = std::make_unique<TTreeIndex>(c_PL.get(), "runNumber", "eventNumber");
+  auto idx_RL = std::make_unique<TTreeIndex>(c_RL.get(), "runNumber", "eventNumber");
   c_PL->SetTreeIndex(idx_PL.get());
   c_RL->SetTreeIndex(idx_RL.get());
 
@@ -186,13 +206,6 @@ TL::StatusCode TL::Job::constructIndices() {
   c_PL->SetBranchAddress("eventNumber", &eventNumber_PL);
   c_RL->SetBranchAddress("eventNumber", &eventNumber_RL);
 
-  c_PL->SetBranchStatus("*", 0);
-  c_RL->SetBranchStatus("*", 0);
-  c_PL->SetBranchStatus("runNumber", 1);
-  c_RL->SetBranchStatus("runNumber", 1);
-  c_PL->SetBranchStatus("eventNumber", 1);
-  c_RL->SetBranchStatus("eventNumber", 1);
-
   // do some conservative reserving to save time spent allocating
   // memory... it shouldn't waste too much memory...
   m_particleAndReco.reserve(c_RL->GetEntries());
@@ -202,6 +215,8 @@ TL::StatusCode TL::Job::constructIndices() {
   ULong64_t totalPL = static_cast<ULong64_t>(c_PL->GetEntries());
   ULong64_t totalRL = static_cast<ULong64_t>(c_RL->GetEntries());
 
+  tqdm index_bar;
+  index_bar.set_theme_braille_spin();
   // get indices for particle+reco and particle only
   for (ULong64_t i = 0; i < totalPL; ++i) {
     c_PL->GetEntry(i);
@@ -212,6 +227,7 @@ TL::StatusCode TL::Job::constructIndices() {
     else {
       m_particleLevelOnly.push_back(i);
     }
+    index_bar.progress(i, totalPL);
   }
 
   // get indices for reco only
