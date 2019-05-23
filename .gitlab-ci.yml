@@ -32,10 +32,10 @@ TopLoopDocGen:
     - ls
     - doxygen doc/dox.cfg
     - mkdir public
-    - mv doc/html public/TopLoopDoxygenAPI
+    - mv doc/html public/api
     - cd doc
     - make html
-    - mv build/html ../public/TopLoop
+    - mv build/html ../public/docs
     - cd ..
   artifacts:
     paths:
@@ -49,10 +49,8 @@ TopLoopDocDeploy:
   stage: docdeploy
   variables:
     GIT_STRATEGY: none
-    DFS_WEBSITE_NAME: "twrun2"
   script:
     - set +e
-    - deploy-dfs
     - deploy-eos
   only:
     - master
