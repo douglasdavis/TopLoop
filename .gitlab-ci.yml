@@ -53,5 +53,6 @@ TopLoopDocDeploy:
   script:
     - set +e
     - deploy-dfs
+    - deploy-eos
   only:
     - master
