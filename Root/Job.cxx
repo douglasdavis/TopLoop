@@ -36,8 +36,7 @@ TL::StatusCode TL::Job::setFileManager(std::unique_ptr<TL::FileManager> fm) {
 TL::StatusCode TL::Job::run() {
   if (m_algorithm->isData() && m_loopType != LoopType::RecoStandard) {
     logger()->error(
-        "You cannot have the algorithm set to data mode"
-        " and also loop over anything but RecoOnly");
+        "Algorithm is processing data, which can only work with a RecoStandard LoopType");
     return TL::StatusCode::FAILURE;
   }
 
@@ -172,75 +171,95 @@ TL::StatusCode TL::Job::constructIndices() {
   }
 
   // make copies for this isolated task
-  auto c_PL =
+  auto chain_partLevel =
       std::unique_ptr<TChain>(dynamic_cast<TChain*>(m_fm->particleLevelChain()->Clone()));
-  auto c_RL = std::unique_ptr<TChain>(dynamic_cast<TChain*>(m_fm->mainChain()->Clone()));
+  auto chain_recoLevel =
+      std::unique_ptr<TChain>(dynamic_cast<TChain*>(m_fm->mainChain()->Clone()));
 
-  c_PL->SetBranchStatus("*", 0);
-  c_RL->SetBranchStatus("*", 0);
-  c_PL->SetBranchStatus("runNumber", 1);
-  c_RL->SetBranchStatus("runNumber", 1);
-  c_PL->SetBranchStatus("eventNumber", 1);
-  c_RL->SetBranchStatus("eventNumber", 1);
-  c_PL->SetCacheSize(25000000);  // 25 MB cache
-  c_RL->SetCacheSize(25000000);  // 25 MB cache
-  c_PL->AddBranchToCache("*", false);
-  c_RL->AddBranchToCache("*", false);
-  c_PL->AddBranchToCache("runNumber", true);
-  c_RL->AddBranchToCache("runNumber", true);
-  c_PL->AddBranchToCache("eventNumber", true);
-  c_RL->AddBranchToCache("eventNumber", true);
+  chain_partLevel->SetBranchStatus("*", 0);
+  chain_recoLevel->SetBranchStatus("*", 0);
+  chain_partLevel->SetBranchStatus("runNumber", 1);
+  chain_recoLevel->SetBranchStatus("runNumber", 1);
+  chain_partLevel->SetBranchStatus("eventNumber", 1);
+  chain_recoLevel->SetBranchStatus("eventNumber", 1);
+  chain_partLevel->SetCacheSize(25000000);  // 25 MB cache
+  chain_recoLevel->SetCacheSize(25000000);  // 25 MB cache
+  chain_partLevel->AddBranchToCache("*", false);
+  chain_recoLevel->AddBranchToCache("*", false);
+  chain_partLevel->AddBranchToCache("runNumber", true);
+  chain_recoLevel->AddBranchToCache("runNumber", true);
+  chain_partLevel->AddBranchToCache("eventNumber", true);
+  chain_recoLevel->AddBranchToCache("eventNumber", true);
 
-  auto idx_PL = std::make_unique<TTreeIndex>(c_PL.get(), "runNumber", "eventNumber");
-  auto idx_RL = std::make_unique<TTreeIndex>(c_RL.get(), "runNumber", "eventNumber");
-  c_PL->SetTreeIndex(idx_PL.get());
-  c_RL->SetTreeIndex(idx_RL.get());
+  auto idx_PL =
+      std::make_unique<TTreeIndex>(chain_partLevel.get(), "runNumber", "eventNumber");
+  auto idx_RL =
+      std::make_unique<TTreeIndex>(chain_recoLevel.get(), "runNumber", "eventNumber");
+  chain_partLevel->SetTreeIndex(idx_PL.get());
+  chain_recoLevel->SetTreeIndex(idx_RL.get());
 
-  UInt_t runNumber_PL;
-  UInt_t runNumber_RL;
-  ULong64_t eventNumber_PL;
-  ULong64_t eventNumber_RL;
+  UInt_t runNumber_partLevel;
+  UInt_t runNumber_recoLevel;
+  ULong64_t eventNumber_partLevel;
+  ULong64_t eventNumber_recoLevel;
 
-  c_PL->SetBranchAddress("runNumber", &runNumber_PL);
-  c_RL->SetBranchAddress("runNumber", &runNumber_RL);
-  c_PL->SetBranchAddress("eventNumber", &eventNumber_PL);
-  c_RL->SetBranchAddress("eventNumber", &eventNumber_RL);
+  chain_partLevel->SetBranchAddress("runNumber", &runNumber_partLevel);
+  chain_recoLevel->SetBranchAddress("runNumber", &runNumber_recoLevel);
+  chain_partLevel->SetBranchAddress("eventNumber", &eventNumber_partLevel);
+  chain_recoLevel->SetBranchAddress("eventNumber", &eventNumber_recoLevel);
 
   // do some conservative reserving to save time spent allocating
   // memory... it shouldn't waste too much memory...
-  m_particleAndReco.reserve(c_RL->GetEntries());
-  m_particleLevelOnly.reserve(c_PL->GetEntries());
-  m_recoLevelOnly.reserve(c_RL->GetEntries());
-
-  ULong64_t totalPL = static_cast<ULong64_t>(c_PL->GetEntries());
-  ULong64_t totalRL = static_cast<ULong64_t>(c_RL->GetEntries());
-
-  tqdm index_bar;
-  index_bar.set_theme_braille_spin();
-  // get indices for particle+reco and particle only
-  for (ULong64_t i = 0; i < totalPL; ++i) {
-    c_PL->GetEntry(i);
-    auto index_RL = c_RL->GetEntryNumberWithIndex(runNumber_PL, eventNumber_PL);
-    if (index_RL > 0) {
-      m_particleAndReco.push_back(std::make_pair(i, index_RL));
-    }
-    else {
-      m_particleLevelOnly.push_back(i);
-    }
-    index_bar.progress(i, totalPL);
+  if (m_loopType == TL::LoopType::RecoWithParticle) {
+    m_particleAndReco.reserve(chain_recoLevel->GetEntries());
+  }
+  if (m_loopType == TL::LoopType::ParticleOnly) {
+    m_particleLevelOnly.reserve(chain_partLevel->GetEntries());
+  }
+  if (m_loopType == TL::LoopType::RecoOnly) {
+    m_recoLevelOnly.reserve(chain_recoLevel->GetEntries());
   }
 
-  // get indices for reco only
-  for (ULong64_t i = 0; i < totalRL; ++i) {
-    c_RL->GetEntry(i);
-    auto index_CL = c_RL->GetEntryNumberWithIndex(runNumber_RL, runNumber_RL);
-    if (index_CL < 0) {
-      m_recoLevelOnly.push_back(i);
+  ULong64_t totalPartLevel = static_cast<ULong64_t>(chain_partLevel->GetEntries());
+  ULong64_t totalRecoLevel = static_cast<ULong64_t>(chain_recoLevel->GetEntries());
+
+  if (m_loopType == TL::LoopType::RecoWithParticle ||
+      m_loopType == TL::LoopType::ParticleOnly) {
+    tqdm index_bar;
+    index_bar.set_theme_braille_spin();
+    // get indices for particle+reco and particle only
+    for (ULong64_t i = 0; i < totalPartLevel; ++i) {
+      chain_partLevel->GetEntry(i);
+      auto index_RL = chain_recoLevel->GetEntryNumberWithIndex(runNumber_partLevel,
+                                                               eventNumber_partLevel);
+      if (index_RL > 0) {
+        if (m_loopType == TL::LoopType::RecoWithParticle) {
+          m_particleAndReco.push_back(std::make_pair(i, index_RL));
+        }
+      }
+      else {
+        if (m_loopType == TL::LoopType::ParticleOnly) {
+          m_particleLevelOnly.push_back(i);
+        }
+      }
+      index_bar.progress(i, totalPartLevel);
     }
   }
 
-  c_PL->SetBranchStatus("*", 1);
-  c_RL->SetBranchStatus("*", 1);
+  if (m_loopType == TL::LoopType::RecoOnly) {
+    // get indices for reco only
+    for (ULong64_t i = 0; i < totalRecoLevel; ++i) {
+      chain_recoLevel->GetEntry(i);
+      auto index_CL = chain_recoLevel->GetEntryNumberWithIndex(runNumber_recoLevel,
+                                                               eventNumber_recoLevel);
+      if (index_CL < 0) {
+        m_recoLevelOnly.push_back(i);
+      }
+    }
+  }
+
+  chain_partLevel->SetBranchStatus("*", 1);
+  chain_recoLevel->SetBranchStatus("*", 1);
 
   return TL::StatusCode::SUCCESS;
 }
