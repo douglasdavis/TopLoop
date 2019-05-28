@@ -214,7 +214,7 @@ TL::kSgTopNtup TL::SampleMetaSvc::getNtupleVersion(const std::string& sample_nam
   std::uint32_t nfound = 0;
   for (const auto& version : m_e2s_NT) {
     auto enum_val = std::get<0>(version);
-    auto str_val = std::get<1>(version);
+    const auto& str_val = std::get<1>(version);
     std::regex vreg(fmt::format("({})", str_val));
     if (std::regex_search(sample_name, vreg)) {
       m_ntupVersion = enum_val;

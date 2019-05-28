@@ -144,7 +144,7 @@ void TL::FileManager::feedDir(const std::string& dirpath,
   // just the standard rucio dataset directory
   for (const auto& i : fs::directory_iterator(loop_over)) {
     if (!fs::is_directory(i.path())) {
-      auto whole_path = i.path();
+      const auto& whole_path = i.path();
       if (whole_path.filename().string().find(".root") == std::string::npos) {
         continue;
       }

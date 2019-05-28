@@ -21,7 +21,7 @@ bool TL::Algorithm::sampleIsAFII() {
 
 void TL::Algorithm::printProgress(const unsigned int n_prints) const {
   if (m_totalEntries > n_prints) {
-    int gap = m_totalEntries / n_prints;
+    std::size_t gap = m_totalEntries / n_prints;
     if (m_eventCounter % gap == 0) {
       auto progress = std::round(100.0 * m_eventCounter / m_totalEntries);
       logger()->info("-- [{:3.0f}%] Event: {}", progress, m_eventCounter);

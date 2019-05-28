@@ -21,7 +21,7 @@ TL::StatusCode TL::Algorithm::init_core_vars() {
   m_reader = std::make_shared<TTreeReader>(fileManager()->mainChain());
   m_weightsReader = std::make_shared<TTreeReader>(fileManager()->weightsChain());
 
-  if (fileManager()->particleLevelChain()) {
+  if (fileManager()->particleLevelChain() != nullptr) {
     fileManager()->particleLevelChain()->LoadTree(0);
     fileManager()->truthChain()->LoadTree(0);
     m_particleLevelReader =
