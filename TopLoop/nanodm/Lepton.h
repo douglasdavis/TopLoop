@@ -1,4 +1,3 @@
-
 /** @file  nanodm/Lepton.h
  *  @brief nanodm::Lepton class header
  *
@@ -8,7 +7,7 @@
 #ifndef nanodm_Lepton_h
 #define nanodm_Lepton_h
 
-#include <TopLoop/nanodm/PhysicsObject.h>
+#include "TopLoop/nanodm/IPhysicsObject.h"
 
 namespace nanodm {
 
@@ -16,11 +15,13 @@ namespace nanodm {
  *  @class nanodm::Lepton
  *  @brief A base class to describe electrons or muon.
  */
-class Lepton : public nanodm::PhysicsObject {
+class Lepton : public IPhysicsObject<CoordLep> {
  protected:
   int m_pdgId;
   float m_charge;
   bool m_isMCNonPrompt{false};
+
+  FourVec<CoordLep> m_p4;
 
  public:
   Lepton() = delete;
@@ -60,15 +61,39 @@ class Lepton : public nanodm::PhysicsObject {
   float isMCNonPrompt() const { return m_isMCNonPrompt; }
 
   /// @}
+
+  /// retrieve four vector
+  virtual FourVec<CoordLep>& p4() override { return m_p4; }
+  /// retrieve const four vector
+  virtual const FourVec<CoordLep>& p4() const override { return m_p4; }
+
+  /// get the \f$p_\mathrm{T}\f$.
+  virtual float pt() const override { return m_p4.pt(); }
+  /// get the pseudorapidity, \f$\eta\f$.
+  virtual float eta() const override { return m_p4.eta(); }
+  /// get the \f$|\eta|\f$.
+  virtual float abseta() const override { return std::abs(m_p4.eta()); }
+  /// get the \f$\phi\f$ (angle in the transerve plane).
+  virtual float phi() const override { return m_p4.phi(); }
+  /// get the energy *from the ROOT four vector*.
+  virtual float energy() const override { return m_p4.energy(); }
+  /// get the mass *from the ROOT four vector*.
+  virtual float mass() const override { return m_p4.mass(); }
+  /// get the x-component of the momentum.
+  virtual float px() const override { return m_p4.px(); }
+  /// get the y-compnent of the momentum.
+  virtual float py() const override { return m_p4.py(); }
+  /// get the z-compnent of the momentum.
+  virtual float pz() const override { return m_p4.pz(); }
 };
 
 /**
  *  @class nanodm::Muon
  *  @brief A class for muon information
  */
-class Muon : public nanodm::Lepton {
+class Muon : public Lepton {
  public:
-  Muon() : nanodm::Lepton(13) {}
+  Muon() : Lepton(13) {}
   /// default destructor
   virtual ~Muon() = default;
   /// default copy constructor
@@ -86,7 +111,7 @@ class Muon : public nanodm::Lepton {
   /// construct a muon from \f$(p_\mathrm{T}, \eta, \phi)\f$
   static std::unique_ptr<Muon> make(float pt, float eta, float phi) {
     auto muon = std::make_unique<Muon>();
-    muon->p4().SetPtEtaPhiM(pt, eta, phi, 105.6583745);
+    muon->p4().SetCoordinates(pt, eta, phi, 105.6583745);
     return muon;
   }
 
@@ -97,9 +122,9 @@ class Muon : public nanodm::Lepton {
  *  @class nanodm::Electron
  *  @brief A class for electron information
  */
-class Electron : public nanodm::Lepton {
+class Electron : public Lepton {
  public:
-  Electron() : nanodm::Lepton(11) {}
+  Electron() : Lepton(11) {}
   /// default destructor
   virtual ~Electron() = default;
   /// default copy constructor
@@ -117,7 +142,7 @@ class Electron : public nanodm::Lepton {
   /// construct an electron from \f$(p_\mathrm{T}, \eta, \phi)\f$
   static std::unique_ptr<Electron> make(float pt, float eta, float phi) {
     auto electron = std::make_unique<Electron>();
-    electron->p4().SetPtEtaPhiM(pt, eta, phi, 0.5109989461);
+    electron->p4().SetCoordinates(pt, eta, phi, 0.5109989461);
     return electron;
   }
 

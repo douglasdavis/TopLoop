@@ -13,9 +13,10 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <memory>
+#include <vector>
 
 namespace nanodm {
-
 
 /** @class DileptonFinalState
  *  @brief A class providing structure to describe a dilepton final state
@@ -23,7 +24,6 @@ namespace nanodm {
  *  This class is built from other classes in the nanodm namespace
  */
 class DileptonFinalState {
-
  public:
   /// convenient enum for dilepton flavor combination identification
   enum class FlavComb {
@@ -202,7 +202,6 @@ class DileptonFinalState {
   }
 
   /// @}
-
 };
 }  // namespace nanodm
 
