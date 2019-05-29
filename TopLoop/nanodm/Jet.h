@@ -8,7 +8,7 @@
 #define nanodm_Jet_h
 
 // TL nanodm
-#include <TopLoop/nanodm/PhysicsObject.h>
+#include "TopLoop/nanodm/IPhysicsObject.h"
 
 namespace nanodm {
 
@@ -23,8 +23,7 @@ enum class BTagWP {
 
 /// Pseudocontinuous b-tagging WP indentifiers
 /**
- *  The numbers are lowerBoundEff_upperBoundEff. (tightest WP
- *  would be 60_0).
+ *  The numbers are lowerBoundEff_upperBoundEff. (tightest WP would be 60_0).
  */
 enum class BTagBin {
   eff_100_85 = 1,
@@ -36,7 +35,7 @@ enum class BTagBin {
 };
 
 /// convenience working point enum to string function
-inline std::string to_string(const nanodm::BTagWP wp) {
+inline std::string to_string(const BTagWP wp) {
   switch (wp) {
     case BTagWP::mv2c10_70:
       return "mv2c10_70";
@@ -52,7 +51,7 @@ inline std::string to_string(const nanodm::BTagWP wp) {
 }
 
 /// convenience working point string to enum
-inline nanodm::BTagWP from_WP_string(const std::string& wp) {
+inline BTagWP from_WP_string(const std::string& wp) {
   if (wp == "mv2c10_70") return BTagWP::mv2c10_70;
   if (wp == "mv2c10_77") return BTagWP::mv2c10_77;
   if (wp == "mv2c10_85") return BTagWP::mv2c10_85;
@@ -61,7 +60,7 @@ inline nanodm::BTagWP from_WP_string(const std::string& wp) {
 }
 
 /// convenience bin enum to string function
-inline std::string to_string(const nanodm::BTagBin bin) {
+inline std::string to_string(const BTagBin bin) {
   switch (bin) {
     case BTagBin::eff_100_85:
       return "eff_100_85";
@@ -78,7 +77,7 @@ inline std::string to_string(const nanodm::BTagBin bin) {
   };
 }
 
-inline nanodm::BTagBin from_Bin_string(const std::string& bin) {
+inline BTagBin from_Bin_string(const std::string& bin) {
   if (bin == "eff_100_85") return BTagBin::eff_100_85;
   if (bin == "eff_85_77") return BTagBin::eff_85_77;
   if (bin == "eff_77_70") return BTagBin::eff_77_70;
@@ -91,10 +90,12 @@ inline nanodm::BTagBin from_Bin_string(const std::string& bin) {
  *  @class nanodm::Jet
  *  @brief A class to describe a jet
  */
-class Jet : public nanodm::PhysicsObject {
+class Jet : public IPhysicsObject<CoordJet> {
  private:
   char m_passfjvt;
   int m_tagWeightBin_MV2c10_Continuous;
+
+  FourVec<CoordJet> m_p4;
 
  public:
   /// default constructor
@@ -110,7 +111,31 @@ class Jet : public nanodm::PhysicsObject {
   /// default move assignment constructor
   Jet& operator=(Jet&&) = default;
 
-  /// @name settings
+  /// retrieve four vector
+  virtual FourVec<CoordJet>& p4() override { return m_p4; }
+  /// retrieve const four vector
+  virtual const FourVec<CoordJet>& p4() const override { return m_p4; }
+
+  /// get the \f$p_\mathrm{T}\f$.
+  virtual float pt() const override { return m_p4.pt(); }
+  /// get the pseudorapidity, \f$\eta\f$.
+  virtual float eta() const override { return m_p4.eta(); }
+  /// get the \f$|\eta|\f$.
+  virtual float abseta() const override { return std::abs(m_p4.eta()); }
+  /// get the \f$\phi\f$ (angle in the transerve plane).
+  virtual float phi() const override { return m_p4.phi(); }
+  /// get the energy *from the ROOT four vector*.
+  virtual float energy() const override { return m_p4.energy(); }
+  /// get the mass *from the ROOT four vector*.
+  virtual float mass() const override { return m_p4.mass(); }
+  /// get the x-component of the momentum.
+  virtual float px() const override { return m_p4.px(); }
+  /// get the y-compnent of the momentum.
+  virtual float py() const override { return m_p4.py(); }
+  /// get the z-compnent of the momentum.
+  virtual float pz() const override { return m_p4.pz(); }
+
+  /// @name setters
   /// @{
 
   void set_passfjvt(const char val) { m_passfjvt = val; }
@@ -130,7 +155,7 @@ class Jet : public nanodm::PhysicsObject {
    *  @param bin_requirement the minimum PC b-tagging bin the jet must
    *  pass to be considered tagged.
    */
-  bool isbtaggedContinuous(const nanodm::BTagBin bin_requirement) const {
+  bool isbtaggedContinuous(const BTagBin bin_requirement) const {
     auto req = static_cast<std::uint32_t>(bin_requirement);
     auto bin = static_cast<std::uint32_t>(m_tagWeightBin_MV2c10_Continuous);
     return (bin >= req);
@@ -144,12 +169,11 @@ class Jet : public nanodm::PhysicsObject {
   /// construct a jet from \f$(p_\mathrm{T}, \eta, \phi, E)\f$
   static std::unique_ptr<Jet> make(float pt, float eta, float phi, float energy) {
     auto jet = std::make_unique<Jet>();
-    jet->p4().SetPtEtaPhiE(pt, eta, phi, energy);
+    jet->p4().SetCoordinates(pt, eta, phi, energy);
     return jet;
   }
 
   /// @}
-
 };
 }  // namespace nanodm
 
