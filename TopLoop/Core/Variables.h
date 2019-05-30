@@ -372,8 +372,10 @@ class Variables {
   DECLARE_BRANCH(el_z0pv, std::vector<float>);
   DECLARE_BRANCH(el_d0sigpv, std::vector<float>);
   DECLARE_BRANCH(el_z0sigpv, std::vector<float>);
-  DECLARE_BRANCH(el_tight, std::vector<bool>);
-  DECLARE_BRANCH(el_trigMatch, std::vector<bool>);
+  DECLARE_BRANCH(el_tight_old, std::vector<bool>);
+  DECLARE_BRANCH(el_trigMatch_old, std::vector<bool>);
+  DECLARE_BRANCH(el_tight, std::vector<char>);
+  DECLARE_BRANCH(el_trigMatch, std::vector<char>);
   DECLARE_BRANCH(el_true_pdg, std::vector<int>);
   DECLARE_BRANCH(el_true_pt, std::vector<float>);
   DECLARE_BRANCH(el_true_eta, std::vector<float>);
@@ -381,8 +383,10 @@ class Variables {
   DECLARE_BRANCH(mu_z0pv, std::vector<float>);
   DECLARE_BRANCH(mu_d0sigpv, std::vector<float>);
   DECLARE_BRANCH(mu_z0sigpv, std::vector<float>);
-  DECLARE_BRANCH(mu_tight, std::vector<bool>);
-  DECLARE_BRANCH(mu_trigMatch, std::vector<bool>);
+  DECLARE_BRANCH(mu_tight_old, std::vector<bool>);
+  DECLARE_BRANCH(mu_trigMatch_old, std::vector<bool>);
+  DECLARE_BRANCH(mu_tight, std::vector<char>);
+  DECLARE_BRANCH(mu_trigMatch, std::vector<char>);
   DECLARE_BRANCH(mu_true_pdg, std::vector<int>);
   DECLARE_BRANCH(mu_true_pt, std::vector<float>);
   DECLARE_BRANCH(mu_true_eta, std::vector<float>);

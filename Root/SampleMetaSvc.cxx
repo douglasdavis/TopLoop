@@ -6,6 +6,7 @@
 
 // TopLoop
 #include <TopLoop/Core/SampleMetaSvc.h>
+
 #include <TopLoop/json/json.hpp>
 
 // PathResolver
@@ -133,11 +134,9 @@ void TL::SampleMetaSvc::setupMaps() {
              {"MC16a", TL::kCampaign::MC16a},     {"MC16c", TL::kCampaign::MC16c},
              {"MC16d", TL::kCampaign::MC16d},     {"MC16e", TL::kCampaign::MC16e},
              {"MC16f", TL::kCampaign::MC16f},     {"MC15c", TL::kCampaign::MC15c}};
-  m_s2e_NT = {{"Unknown", TL::kSgTopNtup::Unknown},
-              {"v23", TL::kSgTopNtup::v23},
-              {"v25", TL::kSgTopNtup::v25},
-              {"v27", TL::kSgTopNtup::v27},
-              {"v28", TL::kSgTopNtup::v28}};
+  m_s2e_NT = {{"Unknown", TL::kSgTopNtup::Unknown}, {"v23", TL::kSgTopNtup::v23},
+              {"v25", TL::kSgTopNtup::v25},         {"v27", TL::kSgTopNtup::v27},
+              {"v28", TL::kSgTopNtup::v28},         {"v29", TL::kSgTopNtup::v29}};
   auto flipMap = [](const auto& templateMap, auto& newMap) {
     for (auto const& templatePair : templateMap) {
       newMap.emplace(templatePair.second, templatePair.first);
@@ -237,15 +236,15 @@ unsigned int TL::SampleMetaSvc::getYear(const unsigned int runNum) const {
   // athena/PhysicsAnalysis/SUSYPhys/SUSYTools/Root/SUSYObjDef_xAOD.cxx
   /////////////////////////////////////////////////////////////////////
   if (runNum < 290000) {
-    return 15;
+    return static_cast<unsigned int>(TL::kYear::Y2015);
   }
-  else if (runNum < 320000) {
-    return 16;
+  if (runNum < 320000) {
+    return static_cast<unsigned int>(TL::kYear::Y2016);
   }
-  else if (runNum < 350000) {
-    return 17;
+  if (runNum < 342000) {
+    return static_cast<unsigned int>(TL::kYear::Y2017);
   }
-  return 18;
+  return static_cast<unsigned int>(TL::kYear::Y2018);
 }
 
 bool TL::SampleMetaSvc::tWorTtbarPowPy8(const unsigned int d) const {

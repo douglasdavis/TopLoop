@@ -269,10 +269,7 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(el_z0pv, std::vector<float>, m_reader);
   CONNECT_BRANCH(el_d0sigpv, std::vector<float>, m_reader);
   CONNECT_BRANCH(el_z0sigpv, std::vector<float>, m_reader);
-  if (fileManager()->getSgTopNtupVersion() != TL::kSgTopNtup::v28) {
-    CONNECT_BRANCH(el_tight, std::vector<bool>, m_reader);
-    CONNECT_BRANCH(el_trigMatch, std::vector<bool>, m_reader);
-  }
+
   CONNECT_BRANCH(el_true_pdg, std::vector<int>, m_reader);
   CONNECT_BRANCH(el_true_pt, std::vector<float>, m_reader);
   CONNECT_BRANCH(el_true_eta, std::vector<float>, m_reader);
@@ -280,10 +277,22 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(mu_z0pv, std::vector<float>, m_reader);
   CONNECT_BRANCH(mu_d0sigpv, std::vector<float>, m_reader);
   CONNECT_BRANCH(mu_z0sigpv, std::vector<float>, m_reader);
-  if (fileManager()->getSgTopNtupVersion() != TL::kSgTopNtup::v28) {
-    CONNECT_BRANCH(mu_tight, std::vector<bool>, m_reader);
-    CONNECT_BRANCH(mu_trigMatch, std::vector<bool>, m_reader);
+
+  // for old ntuples these branches were bool
+  if (static_cast<std::size_t>(fileManager()->getSgTopNtupVersion()) <
+      static_cast<std::size_t>(TL::kSgTopNtup::v28)) {
+    CONNECT_BRANCH(el_trigMatch_old, std::vector<bool>, m_reader);
+    CONNECT_BRANCH(el_tight_old, std::vector<bool>, m_reader);
+    CONNECT_BRANCH(mu_trigMatch_old, std::vector<bool>, m_reader);
+    CONNECT_BRANCH(mu_tight_old, std::vector<bool>, m_reader);
   }
+  else {
+    CONNECT_BRANCH(el_trigMatch, std::vector<char>, m_reader);
+    CONNECT_BRANCH(el_tight, std::vector<char>, m_reader);
+    CONNECT_BRANCH(mu_trigMatch, std::vector<char>, m_reader);
+    CONNECT_BRANCH(mu_tight, std::vector<char>, m_reader);
+  }
+
   CONNECT_BRANCH(mu_true_pdg, std::vector<int>, m_reader);
   CONNECT_BRANCH(mu_true_pt, std::vector<float>, m_reader);
   CONNECT_BRANCH(mu_true_eta, std::vector<float>, m_reader);

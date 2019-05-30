@@ -82,22 +82,28 @@ class WeightTool : public TL::Loggable {
    *  auto genWeightNames = weightTool().generatorVariedSumWeightNames();
    *  std::size_t foo_idx = genWeightNames.at("foo");
    *
-   *  //.....
+   *  //// .....
    *
-   *  float weight_foo     = mc_generator_weights().at(foo_idx);
+   *  @endcode
+   *  @code{.cpp}
+   *  float weight_foo = mc_generator_weights().at(foo_idx);
    *  float sumWeights_foo = weightTool().generatorVariedSumWeights().at(foo_idx);
+   *  @endcode
    *
-   *  // To get the event weight for "foo".. if you haven't
-   *  // already multiplied by the nominal sum of weights...
-   *  float event_weight_foo = (xsec / sumWeights_foo) *
-   *    weight_foo * other_weights;
+   *  To get the event weight for "foo".. if you haven't
+   *  already multiplied by the nominal sum of weights...
    *
-   *  // or if you already have a "nominal" luminosity weight which
-   *  // took into account the nominal sum weights, just multiply it
-   *  // out...
-   *  float event_weight_foo = lumiWeight *
-   *    (sumWeights_nominal / sumWeights_foo) *
-   *    weight_foo * other_weights;
+   *  @code{.cpp}
+   *  float event_weight_foo = (xsec / sumWeights_foo) * weight_foo * other_weights;
+   *  @endcode
+   *
+   *  or if you already have a "nominal" luminosity weight which
+   *  took into account the nominal sum weights, just multiply it
+   *  out...
+   *
+   *  @code{.cpp}
+   *  float event_weight_foo = lumiWeight * (sumWeights_nominal / sumWeights_foo) *
+   *                           weight_foo * other_weights;
    *
    *  @endcode
    *
@@ -130,13 +136,11 @@ class WeightTool : public TL::Loggable {
    *  @code{.cpp}
    *  TL::StatusCode MyAlgorithm::execute() {
    *    // ...
-   *    auto nom_weight = xsec *
-   *      (weight_mc() / weightTool().generatorSumWeight()) *
-   *      other_weights;
+   *    float nom_weight = xsec * (weight_mc() / weightTool().generatorSumWeight()) *
+   *                       other_weights;
    *
-   *    auto foo_weight = xsec *
-   *      (weightTool().currentWeightOfVariation("foo") /
-   * weightTool().sumOfVariation("foo")) * other_weights;
+   *    float foo_weight = xsec * (weightTool().currentWeightOfVariation("foo") /
+   *                       weightTool().sumOfVariation("foo")) * other_weights;
    *    // ...
    *  }
    *  @endcode
