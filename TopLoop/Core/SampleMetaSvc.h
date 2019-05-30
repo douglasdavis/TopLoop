@@ -148,7 +148,7 @@ class SampleMetaSvc final : public TL::Loggable {
    *  The instance can be used using:
    *  @code{.cpp}
    *  TL::kInitialState initstate = TL::SampleMetaSvc::get().getInitialState(410015);
-   *  std::string initstatestr    = TL::SampleMetaSvc::get().getInitialStateStr(410015);
+   *  std::string initstatestr = TL::SampleMetaSvc::get().getInitialStateStr(410015);
    *  @endcode
    */
   static SampleMetaSvc& get() {
@@ -234,8 +234,8 @@ class SampleMetaSvc final : public TL::Loggable {
    *
    *  Example usage:
    *  @code{.cpp}
-   *  float a_c_lumi =
-   * TL::SampleMetaSvc::get().getCampaignLumi({TL::kCampaign::MC16a,TL::kCampaign::MC16c});
+   *  float a_d_lumi =
+   *    TL::SampleMetaSvc::get().getCampaignLumi({TL::kCampaign::MC16a, TL::kCampaign::MC16d});
    *  @endcode
    *
    *  @param campaigns list of campaigns.
@@ -274,12 +274,13 @@ class SampleMetaSvc final : public TL::Loggable {
    *  given list of campaigns. See the other version of
    *  getCampaignWeight() for more details.
    *
-   *  Example usage for MC16c weight based for use in combination with MC16a:
+   *  Example usage for MC16e weight based for use in combination with MC16a and MC16d:
    *  @code{.cpp}
-   *  std::string datasetname = "some string which contains 'r9781'"
+   *  std::string datasetname = "some string which contains 'r10724'"
    *  float campWeight = TL::SampleMetaSvc::get().getCampaignWeight(datasetname,
    *                                                                {TL::kCampaign::MC16a,
-   *                                                                 TL::kCampaign::MC16c});
+   *                                                                 TL::kCampaign::MC16d,
+   *                                                                 TL::kCampaign::MC16e});
    *  @endcode
    *  @param rucioDir the string for the dataset name
    *  @param campaigns the list of campaigns you want to be compatible with
