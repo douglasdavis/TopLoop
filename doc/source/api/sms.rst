@@ -11,6 +11,8 @@ SampleMetaSvc
 
 .. doxygenenum:: TL::kInitialState
 
+.. doxygenenum:: TL::kSampleType
+
 .. doxygenenum:: TL::kSgTopNtup
 
 .. doxygenenum:: TL::kYear
