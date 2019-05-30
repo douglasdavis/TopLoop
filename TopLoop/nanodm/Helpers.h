@@ -220,6 +220,8 @@ inline double energyMassRatio(const PhysicsSystem& system) {
   return system.p4().energy() / system.p4().mass();
 }
 
+/// @}
+
 }  // namespace nanodm
 
 #endif

@@ -105,7 +105,7 @@ class Muon : public Lepton {
   /// default move assignment operator
   Muon& operator=(Muon&&) = default;
 
-  /// @name creation utilities
+  /// @name factory
   /// @{
 
   /// construct a muon from \f$(p_\mathrm{T}, \eta, \phi)\f$
@@ -136,7 +136,7 @@ class Electron : public Lepton {
   /// default move assignment operator
   Electron& operator=(Electron&&) = default;
 
-  /// @name creation utilities
+  /// @name factory
   /// @{
 
   /// construct an electron from \f$(p_\mathrm{T}, \eta, \phi)\f$

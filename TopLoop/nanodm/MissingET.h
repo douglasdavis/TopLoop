@@ -85,7 +85,7 @@ class MissingET : public IPhysicsObject<CoordMET> {
   /// get the z-compnent of the momentum.
   virtual float pz() const override { return m_p4.pz(); }
 
-  /// @name creation utilities
+  /// @name factory
   /// @{
 
   /// construct a MissingET object from its met (pt) and phi valus

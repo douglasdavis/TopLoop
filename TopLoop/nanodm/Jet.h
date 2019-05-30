@@ -163,7 +163,7 @@ class Jet : public IPhysicsObject<CoordJet> {
 
   /// @}
 
-  /// @name creation utilities
+  /// @name factory
   /// @{
 
   /// construct a jet from \f$(p_\mathrm{T}, \eta, \phi, E)\f$
