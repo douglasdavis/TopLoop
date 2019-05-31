@@ -14,9 +14,15 @@ Documenatation contact: Doug Davis <ddavis@cern.ch>
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Getting Started
 
    intro.rst
    descripts.rst
    crash.rst
-   api.rst
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference
+
+   api_core.rst
+   api_edm.rst

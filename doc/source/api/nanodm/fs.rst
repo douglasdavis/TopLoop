@@ -1,5 +1,5 @@
-DileptonFinalState
-^^^^^^^^^^^^^^^^^^
+DileptonFinalState Class
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. doxygenclass:: nanodm::DileptonFinalState
    :members:

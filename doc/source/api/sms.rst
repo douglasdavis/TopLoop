@@ -1,5 +1,5 @@
-SampleMetaSvc
-^^^^^^^^^^^^^
+SampleMetaSvc Class
+^^^^^^^^^^^^^^^^^^^
 
 .. doxygenclass:: TL::SampleMetaSvc
    :members:

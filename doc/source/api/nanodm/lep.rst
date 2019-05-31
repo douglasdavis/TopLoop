@@ -1,17 +1,17 @@
-Lepton
-^^^^^^
+Lepton Class
+^^^^^^^^^^^^
 
 .. doxygenclass:: nanodm::Lepton
    :members:
 
-Electron
-^^^^^^^^
+Electron Class
+^^^^^^^^^^^^^^
 
 .. doxygenclass:: nanodm::Electron
    :members:
 
-Muon
-^^^^
+Muon Class
+^^^^^^^^^^
 
 .. doxygenclass:: nanodm::Muon
    :members:

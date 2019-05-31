@@ -1,5 +1,5 @@
-Helpers
-^^^^^^^
+Helper Functions
+^^^^^^^^^^^^^^^^
 
 .. doxygenclass:: nanodm::PhysicsSystem
    :members:

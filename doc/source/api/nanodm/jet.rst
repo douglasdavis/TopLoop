@@ -1,5 +1,5 @@
-Jet
-^^^
+Jet Class
+^^^^^^^^^
 
 .. doxygenclass:: nanodm::Jet
    :members:

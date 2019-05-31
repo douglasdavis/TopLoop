@@ -72,4 +72,4 @@ The Data Model Classes
 ----------------------
 
 The data model classes are summarized in the introduction section. See
-the doxygen API documentation for more.
+API documentation for more.

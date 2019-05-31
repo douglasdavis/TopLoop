@@ -1,5 +1,5 @@
-FileManager
-^^^^^^^^^^^
+FileManager Class
+^^^^^^^^^^^^^^^^^
 
 .. doxygenclass:: TL::FileManager
    :members:

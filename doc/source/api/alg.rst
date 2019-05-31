@@ -1,5 +1,5 @@
-Algorithm
-^^^^^^^^^
+Algorithm Class
+^^^^^^^^^^^^^^^
 
 .. doxygenclass:: TL::Algorithm
    :members:
