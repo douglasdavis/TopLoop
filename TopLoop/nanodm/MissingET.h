@@ -52,7 +52,7 @@ class MissingET : public IPhysicsObject<CoordMET> {
   /// @name getters
   /// @{
 
-  /// the \f$\sum E_\mathrm{T}\f$ (sumet from the sgtop ntuple tree)
+  /// the \f$\sum E_\mathrm{T}\f$ (`sumet` from the sgtop ntuple tree)
   /**
    *  the sum of transverse energies of all hard objects constributing
    *  to \f$E_\mathrm{T}^\mathrm{miss}\f$.

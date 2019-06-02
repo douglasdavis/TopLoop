@@ -14,10 +14,15 @@ namespace nanodm {
 
 /// Fixed b-tagging WP identifiers
 enum class BTagWP {
+  /// mv2c10 70% WP
   mv2c10_70 = 1,
+  /// mv2c10 77% WP
   mv2c10_77 = 2,
+  /// mv2c10 85% WP
   mv2c10_85 = 3,
+  /// mv2c10 psuedo continuous
   mv2c10_PC = 4,
+  /// backup unknown identifier
   unknown = 999
 };
 
@@ -26,11 +31,17 @@ enum class BTagWP {
  *  The numbers are lowerBoundEff_upperBoundEff. (tightest WP would be 60_0).
  */
 enum class BTagBin {
+  /// bin associated with 100% efficiency (to 85%)
   eff_100_85 = 1,
+  /// bin associated with at least 85% efficiency (to 77%)
   eff_85_77 = 2,
+  /// bin associated with at least 77% efficiency (to 70%)
   eff_77_70 = 3,
+  /// bin associated with at least 70% efficiency (to 60%)
   eff_70_60 = 4,
+  /// bin associated with at least 60% efficiency (to 0%)
   eff_60_0 = 5,
+  /// backup unknown identifier
   unknown = 999
 };
 
@@ -77,6 +88,7 @@ inline std::string to_string(const BTagBin bin) {
   };
 }
 
+/// convenience working point string to enum
 inline BTagBin from_Bin_string(const std::string& bin) {
   if (bin == "eff_100_85") return BTagBin::eff_100_85;
   if (bin == "eff_85_77") return BTagBin::eff_85_77;

@@ -12,14 +12,20 @@
 #include <Math/GenVector/PtEtaPhiM4D.h>
 #include <Math/Vector4Dfwd.h>
 
+/// namespace for all nanodm classes and functions; this is a header only library
 namespace nanodm {
 
+/// we use ROOT's templated LorentzVector class for handling four vector information
 template <class CoordT>
 using FourVec = ROOT::Math::LorentzVector<CoordT>;
 
+/// coordinate system for jet four vectors
 using CoordJet = ROOT::Math::PtEtaPhiE4D<float>;
+/// coordinate system for lepton four vectors
 using CoordLep = ROOT::Math::PtEtaPhiM4D<float>;
+/// coordinate system for \f$E_\mathrm{T}^\mathrm{miss}\f$
 using CoordMET = ROOT::Math::PtEtaPhiM4D<float>;
+/// coordinate system for systems of objects
 using CoordSys = ROOT::Math::PtEtaPhiM4D<float>;
 
 /// An interface class to describe a physics object

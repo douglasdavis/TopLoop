@@ -3,6 +3,7 @@ Jet Class
 
 .. doxygenclass:: nanodm::Jet
    :members:
+   :undoc-members:
 
 .. doxygenenum:: nanodm::BTagWP
 
