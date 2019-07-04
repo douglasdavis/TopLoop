@@ -183,21 +183,19 @@
             "Generator" : "PowhegPythia8",
             "InitialState": "tchan",
             "SampleType": "Nominal"
-        }
+        },
         {
             "DSID_range": [411032,411033],
             "Generator" : "PowhegHerwig7",
             "InitialState": "tchan",
             "SampleType": "Systematic"
-        }
-
+        },
         {
             "DSID_range": [412004,412004],
             "Generator" : "MG5aMCatNLOPythia8",
             "InitialState": "tchan",
             "SampleType": "Systematic"
         }
-
     ],
     "tW": [
         {
