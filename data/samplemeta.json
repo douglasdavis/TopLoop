@@ -176,6 +176,20 @@
             "InitialState": "tchan",
             "SampleType": "Nominal"
         }
+        {
+            "DSID_range": [411032,411033],
+            "Generator" : "PowhegHerwig7",
+            "InitialState": "tchan",
+            "SampleType": "Systematic"
+        }
+
+        {
+            "DSID_range": [412004,412004],
+            "Generator" : "MG5aMCatNLOPythia8",
+            "InitialState": "tchan",
+            "SampleType": "Systematic"
+        }
+
     ],
     "tW": [
         {
@@ -328,7 +342,13 @@
         },
         {
             "DSID_range": [410480,410480],
-            "Generator": "PowhegPythia8",
+            "Generator": "PowhegPythia8_1lep",
+            "InitialState": "ttbar",
+            "SampleType": "Systematic"
+        },
+        {
+            "DSID_range": [410481,410481],
+            "Generator": "PowhegPythia8_had",
             "InitialState": "ttbar",
             "SampleType": "Systematic"
         },
@@ -436,7 +456,7 @@
         },
         {
             "DSID_range": [410464,410464],
-            "Generator": "MG5aMCatNLOPythia8",
+            "Generator": "MG5aMCatNLOPythia8_1lep",
             "InitialState": "ttbar",
             "SampleType": "Systematic"
         },
@@ -448,7 +468,7 @@
         },
         {
             "DSID_range": [410557,410557],
-            "Generator": "PowhegHerwig7",
+            "Generator": "PowhegHerwig7_1lep",
             "InitialState": "ttbar",
             "SampleType": "Systematic"
         },
@@ -479,12 +499,36 @@
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "ttH",
             "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [346343,346343],
+            "Generator": "PowhegPythia8_had",
+            "InitialState": "ttH",
+            "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [346344,346344],
+            "Generator": "PowhegPythia8_1lep",
+            "InitialState": "ttH",
+            "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [346345,346345],
+            "Generator": "PowhegPythia8_dil",
+            "InitialState": "ttH",
+            "SampleType": "Nominal"
         }
     ],
     "ttt": [
         {
             "DSID_range": [304014,304014],
             "Generator": "MG5aMCatNLOPythia8",
+            "InitialState": "ttt",
+            "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [364242,364249],
+            "Generator": "Sherpa222",
             "InitialState": "ttt",
             "SampleType": "Nominal"
         }
@@ -495,14 +539,32 @@
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tttt",
             "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [412043,412043],
+            "Generator": "MG5aMCatNLOPythia8",
+            "InitialState": "tttt",
+            "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [412045,412045],
+            "Generator": "MG5aMCatNLOPythia8",
+            "InitialState": "tttt",
+            "SampleType": "Nominal"
         }
     ],
     "tZq": [
         {
-            "DSID_range": [412063, 412065],
+            "DSID_range": [412063, 412063],
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tZq",
             "SampleType": "Nominal"
+        },
+        {
+            "DSID_range": [412064, 412065],
+            "Generator": "MG5aMCatNLOPythia8",
+            "InitialState": "tZq",
+            "SampleType": "Systematic"
         }
     ],
     "tHq": [
@@ -510,6 +572,14 @@
             "DSID_range": [346229, 346234],
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tHq",
+            "SampleType": "Nominal"
+        }
+    ],
+    "tWZ": [
+        {
+            "DSID_range": [410408, 410408],
+            "Generator": "MG5aMCatNLOPythia8",
+            "InitialState": "tWZ",
             "SampleType": "Nominal"
         }
     ]

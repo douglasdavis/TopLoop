@@ -54,7 +54,8 @@ enum class kInitialState {
   tchan,
   schan,
   tZq,
-  tHq
+  tHq,
+  tWZ
 };
 
 /// The MC generator name (also generator + showerer combinations)
@@ -65,9 +66,11 @@ enum class kGenerator {
   PowhegPythia8,
   PowhegHerwig,
   PowhegHerwigpp,
+  PowhegPythia8_1lep,
   PowhegPythia8_dil,
   PowhegPythia6_dil,
   PowhegHerwig7,
+  PowhegHerwig7_1lep,
   PowhegHerwig7_dil,
   PowhegPythia8_had,
   Sherpa21,
@@ -78,6 +81,7 @@ enum class kGenerator {
   MG5aMCatNLOPythia8,
   MG5aMCatNLOHerwig,
   MG5aMCatNLOHerwigpp,
+  MG5aMCatNLOPythia8_1lep,
   MG5aMCatNLOPythia8_dil,
 };
 

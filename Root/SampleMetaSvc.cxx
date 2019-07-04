@@ -105,17 +105,20 @@ void TL::SampleMetaSvc::setupMaps() {
       {"ttV", TL::kInitialState::ttV},         {"ttH", TL::kInitialState::ttH},
       {"ttt", TL::kInitialState::ttt},         {"tttt", TL::kInitialState::tttt},
       {"tchan", TL::kInitialState::tchan},     {"schan", TL::kInitialState::schan},
-      {"tZq", TL::kInitialState::tZq},         {"tHq", TL::kInitialState::tHq}};
+      {"tZq", TL::kInitialState::tZq},         {"tHq", TL::kInitialState::tHq},
+      {"tWZ", TL::kInitialState::tWZ}};
   m_s2e_G = {{"Unknown", TL::kGenerator::Unknown},
              {"Data", TL::kGenerator::Data},
              {"PowhegPythia6", TL::kGenerator::PowhegPythia6},
              {"PowhegPythia6_dil", TL::kGenerator::PowhegPythia6_dil},
              {"PowhegPythia8", TL::kGenerator::PowhegPythia8},
+             {"PowhegPythia8_1lep", TL::kGenerator::PowhegPythia8_1lep},
              {"PowhegPythia8_dil", TL::kGenerator::PowhegPythia8_dil},
              {"PowhegPythia8_had", TL::kGenerator::PowhegPythia8_had},
              {"PowhegHerwig", TL::kGenerator::PowhegHerwig},
              {"PowhegHerwigpp", TL::kGenerator::PowhegHerwigpp},
              {"PowhegHerwig7", TL::kGenerator::PowhegHerwig7},
+             {"PowhegHerwig7_1lep", TL::kGenerator::PowhegHerwig7_1lep},
              {"PowhegHerwig7_dil", TL::kGenerator::PowhegHerwig7_dil},
              {"Sherpa21", TL::kGenerator::Sherpa21},
              {"Sherpa22", TL::kGenerator::Sherpa22},
@@ -123,6 +126,7 @@ void TL::SampleMetaSvc::setupMaps() {
              {"Sherpa222", TL::kGenerator::Sherpa222},
              {"MG5aMCatNLOPythia", TL::kGenerator::MG5aMCatNLOPythia},
              {"MG5aMCatNLOPythia8", TL::kGenerator::MG5aMCatNLOPythia8},
+             {"MG5aMCatNLOPythia8_1lep", TL::kGenerator::MG5aMCatNLOPythia8_1lep},
              {"MG5aMCatNLOPythia8_dil", TL::kGenerator::MG5aMCatNLOPythia8_dil},
              {"MG5aMCatNLOHerwig", TL::kGenerator::MG5aMCatNLOHerwig},
              {"MG5aMCatNLOHerwigpp", TL::kGenerator::MG5aMCatNLOHerwigpp}};
@@ -253,8 +257,8 @@ bool TL::SampleMetaSvc::tWorTtbarPowPy8(const unsigned int d) const {
   std::vector<TL::kInitialState> tops = {kInitialState::ttbar, kInitialState::tW,
                                          kInitialState::tW_DR, kInitialState::tW_DS};
   bool is_top = std::find(std::begin(tops), std::end(tops), initstate) != tops.end();
-  bool is_pp8 = (gen == kGenerator::PowhegPythia8 || gen == kGenerator::PowhegPythia8_dil ||
-                 gen == kGenerator::PowhegPythia8_had);
+  bool is_pp8 = (gen == kGenerator::PowhegPythia8 || gen == kGenerator::PowhegPythia8_1lep ||
+                 gen == kGenerator::PowhegPythia8_dil || gen == kGenerator::PowhegPythia8_had);
   return (is_top && is_pp8);
 }
 
