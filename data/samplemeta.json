@@ -15,6 +15,14 @@
             "SampleType": "Data"
         }
     ],
+    "Triboson": [
+        {
+            "DSID_range": [364242,364249],
+            "Generator": "Sherpa222",
+            "InitialState": "Triboson",
+            "SampleType": "Nominal"
+        }
+    ],
     "Diboson": [
         {
             "DSID_range": [361096,361097],
@@ -523,12 +531,6 @@
         {
             "DSID_range": [304014,304014],
             "Generator": "MG5aMCatNLOPythia8",
-            "InitialState": "ttt",
-            "SampleType": "Nominal"
-        },
-        {
-            "DSID_range": [364242,364249],
-            "Generator": "Sherpa222",
             "InitialState": "ttt",
             "SampleType": "Nominal"
         }

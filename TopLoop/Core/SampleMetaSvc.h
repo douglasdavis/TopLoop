@@ -55,7 +55,8 @@ enum class kInitialState {
   schan,
   tZq,
   tHq,
-  tWZ
+  tWZ,
+  Triboson
 };
 
 /// The MC generator name (also generator + showerer combinations)
