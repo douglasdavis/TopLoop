@@ -164,13 +164,13 @@ class Algorithm : public TL::Loggable, public TL::Variables {
   /// @{
 
   [[deprecated("use isNominalTree() to reduce confusion between nominal _samples_ and the nominal tree")]]
-  bool isNominal() const { return m_isNominalTree; }
+  bool isNominal() const { return isNominalTree(); }
 
   [[deprecated("use isNominalTree_Loose() to reduce confusion between nominal _samples_ and the nominal tree")]]
-  bool isNominal_Loose() const { return m_isNominalTree_Loose; }
+  bool isNominal_Loose() const { return isNominalTree_Loose(); }
 
   [[deprecated("use isSystematicTree() to reduce confusion between systematic _samples_ and systematic tree")]]
-  bool isSystematic() const { return !(m_isNominalTree || m_isNominalTree_Loose); }
+  bool isSystematic() const { return isSystematicTree(); }
 
   /// true if the algorithm is processing the "nominal" tree
   bool isNominalTree() const { return m_isNominalTree; }
