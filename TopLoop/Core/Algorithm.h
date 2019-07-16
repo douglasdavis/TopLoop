@@ -37,8 +37,8 @@ class Algorithm : public TL::Loggable, public TL::Variables {
   std::string m_datasetName{""};
   bool m_isMC{true};
   bool m_isFake{false};
-  bool m_isNominal{true};
-  bool m_isNominal_Loose{false};
+  bool m_isNominalTree{true};
+  bool m_isNominalTree_Loose{false};
   bool m_initCalled{false};
   bool m_isRel207{false};
   bool m_truthAvailable{false};
@@ -163,18 +163,27 @@ class Algorithm : public TL::Loggable, public TL::Variables {
   /// @name Sample property utilities
   /// @{
 
+  [[deprecated("use isNominalTree() to reduce confusion between nominal _samples_ and the nominal tree")]]
+  bool isNominal() const { return m_isNominalTree; }
+
+  [[deprecated("use isNominalTree_Loose() to reduce confusion between nominal _samples_ and the nominal tree")]]
+  bool isNominal_Loose() const { return m_isNominalTree_Loose; }
+
+  [[deprecated("use isSystematicTree() to reduce confusion between systematic _samples_ and systematic tree")]]
+  bool isSystematic() const { return !(m_isNominalTree || m_isNominalTree_Loose); }
+
+  /// true if the algorithm is processing the "nominal" tree
+  bool isNominalTree() const { return m_isNominalTree; }
+  /// true if the algoritm is processing the loose "nominal" tree
+  bool isNominalTree_Loose() const { return m_isNominalTree_Loose; }
+  /// true if the algorithm is processing a "systematic" tree (for example, EG_SCALE_ALL__1up)
+  bool isSystematicTree() const { return !(m_isNominalTree || m_isNominalTree_Loose); }
   /// get if sample is MC
   bool isMC() const { return m_isMC; }
   /// get if sample is data (for readability, opposite of isMC())
   bool isData() const { return !m_isMC; }
   /// get if sample is fake (for readability, opposite of isMC())
   bool isFake() const { return m_isFake; }
-  /// get is nominal
-  bool isNominal() const { return m_isNominal; }
-  /// get is nominal loose
-  bool isNominal_Loose() const { return m_isNominal_Loose; }
-  /// get is systematic (for readability, true if not nominal or nominal_Loose)
-  bool isSystematic() const { return !(m_isNominal || m_isNominal_Loose); }
   /// get if the sample is release 20.7
   bool isRel207() const { return m_isRel207; }
   /// get the current event counter (not eventNumber!)

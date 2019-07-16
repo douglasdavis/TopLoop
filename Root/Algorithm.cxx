@@ -22,7 +22,7 @@ TL::StatusCode TL::Algorithm::init() {
 
   std::string data_or_mc = "MC";
   std::string mode = "nominal";
-  if (isSystematic()) {
+  if (isSystematicTree()) {
     mode = "systematic";
   }
   if (isData()) {
@@ -70,8 +70,8 @@ TL::StatusCode TL::Algorithm::setFileManager(std::unique_ptr<TL::FileManager> fm
   }
   m_fm = std::move(fm);
   m_totalEntries = m_fm->mainChain()->GetEntries();
-  m_isNominal = m_fm->treeName() == "nominal";
-  m_isNominal_Loose = m_fm->treeName() == "nominal_Loose";
+  m_isNominalTree = m_fm->treeName() == "nominal";
+  m_isNominalTree_Loose = m_fm->treeName() == "nominal_Loose";
   auto camp = m_fm->getCampaign();
   if (camp == TL::kCampaign::Unknown) {
     logger()->warn("Unknown campaign, TL::Algorithm is going to assume this is data");
