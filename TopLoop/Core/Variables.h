@@ -25,59 +25,59 @@
 // TopLoop
 #include <TopLoop/Core/Loggable.h>
 
-#define DECLARE_BRANCH(NAME, TYPE)                    \
- protected:                                           \
-  std::unique_ptr<TTreeReaderValue<TYPE>> bv__##NAME; \
-                                                      \
- public:                                              \
-  const TYPE& NAME() const {                          \
-    if (bv__##NAME) return *(*bv__##NAME);            \
-    m_brlogger->critical("No {} branch!", #NAME);     \
-    std::exit(EXIT_FAILURE);                          \
+#define DECLARE_BRANCH(NAME, TYPE)                                 \
+ protected:                                                        \
+  std::unique_ptr<TTreeReaderValue<TYPE>> bv__##NAME;              \
+                                                                   \
+ public:                                                           \
+  const TYPE& NAME() const {                                       \
+    if (bv__##NAME) return *(*bv__##NAME);                         \
+    spdlog::get("BranchAccess")->critical("No {} branch!", #NAME); \
+    std::exit(EXIT_FAILURE);                                       \
   }
 
-#define DECLARE_BRANCH_PRIMITIVE(NAME, TYPE)          \
- protected:                                           \
-  std::unique_ptr<TTreeReaderValue<TYPE>> bv__##NAME; \
-                                                      \
- public:                                              \
-  TYPE NAME() const {                                 \
-    if (bv__##NAME) return *(*bv__##NAME);            \
-    m_brlogger->critical("No {} branch!", #NAME);     \
-    std::exit(EXIT_FAILURE);                          \
+#define DECLARE_BRANCH_PRIMITIVE(NAME, TYPE)                       \
+ protected:                                                        \
+  std::unique_ptr<TTreeReaderValue<TYPE>> bv__##NAME;              \
+                                                                   \
+ public:                                                           \
+  TYPE NAME() const {                                              \
+    if (bv__##NAME) return *(*bv__##NAME);                         \
+    spdlog::get("BranchAccess")->critical("No {} branch!", #NAME); \
+    std::exit(EXIT_FAILURE);                                       \
   }
 
-#define DECLARE_PL_BRANCH(NAME, TYPE)                     \
- protected:                                               \
-  std::unique_ptr<TTreeReaderValue<TYPE>> bv__pl__##NAME; \
-                                                          \
- public:                                                  \
-  const TYPE& PL_##NAME() const {                         \
-    if (bv__pl__##NAME) return *(*bv__pl__##NAME);        \
-    m_brlogger->critical("No PL_{} branch!", #NAME);      \
-    std::exit(EXIT_FAILURE);                              \
+#define DECLARE_PL_BRANCH(NAME, TYPE)                                 \
+ protected:                                                           \
+  std::unique_ptr<TTreeReaderValue<TYPE>> bv__pl__##NAME;             \
+                                                                      \
+ public:                                                              \
+  const TYPE& PL_##NAME() const {                                     \
+    if (bv__pl__##NAME) return *(*bv__pl__##NAME);                    \
+    spdlog::get("BranchAccess")->critical("No PL_{} branch!", #NAME); \
+    std::exit(EXIT_FAILURE);                                          \
   }
 
-#define DECLARE_PL_BRANCH_PRIMITIVE(NAME, TYPE)           \
- protected:                                               \
-  std::unique_ptr<TTreeReaderValue<TYPE>> bv__pl__##NAME; \
-                                                          \
- public:                                                  \
-  TYPE PL_##NAME() const {                                \
-    if (bv__pl__##NAME) return *(*bv__pl__##NAME);        \
-    m_brlogger->critical("No PL_{} branch!", #NAME);      \
-    std::exit(EXIT_FAILURE);                              \
+#define DECLARE_PL_BRANCH_PRIMITIVE(NAME, TYPE)                       \
+ protected:                                                           \
+  std::unique_ptr<TTreeReaderValue<TYPE>> bv__pl__##NAME;             \
+                                                                      \
+ public:                                                              \
+  TYPE PL_##NAME() const {                                            \
+    if (bv__pl__##NAME) return *(*bv__pl__##NAME);                    \
+    spdlog::get("BranchAccess")->critical("No PL_{} branch!", #NAME); \
+    std::exit(EXIT_FAILURE);                                          \
   }
 
-#define DECLARE_TRUTH_BRANCH(NAME, TYPE)                     \
- protected:                                                  \
-  std::unique_ptr<TTreeReaderValue<TYPE>> bv__truth__##NAME; \
-                                                             \
- public:                                                     \
-  TYPE truth_##NAME() const {                                \
-    if (bv__truth__##NAME) return *(*bv__truth__##NAME);     \
-    m_brlogger->critical("No truth_{} branch!", #NAME);      \
-    std::exit(EXIT_FAILURE);                                 \
+#define DECLARE_TRUTH_BRANCH(NAME, TYPE)                                 \
+ protected:                                                              \
+  std::unique_ptr<TTreeReaderValue<TYPE>> bv__truth__##NAME;             \
+                                                                         \
+ public:                                                                 \
+  TYPE truth_##NAME() const {                                            \
+    if (bv__truth__##NAME) return *(*bv__truth__##NAME);                 \
+    spdlog::get("BranchAccess")->critical("No truth_{} branch!", #NAME); \
+    std::exit(EXIT_FAILURE);                                             \
   }
 
 #define CONNECT_BRANCH(NAME, TYPE, READER) \
@@ -94,7 +94,7 @@ namespace TL {
 class Variables {
  public:
   /// default constructor
-  Variables() { m_brlogger = TL::Loggable::setupLogger("TL::Variables"); }
+  Variables() { m_brlogger = TL::Loggable::setupLogger("BranchAccess"); }
   /// destructor
   virtual ~Variables() = default;
 
