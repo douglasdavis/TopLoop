@@ -1,11 +1,11 @@
 /** @file  Lepton.h
  *  @brief TL::EDM::Lepton class header
  *  @class TL::EDM::Lepton
- *  @brief A container for electron/muon information.
+ *  @brief A container for electron/muon/tau information.
  *
  *  This class is part of the TopLoop event data model (EDM). It
  *  contains the properties of a lepton. Variables that are shared by
- *  both electrons and muons are used here. Variables specific to each
+ *  both electrons, muons and taus are used here. Variables specific to each
  *  respective flavor of lepton are in the dedicated class for each.
  *
  *  @author Douglas Davis, <ddavis@cern.ch>
@@ -54,7 +54,7 @@ class Lepton : public TL::EDM::PhysicsObject {
 
   /// constructor defining pdgId
   /**
-   *  This is mainly for the Electron and Muon classes which
+   *  This is mainly for the Electron, Muon and Tau classes which
    *  inherit from Lepton
    *
    *  @param pdgId the PDG code

@@ -12,12 +12,13 @@
   <class name="TL::EDM::LeptonPair" />
   <class name="TL::EDM::Electron" />
   <class name="TL::EDM::Muon" />
-  <class name="std::vector<TL::EDM::Jet>" />
-  <class name="std::vector<TL::EDM::Lepton>" />
+  <class name="TL::EDM::Tau"></class>
+  <class name="std::vector<TL::EDM::Jet>" ></class>
+	<class name="std::vector<TL::EDM::Lepton>" />
   <class name="std::vector<TL::EDM::LeptonPair>" />
   <class name="std::vector<TL::EDM::Electron>" />
-  <class name="std::vector<TL::EDM::Muon>" />
-  <class name="TL::EDM::MissingET" />
+  <class name="std::vector<TL::EDM::Muon>" /><class name="std::vector&lt;TL::EDM::Tau&gt;"></class>
+	<class name="TL::EDM::MissingET" />
   <class name="TL::EDM::FinalState" />
 
 </lcgdict>

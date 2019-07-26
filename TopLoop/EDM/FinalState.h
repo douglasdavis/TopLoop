@@ -19,6 +19,7 @@
 #include <TopLoop/EDM/LeptonPair.h>
 #include <TopLoop/EDM/MissingET.h>
 #include <TopLoop/EDM/Muon.h>
+#include <TopLoop/EDM/Tau.h>
 
 // C++
 #include <algorithm>
@@ -30,6 +31,7 @@ class FinalState : TL::Loggable {
  private:
   std::vector<TL::EDM::Electron> m_electrons{};
   std::vector<TL::EDM::Muon> m_muons{};
+  std::vector<TL::EDM::Tau> m_taus{};
   std::vector<TL::EDM::Jet> m_jets{};
   std::vector<TL::EDM::Jet> m_looseJets{};
   std::vector<TL::EDM::Lepton> m_leptons{};
@@ -38,6 +40,7 @@ class FinalState : TL::Loggable {
 
   bool m_hasFakeElectronMC{false};
   bool m_hasFakeMuonMC{false};
+  bool m_hasFakeTauMC{false};
   bool m_hasManTrigMatched{false};
 
   void addLepton(const TL::EDM::Lepton& lep) { m_leptons.emplace_back(lep); }
@@ -67,6 +70,8 @@ class FinalState : TL::Loggable {
   void addElectron(const TL::EDM::Electron& el) { m_electrons.emplace_back(el); }
   /// add a muon to the muon container
   void addMuon(const TL::EDM::Muon& mu) { m_muons.emplace_back(mu); }
+  /// add a tau to the tau container
+  void addTau(const TL::EDM::Tau& tau) { m_taus.emplace_back(tau); }
 
   /// process the physics objects to set some final state properties
   /**
@@ -103,8 +108,10 @@ class FinalState : TL::Loggable {
   bool hasFakeElectronMC() const { return m_hasFakeElectronMC; }
   /// true if the event has a fake muon (at least one muon that failed truth matching)
   bool hasFakeMuonMC() const { return m_hasFakeMuonMC; }
-  /// true if fake electron or fake muon
-  bool hasFakeLeptonMC() const { return hasFakeMuonMC() || hasFakeElectronMC(); }
+  /// true if the event has a fake tau (at least one tau that failed truth matching)
+  bool hasFakeTauMC() const { return m_hasFakeTauMC; }
+  /// true if fake electron, fake muon or fake tau
+  bool hasFakeLeptonMC() const { return hasFakeMuonMC() || hasFakeElectronMC() || hasFakeTauMC(); }
   /// true if an electron was flagged with isManTrigMatched
   bool hasManTrigMatched() const { return m_hasManTrigMatched; }
 
