@@ -32,7 +32,10 @@ class LeptonPair : public TL::EDM::PhysicsObject {
   bool m_OS;
   bool m_elel;
   bool m_mumu;
+  bool m_tautau;
   bool m_elmu;
+  bool m_eltau;
+  bool m_mutau;
 
   std::size_t m_fIdx;
   std::size_t m_sIdx;
@@ -95,15 +98,21 @@ class LeptonPair : public TL::EDM::PhysicsObject {
   /// return true for opposite sign lepton pair.
   bool OS() const { return m_OS; }
   /// return true for same flavor lepton pair.
-  bool SF() const { return !m_elmu; }
-  /// return true for opposite flavor lepton pair (same as elmu()).
-  bool OF() const { return m_elmu; }
+  bool SF() const { return !(m_elmu||m_eltau||m_mutau); }
+  /// return true for opposite flavor lepton pair ).
+  bool OF() const { return (m_elmu||m_eltau||m_mutau); }
   /// return true if \f$\mu\mu\f$ lepton pair.
   bool mumu() const { return m_mumu; }
   /// return true if \f$ee\f$ lepton pair.
   bool elel() const { return m_elel; }
-  /// return true if \f$e\mu\f$ lepton pair (same as OF()).
+  /// return true if \f$\tau\tau\f$ lepton pair.
+  bool tautau() const { return m_tautau; }
+  /// return true if \f$e\mu\f$ lepton pair).
   bool elmu() const { return m_elmu; }
+  /// return true if \f$e\tau\f$ lepton pair).
+  bool eltau() const { return m_eltau; }
+  /// return true if \f$mu\tau\f$ lepton pair).
+  bool mutau() const { return m_mutau; }
 
   /// get the index of the first lepton in the pair
   /**
