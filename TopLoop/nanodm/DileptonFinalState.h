@@ -31,7 +31,10 @@ class DileptonFinalState {
     ELMU = 0,
     ELEL = 1,
     MUMU = 2,
-    UNKNOWN = 3,
+    TAUTAU = 4,
+    ELTAU = 5,
+    MUTAU = 6,
+    UNKNOWN = 99,
   };
 
  private:
@@ -121,20 +124,28 @@ class DileptonFinalState {
   int pdgSum() const { return m_lepton1->pdgId() + m_lepton2->pdgId(); }
   /// true if either lepton is fake/non-prompt based on MC information
   bool hasFake() const { return m_lepton1->isMCNonPrompt() || m_lepton2->isMCNonPrompt(); }
+
   /// true if two electrons in final state (@f$ee@f$)
   bool elel() const { return pdgSum() == 22; }
   /// true if electron + muon final state (@f$e\mu@f$)
   bool elmu() const { return pdgSum() == 24; }
   /// true if two muons in final state (@f$\mu\mu@f$)
-  bool mumu() const { return pdgSum() == 26; }
+  bool mumu() const { return (m_lepton1->pdgId() == 13 && m_lepton2->pdgId() == 13); }
+  /// true if two taus in final state (@f$\tau\tau@f$)
+  bool tautau() const { return pdgSum() == 30; }
+  /// true if electron + tau final state (@f$e\tau@f$)
+  bool eltau() const { return ((m_lepton1->pdgId() == 11 && m_lepton2->pdgId() == 15) ||
+                               (m_lepton1->pdgId() == 15 && m_lepton2->pdgId() == 11)); }
+  /// true if muon + tau final state (@f$\mu\tau@f$)
+  bool mutau() const { return pdgSum() == 28; }
   /// true if leptons are oppositely sign (@f$\ell^\pm\ell^\mp@f$).
   bool OS() const { return (m_lepton1->charge() * m_lepton2->charge()) < 0; }
   /// true if leptons are same sign (@f$\ell^\pm\ell^\pm@f$).
   bool SS() const { return !OS(); }
   /// true if leptons are opposite flavor (@f$e\mu@f$)
-  bool OF() const { return elmu(); }
+  bool OF() const { return (elmu() || eltau() || mutau()); }
   /// true if leptons are same flavor (@f$ee/\mu\mu@f$)
-  bool SF() const { return !elmu(); }
+  bool SF() const { return !OF(); }
   /// get a specific flavor combination label
   FlavComb flavComb() const {
     if (elmu())
@@ -143,6 +154,12 @@ class DileptonFinalState {
       return FlavComb::ELEL;
     else if (mumu())
       return FlavComb::MUMU;
+    else if(tautau())
+    	return FlavComb::TAUTAU;
+    else if (eltau())
+      return FlavComb::ELTAU;
+    else if (mutau())
+      return FlavComb::MUTAU;
     else
       return FlavComb::UNKNOWN;
   }

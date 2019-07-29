@@ -88,6 +88,37 @@ class Lepton : public IPhysicsObject<CoordLep> {
 };
 
 /**
+ *  @class nanodm::Tauon
+ *  @brief A class for tau information
+ */
+class Tau : public Lepton {
+ public:
+  Tau() : Lepton(15) {}
+  /// default destructor
+  virtual ~Tau() = default;
+  /// default copy constructor
+  Tau(const Tau&) = default;
+  /// default assignment operator
+  Tau& operator=(const Tau&) = default;
+  /// default move constructor
+  Tau(Tau&&) = default;
+  /// default move assignment operator
+  Tau& operator=(Tau&&) = default;
+
+  /// @name factory
+  /// @{
+
+  /// construct a tau from \f$(p_\mathrm{T}, \eta, \phi)\f$
+  static std::unique_ptr<Tau> make(float pt, float eta, float phi) {
+    auto tau = std::make_unique<Tau>();
+    tau->p4().SetCoordinates(pt, eta, phi, 1776.86);
+    return tau;
+  }
+
+  /// @}
+};
+
+/**
  *  @class nanodm::Muon
  *  @brief A class for muon information
  */
