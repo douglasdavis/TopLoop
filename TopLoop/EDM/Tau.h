@@ -6,7 +6,7 @@
  *  This class is part of the TopLoop event data model (EDM). It
  *  contains the properties of a tau
  *
- *  @author Douglas Davis, <ddavis@cern.ch>
+ *  @author Tanja Holm <Tanja.Holm@cern.ch>
  */
 
 #ifndef TL_EDM_Tau_h
