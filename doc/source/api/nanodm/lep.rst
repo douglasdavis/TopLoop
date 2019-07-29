@@ -18,3 +18,10 @@ Muon Class
 .. doxygenclass:: nanodm::Muon
    :members:
    :undoc-members:
+
+Tau Class
+^^^^^^^^^
+
+.. doxygenclass:: nanodm::Tau
+   :members:
+   :undoc-members:
