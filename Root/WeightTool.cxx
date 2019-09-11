@@ -127,10 +127,13 @@ std::pair<float, float> TL::WeightTool::currentPDF4LHCsumQuadVariations() {
   return std::make_pair(final_val, percent);
 }
 
-float TL::WeightTool::sampleCrossSection() const {
-  auto dsid = m_alg->fileManager()->dsid();
-  auto xsec = m_xsec->getXsection(dsid);
-  logger()->debug("Retreiving cross section for sample {}: {} pb", dsid, xsec);
+float TL::WeightTool::sampleCrossSection(const int dsid) const {
+  int use_dsid = dsid;
+  if (use_dsid < 0) {
+    use_dsid = m_alg->fileManager()->dsid();
+  }
+  auto xsec = m_xsec->getXsection(use_dsid);
+  logger()->debug("Retreiving cross section for sample {}: {} pb", use_dsid, xsec);
   return xsec;
 }
 
@@ -149,8 +152,9 @@ float TL::WeightTool::sampleKfactor() const {
 }
 
 float TL::WeightTool::luminosityWeight(const std::vector<TL::kCampaign>& campaigns,
-                                       const float lumi) {
-  auto xs = sampleCrossSection();
+                                       const float lumi,
+                                       const int dsid) {
+  auto xs = sampleCrossSection(dsid);
   auto sumW = generatorSumWeights();
   auto campW = TL::SampleMetaSvc::get().getCampaignWeight(m_alg->fileManager()->rucioDir(),
                                                           campaigns);

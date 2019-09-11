@@ -179,8 +179,11 @@ class WeightTool : public TL::Loggable {
   /**
    *  This function uses the TopDataPreparation SampleXsection class
    *  to retrieve the cross section for the DSID.
+   *
+   *  @param dsid the DSID of the sample we want a cross section for,
+   *  if < 0 the DSID is automatically discovered via the FileManager.
    */
-  float sampleCrossSection() const;
+  float sampleCrossSection(const int dsid = -1) const;
 
   /// Raw cross section from TopDataPreparation
   float sampleRawCrossSection() const;
@@ -210,9 +213,12 @@ class WeightTool : public TL::Loggable {
    *  be used with.
    *  @param lumi the integrated luminosity (in pb) to generate the
    *  weight.
+   *  @param dsid the DSID of the sample we want a weight for,
+   *  if < 0 the DSID is automatically discovered via the FileManager.
    */
   float luminosityWeight(const std::vector<TL::kCampaign>& campaigns,
-                         const float lumi = 1000.0);
+                         const float lumi = 1000.0,
+                         const int dsid = -1);
 };
 }  // namespace TL
 
