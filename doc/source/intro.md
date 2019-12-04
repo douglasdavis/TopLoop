@@ -73,7 +73,8 @@ if ( n_partLevel_electrons > 1 ) {
 
 It's very easy to add additional variable access in a TopLoop based
 algorithm. If your analysis adds more output on top of the standard
-AnalysisTop variables, you'll need this.
+variables provided by the TopAnalysis infrastructure, you'll need
+this.
 
 There are two macros defined: `DECLARE_BRANCH` and
 `CONNECT_BRANCH`. In the header, we use the former, it just takes the

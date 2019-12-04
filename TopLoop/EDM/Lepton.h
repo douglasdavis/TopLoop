@@ -77,7 +77,7 @@ class Lepton : public TL::EDM::PhysicsObject {
   /// allows user to manually flag a lepton as trigger matched
   void set_isManTrigMatched(const bool val) { m_isManTrigMatched = val; }
 
-  /// Value from the energy branch that AnalysisTop ntuples include
+  /// Value from the energy branch that Top ntuples include
   /**
    *  a branch for the reconstructed energy. The energy in the
    *  _four vector_ of this object will be calculated using the
