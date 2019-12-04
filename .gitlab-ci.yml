@@ -4,7 +4,7 @@ stages:
   - docdeploy
 
 TopLoop:
-  image: atlas/analysistop:latest
+  image: atlas/analysisbase:latest
   stage: build
   variables:
     GIT_SUBMODULE_STRATEGY: normal
@@ -19,7 +19,7 @@ TopLoop:
     - cd ../ci/build
     - cmake ../source
     - make
-    - source "${AnalysisTop_PLATFORM}/setup.sh"
+    - source "${AnalysisBase_PLATFORM}/setup.sh"
 
 TopLoopDocGen:
   image: gitlab-registry.cern.ch/ddavis/doxygen-from-arch:latest

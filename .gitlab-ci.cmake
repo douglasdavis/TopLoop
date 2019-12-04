@@ -7,7 +7,7 @@
 cmake_minimum_required( VERSION 3.2 FATAL_ERROR )
 
 # Find the project that we depend on:
-find_package( AnalysisTop 21.2 REQUIRED )
+find_package( AnalysisBase 21.2 REQUIRED )
 
 # Set up CTest:
 atlas_ctest_setup()
@@ -17,7 +17,7 @@ atlas_ctest_setup()
 # called WorkDir. With later iterations of Panda this restriction may be
 # removed.
 atlas_project( TopLoopCI 1.0.0
-   USE AnalysisTop 21.2 )
+   USE AnalysisBase 21.2 )
 
 # Set up the runtime environment setup script(s):
 lcg_generate_env( SH_FILE ${CMAKE_BINARY_DIR}/${ATLAS_PLATFORM}/env_setup.sh )
