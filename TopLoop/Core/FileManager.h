@@ -45,7 +45,6 @@ class FileManager : public TL::Loggable {
   void determineSampleProperties();
 
  public:
-
   /// Describes instructions to only use a subset of a sgtop ntuple sample
   /**
    *  The FileManager::feedDir class takes can take a vector of
@@ -192,6 +191,8 @@ class FileManager : public TL::Loggable {
   unsigned int dsid() const { return m_dsid; }
   /// regex determination if rucio dir is AFII
   bool isAFII() const { return m_isAFII; }
+  /// determine if rucio dir is Full Sim (opposite of isAFII)
+  bool isFullSim() const { return !isAFII(); }
   /// the single top ntuple version
   TL::kSgTopNtup getSgTopNtupVersion() const { return m_sgtopNtupVersion; }
   /// the campaign the sample is associated with
