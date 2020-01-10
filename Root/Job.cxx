@@ -15,8 +15,6 @@
 
 TL::Job::Job() : TL::Loggable("TL::Job") {}
 
-TL::Job::~Job() {}
-
 TL::StatusCode TL::Job::setAlgorithm(std::unique_ptr<TL::Algorithm> alg) {
   if (alg == nullptr) {
     return TL::StatusCode::FAILURE;

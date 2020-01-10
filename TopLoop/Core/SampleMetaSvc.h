@@ -240,7 +240,9 @@ class SampleMetaSvc final : public TL::Loggable {
    *  Example usage:
    *  @code{.cpp}
    *  float a_d_lumi =
-   *    TL::SampleMetaSvc::get().getCampaignLumi({TL::kCampaign::MC16a, TL::kCampaign::MC16d});
+   *      TL::SampleMetaSvc::get().getCampaignLumi(
+   *          {TL::kCampaign::MC16a, TL::kCampaign::MC16d}
+   *      );
    *  @endcode
    *
    *  @param campaigns list of campaigns.

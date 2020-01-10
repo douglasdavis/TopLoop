@@ -13,7 +13,7 @@
 #define TL_Loggable_h
 
 #include <TopLoop/spdlog/spdlog.h>
-// avoid clang-format reordere
+// avoid clang-format reorder
 #include <TopLoop/spdlog/sinks/stdout_color_sinks.h>
 
 namespace TL {

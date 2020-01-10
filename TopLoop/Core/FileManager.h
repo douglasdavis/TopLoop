@@ -214,12 +214,13 @@ class FileManager : public TL::Loggable {
 
   /// @}
 
-  [[deprecated("use mainChain() to avoid ambiguity")]] TChain* rootChain() const {
-    return m_rootChain.get();
-  }
-  [[deprecated("use weightsChain() to avoid ambiguity")]] TChain* rootWeightsChain() const {
-    return m_rootWeightsChain.get();
-  }
+  // deprecations
+  // clang-format off
+  [[deprecated("use mainChain() to avoid ambiguity")]]
+  TChain* rootChain() const { return m_rootChain.get(); }
+  [[deprecated("use weightsChain() to avoid ambiguity")]]
+  TChain* rootWeightsChain() const { return m_rootWeightsChain.get(); }
+  // clang-format on
 };
 
 }  // namespace TL

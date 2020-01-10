@@ -28,7 +28,7 @@ TL::StatusCode TL::Algorithm::init() {
   if (isData()) {
     data_or_mc = "Data";
   }
-  logger()->info("Processing tree {} in mode {} as a {} sample", treename, mode,
+  logger()->info("Processing tree: '{}'; in mode: {}; as a: {} sample", treename, mode,
                  data_or_mc);
 
   checkRelease();
@@ -102,20 +102,12 @@ void TL::Algorithm::checkRelease() {
     m_isRel207 = false;
   }
   if (m_isRel207) {
-    logger()->warn(
-        "********************************************************************************"
-        "*");
-    logger()->warn(
-        "* TopLoop was designed with release 21 as a first class citizen, not 20.7!      "
-        "*");
-    logger()->warn(
-        "* It _looks_ like you're using release 20.7, I hope you know what you're doing! "
-        "*");
-    logger()->warn(
-        "* I'm not 100% sure you're using 20.7, it's an educated guess.. see the code!   "
-        "*");
-    logger()->warn(
-        "********************************************************************************"
-        "*");
+    // clang-format off
+    logger()->warn("*******************************************************************************");
+    logger()->warn("* TopLoop was designed with release 21 as a first class citizen, not 20.7.    *");
+    logger()->warn("* It looks like you're using release 20.7, I hope you know what you're doing. *");
+    logger()->warn("* I'm not 100% sure you're using 20.7; it's an educated guess. see the code.  *");
+    logger()->warn("*******************************************************************************");
+    // clang-format on
   }
 }
