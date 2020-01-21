@@ -58,7 +58,7 @@ class Lepton : public IPhysicsObject<CoordLep> {
 
   int pdgId() const { return m_pdgId; }
   float charge() const { return m_charge; }
-  float isMCNonPrompt() const { return m_isMCNonPrompt; }
+  bool isMCNonPrompt() const { return m_isMCNonPrompt; }
 
   /// @}
 
