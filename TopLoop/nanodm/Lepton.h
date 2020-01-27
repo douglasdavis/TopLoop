@@ -20,6 +20,7 @@ class Lepton : public IPhysicsObject<CoordLep> {
   int m_pdgId;
   float m_charge;
   bool m_isMCNonPrompt{false};
+  bool m_isTight{false};
 
   FourVec<CoordLep> m_p4;
 
@@ -50,6 +51,7 @@ class Lepton : public IPhysicsObject<CoordLep> {
   void set_pdgId(const int val) { m_pdgId = val; }
   void set_charge(const float val) { m_charge = val; }
   void set_isMCNonPrompt(const bool val) { m_isMCNonPrompt = val; }
+  void set_isTight(const bool val) { m_isTight = val; }
 
   /// @}
 
@@ -59,6 +61,7 @@ class Lepton : public IPhysicsObject<CoordLep> {
   int pdgId() const { return m_pdgId; }
   float charge() const { return m_charge; }
   float isMCNonPrompt() const { return m_isMCNonPrompt; }
+  bool isTight() const { return m_isTight; }
 
   /// @}
 
