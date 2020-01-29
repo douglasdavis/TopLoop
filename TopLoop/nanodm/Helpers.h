@@ -220,6 +220,24 @@ inline double energyMassRatio(const PhysicsSystem& system) {
   return system.p4().energy() / system.p4().mass();
 }
 
+/// Calculate the ratio of HT's between two systems
+/**
+ *  @param system1 list of objects (inheriting from nanodm::IPhysicsObject) in system 1.
+ *  @param system2 list of objects (inheriting from nanodm::IPhysicsObject) in system 2.
+ */
+inline double htsysratio(const PhysicsSystem& system1, const PhysicsSystem& system2) {
+  return nanodm::htsys(system1) / nanodm::htsys(system2);
+}
+
+/// calculate the ratio of a system's pT to its HT
+/**
+ *  @param system the list of objects inhjeriting from nanodm::IPhysicsObject to use in the
+ *         calculation.
+ */
+inline double pthtratio(const PhysicsSystem& system) {
+  return system.p4().pt() / system.ht();
+}
+
 /// @}
 
 }  // namespace nanodm
