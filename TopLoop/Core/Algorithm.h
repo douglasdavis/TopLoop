@@ -144,16 +144,6 @@ class Algorithm : public TL::Loggable, public TL::Variables {
   /// @name Sample property setting utilities
   /// @{
 
-  /// Function to tell algorithm it's analyzing data
-  /**
-   *  Some variables don't exist for data, so the algorithm must
-   *  know if it's touching data, so it knows which variables to
-   *  avoid initializing.
-   */
-  [[deprecated("Algorithm should automatically detect MC or Data!")]] void setIsData() {
-    m_isMC = false;
-  }
-
   /// Function to tell algorithm its analyzing fakes
   void setIsFake() { m_isFake = true; }
 
@@ -163,20 +153,11 @@ class Algorithm : public TL::Loggable, public TL::Variables {
   /// @name Sample property utilities
   /// @{
 
-  [[deprecated("use isNominalTree() to reduce confusion between nominal _samples_ and the nominal tree")]]
-  bool isNominal() const { return isNominalTree(); }
-
-  [[deprecated("use isNominalTree_Loose() to reduce confusion between nominal _samples_ and the nominal tree")]]
-  bool isNominal_Loose() const { return isNominalTree_Loose(); }
-
-  [[deprecated("use isSystematicTree() to reduce confusion between systematic _samples_ and systematic tree")]]
-  bool isSystematic() const { return isSystematicTree(); }
-
   /// true if the algorithm is processing the "nominal" tree
   bool isNominalTree() const { return m_isNominalTree; }
   /// true if the algoritm is processing the loose "nominal" tree
   bool isNominalTree_Loose() const { return m_isNominalTree_Loose; }
-  /// true if the algorithm is processing a "systematic" tree (for example, EG_SCALE_ALL__1up)
+  /// true if algorithm is processing a systematic tree (ex: EG_SCALE_ALL__1up)
   bool isSystematicTree() const { return !(m_isNominalTree || m_isNominalTree_Loose); }
   /// get if sample is MC
   bool isMC() const { return m_isMC; }
@@ -193,23 +174,13 @@ class Algorithm : public TL::Loggable, public TL::Variables {
   /// @}
 
  protected:
-  /// @name Generator and weight utilities
+  /// @name weight utilities
   /// @{
 
   /// Access the TL::WeightTool object
   TL::WeightTool& weightTool() { return m_weightTool; }
 
-  [[deprecated("use weightTool().generatorSumWeights()")]] float countSumWeights() {
-    return weightTool().generatorSumWeights();
-  }
-
   /// @}
-
-  [[deprecated("use fileManager()->dsid()")]]
-  unsigned int get_dsid();
-
-  [[deprecated("use fileManager()->isAFII()")]]
-  bool sampleIsAFII();
 
  protected:
   /// @name Sample pointer getters
@@ -235,6 +206,27 @@ class Algorithm : public TL::Loggable, public TL::Variables {
  protected:
   /// Print the progess of the event loop (percent done)
   void printProgress(const unsigned int n_prints = 10) const;
+
+ public:
+  // public deprecations
+  // clang-format off
+  [[deprecated("Algorithm should automatically detect MC or Data!")]]
+  void setIsData() { m_isMC = false; }
+ protected:
+  // protected deprecations
+  [[deprecated("use isNominalTree() to reduce confusion between nominal _samples_ and the nominal tree")]]
+  bool isNominal() const { return isNominalTree(); }
+  [[deprecated("use isNominalTree_Loose() to reduce confusion between nominal _samples_ and the nominal tree")]]
+  bool isNominal_Loose() const { return isNominalTree_Loose(); }
+  [[deprecated("use isSystematicTree() to reduce confusion between systematic _samples_ and systematic tree")]]
+  bool isSystematic() const { return isSystematicTree(); }
+  [[deprecated("use weightTool().generatorSumWeights()")]]
+  float countSumWeights() { return weightTool().generatorSumWeights(); }
+  [[deprecated("use fileManager()->dsid()")]]
+  unsigned int get_dsid();
+  [[deprecated("use fileManager()->isAFII()")]]
+  bool sampleIsAFII();
+  // clang-format on
 
  private:
   friend class Job;
