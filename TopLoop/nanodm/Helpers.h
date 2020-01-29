@@ -8,10 +8,13 @@
 #ifndef nanodm_Helpers_h
 #define nanodm_Helpers_h
 
+// Local
 #include "IPhysicsObject.h"
 
-#include "Math/GenVector/VectorUtil.h"
+// ROOT
+#include <Math/GenVector/VectorUtil.h>
 
+// C++
 #include <cmath>
 #include <tuple>
 
@@ -82,8 +85,8 @@ class PhysicsSystem {
 
 /// calculate the \f$p_{\mathrm{T}}\f$ of the system of objects.
 /**
- *  @param system the list of objects inheriting from
- *  nanodm::IPhysicsObject to use in the calculation.
+ *  @param system the list of objects inheriting from nanodm::IPhysicsObject to use in the
+ *         calculation.
  */
 inline double ptsys(const PhysicsSystem& system) { return system.p4().pt(); }
 
@@ -92,8 +95,8 @@ inline double ptsys(const PhysicsSystem& system) { return system.p4().pt(); }
  *  The \f$H_\mathrm{T}\f$ is the scalar sum of the
  *  \f$p_\mathrm{T}\f$ of all objects.
  *
- *  @param system the list of objects inhjeriting from
- *  nanodm::IPhysicsObject to use in the calculation.
+ *  @param system the list of objects inhjeriting from nanodm::IPhysicsObject to use in the
+ *         calculation.
  */
 inline double htsys(const PhysicsSystem& system) { return system.ht(); }
 
@@ -101,8 +104,8 @@ inline double htsys(const PhysicsSystem& system) { return system.ht(); }
 /**
  *  The \f$H\f$ is the scalar sum of the \f$p\f$ of all objects.
  *
- *  @param system the list of objects inhjeriting from
- *  nanodm::IPhysicsObject to use in the calculation.
+ *  @param system the list of objects inhjeriting from nanodm::IPhysicsObject to use in the
+ *         calculation.
  */
 inline double hsys(const PhysicsSystem& system) { return system.h(); }
 
@@ -122,9 +125,11 @@ inline double hsys(const PhysicsSystem& system) { return system.h(); }
  *
  *  Has units of \f$\sqrt{\mathrm{[Energy]}}\f$.
  *
- *  @param system the list of objects inheriting from nanodm::IPhysicsObject to use in the calculation.
- *  @param sumet the \f$\sum E_{\mathrm{T}}\f$ of the event. (sum of \f$p_\mathrm{T}\f$ of all hard
- *         objects contributing to the \f$E_\mathrm{T}^\mathrm{miss}\f$ calculation).
+ *  @param system the list of objects inheriting from nanodm::IPhysicsObject to use in the
+ *         calculation.
+ *  @param sumet the \f$\sum E_{\mathrm{T}}\f$ of the event. (sum of \f$p_\mathrm{T}\f$ of
+ *         all hard objects contributing to the \f$E_\mathrm{T}^\mathrm{miss}\f$
+ *         calculation).
  */
 inline double sigma_ptsys(const PhysicsSystem& system, const float sumet) {
   double ptsys = nanodm::ptsys(system);
@@ -140,8 +145,8 @@ inline double sigma_ptsys(const PhysicsSystem& system, const float sumet) {
          \frac{\sum_\limits{i=1}^{n}p_\mathrm{T}^{(i)}}{\sum_\limits{i=1}^{n}E^{(i)}}
  *  \f]
  *
- *  @param system the list of objects inhjeriting from
- *  nanodm::IPhysicsObject to use in the calculation.
+ *  @param system the list of objects inhjeriting from nanodm::IPhysicsObject to use in the
+ *         calculation.
  */
 inline double centrality(const PhysicsSystem& system) {
   return system.ht() / system.sumenergy();
