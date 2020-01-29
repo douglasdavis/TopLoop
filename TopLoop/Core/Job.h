@@ -41,7 +41,6 @@ class Job : public TL::Loggable {
  private:
   bool m_useProgressBar{true};
   LoopType m_loopType{LoopType::RecoStandard};
-
   std::vector<uint64_t> m_particleLevelOnly{};
   std::vector<uint64_t> m_recoLevelOnly{};
   std::vector<std::pair<uint64_t, uint64_t>> m_particleAndReco{};
@@ -54,7 +53,7 @@ class Job : public TL::Loggable {
   /// default constructor
   Job();
   /// detructor
-  virtual ~Job();
+  ~Job() = default;
 
   /// delete copy constructor
   Job(const Job&) = delete;
