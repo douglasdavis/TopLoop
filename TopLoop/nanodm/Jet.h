@@ -106,6 +106,7 @@ class Jet : public IPhysicsObject<CoordJet> {
  private:
   char m_passfjvt;
   int m_tagWeightBin_MV2c10_Continuous;
+  float m_jet_mv2c10;
 
   FourVec<CoordJet> m_p4;
 
@@ -154,13 +155,16 @@ class Jet : public IPhysicsObject<CoordJet> {
   void set_tagWeightBin_MV2c10_Continuous(const int val) {
     m_tagWeightBin_MV2c10_Continuous = val;
   }
-
+  void set_MV2c10_score(const float val) {
+    m_jet_mv2c10 = val;
+  }
   /// @}
 
   /// @name getters
 
   char passfjvt() const { return m_passfjvt; }
   int tagWeightBin_MV2c10_Continuous() const { return m_tagWeightBin_MV2c10_Continuous; }
+  float MV2c10() const { return m_jet_mv2c10; }
 
   /// test if jet is b-tagged based on the given minimum bin
   /**
