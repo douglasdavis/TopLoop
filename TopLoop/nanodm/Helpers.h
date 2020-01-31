@@ -225,8 +225,10 @@ inline double energyMassRatio(const PhysicsSystem& system) {
   return system.p4().energy() / system.p4().mass();
 }
 
-/// Calculate the ratio of HT's between two systems
+/// Calculate the ratio of \f$H_\mathrm{T}\f$'s between two systems
 /**
+ *  The result is equal to \f$\frac{H_{\mathrm{T}}^{s_1}}{H_{\mathrm{T}}^{s_2}}\f$.
+ *
  *  @param system1 list of objects (inheriting from nanodm::IPhysicsObject) in system 1.
  *  @param system2 list of objects (inheriting from nanodm::IPhysicsObject) in system 2.
  */
@@ -234,8 +236,10 @@ inline double htsysratio(const PhysicsSystem& system1, const PhysicsSystem& syst
   return nanodm::htsys(system1) / nanodm::htsys(system2);
 }
 
-/// calculate the ratio of a system's pT to its HT
+/// calculate the ratio of a system's \f$p_\mathrm{T}\f$ to its \f$H_\mathrm{T}\f$.
 /**
+ *  The result is equal to \f$\frac{p_\mathrm{T}^{\mathrm{sys}}}{H_{\mathrm{T}}^{\mathrm{sys}}}\f$.
+ *
  *  @param system the list of objects inhjeriting from nanodm::IPhysicsObject to use in the
  *         calculation.
  */
