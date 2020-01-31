@@ -221,13 +221,18 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
   TL_CHECK(initChain());
 
   fs::path p(txtfilename);
+  if (!fs::exists(p)) {
+    logger()->error("{} doesn't exist; exiting", txtfilename);
+    std::exit(EXIT_FAILURE);
+  }
   if (p.extension().string() != ".txt") {
     logger()->warn("feedTxt given file without .txt extension");
     logger()->warn("Logic to determine rucio info might fail");
   }
 
-  auto txtpos = txtfilename.find_last_of(".");
-  m_rucioDirName = txtfilename.substr(0, txtpos);
+  std::string fname = p.filename().string();
+  auto txtpos = fname.find_last_of(".");
+  m_rucioDirName = fname.substr(0, txtpos);
   logger()->info("feedTxt determined rucio dataset name:");
   logger()->info("{}", m_rucioDirName);
 
