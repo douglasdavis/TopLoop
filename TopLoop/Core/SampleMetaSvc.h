@@ -1,4 +1,4 @@
-/** @file  SampleMetaSvc.h
+/*! @file  SampleMetaSvc.h
  *  @brief TL::SampleMetaSvc class header
  *  @class TL::SampleMetaSvc
  *  @brief C++11 singleton class for handling sample meta data
@@ -149,7 +149,7 @@ class SampleMetaSvc final : public TL::Loggable {
 
  public:
   /// get the instance of the singleton class
-  /**
+  /*!
    *  The instance can be used using:
    *  @code{.cpp}
    *  TL::kInitialState initstate = TL::SampleMetaSvc::get().getInitialState(410015);
@@ -214,7 +214,7 @@ class SampleMetaSvc final : public TL::Loggable {
   }
 
   /// Given a sample name, get the MC campaign string identifier
-  /**
+  /*!
    *  @param sample_name string which should be the rucio sample
    *  name.
    *  level.
@@ -224,7 +224,7 @@ class SampleMetaSvc final : public TL::Loggable {
   }
 
   /// get the luminosity of a particular campaign
-  /**
+  /*!
    *  Lumi values associated with campaigns are defined in
    *  `TopLoop/data/campaigns.json`
    *
@@ -233,7 +233,7 @@ class SampleMetaSvc final : public TL::Loggable {
   float getLumi(const TL::kCampaign campaign) const;
 
   /// Given a list of campaigns, get the total data luminosity associated with them
-  /**
+  /*!
    *  During runtime we can retrieve the luminosities defined in the
    *  file `TopLoop/data/campaigns.json`.
    *
@@ -251,7 +251,7 @@ class SampleMetaSvc final : public TL::Loggable {
   float getLumi(const std::vector<TL::kCampaign>& campaigns) const;
 
   /// generate a campaign weight based on the campaign enum entry
-  /**
+  /*!
    *  If you are using multiple campaigns to create an expectation
    *  from MC, you'll need to handle the luminosities
    *  carefully. This function lets you generate a weight such that
@@ -276,7 +276,7 @@ class SampleMetaSvc final : public TL::Loggable {
                           const std::vector<TL::kCampaign>& campaigns) const;
 
   /// generate a campaign weight based on the rucio dataset name
-  /**
+  /*!
    *  Use the rucio dataset name to generate a weight based on the
    *  given list of campaigns. See the other version of
    *  getCampaignWeight() for more details.
@@ -296,7 +296,7 @@ class SampleMetaSvc final : public TL::Loggable {
                           const std::vector<TL::kCampaign>& campaigns) const;
 
   /// get the year associated with a run number in data
-  /**
+  /*!
    *  As defined from the ATLAS DQ GRLs.
    *  GRL info retrieved from links on this AtlasProtected TWiki:
    *  TopDerivationMC16aList
@@ -311,14 +311,14 @@ class SampleMetaSvc final : public TL::Loggable {
   /// @{
 
   /// given a sample name, return if the sample was simulated with AFII
-  /**
+  /*!
    *  @param sample_name string which should be the rucio sample
    *  name.
    */
   bool isAFII(const std::string& sample_name) const;
 
   /// Determine if the DSID is PowPy8 ttbar or Wt
-  /**
+  /*!
    *  Cleans up some user code
    *
    *  @param d the DSID
@@ -326,7 +326,7 @@ class SampleMetaSvc final : public TL::Loggable {
   bool tWorTtbarPowPy8(const unsigned int d) const;
 
   /// set the single top ntuple version (controls campaign lumis)
-  /**
+  /*!
    *  The class uses ntuple version information internally to make
    *  lumi calculations based on campaigns and ntuple,
    *  versions. This function manually sets the internal ntuple
@@ -340,7 +340,7 @@ class SampleMetaSvc final : public TL::Loggable {
   }
 
   /// given the sample name, get the SgTop ntuple version
-  /**
+  /*!
    *  This function will make this class internally use the
    *  determined ntuple version for luminosity information!
    *
@@ -350,7 +350,7 @@ class SampleMetaSvc final : public TL::Loggable {
   TL::kSgTopNtup getNtupleVersion(const std::string& sample_name);
 
   /// get ntuple version as string
-  /**
+  /*!
    *  @param ntupVersion the enum entry
    */
   std::string getNtupleVersionStr(const TL::kSgTopNtup ntupVersion) {

@@ -1,4 +1,4 @@
-/** @file  WeightTool.h
+/*! @file  WeightTool.h
  *  @brief TL::WeightTool class header
  *  @class TL::WeightTool
  *  @brief A class to handle weight access
@@ -50,14 +50,14 @@ class WeightTool : public TL::Loggable {
   explicit WeightTool(TL::Algorithm* algorithm);
 
   /// Count the sumWeights from all input trees
-  /**
+  /*!
    *  This can be called in the init() function if info about the
    *  sum of weights is desired; s the nominal sum of weights
    */
   float generatorSumWeights();
 
   /// Generator based changes in the sum of weights
-  /**
+  /*!
    *  Generator "on the fly" weight variations stored in a vector
    *  The first entry (as of May 2018) is the same as nominal.
    *
@@ -70,7 +70,7 @@ class WeightTool : public TL::Loggable {
   const std::vector<float>& generatorVariedSumWeights();
 
   /// Get names of Generator based weights
-  /**
+  /*!
    *  Can be called to retrieve the list of strings corresponding to
    *  the name of the generator based weights. The key in the map is
    *  the index in `mc_generator_weights` vector branch as well as
@@ -115,7 +115,7 @@ class WeightTool : public TL::Loggable {
   const std::map<std::string, std::size_t>& generatorVariedWeightsNames();
 
   /// Get the sum of weights required to normalize the given variation
-  /**
+  /*!
    *  Convienence function to grab the sum of weights required to
    *  given variation. See `currentWeightOfVariation()` for more.
    *
@@ -124,7 +124,7 @@ class WeightTool : public TL::Loggable {
   float sumOfVariation(const std::string& variation_name);
 
   /// Get the weight of the generator variation for the event (use in execute())
-  /**
+  /*!
    *  This function is for convenience. It may not be the most
    *  performant way to calculate the generator varied weights!  See
    *  `generatorVariedWeightsNames()` and
@@ -151,7 +151,7 @@ class WeightTool : public TL::Loggable {
   float currentWeightOfVariation(const std::string& variation_name);
 
   /// generate "sum in quadrature" of the PDF4LHC variations (use in execute()).
-  /**
+  /*!
    *  This function returns a pair.
    *
    *  The first entry will is following calculation:
@@ -177,7 +177,7 @@ class WeightTool : public TL::Loggable {
   std::pair<float, float> currentPDF4LHCsumQuadVariations();
 
   /// get the cross section of the sample the algorithm is processing
-  /**
+  /*!
    *  This function uses the TopDataPreparation SampleXsection class
    *  to retrieve the cross section for the DSID.
    */
@@ -190,7 +190,7 @@ class WeightTool : public TL::Loggable {
   float sampleKfactor() const;
 
   /// get a nominal luminosity weight associated with the sample
-  /**
+  /*!
    *  This function uses the cross section and sum of weights to
    *  calculate nominal luminosity weight. We scale such that the
    *  integrated luminosity of the dataset will be in inverse

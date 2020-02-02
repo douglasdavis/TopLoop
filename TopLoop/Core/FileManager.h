@@ -1,4 +1,4 @@
-/** @file  FileManager.h
+/*! @file  FileManager.h
  *  @brief TL::FileManager class header
  *  @class TL::FileManager
  *  @brief Handles ROOT files.
@@ -46,7 +46,7 @@ class FileManager : public TL::Loggable {
 
  public:
   /// Describes instructions to only use a subset of a sgtop ntuple sample
-  /**
+  /*!
    *  The FileManager::feedDir class takes can take a vector of
    *  SubsetInstructions such that if it is given a sample with a
    *  DSID+campaign combination that also exists in the
@@ -78,7 +78,7 @@ class FileManager : public TL::Loggable {
   bool particleLevelEnabled() const { return m_doParticleLevel; }
 
   /// @name Sample tree naming setup functions
-  /**
+  /*!
    *  By default, the main tree name will be "nominal" and the
    *  weights tree name will be "sumWeights". These functions are
    *  used for modifying the names. They must be used *before*
@@ -87,28 +87,28 @@ class FileManager : public TL::Loggable {
   ///@{
 
   /// set the tree name to something other than "nominal"
-  /**
+  /*!
    *  If this function is to be used - it must be called before any
    *  feeds!
    */
   void setTreeName(const std::string& tn);
 
   /// set the weight tree name to something other than "sumWeights"
-  /**
+  /*!
    *  If this function is to be used - it must be called before any
    *  feeds!
    */
   void setWeightsTreeName(const std::string& tn);
 
   /// set the particle level tree name to something other than "particleLevel"
-  /**
+  /*!
    *  If this function is to be used - it must be called before any
    *  feeds!
    */
   void setParticleLevelTreeName(const std::string& tn);
 
   /// set the truth tree name to something other than "truth"
-  /**
+  /*!
    *  If this function is to be used - it must be called before any
    *  feeds!
    */
@@ -120,7 +120,7 @@ class FileManager : public TL::Loggable {
   /// @{
 
   /// disable a list of branches in the main SgTop ntuple tree
-  /**
+  /*!
    *  If you know your algorithm will not be accessing a particular
    *  branch you can disable it to improve performance. This
    *  function will disable a list you provide.
@@ -130,7 +130,7 @@ class FileManager : public TL::Loggable {
   void disableBranches(const std::vector<std::string>& branch_list) const;
 
   /// disable a list of branches in the particleLevelTree
-  /**
+  /*!
    * If you know your algorithm will not be accessing a particular
    * branch in the particle level tree, we can improve performance by
    * disabling it.
@@ -140,7 +140,7 @@ class FileManager : public TL::Loggable {
   void disableParticleLevelBranches(const std::vector<std::string>& branch_list) const;
 
   /// disable a list of branches in the truth tree
-  /**
+  /*!
    * If you know your algorithm will not be accessing a particular
    * branch in the truth tree, we can improve performance by
    * disabling it.
@@ -152,13 +152,13 @@ class FileManager : public TL::Loggable {
   /// @}
 
   /// @name Feeding functions
-  /**
+  /*!
    *  Various ways to feed your FileManager with samples
    */
   /// @{
 
   /// Feed the chains with files in a directory
-  /**
+  /*!
    *  @param dirpath path of the directory containing files to
    *  process
    *  @param sis subset instructions

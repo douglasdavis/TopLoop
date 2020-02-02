@@ -1,4 +1,4 @@
-/** @file  Algorithm.h
+/*! @file  Algorithm.h
  *  @brief TL::Algorithm class header
  *  @class TL::Algorithm
  *  @brief Base class for running a
@@ -76,7 +76,7 @@ class Algorithm : public TL::Loggable, public TL::Variables {
   bool initCalled() const { return m_initCalled; }
 
   /// Set the file manager
-  /**
+  /*!
    *  This is a requirement of all TopLoop algorithms Must be called
    *  before feeding to the TL::Job object.
    */
@@ -87,7 +87,7 @@ class Algorithm : public TL::Loggable, public TL::Variables {
 
  private:
   /// connect all of the default branches
-  /**
+  /*!
    *  Uses the CONNECT_BRANCH macro to finish the setup of all
    *  default branches.
    */
@@ -98,14 +98,14 @@ class Algorithm : public TL::Loggable, public TL::Variables {
   /// @{
 
   /// Initialize the algorithm properties
-  /**
+  /*!
    *  The point of this function is to initialize various properties
    *  of the algorithm, e.g. setting user specific member variables.
    */
   virtual TL::StatusCode init();
 
   /// The function which is called after init(), for output.
-  /**
+  /*!
    *  This function is meant for declaring files, histograms, trees,
    *  etc.  to be output by the algorithm. Anything a user puts in
    *  this function can technically just be included in the init()
@@ -115,7 +115,7 @@ class Algorithm : public TL::Loggable, public TL::Variables {
   virtual TL::StatusCode setupOutput();
 
   /// The function which is called in a loop over all events
-  /**
+  /*!
    *  This function is meant to be where the actual analysis
    *  happens.  All variables which are initialized for the
    *  TTreeReader are updated at the beginning of execute and all of
@@ -124,7 +124,7 @@ class Algorithm : public TL::Loggable, public TL::Variables {
   virtual TL::StatusCode execute();
 
   /// The function which is called at the end.
-  /**
+  /*!
    *  This function is meant to wrap up the algorithm, e.g.  write
    *  histograms and trees to a file, close the file.
    */
@@ -134,7 +134,7 @@ class Algorithm : public TL::Loggable, public TL::Variables {
 
  private:
   /// Initialize the variables for the TTreeReader
-  /**
+  /*!
    *  This function sets the TTreeReader variables up. Gets called
    *  in init()
    */

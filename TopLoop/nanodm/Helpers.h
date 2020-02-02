@@ -1,4 +1,4 @@
-/** @file nanodm/Helpers.h
+/*! @file nanodm/Helpers.h
  *  @brief nanodm Helper functions
  *
  *  @author Douglas Davis, <ddavis@cern.ch>
@@ -21,7 +21,7 @@
 namespace nanodm {
 
 /// A description of a collection of physics objects (four vectors)
-/**
+/*!
  *  this class is to be constructed from from variadic arguments
  */
 class PhysicsSystem {
@@ -84,14 +84,14 @@ class PhysicsSystem {
 /// @{
 
 /// calculate the \f$p_{\mathrm{T}}\f$ of the system of objects.
-/**
+/*!
  *  @param system the list of objects inheriting from nanodm::IPhysicsObject to use in the
  *         calculation.
  */
 inline double ptsys(const PhysicsSystem& system) { return system.p4().pt(); }
 
 /// Calculate the \f$H_{\mathrm{T}}\f$ of the system of objects
-/**
+/*!
  *  The \f$H_\mathrm{T}\f$ is the scalar sum of the
  *  \f$p_\mathrm{T}\f$ of all objects.
  *
@@ -101,7 +101,7 @@ inline double ptsys(const PhysicsSystem& system) { return system.p4().pt(); }
 inline double htsys(const PhysicsSystem& system) { return system.ht(); }
 
 /// Calculate the \f$H\f$ of the system of objects
-/**
+/*!
  *  The \f$H\f$ is the scalar sum of the \f$p\f$ of all objects.
  *
  *  @param system the list of objects inhjeriting from nanodm::IPhysicsObject to use in the
@@ -110,7 +110,7 @@ inline double htsys(const PhysicsSystem& system) { return system.ht(); }
 inline double hsys(const PhysicsSystem& system) { return system.h(); }
 
 /// calculate the \f$\sigma(p^\mathrm{sys}_{\mathrm{T}})\f$ of a system in the final state
-/**
+/*!
  *  The calculation is defined as
  *  \f[
  *     \sigma(p_\mathrm{T}^\mathrm{sys}(o_1,\ldots,o_n)) =
@@ -138,7 +138,7 @@ inline double sigma_ptsys(const PhysicsSystem& system, const float sumet) {
 }
 
 /// Calculate the centrality of the system of objects
-/**
+/*!
  *  Centrality is defined as
  *  \f[
  *     C(o_1,\ldots,o_n) =
@@ -153,7 +153,7 @@ inline double centrality(const PhysicsSystem& system) {
 }
 
 /// Calculate \f$\Delta R\f$ between systems of objects
-/**
+/*!
  *  This function uses ROOT's `ROOT::Math::VectorUtil::DeltaR` function to calculate:
  *
  *  \f[
@@ -168,7 +168,7 @@ inline double deltaR(const PhysicsSystem& system1, const PhysicsSystem& system2)
 }
 
 /// Calculate \f$\Delta R\f$ between two single objects
-/**
+/*!
  *  @param obj1 first object
  *  @param obj2 second object
  */
@@ -178,7 +178,7 @@ inline double deltaR(const IPhysicsObject<T1>* obj1, const IPhysicsObject<T2>* o
 }
 
 /// Calculate \f$\Delta p_{\mathrm{T}}\f$ between systems of objects.
-/**
+/*!
  *  @param system1 list of objects (inheriting from nanodm::IPhysicsObject) in system 1.
  *  @param system2 list of objects (inheriting from nanodm::IPhysicsObject) in system 2.
  */
@@ -187,7 +187,7 @@ inline double deltapt(const PhysicsSystem& system1, const PhysicsSystem& system2
 }
 
 /// Calculate \f$\Delta \phi\f$ between systems of objects.
-/**
+/*!
  *  The result is wrapped to the interval \f$[-\pi, \pi)\f$.
  *
  *  @param system1 list of objects (inheriting from nanodm::IPhysicsObject) in system 1.
@@ -198,7 +198,7 @@ inline double deltaphi(const PhysicsSystem& system1, const PhysicsSystem& system
 }
 
 /// Calculate the transverse mass (\f$m_{\mathrm{T}}\f$) of two object system.
-/**
+/*!
  *  The transverse mass is defined as
  *  \f[
  *     m_{\mathrm{T}} =
@@ -217,7 +217,7 @@ inline double transverseMass(const IPhysicsObject<T1>* obj1,
 }
 
 /// Calculate the energy to mass ratio of a system.
-/**
+/*!
  *  @param system the list of objects inhjeriting from
  *  nanodm::IPhysicsObject to use in the calculation.
  */
@@ -226,7 +226,7 @@ inline double energyMassRatio(const PhysicsSystem& system) {
 }
 
 /// Calculate the ratio of \f$H_\mathrm{T}\f$'s between two systems
-/**
+/*!
  *  The result is equal to \f$\frac{H_{\mathrm{T}}^{s_1}}{H_{\mathrm{T}}^{s_2}}\f$.
  *
  *  @param system1 list of objects (inheriting from nanodm::IPhysicsObject) in system 1.
@@ -237,7 +237,7 @@ inline double htsysratio(const PhysicsSystem& system1, const PhysicsSystem& syst
 }
 
 /// calculate the ratio of a system's \f$p_\mathrm{T}\f$ to its \f$H_\mathrm{T}\f$.
-/**
+/*!
  *  The result is equal to \f$\frac{p_\mathrm{T}^{\mathrm{sys}}}{H_{\mathrm{T}}^{\mathrm{sys}}}\f$.
  *
  *  @param system the list of objects inhjeriting from nanodm::IPhysicsObject to use in the

@@ -1,4 +1,4 @@
-/** @file  nanodm/Lepton.h
+/*! @file  nanodm/Lepton.h
  *  @brief nanodm::Lepton class header
  *
  *  @author Douglas Davis, <ddavis@cern.ch>
@@ -11,7 +11,7 @@
 
 namespace nanodm {
 
-/**
+/*!
  *  @class nanodm::Lepton
  *  @brief A base class to describe electrons or muon.
  */
@@ -37,7 +37,7 @@ class Lepton : public IPhysicsObject<CoordLep> {
   Lepton& operator=(Lepton&&) = default;
 
   /// constructor defining pdgId
-  /**
+  /*!
    *  This is for the Electron and Muon classes which
    *  inherit from Lepton
    *
@@ -90,7 +90,7 @@ class Lepton : public IPhysicsObject<CoordLep> {
   virtual float pz() const override { return m_p4.pz(); }
 };
 
-/**
+/*!
  *  @class nanodm::Tauon
  *  @brief A class for tau information
  */
@@ -121,7 +121,7 @@ class Tau : public Lepton {
   /// @}
 };
 
-/**
+/*!
  *  @class nanodm::Muon
  *  @brief A class for muon information
  */
@@ -152,7 +152,7 @@ class Muon : public Lepton {
   /// @}
 };
 
-/**
+/*!
  *  @class nanodm::Electron
  *  @brief A class for electron information
  */

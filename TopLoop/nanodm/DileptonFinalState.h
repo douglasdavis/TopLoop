@@ -1,4 +1,4 @@
-/** @file  nanodm/DileptonFinalState.h
+/*! @file  nanodm/DileptonFinalState.h
  *  @brief DileptonFinalState class header
  *
  *  @author Doug Davis <ddavis@cern.ch>
@@ -19,7 +19,7 @@
 
 namespace nanodm {
 
-/** @class DileptonFinalState
+/*! @class DileptonFinalState
  *  @brief A class providing structure to describe a dilepton final state
  *
  *  This class is built from other classes in the nanodm namespace
@@ -209,7 +209,7 @@ class DileptonFinalState {
   /// @{
 
   /// determine the number of b-tagged jets in a container based on the bin requirement
-  /**
+  /*!
    *  @param container the jet container
    *  @param bin_req the bin requirement
    */

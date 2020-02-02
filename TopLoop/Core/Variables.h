@@ -1,4 +1,4 @@
-/** @file  Variables.h
+/*! @file  Variables.h
  *  @brief TL::Variables class header
  *  @class TL::Variables
  *  @brief Base class for all TTreeReaderValue variables for TopLoop
@@ -104,7 +104,7 @@ class Variables {
   Variables& operator=(const Variables&) = delete;
 
   /// Set up a variable as a TTreeReaderValue pointer
-  /**
+  /*!
    *  This one liner checks to make sure that the variable is on the
    *  tree. If its not - you get a warning. If the variable isn't
    *  there your program will still work as long as you don't try to

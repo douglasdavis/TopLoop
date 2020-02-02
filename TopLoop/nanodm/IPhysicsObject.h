@@ -1,4 +1,4 @@
-/** @file IPhysicsObject.h
+/*! @file IPhysicsObject.h
  *  @brief nanodm::IPhysicsObject class header
  *
  *  @author Douglas Davis, <ddavis@cern.ch>
@@ -29,7 +29,7 @@ using CoordMET = ROOT::Math::PtEtaPhiM4D<float>;
 using CoordSys = ROOT::Math::PtEtaPhiM4D<float>;
 
 /// An interface class to describe a physics object
-/**
+/*!
  *  This abstraction is used as a base to individual objects and to
  *  build PhysicsSystems from collections of individual objects
  *  inheriting from the interface.

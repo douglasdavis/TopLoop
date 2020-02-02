@@ -1,4 +1,4 @@
-/** @file  nanodm/MissingET.h
+/*! @file  nanodm/MissingET.h
  *  @brief nanodm::MissingET class header
  *
  *  @author Douglas Davis, <ddavis@cern.ch>
@@ -11,7 +11,7 @@
 
 namespace nanodm {
 
-/**
+/*!
  *  @class nanodm::MissingET
  *  @brief a class to describe \f$E_\mathrm{T}^\mathrm{miss}\f$.
  */
@@ -53,7 +53,7 @@ class MissingET : public IPhysicsObject<CoordMET> {
   /// @{
 
   /// the \f$\sum E_\mathrm{T}\f$ (`sumet` from the sgtop ntuple tree)
-  /**
+  /*!
    *  the sum of transverse energies of all hard objects constributing
    *  to \f$E_\mathrm{T}^\mathrm{miss}\f$.
    */

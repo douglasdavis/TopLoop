@@ -1,4 +1,4 @@
-/** @file  Job.h
+/*! @file  Job.h
  *  @brief TL::Job class header
  *  @class TL::Job
  *  @brief Handles running a TopLoop algorithm.
@@ -77,7 +77,7 @@ class Job : public TL::Loggable {
   void disableProgressBar();
 
   /// Set which kind of loop to execute on the algorithm
-  /**
+  /*!
    * options are any of the members of the LoopType enumeration.  If
    * the type is anything other than LoopType::RecoOnly, there will
    * be some overhead determining the reco-level <-> particle-level

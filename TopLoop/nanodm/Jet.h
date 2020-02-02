@@ -1,4 +1,4 @@
-/** @file  nanodm/Jet.h
+/*! @file  nanodm/Jet.h
  *  @brief nanodm::Jet class header utilities
  *
  *  @author Douglas Davis, <ddavis@cern.ch>
@@ -27,7 +27,7 @@ enum class BTagWP {
 };
 
 /// Pseudocontinuous b-tagging WP indentifiers
-/**
+/*!
  *  The numbers are lowerBoundEff_upperBoundEff. (tightest WP would be 60_0).
  */
 enum class BTagBin {
@@ -98,7 +98,7 @@ inline BTagBin from_Bin_string(const std::string& bin) {
   return BTagBin::unknown;
 }
 
-/**
+/*!
  *  @class nanodm::Jet
  *  @brief A class to describe a jet
  */
@@ -167,7 +167,7 @@ class Jet : public IPhysicsObject<CoordJet> {
   float MV2c10() const { return m_jet_mv2c10; }
 
   /// test if jet is b-tagged based on the given minimum bin
-  /**
+  /*!
    *  @param bin_requirement the minimum PC b-tagging bin the jet must
    *  pass to be considered tagged.
    */

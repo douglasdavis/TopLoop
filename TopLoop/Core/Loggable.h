@@ -1,4 +1,4 @@
-/** @file  Loggable.h
+/*! @file  Loggable.h
  *  @brief TL::Loggable class header
  *  @class TL::Loggable
  *  @brief Base class for logging purposes
@@ -24,7 +24,7 @@ class Loggable {
 
  public:
   /// Only usable constructor, gives name to the logger
-  /**
+  /*!
    *  Should be used with a daughter class like so:
    *
    *  @code{.cpp}

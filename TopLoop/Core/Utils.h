@@ -1,4 +1,4 @@
-/** @file  Utils.h
+/*! @file  Utils.h
  *  @brief TL::Utils class header
  *  @namespace TL
  *  @brief the main TopLoop namespace
@@ -21,7 +21,7 @@
 
 namespace TL {
 class StatusCode {
-  /** @class TL::StatusCode
+  /*! @class TL::StatusCode
    *  @brief Class for handling return codes
    *
    *  Essentially a copy of StatusCode from ATLAS AsgTools.
@@ -67,7 +67,7 @@ class StatusCode {
 };
 }  // namespace TL
 
-/**
+/*!
  *  @def TL_CHECK
  *  Checks the return code for SUCCESS or FAILURE
  */
