@@ -13,9 +13,6 @@
 // C++
 #include <cmath>
 
-// Boost
-#include <boost/range/adaptor/indexed.hpp>
-
 // ATLAS
 #include <PathResolver/PathResolver.h>
 #include <TopDataPreparation/SampleXsectionSvc.h>
@@ -30,26 +27,26 @@ TL::WeightTool::WeightTool(TL::Algorithm* algorithm)
 }
 
 float TL::WeightTool::generatorSumWeights() {
-  if (std::get<0>(m_weightCache) > 0) {
-    return std::get<0>(m_weightCache);
+  if (m_generatorSumWeights > 0) {
+    return m_generatorSumWeights;
   }
-  std::get<0>(m_weightCache) = 0;
+  m_generatorSumWeights = 0;
   m_alg->weightsReader()->Restart();
   while (m_alg->weightsReader()->Next()) {
     if (m_alg->weightsReader()->GetEntryStatus() != TTreeReader::kEntryValid) {
       logger()->error("countSumWeights(): Tree reader does not return kEntryValid");
     }
-    std::get<0>(m_weightCache) += m_alg->totalEventsWeighted();
+    m_generatorSumWeights += m_alg->totalEventsWeighted();
   }
   m_alg->weightsReader()->Restart();
 
-  logger()->debug("Value of countSumWeights(): {}", std::get<0>(m_weightCache));
-  return std::get<0>(m_weightCache);
+  logger()->debug("Value of countSumWeights(): {}", m_generatorSumWeights);
+  return m_generatorSumWeights;
 }
 
 const std::vector<float>& TL::WeightTool::generatorVariedSumWeights() {
-  if (not std::get<1>(m_weightCache).empty()) {
-    return std::get<1>(m_weightCache);
+  if (!m_generatorVariedSumWeights.empty()) {
+    return m_generatorVariedSumWeights;
   }
   std::size_t vsize = 0;
   m_alg->weightsReader()->Restart();
@@ -57,7 +54,7 @@ const std::vector<float>& TL::WeightTool::generatorVariedSumWeights() {
     vsize = m_alg->totalEventsWeighted_mc_generator_weights().size();
     break;
   }
-  std::get<1>(m_weightCache).resize(vsize, 0.0);
+  m_generatorVariedSumWeights.resize(vsize, 0.0);
   m_alg->weightsReader()->Restart();
 
   while (m_alg->weightsReader()->Next()) {
@@ -69,28 +66,28 @@ const std::vector<float>& TL::WeightTool::generatorVariedSumWeights() {
     // now get all the rest
     for (std::size_t j = 0; j < vsize; ++j) {
       auto jsum = m_alg->totalEventsWeighted_mc_generator_weights().at(j);
-      std::get<1>(m_weightCache).at(j) += jsum;
+      m_generatorVariedSumWeights.at(j) += jsum;
     }
   }
   m_alg->weightsReader()->Restart();
 
-  return std::get<1>(m_weightCache);
+  return m_generatorVariedSumWeights;
 }
 
 const std::map<std::string, std::size_t>& TL::WeightTool::generatorVariedWeightsNames() {
-  if (not std::get<2>(m_weightCache).empty()) {
-    return std::get<2>(m_weightCache);
+  if (!m_generatorVariedWeightsNames.empty()) {
+    return m_generatorVariedWeightsNames;
   }
   m_alg->weightsReader()->Restart();
   while (m_alg->weightsReader()->Next()) {
-    for (const auto& nameitr :
-         m_alg->names_mc_generator_weights() | boost::adaptors::indexed()) {
-      std::get<2>(m_weightCache).emplace(nameitr.value(), nameitr.index());
+    std::size_t name_counter = 0;
+    for (const std::string& name : m_alg->names_mc_generator_weights()) {
+      m_generatorVariedWeightsNames.emplace(name, name_counter++);
     }
     break;
   }
   m_alg->weightsReader()->Restart();
-  return std::get<2>(m_weightCache);
+  return m_generatorVariedWeightsNames;
 }
 
 float TL::WeightTool::sumOfVariation(const std::string& variation_name) {

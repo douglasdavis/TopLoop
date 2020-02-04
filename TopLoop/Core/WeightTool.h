@@ -31,11 +31,11 @@ namespace TL {
 class WeightTool : public TL::Loggable {
  private:
   TL::Algorithm* m_alg;
-
-  std::tuple<float, std::vector<float>, std::map<std::string, std::size_t>> m_weightCache{
-      -1, {}, {}};
-
   const SampleXsection* m_xsec;
+
+  float m_generatorSumWeights{-1};
+  std::vector<float> m_generatorVariedSumWeights{};
+  std::map<std::string, std::size_t> m_generatorVariedWeightsNames{};
 
  public:
   WeightTool() = delete;
