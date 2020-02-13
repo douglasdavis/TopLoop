@@ -5,7 +5,7 @@
             "Generator": "Unknown",
             "InitialState": "Unknown",
             "SampleType": "Unknown",
-	    "Color": ""
+            "Color": ""
         }
     ],
     "Data": [
@@ -14,7 +14,7 @@
             "Generator": "Data",
             "InitialState": "Data",
             "SampleType": "Data",
-	    "Color": ""
+            "Color": ""
         }
     ],
     "Triboson": [
@@ -23,7 +23,7 @@
             "Generator": "Sherpa222",
             "InitialState": "Triboson",
             "SampleType": "Nominal",
-	    "Color": "#999966"
+            "Color": "#999966"
         }
     ],
     "Diboson": [
@@ -32,133 +32,133 @@
             "Generator": "Sherpa21",
             "InitialState": "ZZ",
             "SampleType": "Nominal",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [361603,361605],
             "Generator": "PowhegPythia8",
             "InitialState": "ZZ",
             "SampleType": "Unknown",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [361610,361611],
             "Generator": "PowhegPythia8",
             "InitialState": "ZZ",
             "SampleType": "Unknown",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [361063,361090],
             "Generator": "Sherpa21",
             "InitialState": "Diboson",
             "SampleType": "Unknown",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [361591,361597],
             "Generator": "PowhegHerwigpp",
             "InitialState": "Diboson",
             "SampleType": "Unknown",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [361091,361092],
             "Generator": "Sherpa21",
             "InitialState": "WW",
             "SampleType": "Nominal",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [361600,361600],
             "Generator": "PowhegPythia8",
             "InitialState": "WW",
             "SampleType": "Unknown",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [361606,361606],
             "Generator": "PowhegPythia8",
             "InitialState": "WW",
             "SampleType": "Unknown",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [361093,361095],
             "Generator": "Sherpa21",
             "InitialState": "WZ",
             "SampleType": "Nominal",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [361601,361602],
             "Generator": "PowhegPythia8",
             "InitialState": "WZ",
             "SampleType": "Unknown",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [361607,361609],
             "Generator": "PowhegPythia8",
             "InitialState": "WZ",
             "SampleType": "Unknown",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [363355,363356],
             "Generator": "Sherpa221",
             "InitialState": "ZZ",
             "SampleType": "Nominal",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [363357,363358],
             "Generator": "Sherpa221",
             "InitialState": "WZ",
             "SampleType": "Nominal",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [363359,363360],
             "Generator": "Sherpa221",
             "InitialState": "WW",
             "SampleType": "Nominal",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [363489,363489],
             "Generator": "Sherpa221",
             "InitialState": "WZ",
             "SampleType": "Nominal",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [363494,363494],
             "Generator": "Sherpa221",
             "InitialState": "ZZ",
             "SampleType": "Nominal",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [364250,364250],
             "Generator": "Sherpa222",
             "InitialState": "Diboson",
             "SampleType": "Nominal",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [364253,364255],
             "Generator": "Sherpa222",
             "InitialState": "Diboson",
             "SampleType": "Nominal",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         },
         {
             "DSID_range": [364288,364290],
             "Generator": "Sherpa222",
             "InitialState": "Diboson",
             "SampleType": "Nominal",
-	    "Color": "#FFFF00"
+            "Color": "#FFFF00"
         }
     ],
     "Wjets": [
@@ -167,35 +167,35 @@
             "Generator": "Sherpa21",
             "InitialState": "Wjets",
             "SampleType": "Nominal",
-	    "Color": "#006633"
+            "Color": "#006633"
         },
         {
             "DSID_range": [363436,363483],
             "Generator": "Sherpa22",
             "InitialState": "Wjets",
             "SampleType": "Nominal",
-	    "Color": "#006633"
+            "Color": "#006633"
         },
         {
             "DSID_range": [363331,363354],
             "Generator": "Sherpa22",
             "InitialState": "Wjets",
             "SampleType": "Nominal",
-	    "Color": "#006633"
+            "Color": "#006633"
         },
         {
             "DSID_range": [364156,364197],
             "Generator": "Sherpa221",
             "InitialState": "Wjets",
             "SampleType": "Nominal",
-	    "Color": "#006633"
+            "Color": "#006633"
         },
         {
             "DSID_range": [361520,361534],
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "Wjets",
             "SampleType": "Nominal",
-	    "Color": "#006633"
+            "Color": "#006633"
         }
     ],
     "tchan" : [
@@ -204,28 +204,28 @@
             "Generator" : "PowhegPythia6",
             "InitialState": "tchan",
             "SampleType": "Nominal",
-	    "Color": "#3399cc"
+            "Color": "#3399cc"
         },
         {
             "DSID_range": [410658,410659],
             "Generator" : "PowhegPythia8",
             "InitialState": "tchan",
             "SampleType": "Nominal",
-	    "Color": "#3399cc"
+            "Color": "#3399cc"
         },
         {
             "DSID_range": [411032,411033],
             "Generator" : "PowhegHerwig7",
             "InitialState": "tchan",
             "SampleType": "Systematic",
-	    "Color": "#3399cc"
+            "Color": "#3399cc"
         },
         {
             "DSID_range": [412004,412004],
             "Generator" : "MG5aMCatNLOPythia8",
             "InitialState": "tchan",
             "SampleType": "Systematic",
-	    "Color": "#3399cc"
+            "Color": "#3399cc"
         }
     ],
     "schan" : [
@@ -234,7 +234,7 @@
             "Generator" : "PowhegPythia8",
             "InitialState": "schan",
             "SampleType": "Nominal",
-	    "Color": "#003366"
+            "Color": "#003366"
         }
     ],
     "tW": [
@@ -243,112 +243,112 @@
             "Generator": "PowhegPythia6",
             "InitialState": "tW_DR",
             "SampleType": "Nominal",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [410015,410016],
             "Generator": "PowhegPythia6_dil",
             "InitialState": "tW_DR",
             "SampleType": "Nominal",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [410062,410063],
             "Generator": "PowhegPythia6",
             "InitialState": "tW_DS",
             "SampleType": "Systematic",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [410064,410065],
             "Generator": "PowhegPythia6_dil",
             "InitialState": "tW_DS",
             "SampleType": "Systematic",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [410099,410102],
             "Generator": "PowhegPythia6",
             "InitialState": "tW",
             "SampleType": "Systematic",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [410103,410106],
             "Generator": "PowhegPythia6_dil",
             "InitialState": "tW",
             "SampleType": "Systematic",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [410145,410148],
             "Generator": "PowhegHerwigpp",
             "InitialState": "tW",
             "SampleType": "Systematic",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [410164,410164],
             "Generator": "MG5aMCatNLOHerwigpp",
             "InitialState": "tW",
             "SampleType": "Systematic",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [410646,410647],
             "Generator": "PowhegPythia8",
             "InitialState": "tW_DR",
             "SampleType": "Nominal",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [410648,410649],
             "Generator": "PowhegPythia8_dil",
             "InitialState": "tW_DR",
             "SampleType": "Nominal",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [410654,410655],
             "Generator": "PowhegPythia8",
             "InitialState": "tW_DS",
             "SampleType": "Systematic",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [410656,410657],
             "Generator": "PowhegPythia8_dil",
             "InitialState": "tW_DS",
             "SampleType": "Systematic",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [411036,411037],
             "Generator": "PowhegHerwig7",
             "InitialState": "tW_DR",
             "SampleType": "Systematic",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [411038,411039],
             "Generator": "PowhegHerwig7_dil",
             "InitialState": "tW_DR",
             "SampleType": "Systematic",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [412002,412002],
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tW",
             "SampleType": "Systematic",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         },
         {
             "DSID_range": [412003,412003],
             "Generator": "MG5aMCatNLOPythia8_dil",
             "InitialState": "tW",
             "SampleType": "Systematic",
-	    "Color": "#66CCFF"
+            "Color": "#66CCFF"
         }
     ],
     "Zjets": [
@@ -357,35 +357,35 @@
             "Generator": "Sherpa21",
             "InitialState": "Zjets",
             "SampleType": "Nominal",
-	    "Color": "#FFCC66"
+            "Color": "#FFCC66"
         },
         {
             "DSID_range": [363361,363435],
             "Generator": "Sherpa22",
             "InitialState": "Zjets",
             "SampleType": "Nominal",
-	    "Color": "#FFCC66"
+            "Color": "#FFCC66"
         },
         {
             "DSID_range": [363102,363122],
             "Generator": "Sherpa22",
             "InitialState": "Zjets",
             "SampleType": "Nominal",
-	    "Color": "#FFCC66"
+            "Color": "#FFCC66"
         },
         {
             "DSID_range": [364100,364141],
             "Generator": "Sherpa221",
             "InitialState": "Zjets",
             "SampleType": "Nominal",
-	    "Color": "#FFCC66"
+            "Color": "#FFCC66"
         },
         {
             "DSID_range": [361500,361514],
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "Zjets",
             "SampleType": "Nominal",
-	    "Color": "#FFCC66"
+            "Color": "#FFCC66"
         }
     ],
     "ttbar": [
@@ -394,182 +394,182 @@
             "Generator": "PowhegPythia8",
             "InitialState": "ttbar",
             "SampleType": "Nominal",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410471,410471],
             "Generator": "PowhegPythia8_had",
             "InitialState": "ttbar",
             "SampleType": "Nominal",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410472,410472],
             "Generator": "PowhegPythia8_dil",
             "InitialState": "ttbar",
             "SampleType": "Nominal",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410480,410480],
             "Generator": "PowhegPythia8_1lep",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410481,410481],
             "Generator": "PowhegPythia8_had",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410482,410482],
             "Generator": "PowhegPythia8",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410000,410000],
             "Generator": "PowhegPythia6",
             "InitialState": "ttbar",
             "SampleType": "Nominal",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410001,410002],
             "Generator": "PowhegPythia6",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410003,410003],
             "Generator": "MG5aMCatNLOHerwigpp",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410004,410004],
             "Generator": "PowhegHerwigpp",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410009,410009],
             "Generator": "PowhegPythia6",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410037,410041],
             "Generator": "PowhegPythia6",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410103,410106],
             "Generator": "PowhegPythia6",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410146,410146],
             "Generator": "PowhegHerwigpp",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410164,410164],
             "Generator": "MG5aMCatNLOHerwigpp",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410252,410252],
             "Generator": "Sherpa221",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410501,410501],
             "Generator": "PowhegPythia8",
             "InitialState": "ttbar",
             "SampleType": "Nominal",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410511,410512],
             "Generator": "PowhegPythia8",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410503,410503],
             "Generator": "PowhegPythia8_dil",
             "InitialState": "ttbar",
             "SampleType": "Nominal",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [407009,407011],
             "Generator": "PowhegPythia6",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410225,410225],
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410525,410525],
             "Generator": "PowhegHerwig7",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410464,410464],
             "Generator": "MG5aMCatNLOPythia8_1lep",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410465,410465],
             "Generator": "MG5aMCatNLOPythia8_dil",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410557,410557],
             "Generator": "PowhegHerwig7_1lep",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         },
         {
             "DSID_range": [410558,410558],
             "Generator": "PowhegHerwig7_dil",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
-	    "Color": "#FF3333"
+            "Color": "#FF3333"
         }
     ],
     "ttV": [
@@ -578,14 +578,14 @@
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "ttV",
             "SampleType": "Nominal",
-	    "Color": "#990000"
+            "Color": "#990000"
         },
         {
             "DSID_range": [410218,410220],
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "ttV",
             "SampleType": "Nominal",
-	    "Color": "#990000"
+            "Color": "#990000"
         }
     ],
     "ttH": [
@@ -594,28 +594,28 @@
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "ttH",
             "SampleType": "Nominal",
-	    "Color": "#ff6666"
+            "Color": "#ff6666"
         },
         {
             "DSID_range": [346343,346343],
             "Generator": "PowhegPythia8_had",
             "InitialState": "ttH",
             "SampleType": "Nominal",
-	    "Color": "#ff6666"
+            "Color": "#ff6666"
         },
         {
             "DSID_range": [346344,346344],
             "Generator": "PowhegPythia8_1lep",
             "InitialState": "ttH",
             "SampleType": "Nominal",
-	    "Color": "#ff6666"
+            "Color": "#ff6666"
         },
         {
             "DSID_range": [346345,346345],
             "Generator": "PowhegPythia8_dil",
             "InitialState": "ttH",
             "SampleType": "Nominal",
-	    "Color": "#ff6666"
+            "Color": "#ff6666"
         }
     ],
     "ttt": [
@@ -624,7 +624,7 @@
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "ttt",
             "SampleType": "Nominal",
-	    "Color": "#99cc66"
+            "Color": "#99cc66"
         }
     ],
     "tttt": [
@@ -633,21 +633,21 @@
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tttt",
             "SampleType": "Nominal",
-	    "Color": "#ccff99"
+            "Color": "#ccff99"
         },
         {
             "DSID_range": [412043,412043],
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tttt",
             "SampleType": "Nominal",
-	    "Color": "#ccff99"
+            "Color": "#ccff99"
         },
         {
             "DSID_range": [412045,412045],
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tttt",
             "SampleType": "Nominal",
-	    "Color": "#ccff99"
+            "Color": "#ccff99"
         }
     ],
     "tZq": [
@@ -656,14 +656,14 @@
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tZq",
             "SampleType": "Nominal",
-	    "Color": "#ff0099"
+            "Color": "#ff0099"
         },
         {
             "DSID_range": [412064, 412065],
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tZq",
             "SampleType": "Systematic",
-	    "Color": "#ff0099"
+            "Color": "#ff0099"
         }
     ],
     "tHq": [
@@ -672,7 +672,7 @@
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tHq",
             "SampleType": "Nominal",
-	    "Color": "#33cccc"
+            "Color": "#33cccc"
         }
     ],
     "tWZ": [
@@ -681,7 +681,7 @@
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tWZ",
             "SampleType": "Nominal",
-   	    "Color": "#cccc33"
+            "Color": "#cccc33"
         }
     ]
 }
