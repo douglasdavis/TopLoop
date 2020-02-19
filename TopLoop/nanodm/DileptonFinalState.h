@@ -155,7 +155,7 @@ class DileptonFinalState {
     else if (mumu())
       return FlavComb::MUMU;
     else if(tautau())
-    	return FlavComb::TAUTAU;
+      return FlavComb::TAUTAU;
     else if (eltau())
       return FlavComb::ELTAU;
     else if (mutau())
