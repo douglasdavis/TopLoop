@@ -517,6 +517,10 @@ class Variables {
   DECLARE_PL_BRANCH_PRIMITIVE(mcChannelNumber, UInt_t);
   DECLARE_PL_BRANCH_PRIMITIVE(mu, Float_t);
   DECLARE_PL_BRANCH_PRIMITIVE(weight_pileup, Float_t);
+  DECLARE_PL_BRANCH(nu_pt, std::vector<float>);
+  DECLARE_PL_BRANCH(nu_eta, std::vector<float>);
+  DECLARE_PL_BRANCH(nu_phi, std::vector<float>);
+  DECLARE_PL_BRANCH(nu_origin, std::vector<int>);
   DECLARE_PL_BRANCH(el_pt, std::vector<float>);
   DECLARE_PL_BRANCH(el_eta, std::vector<float>);
   DECLARE_PL_BRANCH(el_phi, std::vector<float>);

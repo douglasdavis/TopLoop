@@ -416,6 +416,10 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(weight_triggerSF_tight_MU_SF_Trigger_SYST_DOWN, Float_t, m_reader);
 
   if (m_particleLevelReader) {
+    CONNECT_PL_BRANCH(nu_pt, std::vector<float>, m_particleLevelReader);
+    CONNECT_PL_BRANCH(nu_eta, std::vector<float>, m_particleLevelReader);
+    CONNECT_PL_BRANCH(nu_phi, std::vector<float>, m_particleLevelReader);
+    CONNECT_PL_BRANCH(nu_origin, std::vector<int>, m_particleLevelReader);
     CONNECT_PL_BRANCH(weight_mc, Float_t, m_particleLevelReader);
     CONNECT_PL_BRANCH(eventNumber, ULong64_t, m_particleLevelReader);
     CONNECT_PL_BRANCH(runNumber, UInt_t, m_particleLevelReader);
