@@ -1,4 +1,4 @@
-/** @file SampleMetaSvc.cxx
+/*! @file SampleMetaSvc.cxx
  *  @brief TL::SampleMetaSvc class implementation
  *
  *  @author Douglas Davis, <ddavis@cern.ch>
@@ -140,7 +140,8 @@ void TL::SampleMetaSvc::setupMaps() {
              {"MC16f", TL::kCampaign::MC16f},     {"MC15c", TL::kCampaign::MC15c}};
   m_s2e_NT = {{"Unknown", TL::kSgTopNtup::Unknown}, {"v23", TL::kSgTopNtup::v23},
               {"v25", TL::kSgTopNtup::v25},         {"v27", TL::kSgTopNtup::v27},
-              {"v28", TL::kSgTopNtup::v28},         {"v29", TL::kSgTopNtup::v29}};
+              {"v28", TL::kSgTopNtup::v28},         {"v29", TL::kSgTopNtup::v29},
+              {"v30", TL::kSgTopNtup::v30},         {"Test05", TL::kSgTopNtup::Test05}};
   auto flipMap = [](const auto& templateMap, auto& newMap) {
     for (auto const& templatePair : templateMap) {
       newMap.emplace(templatePair.second, templatePair.first);
@@ -257,8 +258,9 @@ bool TL::SampleMetaSvc::tWorTtbarPowPy8(const unsigned int d) const {
   std::vector<TL::kInitialState> tops = {kInitialState::ttbar, kInitialState::tW,
                                          kInitialState::tW_DR, kInitialState::tW_DS};
   bool is_top = std::find(std::begin(tops), std::end(tops), initstate) != tops.end();
-  bool is_pp8 = (gen == kGenerator::PowhegPythia8 || gen == kGenerator::PowhegPythia8_1lep ||
-                 gen == kGenerator::PowhegPythia8_dil || gen == kGenerator::PowhegPythia8_had);
+  bool is_pp8 =
+      (gen == kGenerator::PowhegPythia8 || gen == kGenerator::PowhegPythia8_1lep ||
+       gen == kGenerator::PowhegPythia8_dil || gen == kGenerator::PowhegPythia8_had);
   return (is_top && is_pp8);
 }
 

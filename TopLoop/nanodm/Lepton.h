@@ -91,7 +91,7 @@ class Lepton : public IPhysicsObject<CoordLep> {
 };
 
 /*!
- *  @class nanodm::Tauon
+ *  @class nanodm::Tau
  *  @brief A class for tau information
  */
 class Tau : public Lepton {

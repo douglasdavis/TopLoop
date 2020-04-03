@@ -55,7 +55,7 @@ atlas_add_library(TopLoop
 #  TopLoop/TopLoopDict.h TopLoop/selection.xml
 #  LINK_LIBRARIES TopLoop )
 
-target_compile_features(TopLoop PUBLIC cxx_std_14)
+target_compile_features(TopLoop PUBLIC cxx_std_17)
 target_compile_options(TopLoop PRIVATE -Wall -Wextra)
 
 # Install data files from the package:
