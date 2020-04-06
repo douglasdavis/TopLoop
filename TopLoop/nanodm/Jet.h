@@ -103,7 +103,7 @@ inline BTagWP from_WP_string(const std::string& wp) {
 
 /// convenience bin enum to string function
 /*!
- *  @param wp the bin to convert to string
+ *  @param bin the bin to convert to string
  */
 inline std::string to_string(const BTagBin bin) {
   switch (bin) {
@@ -124,7 +124,7 @@ inline std::string to_string(const BTagBin bin) {
 
 /// convenience working point string to enum
 /*!
- *  @param wp the string to convert to enum entry
+ *  @param bin the string to convert to enum entry
  */
 inline BTagBin from_Bin_string(const std::string& bin) {
   if (bin == "eff_100_85") return BTagBin::eff_100_85;
