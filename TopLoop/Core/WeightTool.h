@@ -3,7 +3,7 @@
  *  @class TL::WeightTool
  *  @brief A class to handle weight access
  *
- *  This class is intimately connected to the TL::Algorithm class and
+ *  This class is intimately connects to the TL::Algorithm class and
  *  uses its features to provide a somewhat isolated object to cache
  *  and retrieve sample information for calculating various weights.
  *
@@ -14,6 +14,7 @@
 #define TL_WeightTool_h
 
 #include <TopLoop/Core/Loggable.h>
+#include <TopLoop/Core/Utils.h>
 
 #include <map>
 #include <memory>
@@ -28,31 +29,78 @@ enum class kCampaign;
 }  // namespace TL
 
 namespace TL {
+
+enum class AuxWeightScheme { ttbar_v1, ttbar_v2, tW_v1, tW_v2, unknown };
+
 class WeightTool : public TL::Loggable {
  private:
   TL::Algorithm* m_alg;
   const SampleXsection* m_xsec;
 
+  AuxWeightScheme m_scheme{AuxWeightScheme::unknown};
+  std::array<std::string, 31> m_PDFWeightNames{};
   float m_generatorSumWeights{-1};
   std::vector<float> m_generatorVariedSumWeights{};
   std::map<std::string, std::size_t> m_generatorVariedWeightsNames{};
 
- public:
-  WeightTool() = delete;
-  virtual ~WeightTool() = default;
+  TL::StatusCode determine_muRmuF_names();
+  TL::StatusCode determineScheme();
 
+  std::string m_name_scale_muR_20;
+  std::string m_name_scale_muR_05;
+  std::string m_name_scale_muF_20;
+  std::string m_name_scale_muF_05;
+  std::string m_name_Var3cUp;
+  std::string m_name_Var3cDown;
+  std::string m_name_fsr_muR_20;
+  std::string m_name_fsr_muR_05;
+  std::size_t m_idx_scale_muR_20;
+  std::size_t m_idx_scale_muR_05;
+  std::size_t m_idx_scale_muF_20;
+  std::size_t m_idx_scale_muF_05;
+  std::size_t m_idx_Var3cUp;
+  std::size_t m_idx_Var3cDown;
+  std::size_t m_idx_fsr_muR_20;
+  std::size_t m_idx_fsr_muR_05;
+
+  bool m_initialized{false};
+
+ public:
+
+  /// @name Constructors
+  /// @{
+
+  /// Only usable constructor - must include algorithm pointer
+  explicit WeightTool(TL::Algorithm* algorithm);
+
+  WeightTool() = delete;
   WeightTool(const WeightTool&) = delete;
   WeightTool(WeightTool&&) = delete;
   WeightTool& operator=(const WeightTool&) = delete;
   WeightTool& operator=(WeightTool&&) = delete;
 
-  /// Only constructor - must include algorithm pointer
-  explicit WeightTool(TL::Algorithm* algorithm);
+  /// @}
+
+  /// @name required for use
+  /// @{
+
+  /// must be called before any use
+  /*!
+   *  The tool does some parsing of the sumWeights tree to determine
+   *  how it should operate. This function executes that logic to
+   *  ensure the right weight names and used.
+   */
+  void initialize();
+
+  /// @}
+
+  /// @name generic API
+  /// @{
 
   /// Count the sumWeights from all input trees
   /*!
-   *  This can be called in the init() function if info about the
-   *  sum of weights is desired; s the nominal sum of weights
+   *  This can be called in the init() function if info about the sum
+   *  of weights is desired; is the nominal sum of weights
    */
   float generatorSumWeights();
 
@@ -73,11 +121,11 @@ class WeightTool : public TL::Loggable {
   /*!
    *  Can be called to retrieve the list of strings corresponding to
    *  the name of the generator based weights. The key in the map is
-   *  the index in `mc_generator_weights` vector branch as well as
-   *  the vector returned by `generatorVariedSumWeights()`. These
-   *  can be used to find the normalization associated with a
-   *  specific generator's varied weight... example usage in a
-   *  TL::Algorithm based class:
+   *  the index in `mc_generator_weights` vector branch as well as the
+   *  vector returned by `generatorVariedSumWeights()`. These can be
+   *  used to find the normalization associated with a specific
+   *  generator's varied weight... example usage in a TL::Algorithm
+   *  based class:
    *
    *  @code{.cpp}
    *  auto genWeightNames = weightTool().generatorVariedSumWeightNames();
@@ -123,14 +171,24 @@ class WeightTool : public TL::Loggable {
    */
   float sumOfVariation(const std::string& variation_name);
 
+  /// Get the sum of weights required to normalize a variation based on the index
+  /*!
+   *  This is similar to the string overload of the same function but
+   *  expects the user to have manually determined the necessary index
+   *  ahead of calling.
+   *
+   *  @param idx the index in the mc_generator_weights vector
+   */
+  float sumOfVariation(const std::size_t idx);
+
   /// Get the weight of the generator variation for the event (use in execute())
   /*!
    *  This function is for convenience. It may not be the most
    *  performant way to calculate the generator varied weights!  See
    *  `generatorVariedWeightsNames()` and
    *  `generatorVariedSumWeights()` to think about designing a more
-   *  performant access method. Which doesn't require searching a
-   *  map on each event...
+   *  performant access method. Which doesn't require searching a map
+   *  on each event...
    *
    *  Example:
    *
@@ -150,31 +208,31 @@ class WeightTool : public TL::Loggable {
    */
   float currentWeightOfVariation(const std::string& variation_name);
 
-  /// generate "sum in quadrature" of the PDF4LHC variations (use in execute()).
+  /// get the weight of the generator variation for the  current event based on index
   /*!
-   *  This function returns a pair.
+   *  This is similar to the string overload of the same function but
+   *  expects the user to have manually determined the necessary index
+   *  ahead of calling.
    *
-   *  The first entry will is following calculation:
-   *
-   *  \f[
-   *     w_{\mathrm{PDF4LHC}} =
-   *       \sqrt{ \sum_{i=0}^{30} \left(w_c - w_i\right)^2}
-   *  \f]
-   *
-   *  where \f$w_c\f$ is the central value for PDF4LHC treatment
-   *  ("PDFset=90900") and \f$\{w_i\}\f$ are the 30 variations
-   *  ("PDFset=909{01-30}"). This function also takes into account
-   *  the "sum of weights" associated with each variation such that
-   *  the normalization is treated correctly.
-   *
-   *  The second entry is the percent of the central value
-   *  ("PDFset=90900") weight that the above calculation is:
-   *
-   *  \f[
-   *     p = \frac{w_{\mathrm{PDF4LHC}}}{w_c} \times 100
-   *  \f]
+   *  @param idx the vector
    */
-  std::pair<float, float> currentPDF4LHCsumQuadVariations();
+  float currentWeightOfVariation(const std::size_t idx);
+
+  /// get the index (in the mc_generator_weight_names vector) of the variation name
+  /*!
+   *  if one knows the index of a variation, one can access the
+   *  entries in the mc_generator_weight_names branch via direct index
+   *  access instead of figuring it out from the map, this can provide
+   *  some performance improvements over doing the lookup in the map.
+   *
+   *  @param variation_name the name of the generator variation
+   */
+  std::size_t getIndexOfVariation(const std::string& variation_name);
+
+  /// @}
+
+  /// @name cross section helpers
+  /// @{
 
   /// get the cross section of the sample the algorithm is processing
   /*!
@@ -217,6 +275,55 @@ class WeightTool : public TL::Loggable {
 
   /// retreive the TopDataPreparation provided cross section class
   const SampleXsection* sampleXsection() const { return m_xsec; }
+
+  /// @}
+
+  /// @name specific string and index weight getters
+  /// @{
+
+  /// retrieve the list of PDF weight names
+  /*!
+   *  Unfortunately these are sample dependent, so we determine at the
+   *  beginning of run time what they are and store them in a vector
+   *  for later retrieval.
+   */
+  const std::array<std::string, 31>& PDFWeightNames();
+
+  /// the name for the muR scale variation to 2.0
+  const std::string& name_scale_muR_20() const { return m_name_scale_muR_20; }
+  /// the name for the muR scale variation to 0.5
+  const std::string& name_scale_muR_05() const { return m_name_scale_muR_05; }
+  /// the name for the muF scale variation to 2.0
+  const std::string& name_scale_muF_20() const { return m_name_scale_muF_20; }
+  /// the name for the muF scale variation to 0.5
+  const std::string& name_scale_muF_05() const { return m_name_scale_muF_05; }
+  /// the name for the Var3cUp ISR variation
+  const std::string& name_Var3cUp() const { return m_name_Var3cUp; }
+  /// the name for the Var3cDown ISR variation
+  const std::string& name_Var3cDown() const { return m_name_Var3cDown; }
+  /// the name for the FSR muR variation to 2.0
+  const std::string& name_fsr_muR_20() const { return m_name_fsr_muR_20; }
+  /// the name for the FSR muR variation to 0.5
+  const std::string& name_fsr_muR_05() const { return m_name_fsr_muR_05; }
+
+  /// the index for the muR scale variation to 2.0
+  std::size_t idx_scale_muR_20() const { return m_idx_scale_muR_20; }
+  /// the index for the muR scale variation to 0.5
+  std::size_t idx_scale_muR_05() const { return m_idx_scale_muR_05; }
+  /// the index for the muF scale variation to 2.0
+  std::size_t idx_scale_muF_20() const { return m_idx_scale_muF_20; }
+  /// the index for the muF scale variation to 0.5
+  std::size_t idx_scale_muF_05() const { return m_idx_scale_muF_05; }
+  /// the index for the Var3cUp ISR variation
+  std::size_t idx_Var3cUp() const { return m_idx_Var3cUp; }
+  /// the index for the Var3cDown ISR variation
+  std::size_t idx_Var3cDown() const { return m_idx_Var3cDown; }
+  /// the index for the FSR muR variation to 2.0
+  std::size_t idx_fsr_muR_20() const { return m_idx_fsr_muR_20; }
+  /// the index for the FSR muR variation to 0.5
+  std::size_t idx_fsr_muR_05() const { return m_idx_fsr_muR_05; }
+
+  /// @}
 };
 }  // namespace TL
 

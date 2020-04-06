@@ -1,5 +1,4 @@
-
-/** @file WeightTool.cxx
+/*! @file WeightTool.cxx
  *  @brief TL::WeightTool class implementation
  *
  *  @author Douglas Davis, <ddavis@cern.ch>
@@ -10,12 +9,12 @@
 #include <TopLoop/Core/SampleMetaSvc.h>
 #include <TopLoop/Core/WeightTool.h>
 
-// C++
-#include <cmath>
-
 // ATLAS
 #include <PathResolver/PathResolver.h>
 #include <TopDataPreparation/SampleXsectionSvc.h>
+
+// C++
+#include <cmath>
 
 TL::WeightTool::WeightTool(TL::Algorithm* algorithm)
     : TL::Loggable("TL::WeightTool"), m_alg(algorithm) {
@@ -24,6 +23,109 @@ TL::WeightTool::WeightTool(TL::Algorithm* algorithm)
       "dev/AnalysisTop/TopDataPreparation/XSection-MC15-13TeV.data");
   m_xsec = SampleXsectionSvc::svc(xsFile)->sampleXsection();
   logger()->info("Cross section file: {}", xsFile);
+}
+
+void TL::WeightTool::initialize() {
+  TL_CHECK(determineScheme());
+  TL_CHECK(determine_muRmuF_names());
+}
+
+TL::StatusCode TL::WeightTool::determineScheme() {
+  logger()->info("Determining auxiliary weights scheme");
+  std::vector<std::string> names;
+  for (const auto& entry : generatorVariedWeightsNames()) {
+    names.push_back(entry.first);
+  }
+  auto vec_contains = [](const std::vector<std::string>& v, const std::string& s) {
+    if (std::find(std::begin(v), std::end(v), s) != std::end(v)) {
+      return true;
+    }
+    return false;
+  };
+  if (vec_contains(names, "muR=20,muF=10")) {
+    m_scheme = TL::AuxWeightScheme::ttbar_v1;
+    logger()->info("using AuxWeightScheme ttbar_v1");
+  }
+  else if (vec_contains(names, "muR=200,muF=200")) {
+    m_scheme = TL::AuxWeightScheme::tW_v1;
+    logger()->info("using AuxWeightScheme tW_v1");
+  }
+  else if (vec_contains(names, " muR = 1.0, muF = 2.0 ")) {
+    m_scheme = TL::AuxWeightScheme::ttbar_v2;
+    logger()->info("using AuxWeightScheme ttbar_v2");
+  }
+  else if (vec_contains(names, " muR = 1.00, muF = 2.00 ")) {
+    m_scheme = TL::AuxWeightScheme::tW_v2;
+    logger()->info("using AuxWeightScheme tW_v2");
+  }
+  else {
+    logger()->warn("Scheme undetermined");
+    return TL::StatusCode::SUCCESS;
+  }
+  if (m_scheme == TL::AuxWeightScheme::ttbar_v1 || m_scheme == TL::AuxWeightScheme::tW_v1) {
+    bool has_pdf = vec_contains(names, "PDFset=90900");
+    if (!has_pdf) {
+      logger()->critical("AuxWeightScheme logic failed");
+      return TL::StatusCode::FAILURE;
+    }
+  }
+  else if (m_scheme == TL::AuxWeightScheme::ttbar_v2 ||
+           m_scheme == TL::AuxWeightScheme::tW_v2) {
+    bool has_pdf = vec_contains(names, " PDF set = 90900 ");
+    if (!has_pdf) {
+      logger()->critical("AuxWeightScheme logic failed");
+      return TL::StatusCode::FAILURE;
+    }
+  }
+  return TL::StatusCode::SUCCESS;
+}
+
+TL::StatusCode TL::WeightTool::determine_muRmuF_names() {
+  m_name_Var3cUp = "Var3cUp";
+  m_name_Var3cDown = "Var3cDown";
+  if (m_scheme == TL::AuxWeightScheme::tW_v1) {
+    m_name_scale_muR_20 = "muR=200,muF=100";
+    m_name_scale_muR_05 = "muR=050,muF=100";
+    m_name_scale_muF_20 = "muR=100,muF=200";
+    m_name_scale_muF_05 = "muR=100,muF=050";
+    m_name_fsr_muR_20 = "isr:muRfac=10_fsr:muRfac=20";
+    m_name_fsr_muR_05 = "isr:muRfac=10_fsr:muRfac=05";
+  }
+  else if (m_scheme == TL::AuxWeightScheme::ttbar_v1) {
+    m_name_scale_muR_20 = "muR=20,muF=10";
+    m_name_scale_muR_05 = "muR=05,muF=10";
+    m_name_scale_muF_20 = "muR=10,muF=20";
+    m_name_scale_muF_05 = "muR=10,muF=05";
+    m_name_fsr_muR_20 = "isr:muRfac=10_fsr:muRfac=20";
+    m_name_fsr_muR_05 = "isr:muRfac=10_fsr:muRfac=05";
+  }
+  else if (m_scheme == TL::AuxWeightScheme::tW_v2) {
+    m_name_scale_muR_20 = " muR = 2.00, muF = 1.00 ";
+    m_name_scale_muR_05 = " muR = 0.50, muF = 1.00 ";
+    m_name_scale_muF_20 = " muR = 1.00, muF = 2.00 ";
+    m_name_scale_muF_05 = " muR = 1.00, muF = 0.50 ";
+    m_name_fsr_muR_20 = "isr:muRfac=1.0_fsr:muRfac=2.0";
+    m_name_fsr_muR_05 = "isr:muRfac=1.0_fsr:muRfac=0.5";
+  }
+  else if (m_scheme == TL::AuxWeightScheme::ttbar_v2) {
+    m_name_scale_muR_20 = " muR = 2.0, muF = 1.0 ";
+    m_name_scale_muR_05 = " muR = 0.5, muF = 1.0 ";
+    m_name_scale_muF_20 = " muR = 1.0, muF = 2.0 ";
+    m_name_scale_muF_05 = " muR = 1.0, muF = 0.5 ";
+    m_name_fsr_muR_20 = "isr:muRfac=1.0_fsr:muRfac=2.0";
+    m_name_fsr_muR_05 = "isr:muRfac=1.0_fsr:muRfac=0.5";
+  }
+
+  m_idx_Var3cUp = getIndexOfVariation(m_name_Var3cUp);
+  m_idx_Var3cDown = getIndexOfVariation(m_name_Var3cDown);
+  m_idx_scale_muR_20 = getIndexOfVariation(m_name_scale_muR_20);
+  m_idx_scale_muR_05 = getIndexOfVariation(m_name_scale_muR_05);
+  m_idx_scale_muF_20 = getIndexOfVariation(m_name_scale_muF_20);
+  m_idx_scale_muF_05 = getIndexOfVariation(m_name_scale_muF_05);
+  m_idx_fsr_muR_20 = getIndexOfVariation(m_name_fsr_muR_20);
+  m_idx_fsr_muR_05 = getIndexOfVariation(m_name_fsr_muR_05);
+
+  return TL::StatusCode::SUCCESS;
 }
 
 float TL::WeightTool::generatorSumWeights() {
@@ -90,38 +192,31 @@ const std::map<std::string, std::size_t>& TL::WeightTool::generatorVariedWeights
   return m_generatorVariedWeightsNames;
 }
 
-float TL::WeightTool::sumOfVariation(const std::string& variation_name) {
+std::size_t TL::WeightTool::getIndexOfVariation(const std::string& variation_name) {
   auto itr = generatorVariedWeightsNames().find(variation_name);
   if (itr == std::end(generatorVariedWeightsNames())) {
-    logger()->error("Cannot find variation named {}, returning nominal!", variation_name);
-    return generatorSumWeights();
+    logger()->error("Cannot find variation named {}", variation_name);
+    return 0;
   }
-  return generatorVariedSumWeights().at(itr->second);
+  return itr->second;
+}
+
+float TL::WeightTool::sumOfVariation(const std::string& variation_name) {
+  auto idx = getIndexOfVariation(variation_name);
+  return sumOfVariation(idx);
+}
+
+float TL::WeightTool::sumOfVariation(const std::size_t idx) {
+  return generatorVariedSumWeights()[idx];
 }
 
 float TL::WeightTool::currentWeightOfVariation(const std::string& variation_name) {
-  auto itr = generatorVariedWeightsNames().find(variation_name);
-  if (itr == std::end(generatorVariedWeightsNames())) {
-    logger()->error("Cannot find variation named {}, returning 0!", variation_name);
-    return 0;
-  }
-  return m_alg->mc_generator_weights().at(itr->second);
+  auto idx = getIndexOfVariation(variation_name);
+  return currentWeightOfVariation(idx);
 }
 
-std::pair<float, float> TL::WeightTool::currentPDF4LHCsumQuadVariations() {
-  float sumSq = 0.0;
-  float w_c = currentWeightOfVariation("PDFset=90900");
-  float n_c = sumOfVariation("PDFset=90900");
-  for (unsigned int i = 90901; i <= 90930; ++i) {
-    std::string vname = "PDFset=" + std::to_string(i);
-    float w_i = currentWeightOfVariation(vname);
-    float n_i = sumOfVariation(vname);
-    float term = (w_c * n_i - w_i * n_c) / n_i;
-    sumSq += term * term;
-  }
-  float final_val = (1.0 / n_c) * std::sqrt(sumSq);
-  float percent = final_val / w_c * n_c * 100.0;
-  return std::make_pair(final_val, percent);
+float TL::WeightTool::currentWeightOfVariation(const std::size_t idx) {
+  return m_alg->mc_generator_weights()[idx];
 }
 
 float TL::WeightTool::sampleCrossSection() const {
@@ -154,4 +249,32 @@ float TL::WeightTool::luminosityWeight(const std::vector<TL::kCampaign>& campaig
   float finalW = (xs * lumi / sumW) * campW;
   logger()->debug("Retreiving luminosity weight (for 1/fb): {}", finalW);
   return finalW;
+}
+
+const std::array<std::string, 31>& TL::WeightTool::PDFWeightNames() {
+  if (!m_PDFWeightNames[0].empty()) {
+    return m_PDFWeightNames;
+  }
+
+  // no spaces in the name
+  if (m_scheme == TL::AuxWeightScheme::tW_v1 || m_scheme == TL::AuxWeightScheme::ttbar_v1) {
+    for (int i = 0; i < 10; ++i) {
+      m_PDFWeightNames[i] = fmt::format("PDFset=9090{}", i);
+    }
+    for (int i = 10; i < 31; ++i) {
+      m_PDFWeightNames[i] = fmt::format("PDFset=909{}", i);
+    }
+  }
+
+  // spaces in the name
+  if (m_scheme == TL::AuxWeightScheme::tW_v2 || m_scheme == TL::AuxWeightScheme::ttbar_v2) {
+    for (int i = 0; i < 10; ++i) {
+      m_PDFWeightNames[i] = fmt::format(" PDF set = 9090{} ", i);
+    }
+    for (int i = 10; i < 31; ++i) {
+      m_PDFWeightNames[i] = fmt::format(" PDF set = 909{} ", i);
+    }
+  }
+
+  return m_PDFWeightNames;
 }
