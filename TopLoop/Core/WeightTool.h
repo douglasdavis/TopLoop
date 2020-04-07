@@ -63,8 +63,6 @@ class WeightTool : public TL::Loggable {
   std::size_t m_idx_fsr_muR_20;
   std::size_t m_idx_fsr_muR_05;
 
-  bool m_initialized{false};
-
  public:
 
   /// @name Constructors
