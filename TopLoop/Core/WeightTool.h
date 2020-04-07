@@ -30,7 +30,7 @@ enum class kCampaign;
 
 namespace TL {
 
-enum class AuxWeightScheme { ttbar_v1, ttbar_v2, tW_v1, tW_v2, unknown };
+enum class AuxWeightScheme { ttbar_v29, ttbar_v30, tW_v29, tW_v30, unknown };
 
 class WeightTool : public TL::Loggable {
  private:

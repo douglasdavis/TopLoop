@@ -43,34 +43,34 @@ TL::StatusCode TL::WeightTool::determineScheme() {
     return false;
   };
   if (vec_contains(names, "muR=20,muF=10")) {
-    m_scheme = TL::AuxWeightScheme::ttbar_v1;
-    logger()->info("using AuxWeightScheme ttbar_v1");
+    m_scheme = TL::AuxWeightScheme::ttbar_v29;
+    logger()->info("using AuxWeightScheme ttbar_v29");
   }
   else if (vec_contains(names, "muR=200,muF=200")) {
-    m_scheme = TL::AuxWeightScheme::tW_v1;
-    logger()->info("using AuxWeightScheme tW_v1");
+    m_scheme = TL::AuxWeightScheme::tW_v29;
+    logger()->info("using AuxWeightScheme tW_v29");
   }
   else if (vec_contains(names, " muR = 1.0, muF = 2.0 ")) {
-    m_scheme = TL::AuxWeightScheme::ttbar_v2;
-    logger()->info("using AuxWeightScheme ttbar_v2");
+    m_scheme = TL::AuxWeightScheme::ttbar_v30;
+    logger()->info("using AuxWeightScheme ttbar_v30");
   }
   else if (vec_contains(names, " muR = 1.00, muF = 2.00 ")) {
-    m_scheme = TL::AuxWeightScheme::tW_v2;
-    logger()->info("using AuxWeightScheme tW_v2");
+    m_scheme = TL::AuxWeightScheme::tW_v30;
+    logger()->info("using AuxWeightScheme tW_v30");
   }
   else {
     logger()->warn("Scheme undetermined");
     return TL::StatusCode::SUCCESS;
   }
-  if (m_scheme == TL::AuxWeightScheme::ttbar_v1 || m_scheme == TL::AuxWeightScheme::tW_v1) {
+  if (m_scheme == TL::AuxWeightScheme::ttbar_v29 || m_scheme == TL::AuxWeightScheme::tW_v29) {
     bool has_pdf = vec_contains(names, "PDFset=90900");
     if (!has_pdf) {
       logger()->critical("AuxWeightScheme logic failed");
       return TL::StatusCode::FAILURE;
     }
   }
-  else if (m_scheme == TL::AuxWeightScheme::ttbar_v2 ||
-           m_scheme == TL::AuxWeightScheme::tW_v2) {
+  else if (m_scheme == TL::AuxWeightScheme::ttbar_v30 ||
+           m_scheme == TL::AuxWeightScheme::tW_v30) {
     bool has_pdf = vec_contains(names, " PDF set = 90900 ");
     if (!has_pdf) {
       logger()->critical("AuxWeightScheme logic failed");
@@ -83,7 +83,7 @@ TL::StatusCode TL::WeightTool::determineScheme() {
 TL::StatusCode TL::WeightTool::determine_muRmuF_names() {
   m_name_Var3cUp = "Var3cUp";
   m_name_Var3cDown = "Var3cDown";
-  if (m_scheme == TL::AuxWeightScheme::tW_v1) {
+  if (m_scheme == TL::AuxWeightScheme::tW_v29) {
     m_name_scale_muR_20 = "muR=200,muF=100";
     m_name_scale_muR_05 = "muR=050,muF=100";
     m_name_scale_muF_20 = "muR=100,muF=200";
@@ -91,7 +91,7 @@ TL::StatusCode TL::WeightTool::determine_muRmuF_names() {
     m_name_fsr_muR_20 = "isr:muRfac=10_fsr:muRfac=20";
     m_name_fsr_muR_05 = "isr:muRfac=10_fsr:muRfac=05";
   }
-  else if (m_scheme == TL::AuxWeightScheme::ttbar_v1) {
+  else if (m_scheme == TL::AuxWeightScheme::ttbar_v29) {
     m_name_scale_muR_20 = "muR=20,muF=10";
     m_name_scale_muR_05 = "muR=05,muF=10";
     m_name_scale_muF_20 = "muR=10,muF=20";
@@ -99,7 +99,7 @@ TL::StatusCode TL::WeightTool::determine_muRmuF_names() {
     m_name_fsr_muR_20 = "isr:muRfac=10_fsr:muRfac=20";
     m_name_fsr_muR_05 = "isr:muRfac=10_fsr:muRfac=05";
   }
-  else if (m_scheme == TL::AuxWeightScheme::tW_v2) {
+  else if (m_scheme == TL::AuxWeightScheme::tW_v30) {
     m_name_scale_muR_20 = " muR = 2.00, muF = 1.00 ";
     m_name_scale_muR_05 = " muR = 0.50, muF = 1.00 ";
     m_name_scale_muF_20 = " muR = 1.00, muF = 2.00 ";
@@ -107,7 +107,7 @@ TL::StatusCode TL::WeightTool::determine_muRmuF_names() {
     m_name_fsr_muR_20 = "isr:muRfac=1.0_fsr:muRfac=2.0";
     m_name_fsr_muR_05 = "isr:muRfac=1.0_fsr:muRfac=0.5";
   }
-  else if (m_scheme == TL::AuxWeightScheme::ttbar_v2) {
+  else if (m_scheme == TL::AuxWeightScheme::ttbar_v30) {
     m_name_scale_muR_20 = " muR = 2.0, muF = 1.0 ";
     m_name_scale_muR_05 = " muR = 0.5, muF = 1.0 ";
     m_name_scale_muF_20 = " muR = 1.0, muF = 2.0 ";
@@ -257,7 +257,7 @@ const std::array<std::string, 31>& TL::WeightTool::PDFWeightNames() {
   }
 
   // no spaces in the name
-  if (m_scheme == TL::AuxWeightScheme::tW_v1 || m_scheme == TL::AuxWeightScheme::ttbar_v1) {
+  if (m_scheme == TL::AuxWeightScheme::tW_v29 || m_scheme == TL::AuxWeightScheme::ttbar_v29) {
     for (int i = 0; i < 10; ++i) {
       m_PDFWeightNames[i] = fmt::format("PDFset=9090{}", i);
     }
@@ -267,7 +267,7 @@ const std::array<std::string, 31>& TL::WeightTool::PDFWeightNames() {
   }
 
   // spaces in the name
-  if (m_scheme == TL::AuxWeightScheme::tW_v2 || m_scheme == TL::AuxWeightScheme::ttbar_v2) {
+  if (m_scheme == TL::AuxWeightScheme::tW_v30 || m_scheme == TL::AuxWeightScheme::ttbar_v30) {
     for (int i = 0; i < 10; ++i) {
       m_PDFWeightNames[i] = fmt::format(" PDF set = 9090{} ", i);
     }
