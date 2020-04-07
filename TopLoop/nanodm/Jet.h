@@ -22,6 +22,16 @@ enum class BTagWP {
   mv2c10_85 = 3,
   /// mv2c10 psuedo continuous
   mv2c10_PC = 4,
+  /// DL1r 60% WP
+  DL1r_60 = 5,
+  /// DL1r 70% WP
+  DL1r_70 = 6,
+  /// DL1r 77% WP
+  DL1r_77 = 7,
+  /// DL1r 85% WP
+  DL1r_85 = 8,
+  /// DL1r psuedo continuous
+  DL1r_PC = 9,
   /// backup unknown identifier
   unknown = 999
 };
@@ -46,6 +56,9 @@ enum class BTagBin {
 };
 
 /// convenience working point enum to string function
+/*!
+ *  @param wp the working point to convert to string
+ */
 inline std::string to_string(const BTagWP wp) {
   switch (wp) {
     case BTagWP::mv2c10_70:
@@ -56,21 +69,42 @@ inline std::string to_string(const BTagWP wp) {
       return "mv2c10_85";
     case BTagWP::mv2c10_PC:
       return "mv2c10_PC";
+    case BTagWP::DL1r_60:
+      return "DL1r_60";
+    case BTagWP::DL1r_70:
+      return "DL1r_70";
+    case BTagWP::DL1r_77:
+      return "DL1r_77";
+    case BTagWP::DL1r_85:
+      return "DL1r_85";
+    case BTagWP::DL1r_PC:
+      return "DL1r_PC";
     default:
       return "unknown";
   };
 }
 
 /// convenience working point string to enum
+/*!
+ *  @param wp the string to convert to enum entry
+ */
 inline BTagWP from_WP_string(const std::string& wp) {
   if (wp == "mv2c10_70") return BTagWP::mv2c10_70;
   if (wp == "mv2c10_77") return BTagWP::mv2c10_77;
   if (wp == "mv2c10_85") return BTagWP::mv2c10_85;
   if (wp == "mv2c10_PC") return BTagWP::mv2c10_PC;
+  if (wp == "DL1r_60") return BTagWP::DL1r_60;
+  if (wp == "DL1r_70") return BTagWP::DL1r_70;
+  if (wp == "DL1r_77") return BTagWP::DL1r_77;
+  if (wp == "DL1r_85") return BTagWP::DL1r_85;
+  if (wp == "DL1r_PC") return BTagWP::DL1r_PC;
   return BTagWP::unknown;
 }
 
 /// convenience bin enum to string function
+/*!
+ *  @param bin the bin to convert to string
+ */
 inline std::string to_string(const BTagBin bin) {
   switch (bin) {
     case BTagBin::eff_100_85:
@@ -89,6 +123,9 @@ inline std::string to_string(const BTagBin bin) {
 }
 
 /// convenience working point string to enum
+/*!
+ *  @param bin the string to convert to enum entry
+ */
 inline BTagBin from_Bin_string(const std::string& bin) {
   if (bin == "eff_100_85") return BTagBin::eff_100_85;
   if (bin == "eff_85_77") return BTagBin::eff_85_77;
@@ -104,11 +141,21 @@ inline BTagBin from_Bin_string(const std::string& bin) {
  */
 class Jet : public IPhysicsObject<CoordJet> {
  private:
-  char m_passfjvt;
-  int m_tagWeightBin_MV2c10_Continuous;
-  float m_jet_mv2c10;
-
+  // kinematics
   FourVec<CoordJet> m_p4;
+  // jvt
+  char m_passfjvt;
+  // raw tagging information
+  float m_mv2c10;
+  float m_DL1r;
+  // PC tagging information
+  int m_tagWeightBin_MV2c10_Continuous;
+  int m_tagWeightBin_DL1r_Continuous;
+  // fixed tagging information
+  char m_isbtagged_DL1r_60;
+  char m_isbtagged_DL1r_70;
+  char m_isbtagged_DL1r_77;
+  char m_isbtagged_DL1r_85;
 
  public:
   /// default constructor
@@ -151,31 +198,89 @@ class Jet : public IPhysicsObject<CoordJet> {
   /// @name setters
   /// @{
 
+  /// set the fjvt flag
   void set_passfjvt(const char val) { m_passfjvt = val; }
+  /// set the DL1r 60% flag
+  void set_isbtagged_DL1r_60(const char val) { m_isbtagged_DL1r_60 = val; }
+  /// set the DL1r 70% flag
+  void set_isbtagged_DL1r_70(const char val) { m_isbtagged_DL1r_70 = val; }
+  /// set the DL1r 77% flag
+  void set_isbtagged_DL1r_77(const char val) { m_isbtagged_DL1r_77 = val; }
+  /// set the DL1r 85% flag
+  void set_isbtagged_DL1r_85(const char val) { m_isbtagged_DL1r_85 = val; }
+  /// set the MV2c10 continuous WP bin
   void set_tagWeightBin_MV2c10_Continuous(const int val) {
     m_tagWeightBin_MV2c10_Continuous = val;
   }
-  void set_MV2c10_score(const float val) {
-    m_jet_mv2c10 = val;
+  /// set the DL1r continuous WP bin
+  void set_tagWeightBin_DL1r_Continuous(const int val) {
+    m_tagWeightBin_DL1r_Continuous = val;
   }
+  /// set the raw MV2c10 score
+  void set_MV2c10_score(const float val) { m_mv2c10 = val; }
+  /// set the DL1r score
+  void set_DL1r_score(const float val) { m_DL1r = val; }
+
   /// @}
 
   /// @name getters
+  /// @{
 
+  /// the fJVT flag
   char passfjvt() const { return m_passfjvt; }
+  /// the raw MV2c10 score
+  float MV2c10() const { return m_mv2c10; }
+  /// the raw DL1r score
+  float DL1r() const { return m_DL1r; }
+  /// the 60% WP flag
+  char isbtagged_DL1r_60() const { return m_isbtagged_DL1r_60; }
+  /// the 70% WP flag
+  char isbtagged_DL1r_70() const { return m_isbtagged_DL1r_70; }
+  /// the 77% WP flag
+  char isbtagged_DL1r_77() const { return m_isbtagged_DL1r_77; }
+  /// the 85% WP flag
+  char isbtagged_DL1r_85() const { return m_isbtagged_DL1r_85; }
+  /// the DL1r continuous b-tagging bin
+  int tagWeightBin_DL1r_Continous() const { return m_tagWeightBin_DL1r_Continuous; }
+  /// the MV2c10 continuous b-tagging bin
   int tagWeightBin_MV2c10_Continuous() const { return m_tagWeightBin_MV2c10_Continuous; }
-  float MV2c10() const { return m_jet_mv2c10; }
 
   /// test if jet is b-tagged based on the given minimum bin
   /*!
    *  @param bin_requirement the minimum PC b-tagging bin the jet must
    *  pass to be considered tagged.
    */
-  bool isbtaggedContinuous(const BTagBin bin_requirement) const {
+  bool isbtaggedContinuous_MV2c10(const BTagBin bin_requirement) const {
     auto req = static_cast<std::uint32_t>(bin_requirement);
     auto bin = static_cast<std::uint32_t>(m_tagWeightBin_MV2c10_Continuous);
     return (bin >= req);
   }
+
+  /// test if jet is b-tagged based on the given minimum bin
+  /*!
+   *  @param bin_requirement the minimum PC b-tagging bin the jet must
+   *  pass to be considered tagged.
+   */
+  bool isbtaggedContinuous_DL1r(const BTagBin bin_requirement) const {
+    auto req = static_cast<std::uint32_t>(bin_requirement);
+    auto bin = static_cast<std::uint32_t>(m_tagWeightBin_DL1r_Continuous);
+    return (bin >= req);
+  }
+
+  /// test if jet is b-tagged based on the given minimum bin
+  /*!
+   *  This version is deprecated and returns the
+   *  isbtaggedContinuous_MV2c10 version.
+   *
+   *  @param bin_requirement the minimum PC b-tagging bin the jet must
+   *  pass to be considered tagged.
+   */
+  // clang-format off
+  [[deprecated("Use the tagger specific isbtaggedContinuous_TAGGER test functions")]]
+  bool isbtaggedContinuous(const BTagBin bin_requirement) const {
+    return isbtaggedContinuous_MV2c10(bin_requirement);
+  }
+  // clang-format on
 
   /// @}
 

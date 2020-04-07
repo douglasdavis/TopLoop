@@ -90,7 +90,16 @@ enum class kGenerator {
 enum class kSampleType { Unknown, Data, Nominal, Systematic };
 
 /// SgTop ntuple production version
-enum class kSgTopNtup { v23 = 0, v25 = 1, v27 = 2, v28 = 3, v29 = 4, Unknown = 999 };
+enum class kSgTopNtup {
+  v23 = 0,
+  v25 = 1,
+  v27 = 2,
+  v28 = 3,
+  v29 = 4,
+  v30 = 5,
+  Test05 = 50,
+  Unknown = 999
+};
 
 /// @}
 

@@ -11,11 +11,11 @@
 #include <TopLoop/nanodm/Lepton.h>
 #include <TopLoop/nanodm/MissingET.h>
 
+#include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <memory>
 #include <vector>
-#include <algorithm>
 
 namespace nanodm {
 
@@ -134,8 +134,10 @@ class DileptonFinalState {
   /// true if two taus in final state (@f$\tau\tau@f$)
   bool tautau() const { return pdgSum() == 30; }
   /// true if electron + tau final state (@f$e\tau@f$)
-  bool eltau() const { return ((m_lepton1->pdgId() == 11 && m_lepton2->pdgId() == 15) ||
-                               (m_lepton1->pdgId() == 15 && m_lepton2->pdgId() == 11)); }
+  bool eltau() const {
+    return ((m_lepton1->pdgId() == 11 && m_lepton2->pdgId() == 15) ||
+            (m_lepton1->pdgId() == 15 && m_lepton2->pdgId() == 11));
+  }
   /// true if muon + tau final state (@f$\mu\tau@f$)
   bool mutau() const { return pdgSum() == 28; }
   /// true if leptons are oppositely sign (@f$\ell^\pm\ell^\mp@f$).
@@ -154,7 +156,7 @@ class DileptonFinalState {
       return FlavComb::ELEL;
     else if (mumu())
       return FlavComb::MUMU;
-    else if(tautau())
+    else if (tautau())
       return FlavComb::TAUTAU;
     else if (eltau())
       return FlavComb::ELTAU;
@@ -178,7 +180,7 @@ class DileptonFinalState {
     m_met.reset(nullptr);
   }
 
-  /// crashes if something nonphysicsal is happening, return true if OK
+  /// crashes if something nonphysical is happening, return true if OK
   bool checkSelf() const {
     if (m_lepton1->pt() < m_lepton2->pt()) {
       std::cerr << "lepton pt ordering wrong" << std::endl;
@@ -208,15 +210,66 @@ class DileptonFinalState {
   /// @name static utilities
   /// @{
 
-  /// determine the number of b-tagged jets in a container based on the bin requirement
+  /// deprecated function: use the specific tagger based functions
+  [[deprecated("use the specific tagger functions")]] static std::size_t nbtagged(
+      const std::vector<std::unique_ptr<nanodm::Jet>>& container,
+      const nanodm::BTagBin bin_req) {
+    return nbtagged_MV2c10_Continuous(container, bin_req);
+  }
+
+  /// determine the number of MV2c10 b-tagged jets in a container based on the bin
+  /// requirement
   /*!
    *  @param container the jet container
    *  @param bin_req the bin requirement
    */
-  static std::size_t nbtagged(const std::vector<std::unique_ptr<nanodm::Jet>>& container,
-                              const nanodm::BTagBin bin_req) {
+  static std::size_t nbtagged_MV2c10_Continuous(
+      const std::vector<std::unique_ptr<nanodm::Jet>>& container,
+      const nanodm::BTagBin bin_req) {
+    return std::count_if(std::begin(container), std::end(container), [&](const auto& j) {
+      return j->isbtaggedContinuous_MV2c10(bin_req);
+    });
+  }
+
+  /// determine the number of DL1r b-tagged jets in a container based on the bin requirement
+  /*!
+   *  @param container the jet container
+   *  @param bin_req the bin requirement
+   */
+  static std::size_t nbtagged_DL1r_Continuous(
+      const std::vector<std::unique_ptr<nanodm::Jet>>& container,
+      const nanodm::BTagBin bin_req) {
+    return std::count_if(std::begin(container), std::end(container), [&](const auto& j) {
+      return j->isbtaggedContinuous_DL1r(bin_req);
+    });
+  }
+
+  /// determine the number of b-tagged jets via the DLr1 60% WP
+  static std::size_t nbtagged_DL1r_60(
+      const std::vector<std::unique_ptr<nanodm::Jet>>& container) {
     return std::count_if(std::begin(container), std::end(container),
-                         [&](const auto& j) { return j->isbtaggedContinuous(bin_req); });
+                         [&](const auto& j) { return j->isbtagged_DL1r_60(); });
+  }
+
+  /// determine the number of b-tagged jets via the DLr1 70% WP
+  static std::size_t nbtagged_DL1r_70(
+      const std::vector<std::unique_ptr<nanodm::Jet>>& container) {
+    return std::count_if(std::begin(container), std::end(container),
+                         [&](const auto& j) { return j->isbtagged_DL1r_70(); });
+  }
+
+  /// determine the number of b-tagged jets via the DLr1 77% WP
+  static std::size_t nbtagged_DL1r_77(
+      const std::vector<std::unique_ptr<nanodm::Jet>>& container) {
+    return std::count_if(std::begin(container), std::end(container),
+                         [&](const auto& j) { return j->isbtagged_DL1r_77(); });
+  }
+
+  /// determine the number of b-tagged jets via the DLr1 85% WP
+  static std::size_t nbtagged_DL1r_85(
+      const std::vector<std::unique_ptr<nanodm::Jet>>& container) {
+    return std::count_if(std::begin(container), std::end(container),
+                         [&](const auto& j) { return j->isbtagged_DL1r_85(); });
   }
 
   /// @}
