@@ -55,6 +55,7 @@ enum class kInitialState {
   schan,
   tZq,
   tHq,
+  tWH,
   tWZ,
   Triboson
 };
