@@ -98,7 +98,7 @@ enum class kSgTopNtup {
   v28 = 3,
   v29 = 4,
   v30 = 5,
-  Test05 = 50,
+  WTA01 = 50,
   Unknown = 999
 };
 

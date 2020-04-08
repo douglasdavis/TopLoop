@@ -142,7 +142,7 @@ void TL::SampleMetaSvc::setupMaps() {
   m_s2e_NT = {{"Unknown", TL::kSgTopNtup::Unknown}, {"v23", TL::kSgTopNtup::v23},
               {"v25", TL::kSgTopNtup::v25},         {"v27", TL::kSgTopNtup::v27},
               {"v28", TL::kSgTopNtup::v28},         {"v29", TL::kSgTopNtup::v29},
-              {"v30", TL::kSgTopNtup::v30},         {"Test05", TL::kSgTopNtup::Test05}};
+              {"v30", TL::kSgTopNtup::v30},         {"WTA01", TL::kSgTopNtup::WTA01}};
   auto flipMap = [](const auto& templateMap, auto& newMap) {
     for (auto const& templatePair : templateMap) {
       newMap.emplace(templatePair.second, templatePair.first);
