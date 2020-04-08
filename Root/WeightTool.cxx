@@ -60,6 +60,7 @@ TL::StatusCode TL::WeightTool::determineScheme() {
   }
   else {
     logger()->warn("Scheme undetermined");
+    m_scheme = TL::AuxWeightScheme::unknown;
     return TL::StatusCode::SUCCESS;
   }
   if (m_scheme == TL::AuxWeightScheme::ttbar_v29 || m_scheme == TL::AuxWeightScheme::tW_v29) {
