@@ -254,6 +254,25 @@ void TL::FileManager::feedTxt(const std::string& txtfilename) {
   }
 }
 
+void TL::FileManager::feedRucio(const std::string& datasetName, const std::string& rse) {
+  TL_CHECK(initChain());
+  logger()->info("Using rucio dataset name: {}", datasetName);
+  logger()->info("Using files found on rucio storage element: {}", rse);
+  m_rucioDirName = datasetName;
+  determineSampleProperties();
+  auto files = TL::Utils::fileListFromRucio(datasetName.c_str(), rse.c_str());
+  for (const auto& file : files) {
+    logger()->info("Adding file {}", file);
+    m_fileNames.push_back(file);
+    m_rootChain->Add(file.c_str());
+    m_rootWeightsChain->Add(file.c_str());
+    if (m_doParticleLevel) {
+      m_particleLevelChain->Add(file.c_str());
+      m_truthChain->Add(file.c_str());
+    }
+  }
+}
+
 void TL::FileManager::feedSingle(const char* fileName) {
   TL_CHECK(initChain());
   m_fileNames.emplace_back(std::string(fileName));

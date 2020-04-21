@@ -34,7 +34,16 @@ to give the job a ``TL::FileManager`` class. A short example:
      auto fm = std::make_unique<TL::FileManager>();
      // if you want access to particle level and truth information -- must be called before feeding
      fm->enableParticleLevel();
-     fm->feedDir("/path/to/sgtop/ntuple/dataset");
+
+     // feed from a rucio dataset name
+     std::string rucio_dataset_name = "user.johndoe.999999.output";
+     std::string rse = "BNL-OSG2_LOCALGROUPDISK";
+     fm->feedRucio(rucio_dataset_name, rse);
+
+     // or feed a local directory via:
+     //   fm->feedDir("/path/to/sgtop/ntuple/user.johndoe.999999.output");
+     // or feed a txt file listing paths to files
+     //   fm->feedTxt("/path/to/sgtop/ntuple/user.johndoe.999999.output.txt");
 
      TL::Job job;
      // See API for other loop types; RecoStandard is the default

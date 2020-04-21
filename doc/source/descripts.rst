@@ -24,11 +24,13 @@ The FileManager Class
 
 The ``TL::FileManager`` class is pretty self explanatory. It manages
 the files that are part of a single top ntuple sample. It is "fed" by
-two functions: either ``feedDir`` or ``feedTxt``. ``feedDir`` is the
-most convenient - you just point it to the path on disk where the
-sample exists. ``feedTxt`` requires that the file name be the same as
-the single top ntuple sample name, so it should be used for more
-specialized cases. The ``FileManager`` class then takes advantage of
+one of these functions: ``feedRucio``, ``feedDir``, or
+``feedTxt``. ``feedRucio`` is convenient if you do not have a local
+copy of a dataset (but it requires a valid grid
+certificate). ``feedDir`` is the most convenient for a local copy of a
+dataset - you just point it to the path on disk where the sample
+exists. ``feedTxt`` requires that the file name be the same as the
+rucio dataset name. The ``FileManager`` class then takes advantage of
 the ``SampleMetaSvc`` class (described below) to extract information
 -- see the API for more.
 

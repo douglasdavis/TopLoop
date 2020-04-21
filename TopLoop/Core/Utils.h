@@ -14,6 +14,9 @@
 #ifndef TL_Utils_h
 #define TL_Utils_h
 
+#include <string>
+#include <vector>
+
 #define TeV 1000000.0
 #define GeV 1000.0
 #define toGeV 0.001
@@ -65,6 +68,18 @@ class StatusCode {
   /// Internal status flag of whether the code was checked by the user
   mutable bool m_checked;
 };
+}  // namespace TL
+
+namespace TL {
+namespace Utils {
+
+/// execute a command line shell and return contents as a string
+std::string execShellCommand(const char* command);
+
+/// get a list of ROOT files associated with a rucio dataset name
+std::vector<std::string> fileListFromRucio(const char* datasetName, const char* rse);
+
+}  // namespace Utils
 }  // namespace TL
 
 /*!
