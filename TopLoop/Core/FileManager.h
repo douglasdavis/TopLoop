@@ -172,6 +172,15 @@ class FileManager : public TL::Loggable {
   /// Feed the chains with a single file
   void feedSingle(const char* fileName);
 
+  /// Feed the chains with a set of files determined from rucio list-file-replicas
+  /*!
+   *  If a grid certificate is active, we can request a list of files via rucio
+   *
+   *  @param datasetName the full dataset name
+   *  @param rse the rucio storage element name
+   */
+  void feedRucio(const std::string& datasetName, const std::string& rse);
+
   /// @}
 
   /// @name Simple getters related to naming

@@ -1,4 +1,4 @@
-/** @file Utils.cxx
+/*! @file Utils.cxx
  *  @brief TL::Utils functions and TL::StatusCode class implementation
  *
  *  @author Douglas Davis, <ddavis@cern.ch>
@@ -6,9 +6,17 @@
 
 // TopLoop
 #include <TopLoop/Core/Utils.h>
+#include <TopLoop/spdlog/fmt/fmt.h>
 
 // C++
+#include <array>
+#include <cstdio>
 #include <iostream>
+#include <memory>
+#include <stdexcept>
+
+// Boost
+#include <boost/algorithm/string.hpp>
 
 namespace {
 
@@ -134,3 +142,29 @@ TL::StatusCode::operator unsigned long() const {
 void TL::StatusCode::enableFailure() { s_failure = true; }
 
 void TL::StatusCode::disableFailure() { s_failure = false; }
+
+/// utility functions
+
+std::string TL::Utils::execShellCommand(const char* command) {
+  std::array<char, 128> buffer;
+  std::string result;
+  std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command, "r"), pclose);
+  if (!pipe) {
+    throw std::runtime_error("popen() failed!");
+  }
+  while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+    result += buffer.data();
+  }
+  return result;
+}
+
+std::vector<std::string> TL::Utils::fileListFromRucio(const char* datasetName,
+                                                      const char* rse) {
+  std::string command = fmt::format(
+      "rucio list-file-replicas {} --rse {} --protocols root --pfns", datasetName, rse);
+  std::string commandOutput = TL::Utils::execShellCommand(command.c_str());
+  boost::algorithm::trim(commandOutput);
+  std::vector<std::string> files;
+  boost::split(files, commandOutput, boost::is_any_of("\n"));
+  return files;
+}
