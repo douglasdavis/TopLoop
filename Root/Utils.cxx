@@ -165,6 +165,9 @@ std::vector<std::string> TL::Utils::fileListFromRucio(const char* datasetName,
   std::string commandOutput = TL::Utils::execShellCommand(command.c_str());
   boost::algorithm::trim(commandOutput);
   std::vector<std::string> files;
+  if (commandOutput.empty()) {
+    return files;
+  }
   boost::split(files, commandOutput, boost::is_any_of("\n"));
   return files;
 }
