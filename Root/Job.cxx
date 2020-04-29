@@ -69,6 +69,7 @@ TL::StatusCode TL::Job::run() {
       }
       TL_CHECK(m_algorithm->execute());
     }
+    std::cout << std::endl;
   }  // end if standard (not using particle level)
 
   // when particle level is enabled we have a few more logical cases
