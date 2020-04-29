@@ -20,9 +20,9 @@ TL::WeightTool::WeightTool(TL::Algorithm* algorithm)
     : TL::Loggable("TL::WeightTool"), m_alg(algorithm) {
   PathResolverSetOutputLevel(5);
   std::string xsFile = PathResolverFindCalibFile(
-      "dev/AnalysisTop/TopDataPreparation/XSection-MC15-13TeV.data");
+      "dev/AnalysisTop/TopDataPreparation/XSection-MC16-13TeV.data");
   m_xsec = SampleXsectionSvc::svc(xsFile)->sampleXsection();
-  logger()->info("Cross section file: {}", xsFile);
+  logger()->info("Using the cross-section file from the TDP package: {}", xsFile);
 }
 
 void TL::WeightTool::initialize() {
