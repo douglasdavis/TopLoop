@@ -618,6 +618,29 @@
             "Color": "#ff6666"
         }
     ],
+    "ttbb": [
+        {
+            "DSID_range": [411178,411178],
+            "Generator": "PowhegPythia8_dil",
+            "InitialState": "ttbb",
+            "SampleType": "Nominal",
+            "Color": "#ff6666"
+        },
+        {
+            "DSID_range": [411179,411180],
+            "Generator": "PowhegPythia8_1lep",
+            "InitialState": "ttbb",
+            "SampleType": "Nominal",
+            "Color": "#ff6666"
+        },
+        {
+            "DSID_range": [411275,411275],
+            "Generator": "PowhegPythia8_had",
+            "InitialState": "ttbb",
+            "SampleType": "Nominal",
+            "Color": "#ff6666"
+        }
+    ],
     "ttt": [
         {
             "DSID_range": [304014,304014],
@@ -637,13 +660,6 @@
         },
         {
             "DSID_range": [412043,412043],
-            "Generator": "MG5aMCatNLOPythia8",
-            "InitialState": "tttt",
-            "SampleType": "Nominal",
-            "Color": "#ccff99"
-        },
-        {
-            "DSID_range": [412045,412045],
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tttt",
             "SampleType": "Nominal",
