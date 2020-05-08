@@ -411,6 +411,13 @@
             "Color": "#FF3333"
         },
         {
+            "DSID_range": [411287,411287],
+            "Generator": "PowhegPythia8_dil",
+            "InitialState": "ttbar",
+            "SampleType": "Nominal",
+            "Color": "#FF3333"
+        },
+        {
             "DSID_range": [410480,410480],
             "Generator": "PowhegPythia8_1lep",
             "InitialState": "ttbar",
@@ -582,6 +589,13 @@
         },
         {
             "DSID_range": [410218,410220],
+            "Generator": "MG5aMCatNLOPythia8",
+            "InitialState": "ttV",
+            "SampleType": "Nominal",
+            "Color": "#990000"
+        },
+        {
+            "DSID_range": [410276,410278],
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "ttV",
             "SampleType": "Nominal",
