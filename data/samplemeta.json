@@ -577,6 +577,13 @@
             "InitialState": "ttbar",
             "SampleType": "Systematic",
             "Color": "#FF3333"
+        },
+        {
+            "DSID_range": [411234, 411234],
+            "Generator", "PowhegHerwig7_dil",
+            "InitialState": "ttbar",
+            "SampleType": "Systematic",
+            "Color": "#FF3333"
         }
     ],
     "ttV": [
