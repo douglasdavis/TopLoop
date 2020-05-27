@@ -580,7 +580,7 @@
         },
         {
             "DSID_range": [411234, 411234],
-            "Generator", "PowhegHerwig7_dil",
+            "Generator": "PowhegHerwig7_dil",
             "InitialState": "ttbar",
             "SampleType": "Systematic",
             "Color": "#FF3333"
