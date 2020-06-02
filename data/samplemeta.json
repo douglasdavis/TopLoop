@@ -380,6 +380,7 @@
             "SampleType": "Nominal",
             "Color": "#FFCC66"
         },
+        {
             "DSID_range": [364198,364215],
             "Generator": "Sherpa221",
             "InitialState": "Zjets",
