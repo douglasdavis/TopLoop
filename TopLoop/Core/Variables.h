@@ -226,6 +226,7 @@ class Variables {
   DECLARE_BRANCH_PRIMITIVE(weight_bTagSF_DL1r_60, Float_t);
   DECLARE_BRANCH_PRIMITIVE(weight_bTagSF_DL1r_Continuous, Float_t);
   DECLARE_BRANCH_PRIMITIVE(weight_jvt, Float_t);
+  DECLARE_BRANCH_PRIMITIVE(weight_forwardjvt, Float_t);
   DECLARE_BRANCH_PRIMITIVE(weight_pileup_UP, Float_t);
   DECLARE_BRANCH_PRIMITIVE(weight_pileup_DOWN, Float_t);
   DECLARE_BRANCH_PRIMITIVE(weight_leptonSF_EL_SF_Trigger_UP, Float_t);
@@ -258,6 +259,8 @@ class Variables {
   DECLARE_BRANCH_PRIMITIVE(weight_leptonSF_MU_SF_TTVA_SYST_DOWN, Float_t);
   DECLARE_BRANCH_PRIMITIVE(weight_jvt_UP, Float_t);
   DECLARE_BRANCH_PRIMITIVE(weight_jvt_DOWN, Float_t);
+  DECLARE_BRANCH_PRIMITIVE(weight_forwardjvt_UP, Float_t);
+  DECLARE_BRANCH_PRIMITIVE(weight_forwardjvt_DOWN, Float_t);
   DECLARE_BRANCH(weight_bTagSF_MV2c10_77_eigenvars_B_up, std::vector<float>);
   DECLARE_BRANCH(weight_bTagSF_MV2c10_77_eigenvars_C_up, std::vector<float>);
   DECLARE_BRANCH(weight_bTagSF_MV2c10_77_eigenvars_Light_up, std::vector<float>);
@@ -410,7 +413,9 @@ class Variables {
   DECLARE_BRANCH(jet_mv2c00, std::vector<float>);
   DECLARE_BRANCH(jet_mv2c10, std::vector<float>);
   DECLARE_BRANCH(jet_mv2c20, std::vector<float>);
-  DECLARE_BRANCH(jet_passfjvt, std::vector<char>);
+  DECLARE_BRANCH(jet_forwardjvt, std::vector<float>);
+  DECLARE_BRANCH(jet_passfjvt, std::vector<char>); // supersede by jet_passforwardjvt
+  DECLARE_BRANCH(jet_passforwardjvt, std::vector<char>);
   DECLARE_BRANCH(jet_truthflav, std::vector<int>);
   DECLARE_BRANCH(jet_truthPartonLabel, std::vector<int>);
   DECLARE_BRANCH(jet_isTrueHS, std::vector<char>);
