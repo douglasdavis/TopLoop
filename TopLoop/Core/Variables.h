@@ -226,6 +226,7 @@ class Variables {
   DECLARE_BRANCH_PRIMITIVE(weight_bTagSF_DL1r_60, Float_t);
   DECLARE_BRANCH_PRIMITIVE(weight_bTagSF_DL1r_Continuous, Float_t);
   DECLARE_BRANCH_PRIMITIVE(weight_jvt, Float_t);
+  DECLARE_BRANCH_PRIMITIVE(weight_forwardjvt, Float_t);
   DECLARE_BRANCH_PRIMITIVE(weight_pileup_UP, Float_t);
   DECLARE_BRANCH_PRIMITIVE(weight_pileup_DOWN, Float_t);
   DECLARE_BRANCH_PRIMITIVE(weight_leptonSF_EL_SF_Trigger_UP, Float_t);
@@ -258,6 +259,8 @@ class Variables {
   DECLARE_BRANCH_PRIMITIVE(weight_leptonSF_MU_SF_TTVA_SYST_DOWN, Float_t);
   DECLARE_BRANCH_PRIMITIVE(weight_jvt_UP, Float_t);
   DECLARE_BRANCH_PRIMITIVE(weight_jvt_DOWN, Float_t);
+  DECLARE_BRANCH_PRIMITIVE(weight_forwardjvt_UP, Float_t);
+  DECLARE_BRANCH_PRIMITIVE(weight_forwardjvt_DOWN, Float_t);
   DECLARE_BRANCH(weight_bTagSF_MV2c10_77_eigenvars_B_up, std::vector<float>);
   DECLARE_BRANCH(weight_bTagSF_MV2c10_77_eigenvars_C_up, std::vector<float>);
   DECLARE_BRANCH(weight_bTagSF_MV2c10_77_eigenvars_Light_up, std::vector<float>);
@@ -348,6 +351,19 @@ class Variables {
   DECLARE_BRANCH(el_topoetcone20, std::vector<float>);
   DECLARE_BRANCH(el_ptvarcone20, std::vector<float>);
   DECLARE_BRANCH(el_isTight, std::vector<char>);
+  DECLARE_BRANCH(el_Isol_Gradient, std::vector<char>);
+  DECLARE_BRANCH(el_Isol_FCLoose, std::vector<char>);
+  DECLARE_BRANCH(el_Isol_FCTight, std::vector<char>);
+  DECLARE_BRANCH(el_Isol_FCHighPtCaloOnly, std::vector<char>);
+  DECLARE_BRANCH(el_Isol_HighPtCaloOnly, std::vector<char>);
+  DECLARE_BRANCH(el_Isol_Loose, std::vector<char>);
+  DECLARE_BRANCH(el_Isol_Tight, std::vector<char>);
+  DECLARE_BRANCH(el_Isol_TightTrackOnly, std::vector<char>);
+  DECLARE_BRANCH(el_Isol_TightTrackOnly_FixedRad, std::vector<char>);
+  DECLARE_BRANCH(el_Isol_PLVTight, std::vector<char>);
+  DECLARE_BRANCH(el_Isol_PLVLoose, std::vector<char>);
+  DECLARE_BRANCH(el_Isol_PflowTight, std::vector<char>);
+  DECLARE_BRANCH(el_Isol_PflowLoose, std::vector<char>);
   DECLARE_BRANCH(el_CF, std::vector<char>);
   DECLARE_BRANCH(el_d0sig, std::vector<float>);
   DECLARE_BRANCH(el_delta_z0_sintheta, std::vector<float>);
@@ -366,6 +382,14 @@ class Variables {
   DECLARE_BRANCH(mu_topoetcone20, std::vector<float>);
   DECLARE_BRANCH(mu_ptvarcone30, std::vector<float>);
   DECLARE_BRANCH(mu_isTight, std::vector<char>);
+  DECLARE_BRANCH(mu_Isol_FCTight, std::vector<char>);
+  DECLARE_BRANCH(mu_Isol_FCLoose, std::vector<char>);
+  DECLARE_BRANCH(mu_Isol_FCTightTrackOnly, std::vector<char>);
+  DECLARE_BRANCH(mu_Isol_FCTightTrackOnly_FixedRad, std::vector<char>);
+  DECLARE_BRANCH(mu_Isol_FCLoose_FixedRad, std::vector<char>);
+  DECLARE_BRANCH(mu_Isol_FCTight_FixedRad, std::vector<char>);
+  DECLARE_BRANCH(mu_Isol_FixedCutPflowTight, std::vector<char>);
+  DECLARE_BRANCH(mu_Isol_FixedCutPflowLoose, std::vector<char>);
   DECLARE_BRANCH(mu_d0sig, std::vector<float>);
   DECLARE_BRANCH(mu_delta_z0_sintheta, std::vector<float>);
   DECLARE_BRANCH(mu_true_type, std::vector<int>);
@@ -389,7 +413,9 @@ class Variables {
   DECLARE_BRANCH(jet_mv2c00, std::vector<float>);
   DECLARE_BRANCH(jet_mv2c10, std::vector<float>);
   DECLARE_BRANCH(jet_mv2c20, std::vector<float>);
-  DECLARE_BRANCH(jet_passfjvt, std::vector<char>);
+  DECLARE_BRANCH(jet_forwardjvt, std::vector<float>);
+  DECLARE_BRANCH(jet_passfjvt, std::vector<char>); // supersede by jet_passforwardjvt
+  DECLARE_BRANCH(jet_passforwardjvt, std::vector<char>);
   DECLARE_BRANCH(jet_truthflav, std::vector<int>);
   DECLARE_BRANCH(jet_truthPartonLabel, std::vector<int>);
   DECLARE_BRANCH(jet_isTrueHS, std::vector<char>);

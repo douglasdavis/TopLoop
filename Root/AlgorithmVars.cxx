@@ -112,6 +112,7 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(weight_bTagSF_DL1r_60, Float_t, m_reader);
   CONNECT_BRANCH(weight_bTagSF_DL1r_Continuous, Float_t, m_reader);
   CONNECT_BRANCH(weight_jvt, Float_t, m_reader);
+  CONNECT_BRANCH(weight_forwardjvt, Float_t, m_reader);
   CONNECT_BRANCH(weight_pileup_UP, Float_t, m_reader);
   CONNECT_BRANCH(weight_pileup_DOWN, Float_t, m_reader);
   CONNECT_BRANCH(weight_leptonSF_EL_SF_Trigger_UP, Float_t, m_reader);
@@ -144,6 +145,8 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(weight_leptonSF_MU_SF_TTVA_SYST_DOWN, Float_t, m_reader);
   CONNECT_BRANCH(weight_jvt_UP, Float_t, m_reader);
   CONNECT_BRANCH(weight_jvt_DOWN, Float_t, m_reader);
+  CONNECT_BRANCH(weight_forwardjvt_UP, Float_t, m_reader);
+  CONNECT_BRANCH(weight_forwardjvt_DOWN, Float_t, m_reader);
   CONNECT_BRANCH(weight_bTagSF_MV2c10_77_eigenvars_B_up, std::vector<float>, m_reader);
   CONNECT_BRANCH(weight_bTagSF_MV2c10_77_eigenvars_C_up, std::vector<float>, m_reader);
   CONNECT_BRANCH(weight_bTagSF_MV2c10_77_eigenvars_Light_up, std::vector<float>, m_reader);
@@ -251,6 +254,19 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(el_topoetcone20, std::vector<float>, m_reader);
   CONNECT_BRANCH(el_ptvarcone20, std::vector<float>, m_reader);
   CONNECT_BRANCH(el_isTight, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_Isol_Gradient, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_Isol_FCLoose, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_Isol_FCTight, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_Isol_FCHighPtCaloOnly, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_Isol_HighPtCaloOnly, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_Isol_Loose, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_Isol_Tight, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_Isol_TightTrackOnly, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_Isol_TightTrackOnly_FixedRad, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_Isol_PLVTight, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_Isol_PLVLoose, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_Isol_PflowTight, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_Isol_PflowLoose, std::vector<char>, m_reader);
   CONNECT_BRANCH(el_CF, std::vector<char>, m_reader);
   CONNECT_BRANCH(el_d0sig, std::vector<float>, m_reader);
   CONNECT_BRANCH(el_delta_z0_sintheta, std::vector<float>, m_reader);
@@ -269,6 +285,14 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(mu_topoetcone20, std::vector<float>, m_reader);
   CONNECT_BRANCH(mu_ptvarcone30, std::vector<float>, m_reader);
   CONNECT_BRANCH(mu_isTight, std::vector<char>, m_reader);
+  CONNECT_BRANCH(mu_Isol_FCTight, std::vector<char>, m_reader);
+  CONNECT_BRANCH(mu_Isol_FCLoose, std::vector<char>, m_reader);
+  CONNECT_BRANCH(mu_Isol_FCTightTrackOnly, std::vector<char>, m_reader);
+  CONNECT_BRANCH(mu_Isol_FCTightTrackOnly_FixedRad, std::vector<char>, m_reader);
+  CONNECT_BRANCH(mu_Isol_FCLoose_FixedRad, std::vector<char>, m_reader);
+  CONNECT_BRANCH(mu_Isol_FCTight_FixedRad, std::vector<char>, m_reader);
+  CONNECT_BRANCH(mu_Isol_FixedCutPflowTight, std::vector<char>, m_reader);
+  CONNECT_BRANCH(mu_Isol_FixedCutPflowLoose, std::vector<char>, m_reader);
   CONNECT_BRANCH(mu_d0sig, std::vector<float>, m_reader);
   CONNECT_BRANCH(mu_delta_z0_sintheta, std::vector<float>, m_reader);
   CONNECT_BRANCH(mu_true_type, std::vector<int>, m_reader);
@@ -285,7 +309,9 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(jet_mv2c00, std::vector<float>, m_reader);
   CONNECT_BRANCH(jet_mv2c10, std::vector<float>, m_reader);
   CONNECT_BRANCH(jet_mv2c20, std::vector<float>, m_reader);
-  CONNECT_BRANCH(jet_passfjvt, std::vector<char>, m_reader);
+  CONNECT_BRANCH(jet_forwardjvt, std::vector<float>, m_reader);
+  CONNECT_BRANCH(jet_passfjvt, std::vector<char>, m_reader); // supersede by jet_passforwardjvt
+  CONNECT_BRANCH(jet_passforwardjvt, std::vector<char>, m_reader);
   CONNECT_BRANCH(jet_truthflav, std::vector<int>, m_reader);
   CONNECT_BRANCH(jet_truthPartonLabel, std::vector<int>, m_reader);
   CONNECT_BRANCH(jet_isTrueHS, std::vector<char>, m_reader);
