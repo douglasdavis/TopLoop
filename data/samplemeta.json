@@ -160,8 +160,7 @@
             "SampleType": "Nominal",
             "Color": "#FFFF00"
         }
-    ],
-    "Wjets": [
+    ],"Wjets": [
         {
             "DSID_range": [361300,361371],
             "Generator": "Sherpa21",
@@ -380,6 +379,7 @@
             "SampleType": "Nominal",
             "Color": "#FFCC66"
         },
+        {
             "DSID_range": [364198,364215],
             "Generator": "Sherpa221",
             "InitialState": "Zjets",
@@ -711,7 +711,7 @@
     ],
     "tHq": [
         {
-            "DSID_range": [346676,346799],
+            "DSID_range": [346229, 346230,346676,346799],
             "Generator": "MG5aMCatNLOPythia8",
             "InitialState": "tHq",
             "SampleType": "Nominal",
