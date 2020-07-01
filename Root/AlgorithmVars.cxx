@@ -413,6 +413,17 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(HLT_mu24, Char_t, m_reader);
   CONNECT_BRANCH(HLT_e60_lhmedium, Char_t, m_reader);
   CONNECT_BRANCH(HLT_mu20_iloose_L1MU15, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_2e12_lhloose_L12EM10VH, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_2mu10, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_mu18_mu8noL1, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_e17_lhloose_mu14, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_e7_lhmedium_mu24, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_2e17_lhvloose_nod0, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_2mu14, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_mu22_mu8noL1, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_2e24_lhvloose_nod0, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_e17_lhloose_nod0_mu14, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_e7_lhmedium_nod0_mu24, Char_t, m_reader);
   CONNECT_BRANCH(el_trigMatch_HLT_e60_lhmedium_nod0, std::vector<char>, m_reader);
   CONNECT_BRANCH(el_trigMatch_HLT_e120_lhloose, std::vector<char>, m_reader);
   CONNECT_BRANCH(el_trigMatch_HLT_e24_lhmedium_L1EM20VH, std::vector<char>, m_reader);
