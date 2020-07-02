@@ -365,6 +365,8 @@ class Variables {
   DECLARE_BRANCH(el_Isol_PflowTight, std::vector<char>);
   DECLARE_BRANCH(el_Isol_PflowLoose, std::vector<char>);
   DECLARE_BRANCH(el_CF, std::vector<char>);
+  DECLARE_BRANCH(el_ECIDS, std::vector<char>);
+  DECLARE_BRANCH(el_ECIDSResult, std::vector<float>);
   DECLARE_BRANCH(el_d0sig, std::vector<float>);
   DECLARE_BRANCH(el_delta_z0_sintheta, std::vector<float>);
   DECLARE_BRANCH(el_true_type, std::vector<int>);

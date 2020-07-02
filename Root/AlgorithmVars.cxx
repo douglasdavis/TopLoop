@@ -249,6 +249,8 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(el_Isol_PflowTight, std::vector<char>, m_reader);
   CONNECT_BRANCH(el_Isol_PflowLoose, std::vector<char>, m_reader);
   CONNECT_BRANCH(el_CF, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_ECIDS, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_ECIDSResult, std::vector<float>, m_reader);
   CONNECT_BRANCH(el_d0sig, std::vector<float>, m_reader);
   CONNECT_BRANCH(el_delta_z0_sintheta, std::vector<float>, m_reader);
   CONNECT_BRANCH(el_true_type, std::vector<int>, m_reader);
