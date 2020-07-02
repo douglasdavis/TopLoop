@@ -47,7 +47,9 @@ class Jet : public TL::EDM::PhysicsObject {
   float m_mv2c00;
   float m_mv2c10;
   float m_mv2c20;
-  float m_passfjvt;
+  float m_forwardjvt;
+  float m_passfjvt; // supersede by jet_passforwardjvt
+  float m_passforwardjvt;
   int m_truthflav;
   int m_truthPartonLabel;
   char m_isTrueHS;
@@ -90,7 +92,9 @@ class Jet : public TL::EDM::PhysicsObject {
   void set_mv2c00(const float val) { m_mv2c00 = val; }
   void set_mv2c10(const float val) { m_mv2c10 = val; }
   void set_mv2c20(const float val) { m_mv2c20 = val; }
-  void set_passfjvt(const float val) { m_passfjvt = val; }
+  void set_forwardjvt(const float val) { m_forwardjvt = val; }
+  void set_passfjvt(const float val) { m_passfjvt = val; } // supersede by jet_passforwardjvt
+  void set_passforwardjvt(const float val) { m_passforwardjvt = val; }
   void set_truthflav(const int val) { m_truthflav = val; }
   void set_truthPartonLabel(const int val) { m_truthPartonLabel = val; }
   void set_isTrueHS(const char val) { m_isTrueHS = val; }
@@ -121,7 +125,9 @@ class Jet : public TL::EDM::PhysicsObject {
   float mv2c00() const { return m_mv2c00; }
   float mv2c10() const { return m_mv2c10; }
   float mv2c20() const { return m_mv2c20; }
-  float passfjvt() const { return m_passfjvt; }
+  float forwardjvt() const { return m_forwardjvt; }
+  float passfjvt() const { return m_passfjvt; } // supersede by jet_passforwardjvt
+  float passforwardjvt() const { return m_passforwardjvt; }
   int truthflav() const { return m_truthflav; }
   int truthPartonLabel() const { return m_truthPartonLabel; }
   char isTrueHS() const { return m_isTrueHS; }
