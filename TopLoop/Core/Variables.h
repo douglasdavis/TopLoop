@@ -365,6 +365,8 @@ class Variables {
   DECLARE_BRANCH(el_Isol_PflowTight, std::vector<char>);
   DECLARE_BRANCH(el_Isol_PflowLoose, std::vector<char>);
   DECLARE_BRANCH(el_CF, std::vector<char>);
+  DECLARE_BRANCH(el_ECIDS, std::vector<char>);
+  DECLARE_BRANCH(el_ECIDSResult, std::vector<float>);
   DECLARE_BRANCH(el_d0sig, std::vector<float>);
   DECLARE_BRANCH(el_delta_z0_sintheta, std::vector<float>);
   DECLARE_BRANCH(el_true_type, std::vector<int>);
@@ -519,6 +521,17 @@ class Variables {
   DECLARE_BRANCH_PRIMITIVE(HLT_mu24, Char_t);
   DECLARE_BRANCH_PRIMITIVE(HLT_e60_lhmedium, Char_t);
   DECLARE_BRANCH_PRIMITIVE(HLT_mu20_iloose_L1MU15, Char_t);
+  DECLARE_BRANCH_PRIMITIVE(HLT_2e12_lhloose_L12EM10VH, Char_t);
+  DECLARE_BRANCH_PRIMITIVE(HLT_2mu10, Char_t);
+  DECLARE_BRANCH_PRIMITIVE(HLT_mu18_mu8noL1, Char_t);
+  DECLARE_BRANCH_PRIMITIVE(HLT_e17_lhloose_mu14, Char_t);
+  DECLARE_BRANCH_PRIMITIVE(HLT_e7_lhmedium_mu24, Char_t);
+  DECLARE_BRANCH_PRIMITIVE(HLT_2e17_lhvloose_nod0, Char_t);
+  DECLARE_BRANCH_PRIMITIVE(HLT_2mu14, Char_t);
+  DECLARE_BRANCH_PRIMITIVE(HLT_mu22_mu8noL1, Char_t);
+  DECLARE_BRANCH_PRIMITIVE(HLT_2e24_lhvloose_nod0, Char_t);
+  DECLARE_BRANCH_PRIMITIVE(HLT_e17_lhloose_nod0_mu14, Char_t);
+  DECLARE_BRANCH_PRIMITIVE(HLT_e7_lhmedium_nod0_mu24, Char_t);
   DECLARE_BRANCH(el_trigMatch_HLT_e60_lhmedium_nod0, std::vector<char>);
   DECLARE_BRANCH(el_trigMatch_HLT_e120_lhloose, std::vector<char>);
   DECLARE_BRANCH(el_trigMatch_HLT_e24_lhmedium_L1EM20VH, std::vector<char>);

@@ -144,7 +144,9 @@ class Jet : public IPhysicsObject<CoordJet> {
   // kinematics
   FourVec<CoordJet> m_p4;
   // jvt
-  char m_passfjvt;
+  char m_forwardjvt;
+  char m_passfjvt; // supersede by jet_passforwardjvt 
+  char m_passforwardjvt;
   // raw tagging information
   float m_mv2c10;
   float m_DL1r;
@@ -198,8 +200,12 @@ class Jet : public IPhysicsObject<CoordJet> {
   /// @name setters
   /// @{
 
+  /// set the fjvt value
+  void set_forwardjvt(const float val) { m_forwardjvt = val; }
   /// set the fjvt flag
-  void set_passfjvt(const char val) { m_passfjvt = val; }
+    void set_passfjvt(const char val) { m_passfjvt = val; } // supersede by jet_passforwardjvt
+  /// set the fjvt flag
+  void set_passforwardjvt(const char val) { m_passforwardjvt = val; }
   /// set the DL1r 60% flag
   void set_isbtagged_DL1r_60(const char val) { m_isbtagged_DL1r_60 = val; }
   /// set the DL1r 70% flag
@@ -226,8 +232,12 @@ class Jet : public IPhysicsObject<CoordJet> {
   /// @name getters
   /// @{
 
+  /// the fJVT value
+  char forwardjvt() const { return m_forwardjvt; }
   /// the fJVT flag
-  char passfjvt() const { return m_passfjvt; }
+  char passfjvt() const { return m_passfjvt; } // supersede by jet_passforwardjvt
+  /// the fJVT flag
+  char passforwardjvt() const { return m_passforwardjvt; }
   /// the raw MV2c10 score
   float MV2c10() const { return m_mv2c10; }
   /// the raw DL1r score

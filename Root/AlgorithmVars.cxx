@@ -152,40 +152,27 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(weight_bTagSF_MV2c10_77_eigenvars_Light_up, std::vector<float>, m_reader);
   CONNECT_BRANCH(weight_bTagSF_MV2c10_77_eigenvars_B_down, std::vector<float>, m_reader);
   CONNECT_BRANCH(weight_bTagSF_MV2c10_77_eigenvars_C_down, std::vector<float>, m_reader);
-  CONNECT_BRANCH(weight_bTagSF_MV2c10_77_eigenvars_Light_down, std::vector<float>,
-                 m_reader);
+  CONNECT_BRANCH(weight_bTagSF_MV2c10_77_eigenvars_Light_down, std::vector<float>, m_reader);
   CONNECT_BRANCH(weight_bTagSF_MV2c10_77_extrapolation_up, Float_t, m_reader);
   CONNECT_BRANCH(weight_bTagSF_MV2c10_77_extrapolation_down, Float_t, m_reader);
   CONNECT_BRANCH(weight_bTagSF_MV2c10_77_extrapolation_from_charm_up, Float_t, m_reader);
   CONNECT_BRANCH(weight_bTagSF_MV2c10_77_extrapolation_from_charm_down, Float_t, m_reader);
-  CONNECT_BRANCH(weight_bTagSF_MV2c10_Continuous_eigenvars_B_up, std::vector<float>,
-                 m_reader);
-  CONNECT_BRANCH(weight_bTagSF_MV2c10_Continuous_eigenvars_C_up, std::vector<float>,
-                 m_reader);
-  CONNECT_BRANCH(weight_bTagSF_MV2c10_Continuous_eigenvars_Light_up, std::vector<float>,
-                 m_reader);
-  CONNECT_BRANCH(weight_bTagSF_MV2c10_Continuous_eigenvars_B_down, std::vector<float>,
-                 m_reader);
-  CONNECT_BRANCH(weight_bTagSF_MV2c10_Continuous_eigenvars_C_down, std::vector<float>,
-                 m_reader);
-  CONNECT_BRANCH(weight_bTagSF_MV2c10_Continuous_eigenvars_Light_down, std::vector<float>,
-                 m_reader);
+  CONNECT_BRANCH(weight_bTagSF_MV2c10_Continuous_eigenvars_B_up, std::vector<float>, m_reader);
+  CONNECT_BRANCH(weight_bTagSF_MV2c10_Continuous_eigenvars_C_up, std::vector<float>, m_reader);
+  CONNECT_BRANCH(weight_bTagSF_MV2c10_Continuous_eigenvars_Light_up, std::vector<float>, m_reader);
+  CONNECT_BRANCH(weight_bTagSF_MV2c10_Continuous_eigenvars_B_down, std::vector<float>, m_reader);
+  CONNECT_BRANCH(weight_bTagSF_MV2c10_Continuous_eigenvars_C_down, std::vector<float>, m_reader);
+  CONNECT_BRANCH(weight_bTagSF_MV2c10_Continuous_eigenvars_Light_down, std::vector<float>, m_reader);
   CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_eigenvars_B_up, std::vector<float>, m_reader);
   CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_eigenvars_C_up, std::vector<float>, m_reader);
-  CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_eigenvars_Light_up, std::vector<float>,
-                 m_reader);
-  CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_eigenvars_B_down, std::vector<float>,
-                 m_reader);
-  CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_eigenvars_C_down, std::vector<float>,
-                 m_reader);
-  CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_eigenvars_Light_down, std::vector<float>,
-                 m_reader);
+  CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_eigenvars_Light_up, std::vector<float>, m_reader);
+  CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_eigenvars_B_down, std::vector<float>, m_reader);
+  CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_eigenvars_C_down, std::vector<float>, m_reader);
+  CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_eigenvars_Light_down, std::vector<float>, m_reader);
   CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_extrapolation_up, Float_t, m_reader);
   CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_extrapolation_down, Float_t, m_reader);
-  CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_extrapolation_from_charm_up, Float_t,
-                 m_reader);
-  CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_extrapolation_from_charm_down, Float_t,
-                 m_reader);
+  CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_extrapolation_from_charm_up, Float_t, m_reader);
+  CONNECT_BRANCH(weight_bTagSF_DL1_HybBEff_60_extrapolation_from_charm_down, Float_t, m_reader);
   CONNECT_BRANCH(weight_bTagSF_DL1r_85_eigenvars_B_up, std::vector<float>, m_reader);
   CONNECT_BRANCH(weight_bTagSF_DL1r_85_eigenvars_C_up, std::vector<float>, m_reader);
   CONNECT_BRANCH(weight_bTagSF_DL1r_85_eigenvars_Light_up, std::vector<float>, m_reader);
@@ -226,18 +213,12 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(weight_bTagSF_DL1r_60_extrapolation_down, Float_t, m_reader);
   CONNECT_BRANCH(weight_bTagSF_DL1r_60_extrapolation_from_charm_up, Float_t, m_reader);
   CONNECT_BRANCH(weight_bTagSF_DL1r_60_extrapolation_from_charm_down, Float_t, m_reader);
-  CONNECT_BRANCH(weight_bTagSF_DL1r_Continuous_eigenvars_B_up, std::vector<float>,
-                 m_reader);
-  CONNECT_BRANCH(weight_bTagSF_DL1r_Continuous_eigenvars_C_up, std::vector<float>,
-                 m_reader);
-  CONNECT_BRANCH(weight_bTagSF_DL1r_Continuous_eigenvars_Light_up, std::vector<float>,
-                 m_reader);
-  CONNECT_BRANCH(weight_bTagSF_DL1r_Continuous_eigenvars_B_down, std::vector<float>,
-                 m_reader);
-  CONNECT_BRANCH(weight_bTagSF_DL1r_Continuous_eigenvars_C_down, std::vector<float>,
-                 m_reader);
-  CONNECT_BRANCH(weight_bTagSF_DL1r_Continuous_eigenvars_Light_down, std::vector<float>,
-                 m_reader);
+  CONNECT_BRANCH(weight_bTagSF_DL1r_Continuous_eigenvars_B_up, std::vector<float>, m_reader);
+  CONNECT_BRANCH(weight_bTagSF_DL1r_Continuous_eigenvars_C_up, std::vector<float>, m_reader);
+  CONNECT_BRANCH(weight_bTagSF_DL1r_Continuous_eigenvars_Light_up, std::vector<float>, m_reader);
+  CONNECT_BRANCH(weight_bTagSF_DL1r_Continuous_eigenvars_B_down, std::vector<float>, m_reader);
+  CONNECT_BRANCH(weight_bTagSF_DL1r_Continuous_eigenvars_C_down, std::vector<float>, m_reader);
+  CONNECT_BRANCH(weight_bTagSF_DL1r_Continuous_eigenvars_Light_down, std::vector<float>, m_reader);
   CONNECT_BRANCH(eventNumber, ULong64_t, m_reader);
   CONNECT_BRANCH(runNumber, UInt_t, m_reader);
   CONNECT_BRANCH(randomRunNumber, UInt_t, m_reader);
@@ -268,6 +249,8 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(el_Isol_PflowTight, std::vector<char>, m_reader);
   CONNECT_BRANCH(el_Isol_PflowLoose, std::vector<char>, m_reader);
   CONNECT_BRANCH(el_CF, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_ECIDS, std::vector<char>, m_reader);
+  CONNECT_BRANCH(el_ECIDSResult, std::vector<float>, m_reader);
   CONNECT_BRANCH(el_d0sig, std::vector<float>, m_reader);
   CONNECT_BRANCH(el_delta_z0_sintheta, std::vector<float>, m_reader);
   CONNECT_BRANCH(el_true_type, std::vector<int>, m_reader);
@@ -415,6 +398,17 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(HLT_mu24, Char_t, m_reader);
   CONNECT_BRANCH(HLT_e60_lhmedium, Char_t, m_reader);
   CONNECT_BRANCH(HLT_mu20_iloose_L1MU15, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_2e12_lhloose_L12EM10VH, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_2mu10, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_mu18_mu8noL1, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_e17_lhloose_mu14, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_e7_lhmedium_mu24, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_2e17_lhvloose_nod0, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_2mu14, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_mu22_mu8noL1, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_2e24_lhvloose_nod0, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_e17_lhloose_nod0_mu14, Char_t, m_reader);
+  CONNECT_BRANCH(HLT_e7_lhmedium_nod0_mu24, Char_t, m_reader);
   CONNECT_BRANCH(el_trigMatch_HLT_e60_lhmedium_nod0, std::vector<char>, m_reader);
   CONNECT_BRANCH(el_trigMatch_HLT_e120_lhloose, std::vector<char>, m_reader);
   CONNECT_BRANCH(el_trigMatch_HLT_e24_lhmedium_L1EM20VH, std::vector<char>, m_reader);
