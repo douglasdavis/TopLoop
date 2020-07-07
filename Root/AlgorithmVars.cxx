@@ -276,6 +276,8 @@ TL::StatusCode TL::Algorithm::connect_default_branches() {
   CONNECT_BRANCH(el_true_typebkg, std::vector<int>, m_reader);
   CONNECT_BRANCH(el_true_firstEgMotherTruthType, std::vector<int>, m_reader);
   CONNECT_BRANCH(el_true_firstEgMotherTruthOrigin, std::vector<int>, m_reader);
+  CONNECT_BRANCH(el_true_firstEgMotherPdgId, std::vector<int>, m_reader);
+  CONNECT_BRANCH(el_true_isChargeFl, std::vector<char>, m_reader);
   CONNECT_BRANCH(el_true_isPrompt, std::vector<char>, m_reader);
   CONNECT_BRANCH(mu_pt, std::vector<float>, m_reader);
   CONNECT_BRANCH(mu_eta, std::vector<float>, m_reader);
