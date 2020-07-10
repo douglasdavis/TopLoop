@@ -373,7 +373,7 @@ class Variables {
   DECLARE_BRANCH(el_true_typebkg, std::vector<int>);
   DECLARE_BRANCH(el_true_firstEgMotherTruthType, std::vector<int>);
   DECLARE_BRANCH(el_true_firstEgMotherTruthOrigin, std::vector<int>);
-  DECLARE_BRANCH(el_true_isPrompt, std::vector<char>);
+  DECLARE_BRANCH(el_true_isPrompt, std::vector<char>); 
   DECLARE_BRANCH(mu_pt, std::vector<float>);
   DECLARE_BRANCH(mu_eta, std::vector<float>);
   DECLARE_BRANCH(mu_phi, std::vector<float>);

@@ -22,6 +22,8 @@ class Lepton : public IPhysicsObject<CoordLep> {
   bool m_isMCNonPrompt{false};
   bool m_isTight{false};
   bool m_CF{false};
+  bool m_isMCNonIsolated{false};
+  float m_true_origin;
 
   FourVec<CoordLep> m_p4;
 
@@ -54,6 +56,8 @@ class Lepton : public IPhysicsObject<CoordLep> {
   void set_isMCNonPrompt(const bool val) { m_isMCNonPrompt = val; }
   void set_isTight(const bool val) { m_isTight = val; }
   void set_CF(const bool val) { m_CF = val; }
+  void set_isMCNonIsolated(const bool val) { m_isMCNonIsolated = val; }
+  void set_true_origin(const float val) { m_true_origin = val; }
 
   /// @}
 
@@ -65,6 +69,8 @@ class Lepton : public IPhysicsObject<CoordLep> {
   bool isMCNonPrompt() const { return m_isMCNonPrompt; }
   bool isTight() const { return m_isTight; }
   bool CF() const { return m_CF; }
+  bool isMCNonIsolated() const { return m_isMCNonIsolated; }
+  float true_origin() const { return m_true_origin; }
 
   /// @}
 
