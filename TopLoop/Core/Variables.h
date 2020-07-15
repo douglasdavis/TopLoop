@@ -365,6 +365,8 @@ class Variables {
   DECLARE_BRANCH(el_Isol_PflowTight, std::vector<char>);
   DECLARE_BRANCH(el_Isol_PflowLoose, std::vector<char>);
   DECLARE_BRANCH(el_CF, std::vector<char>);
+  DECLARE_BRANCH(el_ECIDS, std::vector<char>);
+  DECLARE_BRANCH(el_ECIDSResult, std::vector<float>);
   DECLARE_BRANCH(el_d0sig, std::vector<float>);
   DECLARE_BRANCH(el_delta_z0_sintheta, std::vector<float>);
   DECLARE_BRANCH(el_true_type, std::vector<int>);
@@ -373,7 +375,9 @@ class Variables {
   DECLARE_BRANCH(el_true_typebkg, std::vector<int>);
   DECLARE_BRANCH(el_true_firstEgMotherTruthType, std::vector<int>);
   DECLARE_BRANCH(el_true_firstEgMotherTruthOrigin, std::vector<int>);
-  DECLARE_BRANCH(el_true_isPrompt, std::vector<char>); 
+  DECLARE_BRANCH(el_true_firstEgMotherPdgId, std::vector<int>);
+  DECLARE_BRANCH(el_true_isPrompt, std::vector<char>);
+  DECLARE_BRANCH(el_true_isChargeFl, std::vector<char>);
   DECLARE_BRANCH(mu_pt, std::vector<float>);
   DECLARE_BRANCH(mu_eta, std::vector<float>);
   DECLARE_BRANCH(mu_phi, std::vector<float>);
